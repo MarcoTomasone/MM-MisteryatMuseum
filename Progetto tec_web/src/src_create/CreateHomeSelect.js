@@ -2,7 +2,7 @@ const e = React.createElement;
 var isStorySelected = false;
 
 const toCreate = function(){
-    location.href = "/public/#/Create/realize"
+    location.href = "./#/Create/realize"
 }
 
 const toModify = function(){
@@ -29,11 +29,11 @@ function CreateHomeSelect(props){
     //mechanism to avoid th effect of refresh (refresh restes the variables used with the hooks)
     //if refresh is clicked, you have to go back to the login and select again the user
     window.addEventListener('beforeunload', function (e) {
-        e.preventDefault(); // Cancel the event
-        e.returnValue = ''; // Chrome requires returnValue to be set
+        e.preventDefault(); 
+        e.returnValue = ''; 
     });
     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) { //if the page is reloaded, then go back to the login page
-        location.href = "/public/#/Create/login"
+        location.href = "./#/Create/login"
     }
 
     //mechanism to download all storys created by the user
@@ -43,9 +43,9 @@ function CreateHomeSelect(props){
     }
 
 
-    return e("div", {id: "containerHome"}, [
-        e("div", {id:"containerHome_userSelected"}, [
-            e("p", null, `UTENTE SELEZIONATO: ${props.userTTTT}`),
+    return e("div", {className: "containerHome"}, [
+        e("div", {className:"containerHome_userSelected"}, [
+            e("p", null, `UTENTE SELEZIONATO: ${props.user}`),
             e("p", {id: "containerHome_userSelected_explanation"}, `(Qui puoi creare una nuova storia o selezionarne una gia esistente per modificarla / eliminarla / pubblicarla / ritirare)`),
         ]),
         e("div", {id: "containerHome_Screen"}, ciao),

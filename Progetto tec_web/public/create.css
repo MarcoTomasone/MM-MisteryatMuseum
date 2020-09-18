@@ -8,6 +8,7 @@
 */
 
 
+
 /*------------------------------------------------------------------------------*/
 /*LOGIN*/
 /*------------------------------------------------------------------------------*/
@@ -24,8 +25,6 @@
     width: 200px;
 }
 
-#loginDiv_p{
-}
 
 #loginDiv_TextField{
     width: 300px; 
@@ -47,7 +46,7 @@
 /*SELECT*/
 /*------------------------------------------------------------------------------*/
 
-#containerHome{
+.containerHome{
     height: 100%;
     min-height: 460px;
     width: 100%;
@@ -55,7 +54,7 @@
     display: flex;
 }
 
-#containerHome_userSelected{
+.containerHome_userSelected{
     height: 10%;
     width: 100%;
     min-height: 50px;
@@ -72,7 +71,7 @@
 
 /*SCHERMO GRANDE*/
 @media only screen and (min-width: 800px) {
-    #containerHome{
+    .containerHome{
         flex-wrap: wrap;
     }
     
@@ -103,7 +102,7 @@
 
 /*SCHERMO PICCOLO*/
 @media only screen and (max-width: 800px) {
-    #containerHome{
+    .containerHome{
         flex-direction: column;
     }
 
@@ -119,7 +118,6 @@
         order: 0;
         min-height: 80px;
         width: 100%;
-        min-width: 700px;
         padding: 10px;
         display: flex;
         flex-direction: row;
@@ -134,7 +132,7 @@
 
     .buttonOfcontainerHome_Buttons{
         height: 60px;
-        width: 130px;
+        width: 110px;
     }
 
 }

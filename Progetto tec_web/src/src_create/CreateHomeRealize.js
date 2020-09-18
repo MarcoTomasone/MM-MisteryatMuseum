@@ -19,7 +19,47 @@ function submitAction(e){
 }
 
 
-function prova(){
+
+function CreateHomeRealize(props){
+
+    function createNewJsonFile() {
+        var preview = {
+            title: document.getElementById("title_preview").value,
+            gender: document.getElementById("gender_preview").value,
+            description: document.getElementById("description_preview").value
+        }
+        axios.post('http://localhost:8000/user', {
+            user: props.user,
+            preview
+        })
+    }
+
+    return e("div", {className: "containerHome"}, [
+        e("div", {className:"containerHome_userSelected"}, [
+            e("p", null, `UTENTE SELEZIONATO: ${props.user}`),
+            e("p", null, `Crea la tua storia compilando tutti i campi`)
+        ]),
+        e("form", {onSubmit: createNewJsonFile }, [
+            e("label", {htmlFor: "title_preview"}, "Titolo"),
+            e("input", {id: "title_preview"}),
+            e("label", {htmlFor: "gender_preview"}, "Genere storia"),
+            e("input", {id: "gender_preview"}),
+            e("label", {htmlFor: "description_preview"}, "Descrizione"),
+            e("input", {id: "description_preview"}),
+            e("input", {id: "sumbit_preview", type: "submit", value: "SUBMIT"})
+        ])
+    ])
+}
+
+
+export default CreateHomeRealize;
+
+
+
+
+
+
+/*function prova(){
     const colorInputEl = document.getElementById("color")
     colorInputEl.addEventListener("input", (event) => {
         const color = event.target.value
@@ -32,10 +72,4 @@ function prova(){
     })
 }
 window.onload = prova
-
-function CreateHomeRealize(props){
-    return e("input", {id: "color", type:"text"})
-}
-
-
-export default CreateHomeRealize;
+*/

@@ -33,7 +33,7 @@
       "colore": "string",
       "testo_widget": "string",
   },
-  "tipo": "string",               //lettura o di "risposta"
+  "tipo": "string",               //lettura o di risposta
   "testo_domanda": "string",      
   "tipo_risposta": "string",      //automatica o valutata dal valutatore
   "risposta": xxx,

@@ -1,42 +1,42 @@
 {
   "id": "string",      //id storia,
-  autore: string,  //autore della storia
-  pubblicata: boolean, 
-  tipo_partecipanti: xxx,
-  numero_partecipanti: number,
-  accessibilità: boolean,
-  età_inizio: number,
-  età_fine: nember,
-  titolo: string,
-  genere: string,
-  descrizione: string,
-  player: {
-    background: string,
-    font_type: string,
-    font_size: string, 
+  "autore": "string",  //autore della storia
+  "pubblicata": "boolean", 
+  "tipo_partecipanti": xxx,
+  "numero_partecipanti": "number",
+  "accessibilità": "boolean",
+  "età_inizio": "number",
+  "età_fine": "nember",
+  "titolo": "string",
+  "genere": "string",
+  "descrizione": "string",
+  "player": {
+    "background": "string",
+    "font_type": "string",
+    "font_size": "string", 
   },
-  numero_attività: number, 
-  array_attività: [
+  "numero_attività": "number", 
+  "array_attività": [
     attivita[0],
     attività[1],
     ...
   ]
 }
 
-attività: {
-  widget: {		//testo/selezione multipla/numero…
-      tipo: string,
-      altezza: string, 
-      larghezza: number,
-      posX: number,                 //rispetto all’angolo basso sinistra
-      posY: number,		              //rispetto all’angolo basso sinistra
-      colore: string,
-      testo_widget: string,
+"attività": {
+  "widget": {		//testo/selezione multipla/numero…
+      "tipo": "string",
+      "altezza": "string", 
+      "larghezza": "number",
+      "posX": "number",                 //rispetto all’angolo basso sinistra
+      "posY": "number",		              //rispetto all’angolo basso sinistra
+      "colore": "string",
+      "testo_widget": "string",
   }
-  tipo: string,               //lettura o di "risposta"
-  testo_domanda: string,      
-  tipo_risposta: string,      //automatica o valutata dal valutatore
-  risposta: xxx,
-  risposta_corretta: string,  //risposta corretta nel caso di risposta automatica
-  punteggio: number,  
+  "tipo": "string",               //lettura o di "risposta"
+  "testo_domanda": "string",      
+  "tipo_risposta": "string",      //automatica o valutata dal valutatore
+  "risposta": xxx,
+  "risposta_corretta": "string",  //risposta corretta nel caso di risposta automatica
+  "punteggio": "number",  
 }

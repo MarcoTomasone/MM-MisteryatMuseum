@@ -1,5 +1,5 @@
 {
-  id: string,      //id storia,
+  "id": "string",      //id storia,
   autore: string,  //autore della storia
   pubblicata: boolean, 
   tipo_partecipanti: xxx,
@@ -23,20 +23,20 @@
   ]
 }
 
-    attività: {
-      widget: {		//testo/selezione multipla/numero…
-          tipo: string,
-          altezza: string, 
-          larghezza: number,
-          posX: number,                 //rispetto all’angolo basso sinistra
-          posY: number,		              //rispetto all’angolo basso sinistra
-          colore: string,
-          testo_widget: string,
-      }
-      tipo: string,               //lettura o di "risposta"
-      testo_domanda: string,      
-      tipo_risposta: string,      //automatica o valutata dal valutatore
-      risposta: xxx,
-      risposta_corretta: string,  //risposta corretta nel caso di risposta automatica
-      punteggio: number,  
-    }
+attività: {
+  widget: {		//testo/selezione multipla/numero…
+      tipo: string,
+      altezza: string, 
+      larghezza: number,
+      posX: number,                 //rispetto all’angolo basso sinistra
+      posY: number,		              //rispetto all’angolo basso sinistra
+      colore: string,
+      testo_widget: string,
+  }
+  tipo: string,               //lettura o di "risposta"
+  testo_domanda: string,      
+  tipo_risposta: string,      //automatica o valutata dal valutatore
+  risposta: xxx,
+  risposta_corretta: string,  //risposta corretta nel caso di risposta automatica
+  punteggio: number,  
+}

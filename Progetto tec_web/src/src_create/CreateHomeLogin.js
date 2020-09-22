@@ -2,7 +2,8 @@ const e = React.createElement;
 
 function CreateHomeLogin(props){
     const {TextField, Button } = window['MaterialUI']; //to load the component from the library
-    var tmp = ""
+    var username = ""
+    var password = ""
 
     //to press enter
     const handleKeyDown = (event) => {
@@ -14,14 +15,24 @@ function CreateHomeLogin(props){
     //check the input name, if it isn't present return an alert of error, otherwise it set the value of input
     //to the "user" variable passed as a props
     function loginFunction(){   
-        if (tmp == ""){
-            alert("Prima di proseguire, inserire un username valido")
+        if (username == "" || password == ""){
+            alert("Prima di proseguire, inserire un username e password validi")
         } else {
-            if (tmp.includes("_") || tmp.includes(".") || tmp.includes("/") || tmp.includes(" ")){
+            if (username.includes("_") || username.includes(".") || username.includes("/") || username.includes(" ")){
                 alert("Evitare gli spazi e i seguenti valori:   .   _   /")
             } else {
-                props.userUpdate(tmp)
+                props.userUpdate(username.charAt(0).toUpperCase() + username.substring(1).toLowerCase())
                 location.href = "./#/Create/select"
+                /*axios.post('http://localhost:8000/login', {
+                    usrnm: username,
+                    psswd: password
+                })
+                .then(() => {
+                    props.userUpdate(username.charAt(0).toUpperCase() + username.substring(1).toLowerCase())
+                    location.href = "./#/Create/select"
+                })
+                .catch(() => alert("Username o password errati. Riprovare."))*/
+                
             }
             
         }
@@ -33,11 +44,22 @@ function CreateHomeLogin(props){
         e("p", {id: "loginDiv_p"}, "INSERIRE USERNAME"),
         e(TextField, {
             id:"loginDiv_TextField",
+            className: "login",
             label:"Username",
             type:"text",
             variant:"outlined",
             required: true,
-            onChange: (e) => tmp = (e.target.value),
+            onChange: (e) => username = (e.target.value),
+            onKeyDown: handleKeyDown
+        }),
+        e(TextField, {
+            id:"password_TextField",
+            className: "login",
+            label:"Password",
+            type:"password",
+            variant:"outlined",
+            required: true,
+            onChange: (e) => password = (e.target.value),
             onKeyDown: handleKeyDown
         }),
         e(Button, {id: "loginDiv_button", variant: "outlined", onClick: loginFunction},"ENTRA" ),

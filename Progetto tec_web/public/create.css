@@ -1,14 +1,3 @@
-/*
-    containerHome: div generale,
-    containerHomeScreen: parte del div generale con la schermata delle storie dell'utente,
-    containerHomeButtons: parte del div generale con i bottoni,
-    screenOfStorys: div che contiene le storie dell'utente,
-    titleUserSelect: div del titolo
-
-*/
-
-
-
 /*------------------------------------------------------------------------------*/
 /*LOGIN*/
 /*------------------------------------------------------------------------------*/
@@ -26,11 +15,13 @@
 }
 
 
-#loginDiv_TextField{
-    width: 300px; 
+.login{
+    margin: 5px;
+    width: 330px;
 }
 
 #loginDiv_button, #loginDiv_p{
+    margin: 5px;
     height: 50px;
     width: 330px;
     display: flex;
@@ -45,13 +36,12 @@
 /*------------------------------------------------------------------------------*/
 /*SELECT*/
 /*------------------------------------------------------------------------------*/
-
 .containerHome{
     height: 100%;
+    width: 100%;
     min-height: 460px;
     width: 100%;
     border: solid 2px red;
-    display: flex;
 }
 
 .containerHome_userSelected{
@@ -64,28 +54,41 @@
     justify-content: center;
     align-items: center;
 }
-
 #containerHome_userSelected_explanation{
     font-size: 0.8em;
 }
 
+.containerHome_main{
+    height: 90%;
+    width: 100%;
+    border: solid 2px yellow;
+    display: flex;
+}
+
+/*containerHome_main_screen: parte del div generale con la schermata delle storie dell'utente*/
+.containerHome_main_screen{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+}
+
+
 /*SCHERMO GRANDE*/
-@media only screen and (min-width: 800px) {
-    .containerHome{
-        flex-wrap: wrap;
-    }
-    
-    #containerHome_Screen{
-        height: 90%;
+@media only screen and (min-width: 900px) {
+
+    .containerHome_main_screen{
+        height: 100%;
         width: 80%;
         padding: 20px;
         border: solid 2px blue
     }
     
-    #containerHome_Buttons{
-        height: 90%;
-        min-height: 300px;
+    .containerHome_main_buttons{
+        height: 100%;
         width: 20%;
+        min-height: 300px;
         padding: 10px;
         display: flex;
         flex-direction: column;
@@ -94,33 +97,44 @@
         border: solid 2px blue
     }
 
-    .buttonOfcontainerHome_Buttons{
+    .containerHome_main_buttons_button{
         min-height: 70px;
     }
 
+    /*qrcode section*/
+    .containerHome_main_qrcode{
+        height: 100%;
+        width: 20%;
+        flex-direction: column;
+    }
+    #containerHome_main_qrcode_button{
+        width: 220px;
+        height: 50px;
+    }
 }
 
 /*SCHERMO PICCOLO*/
-@media only screen and (max-width: 800px) {
-    .containerHome{
+@media only screen and (max-width: 900px) {
+
+    .containerHome_main{
         flex-direction: column;
     }
 
-    #containerHome_Screen{
+    .containerHome_main_screen{
         order: 1;
-        height: 100%;
+        height: 80%;
         width: 100%;
         padding: 20px;
         border: solid 2px blue
     }
     
-    #containerHome_Buttons{
+    .containerHome_main_buttons{
         order: 0;
-        min-height: 80px;
         width: 100%;
+        height: 20%;
+        min-height: 80px;
         padding: 10px;
         display: flex;
-        flex-direction: row;
         justify-content: space-around;
         align-items: center;
         border: solid 2px blue
@@ -130,11 +144,21 @@
         display: none;
     }
 
-    .buttonOfcontainerHome_Buttons{
-        height: 60px;
-        width: 110px;
+    .containerHome_main_buttons_button{
+        height: 50px;
+        width: 100px;
     }
 
+    /*qrcode section*/
+    .containerHome_main_qrcode{
+        width: 100%;
+        height: 250px;
+        flex-direction: row;
+    }
+    #containerHome_main_qrcode_button{
+        width: 100px;
+        height: 50px;
+    }
 }
 
 #screenOfStorys{
@@ -147,4 +171,109 @@
 #color{
     border: 5px solid rgb(226, 226, 226);
     outline: none
+}
+
+
+/*card all'interno di containerHome_main_screen*/
+.card_selected{
+    background-color: rgb(79, 239, 135);
+}
+.story_published{
+    border: solid 8px green !important;
+}
+.card{
+    height: 350px;
+    width: 200px;
+    margin: 15px;
+    padding: 5px;
+    border: solid 8px grey;
+    border-radius: 10px;
+}
+.card:hover{
+    cursor: pointer;
+    background: cadetblue;
+}
+.card *{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.card_title{
+    height: 14%;
+    width: 100%;
+    border: solid 1px yellow;
+}
+.card_gender{
+    height: 14%;
+    width: 100%;
+    border: solid 1px orange;
+}
+.card_info{
+    height: 18%;
+    width: 100%;
+    border: solid 1px red;
+}
+.card_participant{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px red;
+}
+.card_accessibility{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px red;
+}
+.card_description{
+    height: 54%;
+    width: 100%;
+    align-self: center;
+    border: solid 1px purple;
+}
+
+/*qrcode section*/
+.containerHome_main_qrcode{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px blue
+}
+#containerHome_main_qrcode_button{
+    margin: 10px;
+}
+#containerHome_main_qrcode_section{
+    margin: 10px;
+    width: 220px;
+    height: 220px;
+    border: solid 2px black;
+}
+
+
+
+
+
+/*------------------------------------------------------------------------------*/
+/*REALIZE*/
+/*------------------------------------------------------------------------------*/
+.containerHome_realize{
+    height: 90%;
+    width: 100%;
+    display: flex;
+}
+.sx_realize{
+    height: 100%;
+    width: 65%;
+    border: solid 2px yellow;
+
+}
+.dx_realize{
+    height: 100%;
+    width: 35%;
+    border: solid 2px yellow;
 }

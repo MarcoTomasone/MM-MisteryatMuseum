@@ -10,12 +10,11 @@ const Route = ReactRouterDOM.Route;
 
 function CreateHome(){
     const [user, setUser] =  React.useState("");
-    const [story, setStory] = React.useState("");
 
     return e(React.Fragment, null, [
         e(HashRouter, null, [
-            e(Route, {path: "/Create/login", component: () => e(CreateHomeLogin, {userUpdate: setUser, storyUpdate: setStory})}),
-            e(Route, {path: "/Create/select", component: () => e(CreateHomeSelect, {user: user})}),
+            e(Route, {path: "/Create/login", component: () => e(CreateHomeLogin, {userUpdate: setUser})}),
+            e(Route, {path: "/Create/select", component: () => e(CreateHomeSelect, {userUpdate: setUser, user: user})}),
             e(Route, {path: "/Create/realize", component: () => e(CreateHomeRealize, {userUpdate: setUser, user: user})})
         ])
     ])

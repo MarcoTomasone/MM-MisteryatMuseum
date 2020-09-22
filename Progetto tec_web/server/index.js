@@ -31,7 +31,7 @@ app.listen(8000, function () {
     res.end()
 });*/
 
-
+//restituisce l'array di storie di un utente passato come parametro
 app.get("/storiesFolder/:username", (req, res) => {
     var arrayOfStories = []
     var files = fs.readdirSync("./storiesFolder")
@@ -52,6 +52,7 @@ app.get("/storiesFolder/:username", (req, res) => {
     res.status(200).end(JSON.stringify(arrayOfStories))
 })
 
+//restituisce l'array di tutte le storie pubblicate
 app.get("/storiesFolder", (req, res) => {
     var arrayOfStories = []
     var files = fs.readdirSync("./storiesFolder")

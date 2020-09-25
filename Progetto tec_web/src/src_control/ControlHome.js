@@ -2,10 +2,10 @@ const e = React.createElement;
 
 function Card(props){
     return(
-        e("div",{style: {width: "100px", height: "150px", border: "3px solid black", float: "left", margin: "5px"}},[
-            e("div", {id: "header_card", style: {"font-size": "13px", "border-bottom": "1px solid black", height: "25%"}},"Nome/Id: "),
-            e("div", {id: "body_card", style: {"font-size": "13px", "border-bottom": "1px solid black", height: "25%"}}, "Sezione: "),
-            e("div", {id: "body_card", style: {"font-size": "13px", "border-bottom": "1px solid black", height: "25%"}}, "Punteggio: "),
+        e("div",{className: "control_home"},[
+            e("div", {id: "header_card", className:"div_card"},"Nome/Id: "),
+            e("div", {id: "body_card",className:"div_card"}, "Sezione: "),
+            e("div", {id: "body_card",className:"div_card"}, "Punteggio: "),
             e("div", {id: "footer_card"},[
                 e("input",{type: "button", value: "Chat", style: {"font-size": "13px", "margin-left": "24%", "margin-top": "10%"}}, )
             ])

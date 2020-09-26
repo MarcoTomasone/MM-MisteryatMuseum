@@ -1,23 +1,58 @@
-@keyframes lampeggio { 
-    50% { border-color: green; }
+@keyframes led { 
+    50% { background-color: red; }
 }
 
 .control_home{
-    width: 100px;
-    height: 150px;
-    border: 3px solid black;
+    width: 200px;
+    height: 130px;
+    border: 1px solid black;
     float: left;
     margin: 5px;
-    animation: lampeggio;
+    box-sizing: border-box;
+}
+
+.div_card{
+    font-size: 13px;
+    box-sizing: border-box;
+    border-bottom: 1px solid black;
+    height: 25%;
+}
+
+.right_div{
+    box-sizing: border-box;
+    float: left;
+    width: 34%;
+    height: 100%;
+    border-left: 1px solid black;
+}
+
+.left_div{
+    box-sizing: border-box;
+    float: left;
+    width: 66%;
+    height: 100%;
+}
+
+#led_help, #led_valutation {
+    height: 25px;
+    width: 25px;
+    background-color: rgba(255,0,0,0.1);
+    border-radius: 50%;
+    display:block;
+    margin-left: 25%;
+  }
+
+.led_text{
+    font-size: 13px;
+    text-align: center;
+    margin-top: 20%
+}
+
+/* if an user want a help or chat whit the valutator */
+.need_help{
+    animation: led;
     animation-timing-function: step-end ;
     animation-iteration-count: infinite ;
     animation-direction: alternate ;
     animation-duration: .3s ;
 }
-
-.div_card{
-    font-size: 13px;
-    border-bottom: 1px solid black;
-    height: 25%;
-}
-

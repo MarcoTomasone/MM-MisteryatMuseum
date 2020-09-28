@@ -9,6 +9,7 @@
     float: left;
     margin: 5px;
     box-sizing: border-box;
+    border-radius: 25px;
 }
 
 
@@ -42,6 +43,7 @@
     box-sizing: border-box;
     border-bottom: 1px solid black;
     height: 33.33333%;
+    text-align: center;
 }
 
 

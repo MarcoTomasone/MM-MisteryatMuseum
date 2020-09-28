@@ -6,7 +6,7 @@ function Card(props){
         document.getElementById(props.id).childNodes[1].style.height = "60%";
         document.getElementById(props.id).childNodes[2].style.display = "none";
         document.getElementById(props.id).childNodes[3].style.display = "block";
-        document.getElementById(props.id).style.height = "250px";
+        document.getElementById(props.id).style.height = "300px";
     }
 
     const closeForm = function(){
@@ -20,9 +20,18 @@ function Card(props){
     return(
         e("div",{id: props.id, className: "control_home"},[
             e("div",{id: "description_card", className: "left_div"},[
-                e("div", {className: "div_card"}, "Name/Id:"), //props.id
-                e("div", {className: "div_card"}, "Section:"), //props.section
-                e("div", {className: "div_card"}, "Points:"), //props.points
+                e("div", {className: "div_card"}, [
+                    e("label", null, "Name/Id:"),  //aggiungere accessibilità
+                    e("p",null, props.id)
+                ]), 
+                e("div", {className: "div_card"}, [
+                    e("label", null, "Section:"),   //aggiungere accessibilità
+                    e("p",null, props.section)
+                ]),
+                e("div", {className: "div_card"}, [
+                    e("label", null, "Points:"),    //aggiungere accessibilità
+                    e("p",null, props.points)
+                ])
             ]),
             e("div", {id: "led_card", className: "right_div"}, [
                 e("div", {id: "help"}, [
@@ -39,7 +48,7 @@ function Card(props){
                 e("button", {type: "button", className: "open-button", onClick: openForm}, "Chat")
             ]),
             e("div", {id: "chat_card", className: "bottom_div chat-popup", id: "myForm"},[
-                e("form", {action: "/action_page.php", className: "form-container"},[
+                e("form", {action: "", className: "form-container"},[  //aggiungere l'url della parte server che manda il messaggio
                     e("h5", null, "Chat"),
 
                     e("textarea", {placeholder: "Type message..", name: "msg", required: "required"}),
@@ -55,44 +64,37 @@ function Card(props){
 
 
 function controlHome(props){
-    var arr = [];
-    
-    /*
-    React.useEffect(() => {
-    axios.get(`https://api.github.com/search/repositories?q=user:its-hmny&sort=updated`)
-        .then((response) => {
-            response.data.forEach((element) => {
-                arr.push(e(Card, {
-                    key: element.id, 
-                    id: element.id, 
-                    section: element.section, 
-                    points: element.points,
-                    humanE: element.humanE,
-                    chat: element.chat,
-                    other: response.data
-                }))
-            })
+    var arrayOfPlayers = [];
+    const [arrayPlayers, setArrayPlayers] =  React.useState([]);
 
-            return arr;
+    React.useEffect(() => {
+        axios.get(`https://api.github.com/search/repositories?q=user:its-hmny&sort=updated`)
+            .then((response) => {
+                response.data.items.forEach((element) => {
+                    arrayOfPlayers.push(e(Card, {
+                        key: element.id, 
+                        id: element.id, 
+                        section: element.section, 
+                        points: element.points,
+                        help: element.chat,
+                        humanE: element.humanE,
+                        other: response.data
+                    }))
+                })
+
+                setArrayPlayers(arrayOfPlayers);
+                return arrayOfPlayers;
             })
             .then((response) => {
-                response.data.forEach((element) => {
-                    if (element.help == true) document.getElementByClass("element.id").document.getElementById("led_help").classList.add("need_help");
-                    if (element.humanE == true) document.getElementByClass("element.id").document.getElementById("led_chat").classList.add("need_help");
-            .catch((error) => console.log(error));
+                response.forEach((element) => {
+                    if (element.help == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[0].childNodes[1].classList.add("need_help");
+                    if (element.humanE == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[1].childNodes[1].classList.add("need_help");
+                })
+            }).catch((error) => console.log(error));
     })
-    */
 
 
-
-   for(let i=0 ; i < 20; i++)
-    arr.push(e(Card, {
-        id: "element"+i
-    }));
-
-    return e(React.Fragment, null, [
-        e("div",null, arr)
-         ]); 
+    return e(React.Fragment, null, [e("div",null, arrayPlayers)]); 
 }
 
 export default controlHome;

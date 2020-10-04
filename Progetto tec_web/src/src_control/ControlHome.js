@@ -7,6 +7,7 @@ function Card(props){
         document.getElementById(props.id).childNodes[2].style.display = "none";
         document.getElementById(props.id).childNodes[3].style.display = "block";
         document.getElementById(props.id).style.height = "300px";
+        document.getElementById()
     }
 
     const closeForm = function(){
@@ -15,6 +16,14 @@ function Card(props){
         document.getElementById(props.id).childNodes[1].style.height = "86%";
         document.getElementById(props.id).childNodes[0].style.height = "86%";
         document.getElementById(props.id).style.height = "200px";
+    }
+
+    const sendMessage = function(event){
+        var socket = io();
+        event.preventDefault();
+        socket.emit("chatMessage", document.getElementById("msg").nodeValue());
+        document.getElementById("msg").nodeValue("");
+
     }
 
     return(
@@ -50,10 +59,11 @@ function Card(props){
             e("div", {id: "chat_card", className: "bottom_div chat-popup", id: "myForm"},[
                 e("form", {action: "", className: "form-container"},[  //aggiungere l'url della parte server che manda il messaggio
                     e("h5", null, "Chat"),
-
+                    e("ul", {id: "messages"}),
+                    e("script", {src: "/socket.io/socket.io.js"}),
                     e("textarea", {placeholder: "Type message..", name: "msg", required: "required"}),
 
-                    e("button", {type: "submit", className: "btn"}, "Send"),
+                    e("button", {type: "submit", className: "btn", onClick: sendMessage}, "Send"),
                     e("button", {type: "button", className: "btn cancel", onClick: closeForm}, "Close")
                 ])
             ])

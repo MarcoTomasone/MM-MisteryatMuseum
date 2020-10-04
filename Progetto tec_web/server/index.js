@@ -137,6 +137,28 @@ app.delete("/deleteStory/:story", (req, res) => {
     res.end();
 })
 
+//Creazione Socket per la chat
+var app2 = require('express')(); express
+var http = require('http').createServer(app2);
+var io = require('socket.io')(http);
+var port = 3000;
+
+app2.get('/', function(req, res){
+    res.sendFile("../index.html");
+    //res.send('<h1>HELLO</h1>');
+});
+
+io.on('connection', function(socket){
+  socket.on('chatMessage', function(msg){
+    io.emit('chat message', msg);
+  });
+});
+
+//il server è in ascolto alla porta 3000
+http.listen(port, function(){
+  console.log('listening on *:' + port);
+});
+
 
 app.listen(8000, function () {
     console.log("Server listenig behind port 8000");

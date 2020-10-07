@@ -1,5 +1,6 @@
 const e = React.createElement;
 
+
 const imageSetup = ["heighImage", "widthImage", "topImage", "leftImage"]
 function uploadImage(){
     const inpFile = document.getElementById("background_image");
@@ -129,17 +130,7 @@ function CreateHomeRealize_player(props){
         if (!c) {
             alert("Compila prima tutti i campi")  
         } else {
-            props.story.player.background = document.getElementById("background_color").value;
-            props.story.player.topFrame = `${document.getElementById("topFrame").value}px`
-            props.story.player.leftFrame =`${ document.getElementById("leftFrame").value}px`
-            props.story.player.colorFrame = document.getElementById("colorFrame").value;
-            props.story.player.widthFrame = `${document.getElementById("widthFrame").value}px`
-            props.story.player.borderRadiusFrame = `${document.getElementById("borderRadiusFrame").value}px`
-            props.story.player.textColor = document.getElementById("textColor").value;
-            props.story.player.fontFamily = `${document.getElementById("fontFamily").value}, sans-serif`;
-            props.story.player.sizeFont = `${document.getElementById("sizeFont").value}px`
-            props.story.player.weightFont = document.getElementById("weightFont").value;
-            props.setStep([true, true, false])
+            ...
         }*/
         props.story.player.background = document.getElementById("background_color").value;
 
@@ -180,6 +171,8 @@ function CreateHomeRealize_player(props){
 
         props.setStep([true, true, false])
     }
+
+
 
     return(
         e("form", {id: props.id, className: props.className, onSubmit: createNewJsonFile}, [

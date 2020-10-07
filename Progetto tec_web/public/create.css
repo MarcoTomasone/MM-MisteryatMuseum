@@ -41,7 +41,6 @@
     height: 100%;
     width: 100%;
     min-height: 460px;
-    width: 100%;
     border: solid 2px red;
 }
 .containerHome_userSelected{
@@ -154,18 +153,19 @@
     height: 100%;
     width: 75%;
     border: solid 2px yellow;
-
 }
 .sx_realize_top{
-    height: 90%;
+    height: 85%;
     width: 100%;
+    overflow: scroll;
     border: solid 2px yellow;
 }
 .sx_realize_bottom{
-    height: 10%;
+    height: 15%;
     width: 100%;
     display: flex;
     justify-content: center;
+    overflow: scroll;
     border: solid 2px yellow;
 }
 .sx_realize_bottom *{
@@ -210,8 +210,11 @@
 }
 
 /*REALIZE INFO*/
-.sx_realize_option *:not(label){
+.sx_realize_option > *:not(label), #ageSeparator, #ageEnd{
     margin-left: 30px;
+}
+.sx_realize_option > span{
+    margin-left: 40px;
 }
 #age{
     display: flex;
@@ -239,6 +242,15 @@
 /*SCHERMATA TELEFONO*/
 @media only screen and (max-width: 930px), (max-height: 600px)  {
     #phone{
+        display: none;
+    }
+    #sx_realize{
+        width: 100%;
+    }
+    #dx_realize{
+        width: 0%;
+    }
+    #noPhone{
         display: none;
     }
 }

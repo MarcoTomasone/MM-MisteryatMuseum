@@ -3,3 +3,4 @@
 3) Sistemare il problema del CORS
 4) Sistemare il font weight del palayer
 5) Impostare alert se si esce dal player senza salvare
+6) togliere nophone

@@ -1,15 +1,28 @@
 const e = React.createElement;
 
-const HashRouter  = ReactRouterDOM.HashRouter ;
-const Route = ReactRouterDOM.Route;
-
+import CreateHomeRealize_info from "./CreateHomeRealize_info.js"
+import CreateHomeRealize_player from "./CreateHomeRealize_player.js"
+import CreateHomeRealize_activity from "./CreateHomeRealize_activity.js"
+import CreateHomeRealize_firstLastActivity from "./CreateHomeRealize_firstLastActivity.js"
 
 function CreateHomeRealize(props){
-    if (props.user == "") props.userUpdate(localStorage.getItem(`user0`));    
+    /*window.addEventListener('beforeunload', function (e) {
+        e.preventDefault(); 
+        e.returnValue = ''; 
+    });*/
+    
+    if (props.user == "") props.setUser(localStorage.getItem(`user0`));    
     else {
         localStorage.setItem(`user0`, props.user);
-        props.userUpdate(localStorage.getItem(`user0`));    
+        props.setUser(localStorage.getItem(`user0`));    
     }
+
+    const [story, setStory] =  React.useState({});
+    const [step, setStep] =  React.useState([false, false, false]);
+    const [firstActivity, setFirstActivity] =  React.useState(false);
+    const [lastActivity, setLastActivity] =  React.useState(false);
+    const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}));
+
 
     return e("div", {className: "containerHome"}, [
         e("div", {className:"containerHome_userSelected"}, [
@@ -17,141 +30,89 @@ function CreateHomeRealize(props){
             e("p", {id: "containerHome_userSelected_realize_info"})
         ]),
         e("div", {className: "containerHome_realize"}, [
-            e("div", {id: "create_story", className: "sx_realize"}, [
-                e("div", {className: "sx_realize_top"}, [
-                    e("div", {id: "arrayActivities"})
-                ]),
+            e("div", {id: "sx_realize", className: "sx_realize"}, [
+                e("div", {id: "sx_realize_top", className: "sx_realize_top"}, pageLoad),
                 e("div", {className: "sx_realize_bottom"}, [
-                    e(HashRouter, null, [
-                        e(Route, {exact: true, path: "/Create/realize/player", component: () => e(Player_setup, user_)}),
-                        e(Route, {exact: true, path: "/Create/realize/activity", component: () => e(Activity_setup, null)}),
-                        e(Route, {exact: true, path: "/Create/realize/", component: () => e(Info_setup, {user: props.user})})
-                    ])                ])
+                    e("button", {onClick: () => {
+                        console.log(story);
+                    }}, "CLICK"),
+                    e("button", {onClick: () => {
+                        setPageLoad(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
+                    }}, "INFO"),
+                    e("button", {onClick: () => {
+                        //if(step[0] == true){
+                            setPageLoad(e(CreateHomeRealize_player, {id: "CreateHomeRealize_player", className: "CreateHomeRealize_player", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
+                        /*} else {
+                            alert("Prima compila e conferma i campi di info generali")
+                        }*/
+                    }},"PLAYER"),
+                    e("button", {onClick: () => {
+                        //if (step[1] == true){
+                            setPageLoad(e(CreateHomeRealize_firstLastActivity, {
+                                id: "CreateHomeRealize_firstActivity", 
+                                className: "CreateHomeRealize_firstLastActivity", 
+                                user: props.user, 
+                                story: story, 
+                                setStory: setStory, 
+                                step: step, 
+                                setStep: setStep, 
+                                firstLast: 0,
+                                activity: firstActivity,
+                                setActivity: setFirstActivity
+                            }))
+                        /*} else {
+                            alert("Prima compila e conferma i campi sullo stile del player")
+                        }*/
+                    }}, "ATTIVITA' INTRODUTTIVA"),
+                    e("button", {onClick: () => {
+                        //if (step[1] == true){
+                            setPageLoad(e(CreateHomeRealize_firstLastActivity, {
+                                id: "CreateHomeRealize_firstActivity", 
+                                className: "CreateHomeRealize_firstLastActivity", 
+                                user: props.user, 
+                                story: story, 
+                                setStory: setStory, 
+                                step: step, 
+                                setStep: setStep, 
+                                firstLast: story.activities.length,
+                                activity: lastActivity,
+                                setActivity: setLastActivity
+                            }))
+                        /*} else {
+                            alert("Prima compila e conferma i campi sullo stile del player")
+                        }*/
+                    }}, "ATTIVITA' CONCLUSIVA"),
+                    e("button", {onClick: () => {
+                        if (step[2] == true){
+                            setPageLoad(e(CreateHomeRealize_activity, {id: "CreateHomeRealize_activity", className: "CreateHomeRealize_activity", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
+                        } else {
+                            alert("Crea almeno un'attività")
+                        }
+                    }}, "CREA ATTIVITA' DI GIOCO"), 
+                    e("button", {onClick: () => {
+                        //if (step[1] == true){
+                            seFirstLast("last");
+                            setPageLoad(e(CreateHomeRealize_firstLastActivity, {id: "CreateHomeRealize_lastActivity", className: "CreateHomeRealize_firstLastActivity", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep, firstLast: firstLast}))
+                        /*} else {
+                            alert("Prima compila e conferma i campi sullo stile del player")
+                        }*/
+                    }}, "MODIFICA ATTIVITA' DI GIOCO"),
+                ]),
             ]),
-            e("div", {id: "visualStory", className: "dx_realize"})
+            e("div", {id: "dx_realize", className: "dx_realize"}, [
+                e("div", {id: "noPhone"}, "ALLARGA LA FINESTRA PER POTER VEDERE LE MODIFICHE IN TEMPO REALE "),
+                e("div", {id: "phone"}, [
+                    e("div", {id: "phoneInternal"}, [
+                        e("img", {id: "phoneImage"}),
+                        e("button", {id: "chatButton"}, "CHAT"),
+                        e("button", {id: "helpButton"}, "HELP"),
+                        e("div", {id: "phoneText"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries...")
+                    ])
+                ])
+            ])
         ])
     ])
 }
-
-
-function Info_setup(props){
-    React.useEffect(() => {
-        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Inserisci le informazioni generali";
-    }, [])
-    
-    function createNewJsonFile() {
-        var file = {
-            id: "",
-            user: props.user, 
-            published: false, 
-            title: document.getElementById("title").value.charAt(0).toUpperCase() + document.getElementById("title").value.substring(1),
-            gender: document.getElementById("gender").value,
-            description: document.getElementById("description").value.charAt(0).toUpperCase() + document.getElementById("description").value.substring(1),
-            accessibility: document.getElementById("accessibility").value,
-            participantsType: document.getElementById("participantsType").value,
-            participantsNumber: 0,
-            ageStart: document.getElementById("ageStart").value,
-            ageEnd: document.getElementById("ageEnd").value,
-        }
-        axios.post('http://localhost:8000/createStory', {
-            user: props.user,
-            file
-        })
-        .then(() => location.href = "./#/Create/realize/player")
-        .catch((error) => console.log(error));
-    }
-
-    return(
-        e("form", {id: "formInfo", onSubmit: createNewJsonFile}, [
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor: "title"}, "Titolo:"),
-                e("input", {id: "title"})
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor: "gender"}, "Genere storia:"),
-                e("select", {id: "gender"}, [
-                    e("option", {value: ""}, "------------------"),
-                    e("option", {value: "Avventura"}, "Avventura"),
-                    e("option", {value: "Thriller"}, "Thriller"),
-                    e("option", {value: "Azione"}, "Azione"),
-                    e("option", {value: "Storico"}, "Storico"),
-                    e("option", {value: "Horror"}, "Horror"),
-                    e("option", {value: "Fantasy"}, "Fantasy"),
-                    e("option", {value: "Fantascienza"}, "Fantascienza"),
-                    e("option", {value: "Spionaggio"}, "Spionaggio"),
-                    e("option", {value: "Spaziale"}, "Spaziale"),
-                    e("option", {value: "Western"}, "Western")
-                ])
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor: "description"}, "Descrizione:"),
-                e("textarea", {id: "description", placeholder: "Scrivi qui una breve descrizione della tua storia"})
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor: "accessibility"}, "Storia accessibile:"),
-                e("select", {id: "accessibility"}, [
-                    e("option", {value: ""}, "-----"),
-                    e("option", {value: "Si"}, "Si"),
-                    e("option", {value: "No"}, "No")
-                ])
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor: "participantsType"}, "Tipo partecipanti: "),
-                e("select", {id: "participantsType"}, [
-                    e("option", {value: ""}, "----------------------"),
-                    e("option", {value: "singlePlayer"}, "Giocatore singolo"),
-                    e("option", {value: "group"}, "Gruppo singolo"),
-                    e("option", {value: "differentGroup"}, "Gruppi diversi"),
-                ])
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor: "age"}, "Fascia di eta:"),
-                e("div", {id: "age"}, [
-                    e("input", {id: "ageStart", type: "number"}),
-                    e("div", {id: "ageSeparator"}, "-"),
-                    e("input", {id: "ageEnd", type: "number"})
-                ])
-            ]),
-            e("input", {id: "sumbit_formInfo", type: "submit", value: "INVIA"})
-        ])
-    )
-}
-
-function Player_setup(props){
-    React.useEffect(() => {
-        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Inserisci le informazioni sullo stile del player";
-    }, [])
-
-    return(
-        e("form", null, [
-            e("div", {clasName: "sx_realize_option"}, [
-                e("label", {htmlFor: "title"}, "Titolo"),
-                e("input", {id: "title"})
-            ]),
-        ])
-    )
-}
-
-function Activity_setup(props){
-    function createNewJsonFile() {
-        var preview = {
-            title: document.getElementById("title_preview").value,
-            gender: document.getElementById("gender_preview").value,
-            description: document.getElementById("description_preview").value,
-            published: false
-        }
-        axios.post('http://localhost:8000/createStory', {
-            user: props.user,
-            preview
-        })
-        .then((response) => alert(`Storia \"${response.data}\" creata correttamente nella tua cartella personale. Pubblicala per poterci giocare!`))
-        .catch((error) => console.log(error));
-        location.href = "./#/Create/select"
-    }
-
-}
-
-
 
 export default CreateHomeRealize;
 
@@ -194,3 +155,16 @@ function submitAction(e){
     console.log(storia)
 }
 */
+
+
+/*if (c) {
+
+    //location.href = "./#/Create/realize/player"
+    /*axios.post('http://localhost:8000/createStory', {
+        user: props.user,
+        file
+    })
+    .catch((error) => console.log(error));
+    props.setArrayActivities(["ciao"])
+    alert(arrayActivities)
+}*/

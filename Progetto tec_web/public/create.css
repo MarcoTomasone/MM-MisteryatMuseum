@@ -1,6 +1,6 @@
-/*------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
 /*LOGIN*/
-/*------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------*/
 #loginDiv{
     height: 100%;
     width: 100%;
@@ -33,9 +33,10 @@
 
 
 
-/*------------------------------------------------------------------------------*/
-/*SELECT*/
-/*------------------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------------------------------------------*/
+/*ALL*/
+/*------------------------------------------------------------------------------------------------------*/
 .containerHome{
     height: 100%;
     width: 100%;
@@ -43,7 +44,6 @@
     width: 100%;
     border: solid 2px red;
 }
-
 .containerHome_userSelected{
     height: 10%;
     width: 100%;
@@ -58,15 +58,21 @@
     font-size: 0.8em;
 }
 
-.containerHome_main{
+
+
+
+
+/*------------------------------------------------------------------------------------------------------*/
+/*SELECT PARTE PRIVATA*/
+/*------------------------------------------------------------------------------------------------------*/
+.containerHome_privateSelect{
     height: 90%;
     width: 100%;
     border: solid 2px yellow;
     display: flex;
 }
 
-/*containerHome_main_screen: parte del div generale con la schermata delle storie dell'utente*/
-.containerHome_main_screen{
+.sx_privateSelect{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -74,107 +80,355 @@
     overflow: scroll;
 }
 
-
-/*SCHERMO GRANDE*/
+/*SCHERMO GRANDE SELECTION SECTION*/
 @media only screen and (min-width: 900px) {
-
-    .containerHome_main_screen{
+    .sx_privateSelect{
         height: 100%;
-        width: 80%;
+        width: 75%;
         padding: 20px;
         border: solid 2px blue
     }
-    
-    .containerHome_main_buttons{
+    .dx_privateSelect{
         height: 100%;
-        width: 20%;
+        width: 25%;
         min-height: 300px;
-        padding: 10px;
+        padding: 20px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        align-content: center;
+        align-items: center;
         border: solid 2px blue
     }
-
-    .containerHome_main_buttons_button{
-        min-height: 70px;
-    }
-
-    /*qrcode section*/
-    .containerHome_main_qrcode{
-        height: 100%;
-        width: 20%;
-        flex-direction: column;
-    }
-    #containerHome_main_qrcode_button{
-        width: 220px;
-        height: 50px;
+    .dx_privateSelect_button{
+        min-height: 60px;
+        width: 100%;
     }
 }
 
-/*SCHERMO PICCOLO*/
+/*SCHERMO PICCOLO SELECTION SECTION*/
 @media only screen and (max-width: 900px) {
-
-    .containerHome_main{
+    .containerHome_privateSelect{
         flex-direction: column;
     }
-
-    .containerHome_main_screen{
+    .sx_privateSelect{
         order: 1;
-        height: 80%;
+        height: 75%;
         width: 100%;
         padding: 20px;
         border: solid 2px blue
-    }
-    
-    .containerHome_main_buttons{
+    }  
+    .dx_privateSelect{
         order: 0;
         width: 100%;
-        height: 20%;
+        height: 25%;
         min-height: 80px;
-        padding: 10px;
+        padding: 5px;
         display: flex;
         justify-content: space-around;
         align-items: center;
         border: solid 2px blue
     }
-
     #containerHome_userSelected_explanation{
         display: none;
     }
-
-    .containerHome_main_buttons_button{
+    .dx_privateSelect_button{
         height: 50px;
-        width: 100px;
+        width: 16%;
+        font-size: 0.8em;
     }
+}
 
-    /*qrcode section*/
-    .containerHome_main_qrcode{
+
+
+
+
+/*------------------------------------------------------------------------------------------------------*/
+/*REALIZE*/
+/*------------------------------------------------------------------------------------------------------*/
+.containerHome_realize{
+    height: 90%;
+    width: 100%;
+    display: flex;
+}
+.sx_realize{
+    height: 100%;
+    width: 75%;
+    border: solid 2px yellow;
+
+}
+.sx_realize_top{
+    height: 90%;
+    width: 100%;
+    border: solid 2px yellow;
+}
+.sx_realize_bottom{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border: solid 2px yellow;
+}
+.sx_realize_bottom *{
+    margin: 5px;
+}
+.CreateHomeRealize_info, .CreateHomeRealize_player, .CreateHomeRealize_activity{
+    height: 100%;
+    width: 100%;
+}
+.CreateHomeRealize_player{
+    overflow: scroll;
+}
+.CreateHomeRealize_player p{
+    margin-top: 20px;
+    text-align: center;
+}
+#arrayActivities{  /*barra con elenco delle storie*/
+    height: 50px;
+    width: 700px;
+    align-self: center;
+    border: solid 2px black;
+}
+.square{
+    margin: 0px;
+    height: 50px;
+    width: 50px;
+    border: solid 1px black;
+}
+#formInfo{
+    height: 100%;
+}
+.sx_realize_option{
+    margin-top: 25px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+}
+#description{
+    height: 50px;
+    width: 600px;
+    resize: none;
+}
+
+/*REALIZE INFO*/
+.sx_realize_option *:not(label){
+    margin-left: 30px;
+}
+#age{
+    display: flex;
+}
+#ageStart, #ageEnd {
+    width: 60px;
+}
+#sumbit_formInfo{
+    height: 30px;
+    width: 100px;
+    margin-bottom: 15px;
+    margin-left: 45%;
+}
+
+.sx_realize_option_player{
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.sx_realize_option_player *:not(label){
+    margin-left: 30px;
+}
+
+/*SCHERMATA TELEFONO*/
+@media only screen and (max-width: 930px), (max-height: 600px)  {
+    #phone{
+        display: none;
+    }
+}
+@media only screen and (min-width: 930px) and (min-height: 600px)  {
+    #phone{
+        display: flex;
+    }
+}
+.dx_realize{
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px yellow;
+}
+#noPhone{
+    height: 233px;
+    width: 233px;
+    padding: 5px;
+    padding-top: 85px;
+    text-align: center;
+}
+#phone{
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 226px;
+    height: 458px;
+    background: #fff;
+    border-radius: 35px;
+    border: solid 1px rgb(180, 180, 180);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, .2), 0 40px 100px rgba(0, 0, 0, .4);
+}
+#phoneInternal{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 202px;
+    height: 437px;
+    background: black;
+    border-radius: 25px;
+    border: solid 1px rgb(180, 180, 180);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, .2);
+    overflow: hidden;
+}
+#phone:after{
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translate(-50%);
+    width: 108px;
+    height: 13px;
+    background: #fff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+#phoneImage{
+    position: absolute;
+    width: 260px;
+    height: 437px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+#phoneText{
+    position: absolute;
+    top: 80px;
+    left: 15px;
+    height: 200px;
+    width: 170px;
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    word-wrap: break-word;
+    overflow: hidden;
+    border: solid 1px white;
+}
+#chatButton{
+    position: absolute;
+    background-color: black;
+    color: white;
+    border: solid 1px white;
+    height: 30px;
+    width: 60px;
+    top: 30px;
+    left: 125px;
+    border-radius: 20px;
+    text-align: center;
+}
+#helpButton{
+    position: absolute;
+    background-color: black;
+    color: white;
+    border: solid 1px white;
+    height: 30px;
+    width: 60px;
+    top: 30px;
+    left: 15px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+
+
+
+
+
+/*------------------------------------------------------------------------------------------------------*/
+/*SELECT PARTE PUBBLICA*/
+/*------------------------------------------------------------------------------------------------------*/
+.containerHome_publicSelect{
+    height: 90%;
+    width: 100%;
+    border: solid 2px yellow;
+    display: flex;
+}
+.sx_publicSelect{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+    border: solid 2px lightseagreen
+}
+.dx_publicSelect{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px lightseagreen
+}
+
+/*SCHERMO GRANDE SELECT PARTE PUBBLICA*/
+@media only screen and (min-width: 900px) {
+    .sx_publicSelect{
+        height: 100%;
+        width: 75%;
+        padding: 20px;
+    }
+    .dx_publicSelect{
+        height: 100%;
+        width: 25%;
+        flex-direction: column;
+    }
+    #dx_publicSelect_button{
+        margin: 20px;
+        height: 50px;
+        width: 210px;
+    }
+}
+/*SCHERMO PICCOLO SELECT PARTE PUBBLICA*/
+@media only screen and (max-width: 900px) {
+    .containerHome_publicSelect{
+        flex-direction: column;
+    }
+    .sx_publicSelect{
+        order: 1;
+        height: 75%;
+        width: 100%;
+        padding: 20px;
+    }
+    .dx_publicSelect{
+        order: 0;
         width: 100%;
         height: 250px;
         flex-direction: row;
     }
-    #containerHome_main_qrcode_button{
+    #dx_publicSelect_button{
+        margin: 20px;
         width: 100px;
         height: 50px;
     }
 }
-
-#screenOfStorys{
-    height: 100%;
-    width: 100%;
-    padding: 20px;
-    border: solid 2px blue
-}
-
-#color{
-    border: 5px solid rgb(226, 226, 226);
-    outline: none
+#dx_publicSelect_qrcodeSection{
+    margin: 10px;
+    width: 210px;
+    height: 210px;
+    border: solid 2px black;
 }
 
 
-/*card all'interno di containerHome_main_screen*/
+
+
+
+/*------------------------------------------------------------------------------------------------------*/
+/*CARD*/
+/*------------------------------------------------------------------------------------------------------*/
 .card_selected{
     background-color: rgb(79, 239, 135);
 }
@@ -237,95 +491,57 @@
     border: solid 1px purple;
 }
 
-/*qrcode section*/
-.containerHome_main_qrcode{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+
+/*BOHHHHHH*/
+/*
+#screenOfStorys{
+    height: 100%;
+    width: 100%;
+    padding: 20px;
     border: solid 2px blue
 }
-#containerHome_main_qrcode_button{
-    margin: 10px;
-}
-#containerHome_main_qrcode_section{
-    margin: 10px;
-    width: 220px;
-    height: 220px;
-    border: solid 2px black;
-}
+
+#color{
+    border: 5px solid rgb(226, 226, 226);
+    outline: none
+}*/
 
 
 
 
 
-/*------------------------------------------------------------------------------*/
-/*REALIZE*/
-/*------------------------------------------------------------------------------*/
-.containerHome_realize{
-    height: 90%;
-    width: 100%;
-    display: flex;
-}
-.sx_realize{
-    height: 100%;
-    width: 65%;
-    border: solid 2px yellow;
 
-}
-.dx_realize{
-    height: 100%;
-    width: 35%;
-    border: solid 2px yellow;
-}
 
-.sx_realize_top{
-    height: 15%;
-    display: flex;
-    justify-content: center;
-    border: solid 2px black;
-}
-.sx_realize_bottom{
-    height: 85%;
-    border: solid 2px black;
-}
 
-#arrayActivities{  /*barra con elenco delle storie*/
+
+
+
+
+
+
+
+
+.cardImg{
     height: 50px;
-    width: 700px;
-    align-self: center;
-    border: solid 2px black;
-}
-
-#formInfo{
-    height: 100%;
-}
-
-.sx_realize_option{
-    height: 15%;
-    display: flex;
-    align-items: center;
-}
-
-#description{
-    height: 50px;
-    width: 600px;
-    resize: none;
 }
 
 
-/*REALIZE INFO*/
-#title, #gender, #description, #accessibility, #participantsType, #ageStart, #ageSeparator, #ageEnd {
-    margin-left: 30px;
-}
-#age{
-    display: flex;
-}
-#ageStart, #ageEnd {
-    width: 60px;
-}
-#sumbit_formInfo{
-    height: 30px;
-    width: 100px;
-    margin-bottom: 15px;
-    margin-left: 45%;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

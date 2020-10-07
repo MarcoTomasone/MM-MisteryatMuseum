@@ -2,8 +2,18 @@ const e = React.createElement;
 
 var storySelected = "";
 
+
 const toCreate = function(){
-    location.href = "./#/Create/realize"
+    location.href = "./?#/Create/realize"
+}
+
+const toDuply = function(){
+    if (storySelected == "") alert("Selezionare prima una storia");
+    else {
+        axios.get(`http://localhost:8000/duplyStory/${storySelected}`)
+        .then((response) => alert(`Storia \"${storySelected}\" dupicata correttamente`))
+        .catch((error) => console.log(error));  
+    }
 }
 
 const toModify = function(){
@@ -41,7 +51,6 @@ const toDelete = function(){
 
 function Card(props){
 
-
     const press = () =>{
         storySelected = props.id
         props.other.forEach((element) => {
@@ -56,8 +65,12 @@ function Card(props){
         e("div", {className: "card_title"}, props.title),
         e("div", {className: "card_gender"}, props.gender),
         e("div", {className: "card_info"}, [
-            e("div", {className: "card_participant"}, props.participant),
-            e("div", {className: "card_accessibility"}, props.props),
+            e("div", {className: "card_participant"}, [
+                e("img", {className: "cardImg", src: props.participantsType})
+            ]),
+            e("div", {className: "card_accessibility"}, [
+                e("img", {className: "cardImg", src: props.accessibility})
+            ]),
         ]),
         e("div", {className: "card_description"}, props.description)
     ])
@@ -69,10 +82,10 @@ function CreateHomeSelect(props){
     const [arrayPrivateStories, setArrayPrivateStories] =  React.useState([]);
     var arrayOfStories = []
 
-    if (props.user == "") props.userUpdate(localStorage.getItem(`user0`));    
+    if (props.user == "") props.setUser(localStorage.getItem(`user0`));    
     else {
         localStorage.setItem(`user0`, props.user);
-        props.userUpdate(localStorage.getItem(`user0`));    
+        props.setUser(localStorage.getItem(`user0`));    
     }
 
 
@@ -82,10 +95,11 @@ function CreateHomeSelect(props){
             response.data.forEach((element) => {
                 arrayOfStories.push(
                     e(Card, {
-                        key: element.id, 
-                        id: element.id, 
+                        id: element.id,
                         title: element.title, 
-                        gender: element.gender, 
+                        gender: element.gender,
+                        participantsType: element.participantsType.url,
+                        accessibility: element.accessibility.url,
                         description: element.description,
                         published: element.published,
                         other: response.data
@@ -99,22 +113,22 @@ function CreateHomeSelect(props){
                 if (element.published == true) document.getElementById(element.id).classList.add("story_published");
             })
         })
-        .catch((error) => console.log(error));
-    })
+    }, [])
 
     return e("div", {className: "containerHome"}, [
         e("div", {className:"containerHome_userSelected"}, [
             e("p", null, `UTENTE SELEZIONATO: ${props.user}`),
             e("p", {id: "containerHome_userSelected_explanation"}, `(Qui puoi creare una nuova storia o selezionarne una gia esistente per modificarla / eliminarla / pubblicarla / ritirare)`),
         ]),
-        e("div", {className: "containerHome_main"}, [
-            e("div", {className: "containerHome_main_screen"}, arrayPrivateStories),
-            e("div", {className: "containerHome_main_buttons"}, [
-                e(Button, {key: "bb0", className: "containerHome_main_buttons_button", variant: "contained", onClick: toCreate},"CREA STORIA" ),
-                e(Button, {key: "bb1", className: "containerHome_main_buttons_button", variant: "contained", onClick: toModify},"MODIFICA STORIA" ),
-                e(Button, {key: "bb2", className: "containerHome_main_buttons_button", variant: "contained", onClick: toPublish},"PUBBLICA STORIA" ),
-                e(Button, {key: "bb3", className: "containerHome_main_buttons_button", variant: "contained", onClick: toRetire},"RITIRA STORIA" ),
-                e(Button, {key: "bb4", className: "containerHome_main_buttons_button", variant: "contained", onClick: toDelete},"ELIMINA STORIA" )
+        e("div", {className: "containerHome_privateSelect"}, [
+            e("div", {className: "sx_privateSelect"}, arrayPrivateStories),
+            e("div", {className: "dx_privateSelect"}, [
+                e(Button, {key: "bb0", className: "dx_privateSelect_button", variant: "contained", onClick: toCreate},"CREA STORIA" ),
+                e(Button, {key: "bb1", className: "dx_privateSelect_button", variant: "contained", onClick: toDuply},"DUPLICA STORIA" ),
+                e(Button, {key: "bb2", className: "dx_privateSelect_button", variant: "contained", onClick: toModify},"MODIFICA STORIA" ),
+                e(Button, {key: "bb3", className: "dx_privateSelect_button", variant: "contained", onClick: toPublish},"PUBBLICA STORIA" ),
+                e(Button, {key: "bb4", className: "dx_privateSelect_button", variant: "contained", onClick: toRetire},"RITIRA STORIA" ),
+                e(Button, {key: "bb5", className: "dx_privateSelect_button", variant: "contained", onClick: toDelete},"ELIMINA STORIA" )
             ])   
         ]) 
     ])

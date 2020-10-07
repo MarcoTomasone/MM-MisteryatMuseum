@@ -1,18 +1,7 @@
 {
-  "id": "Matteo_0.json",
+  "id": "Matteo_2.json",
   "user": "Matteo",
-<<<<<<< Updated upstream
   "published": false,
-  "title": "",
-  "gender": "Thriller",
-  "description": "",
-  "accessibility": "",
-  "participantsType": "",
-  "participantsNumber": 0,
-  "ageStart": "",
-  "ageEnd": ""
-=======
-  "published": true,
   "title": "T",
   "gender": "Azione",
   "description": "R",
@@ -27,5 +16,4 @@
   "participantsNumber": 0,
   "ageStart": "3",
   "ageEnd": "5"
->>>>>>> Stashed changes
 }

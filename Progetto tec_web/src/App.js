@@ -13,7 +13,7 @@ function App(){
     return e(React.Fragment, null, [
         e("header", {key: "headerHome", id: "headerHome"}, "Benvenuti in xxxxx"),
         e("main", null, [
-            e(HashRouter, null, [
+            e(HashRouter, {key: "hashRouterApp"}, [
                 e(Route, {exact: true, path: "/", component: Home}),
                 e(Route, {path: "/Create", component: CreateHome}),
                 e(Route, {path: "/SelectHome", component: SelectHome}),
@@ -24,17 +24,3 @@ function App(){
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-//const Link =  ReactRouterDOM.Link;
-//const Prompt =  window.ReactRouterDOM.Prompt;
-//const Redirect = window.ReactRouterDOM.Redirect;

@@ -60,6 +60,10 @@ nav {
     position: relative;
     text-decoration: none;
     border-radius: 20px;
+    overflow: scroll;
+}
+.homeBlock h1 {
+    text-align: center;
 }
 
 .homeBlock:hover{
@@ -90,7 +94,7 @@ nav {
     .homeBlock > img{
         position: absolute;
         height: 100px;
-        bottom: 10%;
+        bottom: 15px;
     }
 }
 
@@ -104,18 +108,19 @@ nav {
     }
     .homeBlock > h1{
         position: absolute; 
-        top: 10%;
+        top: 5px;
         left: 10px;
     }
     .homeBlock > p{
         width: 65%;
         position: absolute;
-        top: 40%;
+        top: 50px;
         left: 10px;
     }
     .homeBlock > img{
         position: absolute;
-        height: 100px;
+        height: 70px;
+        bottom: 15px;
         right: 5%;
     }
 }

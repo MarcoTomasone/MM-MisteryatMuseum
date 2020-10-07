@@ -55,11 +55,11 @@ function SelectHome(){
         e("div", {className:"containerHome_userSelected"}, [
             e("p", null, `LISTA COMPLETA DELLE STORIE ATTIVE`),
         ]),
-        e("div", {className: "containerHome_main"}, [
-            e("div", {className: "containerHome_main_screen"}, arrayPrivateStories),
-            e("div", {className: "containerHome_main_qrcode"}, [
-                e(Button, {key: "bb0", id: "containerHome_main_qrcode_button", variant: "contained"}, "PROVA"),
-                e("div", {key: "bb1", id: "containerHome_main_qrcode_section"})
+        e("div", {className: "containerHome_publicSelect"}, [
+            e("div", {className: "sx_publicSelect"}, arrayPrivateStories),
+            e("div", {className: "dx_publicSelect"}, [
+                e(Button, {key: "bb0", id: "dx_publicSelect_button", variant: "contained"}, "SCANSIONA"),
+                e("div", {key: "bb1", id: "dx_publicSelect_qrcodeSection"})
             ])
         ])  
     ])

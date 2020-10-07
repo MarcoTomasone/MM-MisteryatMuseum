@@ -21,24 +21,12 @@ function CreateHomeLogin(props){
             if (username.includes("_") || username.includes(".") || username.includes("/") || username.includes(" ")){
                 alert("Evitare gli spazi e i seguenti valori:   .   _   /")
             } else {
-                props.userUpdate(username.charAt(0).toUpperCase() + username.substring(1).toLowerCase())
-                location.href = "./#/Create/select"
-                /*axios.post('http://localhost:8000/login', {
-                    usrnm: username,
-                    psswd: password
-                })
-                .then(() => {
-                    props.userUpdate(username.charAt(0).toUpperCase() + username.substring(1).toLowerCase())
-                    location.href = "./#/Create/select"
-                })
-                .catch(() => alert("Username o password errati. Riprovare."))*/
-                
-            }
-            
+                props.setUser(username.charAt(0).toUpperCase() + username.substring(1).toLowerCase())
+                location.href = "./?#/Create/select"                
+            }        
         }
     }
 
-    
     return e("div", {id: "loginDiv", onSubmit: loginFunction}, [
         e("img", {id: "loginDiv_img", src: "../../Img/avatar.png"}),
         e("p", {id: "loginDiv_p"}, "INSERIRE USERNAME"),
@@ -64,12 +52,12 @@ function CreateHomeLogin(props){
         }),
         e(Button, {id: "loginDiv_button", variant: "outlined", onClick: loginFunction},"ENTRA" ),
     ])
-
 }
 
-
-
 export default CreateHomeLogin;
+
+
+
 
 
 /*
@@ -91,3 +79,16 @@ export default CreateHomeLogin;
         }
     });
 */ 
+
+
+
+  
+/*axios.post('http://localhost:8000/login', {
+    usrnm: username,
+    psswd: password
+})
+.then(() => {
+    props.userUpdate(username.charAt(0).toUpperCase() + username.substring(1).toLowerCase())
+    location.href = "./#/Create/select"
+})
+.catch(() => alert("Username o password errati. Riprovare."))*/

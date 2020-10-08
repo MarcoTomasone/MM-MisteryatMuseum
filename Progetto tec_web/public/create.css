@@ -47,7 +47,7 @@
     height: 10%;
     width: 100%;
     min-height: 50px;
-    border: solid 2px yellow;
+    border: solid 1px grey;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -152,24 +152,21 @@
 .sx_realize{
     height: 100%;
     width: 75%;
-    border: solid 2px yellow;
+    border: solid 1px grey;
 }
 .sx_realize_top{
-    height: 85%;
+    height: 90%;
     width: 100%;
     overflow: scroll;
-    border: solid 2px yellow;
+    border: solid 1px grey;
 }
 .sx_realize_bottom{
-    height: 15%;
+    height: 10%;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     overflow: scroll;
-    border: solid 2px yellow;
-}
-.sx_realize_bottom *{
-    margin: 5px;
+    border: solid 2px grey;
 }
 .CreateHomeRealize_info, .CreateHomeRealize_player, .CreateHomeRealize_activity{
     height: 100%;
@@ -197,12 +194,6 @@
 #formInfo{
     height: 100%;
 }
-.sx_realize_option{
-    margin-top: 25px;
-    margin-bottom: 25px;
-    display: flex;
-    align-items: center;
-}
 #description{
     height: 50px;
     width: 600px;
@@ -210,17 +201,37 @@
 }
 
 /*REALIZE INFO*/
-.sx_realize_option > *:not(label), #ageSeparator, #ageEnd{
-    margin-left: 30px;
+.sx_realize_option, .sx_realize_option_description{
+    min-width: 700px;
+    display: flex;
+    align-items: center;
+    height: 80px;
+    padding-left: 40px;
 }
-.sx_realize_option > span{
-    margin-left: 40px;
+.sx_realize_option_age{
+    min-width: 700px;
+    height: 80px;
+    padding-left: 40px;
+    margin-top: 10px;
+}
+.sx_realize_option_description{
+    margin-top: 6px;
+    height: 130px;
+}
+#gender{
+    margin: 0px;
+}
+#accessibility{
+    margin-left: -16px;
 }
 #age{
-    display: flex;
+    margin-left: 6px;
 }
-#ageStart, #ageEnd {
-    width: 60px;
+#participantsType_group, #participantsType_differentGroup{
+    margin-left: 50px;
+}
+#ageSeparator{
+    margin-left: 50px;
 }
 #sumbit_formInfo{
     height: 30px;
@@ -250,9 +261,6 @@
     #dx_realize{
         width: 0%;
     }
-    #noPhone{
-        display: none;
-    }
 }
 @media only screen and (min-width: 930px) and (min-height: 600px)  {
     #phone{
@@ -265,14 +273,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid 2px yellow;
-}
-#noPhone{
-    height: 233px;
-    width: 233px;
-    padding: 5px;
-    padding-top: 85px;
-    text-align: center;
+    border: solid 1px grey;
 }
 #phone{
     justify-content: center;
@@ -502,7 +503,6 @@
     align-self: center;
     border: solid 1px purple;
 }
-
 
 
 /*BOHHHHHH*/

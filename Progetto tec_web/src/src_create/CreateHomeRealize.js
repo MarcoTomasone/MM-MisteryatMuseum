@@ -5,12 +5,35 @@ import CreateHomeRealize_player from "./CreateHomeRealize_player.js"
 import CreateHomeRealize_activity from "./CreateHomeRealize_activity.js"
 import CreateHomeRealize_firstLastActivity from "./CreateHomeRealize_firstLastActivity.js"
 
+const {Button, makeStyles} = window['MaterialUI']; //to load the component from the library
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+    button: {
+        backgroundColor: "grey",
+        color: "white",
+        borderRadius: 10,
+        minWidth: 110,
+        fontSize: 13,
+        lineHeight: 1,
+        boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
+        margin: theme.spacing(0.4),
+    },
+}));
+
 function CreateHomeRealize(props){
     /*window.addEventListener('beforeunload', function (e) {
         e.preventDefault(); 
         e.returnValue = ''; 
     });*/
-    
+
+    const classes = useStyles();
+
     if (props.user == "") props.setUser(localStorage.getItem(`user0`));    
     else {
         localStorage.setItem(`user0`, props.user);
@@ -33,20 +56,18 @@ function CreateHomeRealize(props){
             e("div", {id: "sx_realize", className: "sx_realize"}, [
                 e("div", {id: "sx_realize_top", className: "sx_realize_top"}, pageLoad),
                 e("div", {className: "sx_realize_bottom"}, [
-                    e("button", {onClick: () => {
-                        console.log(story);
-                    }}, "CLICK"),
-                    e("button", {onClick: () => {
+                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => console.log(story)}, "JSON"),
+                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         setPageLoad(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
                     }}, "INFO"),
-                    e("button", {onClick: () => {
+                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         //if(step[0] == true){
                             setPageLoad(e(CreateHomeRealize_player, {id: "CreateHomeRealize_player", className: "CreateHomeRealize_player", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
                         /*} else {
                             alert("Prima compila e conferma i campi di info generali")
                         }*/
                     }},"PLAYER"),
-                    e("button", {onClick: () => {
+                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         //if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {
                                 id: "CreateHomeRealize_firstActivity", 
@@ -64,7 +85,7 @@ function CreateHomeRealize(props){
                             alert("Prima compila e conferma i campi sullo stile del player")
                         }*/
                     }}, "ATTIVITA' INTRODUTTIVA"),
-                    e("button", {onClick: () => {
+                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         //if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {
                                 id: "CreateHomeRealize_firstActivity", 
@@ -82,25 +103,24 @@ function CreateHomeRealize(props){
                             alert("Prima compila e conferma i campi sullo stile del player")
                         }*/
                     }}, "ATTIVITA' CONCLUSIVA"),
-                    e("button", {onClick: () => {
+                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if (step[2] == true){
                             setPageLoad(e(CreateHomeRealize_activity, {id: "CreateHomeRealize_activity", className: "CreateHomeRealize_activity", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
                         } else {
                             alert("Crea almeno un'attività")
                         }
-                    }}, "CREA ATTIVITA' DI GIOCO"), 
-                    e("button", {onClick: () => {
+                    }}, "CREA ATTIVITA'"),
+                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         //if (step[1] == true){
                             seFirstLast("last");
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {id: "CreateHomeRealize_lastActivity", className: "CreateHomeRealize_firstLastActivity", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep, firstLast: firstLast}))
                         /*} else {
                             alert("Prima compila e conferma i campi sullo stile del player")
                         }*/
-                    }}, "MODIFICA ATTIVITA' DI GIOCO"),
-                ]),
+                    }}, "MODIFICA ATTIVITA'")
+                ])
             ]),
             e("div", {id: "dx_realize", className: "dx_realize"}, [
-                e("div", {id: "noPhone"}, "ALLARGA LA FINESTRA PER POTER VEDERE LE MODIFICHE IN TEMPO REALE "),
                 e("div", {id: "phone"}, [
                     e("div", {id: "phoneInternal"}, [
                         e("img", {id: "phoneImage"}),

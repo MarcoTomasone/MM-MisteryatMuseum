@@ -23,7 +23,6 @@ function Card(props){
         event.preventDefault();
         socket.emit("chatMessage", document.getElementById("msg").nodeValue());
         document.getElementById("msg").nodeValue("");
-
     }
 
     return(
@@ -75,10 +74,24 @@ function Card(props){
 
 function controlHome(props){
     var arrayOfPlayers = [];
-    const [arrayPlayers, setArrayPlayers] =  React.useState([]);
+    const {Paper, Slide} = MaterialUI;
 
+    const [arrayPlayers, setArrayPlayers] =  React.useState([]);
+    const [slide, setSlide] = React.useState(false);
+      
+    function handleClickOpen() {
+        document.getElementById("btn_slide").style.display = "none";
+        setSlide(true);
+    }
+      
+    function handleClose() {
+        setSlide(false);
+        document.getElementById("btn_slide").style.display = "block";
+    }
+
+    /*
     React.useEffect(() => {
-        axios.get(`https://api.github.com/search/repositories?q=user:its-hmny&sort=updated`)
+        axios.get(`https://api.github.com/search/repositories?q=user:lucajett99&sort=updated`)
             .then((response) => {
                 response.data.items.forEach((element) => {
                     arrayOfPlayers.push(e(Card, {
@@ -102,9 +115,20 @@ function controlHome(props){
                 })
             }).catch((error) => console.log(error));
     })
+    */
+    
 
+    for(let i=0; i<3; i++){
+        arrayOfPlayers.push(e(Card, null));
+    }
 
-    return e(React.Fragment, null, [e("div",null, arrayPlayers)]); 
+    return e(React.Fragment, null, [
+        e("div",null, arrayOfPlayers), //arrayPlayers
+        e("button", {id: "btn_slide", onClick: handleClickOpen, style: {with: "20px", height: "15px", float: "left"}}),
+        e("div", {id: "div_slide", style:{width:"50%", height: "100%", float: "right"}}, [
+            e(Slide, {id: "slide", style: {height: "100%", width: "100%"}, children: e(Paper, {style: {"background-color": "grey"}}, [e("button", {onClick: handleClose})] ), direction: "left", in: slide})
+        ])
+    ])
 }
 
 export default controlHome;

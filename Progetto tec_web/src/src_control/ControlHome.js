@@ -1,4 +1,16 @@
 const e = React.createElement;
+const {Slide, Paper, IconButton, Icon, TextField} = MaterialUI;
+
+/*
+function Inner(props){
+    return(
+        e(Paper, null, [
+        e("h1", null, "Immagine ricevuta da Mario: "),
+        e("img", {src: "../../img/avatar.png"})  
+        ])
+    )
+}
+*/
 
 function Card(props){
     const openForm = function(){
@@ -48,7 +60,9 @@ function Card(props){
                 ]),
                 e("div", {id: "evalutation"}, [
                     e("p",{className: "led_text"}, ["Human",e("br"),"Evaluation"]),
-                    e("span", {id: "led_evalutation"})
+                    e("span", {id: "led_evalutation", onClick: () =>{
+                        props.setSlide(true);
+                    }})
                 ]),
             ]),
             
@@ -74,13 +88,13 @@ function Card(props){
 
 function controlHome(props){
     var arrayOfPlayers = [];
-    const {Paper, Slide} = MaterialUI;
 
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
     const [slide, setSlide] = React.useState(false);
-      
+    
+    /*
     function handleClickOpen() {
-        document.getElementById("btn_slide").style.display = "none";
+        //document.getElementById("btn_slide").style.display = "none";
         setSlide(true);
     }
       
@@ -88,6 +102,7 @@ function controlHome(props){
         setSlide(false);
         document.getElementById("btn_slide").style.display = "block";
     }
+    */
 
     /*
     React.useEffect(() => {
@@ -118,16 +133,19 @@ function controlHome(props){
     */
     
 
-    for(let i=0; i<3; i++){
-        arrayOfPlayers.push(e(Card, null));
+    for(let i=0; i<30; i++){
+        arrayOfPlayers.push(e(Card, {slide: slide, setSlide: setSlide}));
     }
 
     return e(React.Fragment, null, [
         e("div",null, arrayOfPlayers), //arrayPlayers
-        e("button", {id: "btn_slide", onClick: handleClickOpen, style: {with: "20px", height: "15px", float: "left"}}),
-        e("div", {id: "div_slide", style:{width:"50%", height: "100%", float: "right"}}, [
-            e(Slide, {id: "slide", style: {height: "100%", width: "100%"}, children: e(Paper, {style: {"background-color": "grey"}}, [e("button", {onClick: handleClose})] ), direction: "left", in: slide})
-        ])
+       // e("div", {id: "div_slide"}, [
+            e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
+                e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
+                e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "1px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
+                e(TextField, {multiline: true, rows: "4", label: "Answer", defaultValue: "Default Value", variant: "outlined", margin: "dense", fullWidth: true})
+            ])})
+       // ])
     ])
 }
 

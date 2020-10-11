@@ -2,9 +2,17 @@
     50% { background-color: red; }
 }
 
-/*----------------------------------------*/
-
-/*----------------------------------------*/
+#slide{
+    border-radius: 0px;
+    background-color: rgba(191, 191, 191, 0.7);
+    position: fixed;
+    height: 100%;
+    width: 30%;
+    margin-left: 70%;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+   /* z-index: 1;*/
+}
 
 .control_home{
     width: 200px;
@@ -105,3 +113,4 @@
   border: 3px solid #f1f1f1;*/
   z-index: 9;
 }
+

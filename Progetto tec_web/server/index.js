@@ -50,6 +50,7 @@ app.get("/storiesFolder/:username", (req, res) => {
                 id: tmp.id,
                 title: tmp.title,
                 gender: tmp.gender,
+                objective: tmp.objective,
                 participantsType: tmp.participantsType,
                 accessibility: tmp.accessibility,
                 description: tmp.description,
@@ -181,6 +182,20 @@ app.delete("/deleteStory/:story", (req, res) => {
     res.end();
 })
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Creazione Socket per la chat
 var app2 = require('express')(); express
 var http = require('http').createServer(app2);
@@ -207,3 +222,4 @@ http.listen(port, function(){
 app.listen(8000, function () {
     console.log("Server listenig behind port 8000");
 });
+

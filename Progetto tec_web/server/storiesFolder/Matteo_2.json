@@ -1,10 +1,11 @@
 {
   "id": "Matteo_2.json",
   "user": "Matteo",
-  "published": false,
+  "published": true,
   "title": "T",
   "gender": "Azione",
   "description": "R",
+  "objective": "s1",
   "accessibility": {
     "value": "Si",
     "url": "../img/accessibility_1.png"

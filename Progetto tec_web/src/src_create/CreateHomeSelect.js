@@ -1,4 +1,32 @@
 const e = React.createElement;
+const {Button, makeStyles, Icon, Tooltip} = MaterialUI;
+
+const useStyles = makeStyles((theme) => ({
+    button: {
+        backgroundColor: "grey",
+        color: "white",
+        borderRadius: 10,
+        height: ("80%"),
+        width: ("100%"),
+        fontSize: 16,
+        lineHeight: 1,
+        boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
+        margin: theme.spacing(1),
+        ['@media (max-width:931px)']: { 
+            fontSize: 0,
+            height: 60,
+            width: 60,
+            borderRadius: ("50%"),
+            paddingRight: 28,
+        }
+    },
+    icon:{
+        ['@media (max-width:931px)']: { 
+            height: 20,
+            width: 50,
+        }
+    }
+}));
 
 var storySelected = "";
 
@@ -64,6 +92,7 @@ function Card(props){
     return e("div", {id: props.id, className: "card", onClick: press}, [
         e("div", {className: "card_title"}, props.title),
         e("div", {className: "card_gender"}, props.gender),
+        e("div", {className: "card_objective"}, props.objective),
         e("div", {className: "card_info"}, [
             e("div", {className: "card_participant"}, [
                 e("img", {className: "cardImg", src: props.participantsType})
@@ -78,7 +107,8 @@ function Card(props){
 
 
 function CreateHomeSelect(props){
-    const {Button} = MaterialUI;  
+    const classes = useStyles();
+
     const [arrayPrivateStories, setArrayPrivateStories] =  React.useState([]);
     var arrayOfStories = []
 
@@ -98,6 +128,7 @@ function CreateHomeSelect(props){
                         id: element.id,
                         title: element.title, 
                         gender: element.gender,
+                        objective: element.objective,
                         participantsType: element.participantsType.url,
                         accessibility: element.accessibility.url,
                         description: element.description,
@@ -123,12 +154,12 @@ function CreateHomeSelect(props){
         e("div", {className: "containerHome_privateSelect"}, [
             e("div", {className: "sx_privateSelect"}, arrayPrivateStories),
             e("div", {className: "dx_privateSelect"}, [
-                e(Button, {key: "bb0", className: "dx_privateSelect_button", variant: "contained", onClick: toCreate},"CREA STORIA" ),
-                e(Button, {key: "bb1", className: "dx_privateSelect_button", variant: "contained", onClick: toDuply},"DUPLICA STORIA" ),
-                e(Button, {key: "bb2", className: "dx_privateSelect_button", variant: "contained", onClick: toModify},"MODIFICA STORIA" ),
-                e(Button, {key: "bb3", className: "dx_privateSelect_button", variant: "contained", onClick: toPublish},"PUBBLICA STORIA" ),
-                e(Button, {key: "bb4", className: "dx_privateSelect_button", variant: "contained", onClick: toRetire},"RITIRA STORIA" ),
-                e(Button, {key: "bb5", className: "dx_privateSelect_button", variant: "contained", onClick: toDelete},"ELIMINA STORIA" )
+                e(Tooltip, {title: "CREA STORIA"}, e(Button, {key: "bb0", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "fiber_new", className: classes.icon}), onClick: toCreate},"CREA STORIA")),
+                e(Tooltip, {title: "DUPLICA STORIA"}, e(Button, {key: "bb1", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "file_copy", className: classes.icon}), onClick: toDuply},"DUPLICA STORIA")),
+                e(Tooltip, {title: "MODIFICA STORIA"}, e(Button, {key: "bb2", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "create", className: classes.icon}), onClick: toModify},"MODIFICA STORIA")),
+                e(Tooltip, {title: "PUBBLICA STORIA"}, e(Button, {key: "bb3", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "cloud_upload", className: classes.icon}), onClick: toPublish},"PUBBLICA STORIA")),
+                e(Tooltip, {title: "RITIRA STORIA"}, e(Button, {key: "bb4", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "cloud_download", className: classes.icon}), onClick: toRetire},"RITIRA STORIA")),
+                e(Tooltip, {title: "ELIMINA STORIA"}, e(Button, {key: "bb5", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "delete", className: classes.icon}), onClick: toDelete},"ELIMINA STORIA"))
             ])   
         ]) 
     ])

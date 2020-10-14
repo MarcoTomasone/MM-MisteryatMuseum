@@ -6,6 +6,8 @@
 html, body {
   height: 100%;
   width: 100%;
+  min-width: 600px;
+  overflow-x: scroll;
   padding: 0px;
   font-family: "helvetica", "arial", sans-serif;
   font-size: 18px;

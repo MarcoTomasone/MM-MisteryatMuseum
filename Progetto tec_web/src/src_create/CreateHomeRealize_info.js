@@ -1,5 +1,5 @@
 const e = React.createElement;
-const {Button, Radio, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, FormControlLabel, RadioGroup, withStyles, Slider, Typography} = window['MaterialUI']; //to load the component from the library
+const {Button, Icon, Radio, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, FormControlLabel, RadioGroup, withStyles, Slider, Typography} = window['MaterialUI']; //to load the component from the library
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
         borderRadius: 10,
         minWidth: 110,
-        fontSize: 14,
+        fontSize: 15,
         boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
         margin: theme.spacing(3),
     },
@@ -217,7 +217,7 @@ function CreateHomeRealize_info(props){
                 e("span", {id: "ageSeparator"}), 
                 e(TextField, {id: "ageEnd", className: classes.input, label: "Età massima consigliata:", type:"number", variant:"outlined", onChange: (e) => setAgeEnd(e.target.value)}),
             ]),*/
-            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", className: classes.button,onClick: createNewJsonFile}, "SALVA"),
+            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.button,onClick: createNewJsonFile}, "SALVA"),
         ])
     )
 }

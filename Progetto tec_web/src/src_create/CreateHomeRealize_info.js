@@ -75,8 +75,6 @@ function CreateHomeRealize_info(props){
     const [age, setAge] = React.useState([0, 100]);
 
 
-
-
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Inserisci le informazioni generali della tua storia";
         if (props.step[0] == true) {
@@ -87,9 +85,9 @@ function CreateHomeRealize_info(props){
             setaccessibility(props.story.accessibility.value);
             setParticipantsType(props.story.participantsType.value);
             setAge([props.story.ageStart, props.story.ageEnd]);
-
         }
     }, [])
+    
     
     function createNewJsonFile() {
         var c = true;

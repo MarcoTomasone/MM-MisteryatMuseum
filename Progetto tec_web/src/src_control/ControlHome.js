@@ -1,18 +1,77 @@
 const e = React.createElement;
-const {Slide, Paper, IconButton, Icon, TextField} = MaterialUI;
+const {makeStyles, Slide, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, Collapse} = MaterialUI;
 
-/*
-function Inner(props){
+function Element(props){
+    const useStyles_card = makeStyles((theme) => ({
+        root: {
+          maxWidth: "222px",
+          float: "left",
+          margin: "5px"
+        },
+    /*    media: {
+          height: 0,
+          paddingTop: '56.25%', // 16:9
+        },
+        expand: {
+          transform: 'rotate(0deg)',
+          marginLeft: 'auto',
+        },*/
+        avatar: {
+          backgroundColor: "red",
+        },
+      }));
+
+    const useStyles_grid = makeStyles((theme) => ({
+        root: {
+        flexGrow: 1,
+        },
+        paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.primary,
+        },
+     }));
+ 
+    const classes_card = useStyles_card();
+
+    const classes_grid = useStyles_grid();
+
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    }
+
     return(
-        e(Paper, null, [
-        e("h1", null, "Immagine ricevuta da Mario: "),
-        e("img", {src: "../../img/avatar.png"})  
-        ])
+        e(Card, {className: classes_card.root, raised: true, children: [
+            e(CardHeader, {avatar: e(Avatar, {children: "LG", className: classes_card.avatar}), action: e(IconButton, {children: e(Icon, {children: "more_vert"})}), title: "ID PLAYER", subheader: "Date or time"}),
+            e(CardContent, {className: classes_grid.root, children: [
+                e(Grid, {container: true, spacing: "2", children: [
+                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper, xs: "6"}, [ e("p", null, "Section "), e("p", null, "2") ])}),
+                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper, xs: "6"}, [ e("p", null, "Points "), e("p", null, "1540") ])}),
+                ]})
+            ]}),
+            e(CardActions, {disableSpacing: true, children: [
+                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: handleExpandClick}),
+                e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
+                e(IconButton, {children: e(Icon, {children: "insert_photo", color: "secondary"}), onClick: () =>{
+                    props.setSlide(true);
+                } })
+            ]}),
+            e(Collapse, {style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: true, children: [
+                e(CardContent, {children: [
+                    e("div",{id: "chat_div", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "2px solid black", "border-radius": "5px"}}), //div di arrivo delle risposte da valutare
+                    e("input", {type: "text", style: {border: "2px solid black", borderRadius: "5px", width: "80%", height: "20px", marginLeft: "2.5%", display: "inline"}}),
+                    e("button", {type: "submit", style: {width: "15%", height: "20px"}})
+                ]})
+            ]})
+        ]})
     )
 }
-*/
 
-function Card(props){
+/*
+function Cards(props){
+    
     const openForm = function(){
         document.getElementById(props.id).childNodes[0].style.height = "60%";
         document.getElementById(props.id).childNodes[1].style.height = "60%";
@@ -29,13 +88,7 @@ function Card(props){
         document.getElementById(props.id).childNodes[0].style.height = "86%";
         document.getElementById(props.id).style.height = "200px";
     }
-
-    const sendMessage = function(event){
-        var socket = io();
-        event.preventDefault();
-        socket.emit("chatMessage", document.getElementById("msg").nodeValue());
-        document.getElementById("msg").nodeValue("");
-    }
+    
 
     return(
         e("div",{id: props.id, className: "control_home"},[
@@ -67,22 +120,25 @@ function Card(props){
             ]),
             
             e("div", {id: "buttn"},[
-                e("button", {type: "button", className: "open-button", onClick: openForm}, "Chat")
+                e("button", {type: "button", className: "open-button", onClick: () =>{
+                    props.setSlide(true);
+                }}, "Chat")
             ]),
             e("div", {id: "chat_card", className: "bottom_div chat-popup", id: "myForm"},[
                 e("form", {action: "", className: "form-container"},[  //aggiungere l'url della parte server che manda il messaggio
                     e("h5", null, "Chat"),
                     e("ul", {id: "messages"}),
-                    e("script", {src: "/socket.io/socket.io.js"}),
                     e("textarea", {placeholder: "Type message..", name: "msg", required: "required"}),
-
-                    e("button", {type: "submit", className: "btn", onClick: sendMessage}, "Send"),
-                    e("button", {type: "button", className: "btn cancel", onClick: closeForm}, "Close")
+                
+                //    e("button", {type: "submit", className: "btn", onClick: sendMessage}, "Send"),
+                //    e("button", {type: "button", className: "btn cancel"}, "Close")
+                
                 ])
             ])
         ])
     )
 }
+*/
 
 
 
@@ -131,22 +187,21 @@ function controlHome(props){
             }).catch((error) => console.log(error));
     })
     */
-    
 
     for(let i=0; i<30; i++){
-        arrayOfPlayers.push(e(Card, {slide: slide, setSlide: setSlide}));
+        //arrayOfPlayers.push(e(Cards, {slide: slide, setSlide: setSlide}));
+        arrayOfPlayers.push(e(Element, {slide: slide, setSlide: setSlide}));
     }
 
     return e(React.Fragment, null, [
-        e("div",null, arrayOfPlayers), //arrayPlayers
-       // e("div", {id: "div_slide"}, [
-            e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
-                e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
-                e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "1px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
-                e(TextField, {multiline: true, rows: "4", label: "Answer", defaultValue: "Default Value", variant: "outlined", margin: "dense", fullWidth: true})
-            ])})
-       // ])
-    ])
+                e("div",null, arrayOfPlayers), //arrayPlayers
+                e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
+                    e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
+                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "2px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
+                    e(TextField, {style: {border: "2px solid black", borderRadius: "5px"}, multiline: true, rows: "4", variant: "outlined", margin: "dense", fullWidth: true})
+                ])})
+            ])
+
 }
 
 export default controlHome;

@@ -1,0 +1,63 @@
+{
+	"accessibility":{
+		"url":"",
+		"value":"false",
+		"activities":[],
+		"ageEnd":"81",
+		"ageStart":"15",
+		"description":"Short description",
+		"gender":"Storico",
+		"id":"",
+		"Objective":"titoloProva",
+		"partecipantsNumber":"0",
+		"partecipantsType":{
+			"url":"",
+			"value":"singlePlayer"
+		},
+		"player":{
+			"background":"cb1515",
+			"borderRadiusFrame":"0px",
+			
+			"chatButton":{
+				"backgroundColor":"#000000",
+				"borderColor":"#ffffff",
+				"borderRadius": "20px",
+				"height": "30px",
+				"left": "125px",
+				"textColor": "#ffffff",
+				"top": "30px",
+				"width": "60px"
+			},
+			
+			
+			"colorFrame":"#ffffff",
+			"fontFamily":"Arial, sans-serif",
+			"helpButton":{
+				"backgroundColor": "#000000",
+				"borderColor": "#ffffff",
+				"borderRadius": "20px",
+				"height": "30px",
+				"left": "15px",
+				"textColor": "#ffffff",
+				"top": "30px",
+				"width": "60px"
+			},
+			"image":{
+				"height": "437px",
+				"left": "0px",
+				"top": "0px",
+				"width": "202px"
+			},
+			"leftFrame": "15px",
+			"sizeFont": "14px",
+			"textColor": "#ffffff",
+			"thicknessFrame": "1px",
+			"topFrame": "80px",
+			"weightFont": "500",
+			"widthFrame": "170px"
+		},
+		"published": "false",
+		"title": "TitoloProva",
+		"user": "Username"
+	}
+}

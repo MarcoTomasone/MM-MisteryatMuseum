@@ -1,0 +1,73 @@
+h1{
+    align-items: center;
+    align-content:center ;
+    height: 85%;
+    min-height: 460px;
+    width: 100%;
+
+}
+
+
+div{
+    border-bottom: ridge;
+    border-top: ridge;
+    border-left: ridge;
+    border-right: ridge;
+    border-color:blue;
+}
+
+header{
+    height: 15%;
+    min-height: 50px;
+    width: auto;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px green;
+    font-size: large;
+    font-weight: 300;
+}
+
+
+nav{
+    display: flex;
+    flex-wrap: wrap;
+    align-self: center;
+    justify-content: space-around;
+    align-content: space-around;
+    border: solid 2px green;
+    align-self: auto;
+}
+
+.introduction{
+    align-content: center;
+    text-align: center;
+    border: solid 2px black;
+    padding-bottom: 40%;
+}
+
+.chatButton{
+    position: absolute;
+    background-color: black;
+    color: white;
+    border: solid 1px white;
+    height: 30px;
+    width: 60px;
+    top: 30px;
+    left: 125px;
+    border-radius: 20px;
+    text-align: center;
+}
+.nextButton{
+    position: absolute;
+    background-color: black;
+    color: white;
+    border: solid 1px white;
+    height: 30px;
+    width: 60px;
+    top: 30px;
+    left: 15px;
+    border-radius: 20px;
+    text-align: center;
+}

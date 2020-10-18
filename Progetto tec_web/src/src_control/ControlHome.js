@@ -1,6 +1,7 @@
 const e = React.createElement;
 const {makeStyles, Slide, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, Collapse} = MaterialUI;
 
+
 function Element(props){
     const useStyles_card = makeStyles((theme) => ({
         root: {
@@ -42,32 +43,166 @@ function Element(props){
         setExpanded(!expanded);
     }
 
+
+    const socket = io('http://localhost:3000')
+
+    socket.on('chat-message', data => {
+        appendMessage(`${data.name}: ${data.message}`)
+    })
+
+    const sendMessage = function (){
+        const messageInput = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] 
+        //const messageInput = document.getElementById('message-input').value
+
+        const message = messageInput.value
+        appendMessage(`You: ${message}`) //lato client
+        socket.emit('send-chat-message', {message: message, receiver: socket.id})  //lato server
+        messageInput.value = ''
+    }   
+
+    function appendMessage(message) {
+        const messageContainer = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
+        //const messageContainer = document.getElementById('message-container')
+
+        const messageElement = document.createElement('div')
+        messageElement.innerHTML = message
+        messageContainer.append(messageElement)
+    }
+
     return(
-        e(Card, {className: classes_card.root, raised: true, children: [
-            e(CardHeader, {avatar: e(Avatar, {children: "LG", className: classes_card.avatar}), action: e(IconButton, {children: e(Icon, {children: "more_vert"})}), title: "ID PLAYER", subheader: "Date or time"}),
+        e(Card, {className: classes_card.root, id: props.id, raised: true, children: [
+            e(CardHeader, {avatar: e(Avatar, {children: props.name, className: classes_card.avatar}), action: e(IconButton, {children: e(Icon, {children: "more_vert"})}), title: props.id, subheader: "Date or time"}),
             e(CardContent, {className: classes_grid.root, children: [
                 e(Grid, {container: true, spacing: "2", children: [
-                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper, xs: "6"}, [ e("p", null, "Section "), e("p", null, "2") ])}),
-                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper, xs: "6"}, [ e("p", null, "Points "), e("p", null, "1540") ])}),
+                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper, xs: "6"}, [ e("p", null, "Section "), e("p", null, props.section) ])}),
+                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper, xs: "6"}, [ e("p", null, "Points "), e("p", null, props.points) ])}),
                 ]})
             ]}),
             e(CardActions, {disableSpacing: true, children: [
-                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: handleExpandClick}),
-                e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
-                e(IconButton, {children: e(Icon, {children: "insert_photo", color: "secondary"}), onClick: () =>{
-                    props.setSlide(true);
-                } })
+                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: handleExpandClick}),//onClick: () =>{props.setSlide3(true);} 
+                e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}), //onClick: () =>{props.setSlide2(true);}
+                e(IconButton, {children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
             ]}),
             e(Collapse, {style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: true, children: [
                 e(CardContent, {children: [
-                    e("div",{id: "chat_div", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "2px solid black", "border-radius": "5px"}}), //div di arrivo delle risposte da valutare
-                    e("input", {type: "text", style: {border: "2px solid black", borderRadius: "5px", width: "80%", height: "20px", marginLeft: "2.5%", display: "inline"}}),
-                    e("button", {type: "submit", style: {width: "15%", height: "20px"}})
+                    e("div",{id: "message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "2px solid black", "border-radius": "5px"}}), //div di arrivo delle risposte da valutare
+                    e("form", {id: "send-container"}, [
+                        e("input", {type: "text", id: "message-input", style: {border: "2px solid black", borderRadius: "5px", width: "80%", height: "20px", marginLeft: "2.5%", display: "inline"}}),
+                        e("input", {type: "button", id: "send-button", onClick: sendMessage, value: "Send", style: {width: "15%", height: "20px"}})
+                    ])
                 ]})
             ]})
         ]})
     )
 }
+
+function controlHome(props){
+    var arrayOfPlayers = [];
+
+    const [arrayPlayers, setArrayPlayers] =  React.useState([]);
+    const [slide, setSlide] = React.useState(false);
+   /* const [slide2, setSlide2] = React.useState(false);
+    const [slide3, setSlide3] = React.useState(false);*/
+    
+    /*
+    React.useEffect(() => {
+        axios.get(`https://api.github.com/search/repositories?q=user:lucajett99&sort=updated`)
+            .then((response) => {
+                response.data.items.forEach((element) => {
+                    arrayOfPlayers.push(e(Element, {
+                        key: element.id, 
+                        id: element.id,
+                        name: element.name, 
+                        section: element.section, 
+                        points: element.points,
+                        help: element.help,
+                        humanE: element.humanE,
+                        other: response.data
+                    }))
+                })
+
+                setArrayPlayers(arrayOfPlayers);
+                return arrayOfPlayers;
+            })
+            .then((response) => {
+                response.forEach((element) => {
+                  //  if (element.help == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[0].childNodes[1].classList.add("need_help");
+                   // if (element.humanE == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[1].childNodes[1].classList.add("need_help");
+                })
+            }).catch((error) => console.log(error));
+    })*/
+
+    for(let i=0; i<30; i++){
+        //arrayOfPlayers.push(e(Cards, {slide: slide, setSlide: setSlide}));
+        arrayOfPlayers.push(e(Element, {id: "card"+i ,slide: slide, setSlide: setSlide})); //, slide2: slide2, setSlide2: setSlide2, setSlide3: setSlide3
+    }
+
+    return e(React.Fragment, null, [
+                e("div",null, arrayOfPlayers), //arrayPlayers
+                e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
+                    e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
+                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "2px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
+                    e(TextField, {style: {border: "2px solid black", borderRadius: "5px"}, multiline: true, rows: "4", variant: "outlined", margin: "dense", fullWidth: true})
+                ])}),/*
+                e(Slide, {in: slide2, direction: "right", id: "slide2", children: e(Paper, null, [
+                    e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide2(false)}}),
+                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "2px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
+                    e(TextField, {style: {border: "2px solid black", borderRadius: "5px"}, multiline: true, rows: "4", variant: "outlined", margin: "dense", fullWidth: true})
+                ])}),
+                e(Slide, {in: slide3, direction: "up", id: "slide3", children: e(Paper, null, [
+                    e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide3(false)}}),
+                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "2px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
+                    e(TextField, {style: {border: "2px solid black", borderRadius: "5px"}, multiline: true, rows: "4", variant: "outlined", margin: "dense", fullWidth: true})
+                ])}),*/
+            ])
+
+}
+
+export default controlHome;
+
+
+
+
+//in control home
+/*
+    function handleClickOpen() {
+        //document.getElementById("btn_slide").style.display = "none";
+        setSlide(true);
+    }
+      
+    function handleClose() {
+        setSlide(false);
+        document.getElementById("btn_slide").style.display = "block";
+    }
+    */
+
+   /* 
+    React.useEffect(() => {
+        axios.get(`https://api.github.com/search/repositories?q=user:lucajett99&sort=updated`)
+            .then((response) => {
+                response.data.items.forEach((element) => {
+                    arrayOfPlayers.push(e(Element, {
+                        key: element.id, 
+                        id: element.id,
+                        name: element.name, 
+                        section: element.section, 
+                        points: element.points,
+                        help: element.help,
+                        humanE: element.humanE,
+                        other: response.data
+                    }))
+                })
+
+                setArrayPlayers(arrayOfPlayers);
+                return arrayOfPlayers;
+            })
+            .then((response) => {
+                response.forEach((element) => {
+                  //  if (element.help == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[0].childNodes[1].classList.add("need_help");
+                   // if (element.humanE == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[1].childNodes[1].classList.add("need_help");
+                })
+            }).catch((error) => console.log(error));
+    })*/
 
 /*
 function Cards(props){
@@ -139,69 +274,3 @@ function Cards(props){
     )
 }
 */
-
-
-
-function controlHome(props){
-    var arrayOfPlayers = [];
-
-    const [arrayPlayers, setArrayPlayers] =  React.useState([]);
-    const [slide, setSlide] = React.useState(false);
-    
-    /*
-    function handleClickOpen() {
-        //document.getElementById("btn_slide").style.display = "none";
-        setSlide(true);
-    }
-      
-    function handleClose() {
-        setSlide(false);
-        document.getElementById("btn_slide").style.display = "block";
-    }
-    */
-
-    /*
-    React.useEffect(() => {
-        axios.get(`https://api.github.com/search/repositories?q=user:lucajett99&sort=updated`)
-            .then((response) => {
-                response.data.items.forEach((element) => {
-                    arrayOfPlayers.push(e(Card, {
-                        key: element.id, 
-                        id: element.id, 
-                        section: element.section, 
-                        points: element.points,
-                        help: element.chat,
-                        humanE: element.humanE,
-                        other: response.data
-                    }))
-                })
-
-                setArrayPlayers(arrayOfPlayers);
-                return arrayOfPlayers;
-            })
-            .then((response) => {
-                response.forEach((element) => {
-                    if (element.help == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[0].childNodes[1].classList.add("need_help");
-                    if (element.humanE == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[1].childNodes[1].classList.add("need_help");
-                })
-            }).catch((error) => console.log(error));
-    })
-    */
-
-    for(let i=0; i<30; i++){
-        //arrayOfPlayers.push(e(Cards, {slide: slide, setSlide: setSlide}));
-        arrayOfPlayers.push(e(Element, {slide: slide, setSlide: setSlide}));
-    }
-
-    return e(React.Fragment, null, [
-                e("div",null, arrayOfPlayers), //arrayPlayers
-                e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
-                    e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
-                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "2px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
-                    e(TextField, {style: {border: "2px solid black", borderRadius: "5px"}, multiline: true, rows: "4", variant: "outlined", margin: "dense", fullWidth: true})
-                ])})
-            ])
-
-}
-
-export default controlHome;

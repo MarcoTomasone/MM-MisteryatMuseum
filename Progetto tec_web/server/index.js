@@ -1,5 +1,5 @@
 const express = require("express");
-//const cors = require("cors");
+const cors = require("cors");
 const fs = require("fs");
 const bodyParser = require('body-parser');
 const { COPYFILE_EXCL } = fs.constants;
@@ -14,7 +14,7 @@ let dirBuf = Buffer.from(directory);
 
 var array = []
 
-//app.use(cors());
+app.use(cors());
 
 /*app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -182,6 +182,7 @@ app.delete("/deleteStory/:story", (req, res) => {
     res.end();
 })
 
+<<<<<<< Updated upstream
 
 
 
@@ -201,23 +202,17 @@ var app2 = require('express')(); express
 var http = require('http').createServer(app2);
 var io = require('socket.io')(http);
 var port = 3000;
+=======
+>>>>>>> Stashed changes
 
-app2.get('/', function(req, res){
-    res.sendFile("../index.html");
-    //res.send('<h1>HELLO</h1>');
-});
+//chat
+const io = require('socket.io')(3000)
 
-io.on('connection', function(socket){
-  socket.on('chatMessage', function(msg){
-    io.emit('chat message', msg);
-  });
-});
-
-//il server è in ascolto alla porta 3000
-http.listen(port, function(){
-  console.log('listening on *:' + port);
-});
-
+io.on('connection', socket => {
+  socket.on('send-chat-message', data => {
+    io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "EniGuidi"});
+  })
+})
 
 app.listen(8000, function () {
     console.log("Server listenig behind port 8000");

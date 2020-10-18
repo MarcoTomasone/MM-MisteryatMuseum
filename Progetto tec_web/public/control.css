@@ -4,7 +4,7 @@
 
 #slide{
     border-radius: 0px;
-    background-color: rgba(191, 191, 191, 0.93);
+    background-color: rgba(247, 244, 244, 0.9);
     position: fixed;
     height: 100%;
     width: 30%;
@@ -13,6 +13,34 @@
     border-top-left-radius: 15px;
    /* z-index: 1;*/
 }
+
+/*
+#slide2{
+    border-radius: 0px;
+    background-color: rgba(247, 244, 244, 0.9);
+    position: fixed;
+    height: 100%;
+    width: 30%;
+    margin-right: 70%;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+
+}
+*/
+
+/*
+#slide3{
+    border-radius: 0px;
+    background-color: rgba(247, 244, 244, 0.9);
+    position: fixed;
+    height: 100%;
+    width: 30%;
+    margin-right: 35%;
+    margin-left: 35%;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+}
+*/
 
 .control_home{
     width: 200px;

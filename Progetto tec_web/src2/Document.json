@@ -15,8 +15,8 @@
 			"value":"singlePlayer"
 		},
 		"player":{
-			"background":"cb1515",
-			"borderRadiusFrame":"0px",
+			"background":"0000ff",
+			"borderRadiusFrame":"1px",
 			
 			"chatButton":{
 				"backgroundColor":"#000000",

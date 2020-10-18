@@ -1,4 +1,5 @@
 const e = React.createElement;
+
 import App from './App2.js'
 
 ReactDOM.render(

@@ -2,7 +2,25 @@
 	"accessibility":{
 		"url":"",
 		"value":"false",
-		"activities":[],
+		"activities": [
+			{
+				"question" : "Quanto fa 2 + 2?",
+				"answer": ["5","6","7","4"],
+				"correct": 3
+
+			},
+			{
+				"question" : "Quanto fa 3 x 5?",
+				"answer": ["52","16","15","7"],
+				"correct": 2
+
+			},
+			{
+				"question":"Quanto vale pi greco?",
+				"answer": ["3.14..","1.12","2.12","3"],
+				"correct": 1
+			}
+		],
 		"ageEnd":"81",
 		"ageStart":"15",
 		"description":"Short description",
@@ -28,8 +46,6 @@
 				"top": "30px",
 				"width": "60px"
 			},
-			
-			
 			"colorFrame":"#ffffff",
 			"fontFamily":"Arial, sans-serif",
 			"helpButton":{

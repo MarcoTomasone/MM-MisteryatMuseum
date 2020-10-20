@@ -1,15 +1,15 @@
 
-
 const e = React.createElement;
-
-//import Activity from "./Activity.js";
 
 const HashRouter  = ReactRouterDOM.HashRouter ;
 const Switch = ReactRouterDOM.Switch;
 const Route = ReactRouterDOM.Route;
+const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
 
 
 function App2() {
+    const [counter,setCounter] = React.useState(0);
 
       function readJSON(file) {
         let request = new XMLHttpRequest();
@@ -21,17 +21,16 @@ function App2() {
 
     const temp = readJSON('./Document.json');
     const data = JSON.parse(temp);
-
    const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-    console.log(data.accessibility.player.thicknessFrame );
+    //console.log(data.accessibility.player.thicknessFrame );
 
     //nei campi style ricordati di sostituire 'px' inoltre da sistemare graficamente
     //tecnica substring()
 
     const player= {
         overflow:'hidden',
-        height:'600px',
-        width:'320px',
+        height:'667px',
+        width:'375px',
         backgroundColor: 'green'
        /* background: '' + '#' + data.accessibility.player.background + '',
 
@@ -100,14 +99,30 @@ function App2() {
             e("button", {id: "chatButton1",style:btnChat}, "CHAT"),
             e("button", {id: "helpButton1",style:btnHelp},/*component:() => e(Activity ,{data: data.accessibility}) },*/ "HELP"),
 
-           e("div", {key:"description",style:descr},exampleText),
-               e("button", {id: "nextButton1",style:btnChat/*,onClick:Activity*/}, "NEXT"),
+           e(Activity, {json:data,c:counter}),
+               e("button", {id: "nextButton1",style:btnChat,onClick:()=>setCounter(counter+1)}, "NEXT"),
            )])
     ]);
 
 }
 
 
+function Activity(props){
+    const divintro = {      //style della div contenente le activity
+        border:"solid",
+        borderColor:"black",
+        padding:"2px black"
+    }
+
+
+    //console.log(props.json.accessibility.title);
+    console.log(props.c);                           //counter della classe App
+
+
+   // console.log(counter);
+
+    return e("div",{key:"actDescription",style:divintro},exampleText);
+}
 
 export default App2;
 

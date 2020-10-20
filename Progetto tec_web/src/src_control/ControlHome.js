@@ -34,7 +34,6 @@ function Element(props){
      }));
  
     const classes_card = useStyles_card();
-
     const classes_grid = useStyles_grid();
 
     const [expanded, setExpanded] = React.useState(false);
@@ -43,17 +42,18 @@ function Element(props){
         setExpanded(!expanded);
     }
 
-
+    //chat
     const socket = io('http://localhost:3000')
 
+    //waiting event
     socket.on('chat-message', data => {
         appendMessage(`${data.name}: ${data.message}`)
     })
 
     const sendMessage = function (){
-        const messageInput = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0] 
+        const messageInput = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0]
         //const messageInput = document.getElementById('message-input').value
-
+        console.log(document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0])
         const message = messageInput.value
         appendMessage(`You: ${message}`) //lato client
         socket.emit('send-chat-message', {message: message, receiver: socket.id})  //lato server
@@ -85,10 +85,11 @@ function Element(props){
             ]}),
             e(Collapse, {style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: true, children: [
                 e(CardContent, {children: [
-                    e("div",{id: "message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "2px solid black", "border-radius": "5px"}}), //div di arrivo delle risposte da valutare
+                    e("div",{id: "message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "1px solid grey", borderRadius: "5px", overflow: "scroll", fontSize: "10pt"}}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
-                        e("input", {type: "text", id: "message-input", style: {border: "2px solid black", borderRadius: "5px", width: "80%", height: "20px", marginLeft: "2.5%", display: "inline"}}),
-                        e("input", {type: "button", id: "send-button", onClick: sendMessage, value: "Send", style: {width: "15%", height: "20px"}})
+                        e(TextField, {id: "message-input", variant: "outlined", margin: "dense", style: {width: "95%", marginLeft: "2.5%"}, InputProps: {endAdornment: 
+                            e(IconButton, {id: "send-button", onClick: sendMessage, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
+                        )
                     ])
                 ]})
             ]})
@@ -101,8 +102,7 @@ function controlHome(props){
 
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
     const [slide, setSlide] = React.useState(false);
-   /* const [slide2, setSlide2] = React.useState(false);
-    const [slide3, setSlide3] = React.useState(false);*/
+
     
     /*
     React.useEffect(() => {
@@ -132,28 +132,20 @@ function controlHome(props){
             }).catch((error) => console.log(error));
     })*/
 
-    for(let i=0; i<30; i++){
+    for(let i=0; i<25; i++){
         //arrayOfPlayers.push(e(Cards, {slide: slide, setSlide: setSlide}));
-        arrayOfPlayers.push(e(Element, {id: "card"+i ,slide: slide, setSlide: setSlide})); //, slide2: slide2, setSlide2: setSlide2, setSlide3: setSlide3
+        arrayOfPlayers.push(e(Element, {id: "Card"+i, name: "C"+i, slide: slide, setSlide: setSlide})); //, slide2: slide2, setSlide2: setSlide2, setSlide3: setSlide3
     }
 
     return e(React.Fragment, null, [
                 e("div",null, arrayOfPlayers), //arrayPlayers
                 e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
                     e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
-                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "2px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
-                    e(TextField, {style: {border: "2px solid black", borderRadius: "5px"}, multiline: true, rows: "4", variant: "outlined", margin: "dense", fullWidth: true})
-                ])}),/*
-                e(Slide, {in: slide2, direction: "right", id: "slide2", children: e(Paper, null, [
-                    e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide2(false)}}),
-                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "2px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
-                    e(TextField, {style: {border: "2px solid black", borderRadius: "5px"}, multiline: true, rows: "4", variant: "outlined", margin: "dense", fullWidth: true})
-                ])}),
-                e(Slide, {in: slide3, direction: "up", id: "slide3", children: e(Paper, null, [
-                    e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide3(false)}}),
-                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "2px solid black", "border-radius": "15px"}}), //div di arrivo delle risposte da valutare
-                    e(TextField, {style: {border: "2px solid black", borderRadius: "5px"}, multiline: true, rows: "4", variant: "outlined", margin: "dense", fullWidth: true})
-                ])}),*/
+                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+                    e(TextField, {variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                        e(IconButton, {children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
+                    ),
+            ])})
             ])
 
 }

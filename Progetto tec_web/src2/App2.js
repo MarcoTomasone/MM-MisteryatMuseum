@@ -11,6 +11,9 @@ const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 function App2() {
     const [counter,setCounter] = React.useState(0);
 
+    function inc(){
+        setCounter(counter+ 1);
+    }
       function readJSON(file) {
         let request = new XMLHttpRequest();
         request.open('GET', file, false);
@@ -42,7 +45,7 @@ function App2() {
     };
 
 
-    console.log(data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) );
+  //  console.log(data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) );
     const btnChat={
         backgroundColor:'red',
         borderRadius:'20px',
@@ -99,31 +102,76 @@ function App2() {
             e("button", {id: "chatButton1",style:btnChat}, "CHAT"),
             e("button", {id: "helpButton1",style:btnHelp},/*component:() => e(Activity ,{data: data.accessibility}) },*/ "HELP"),
 
-           e(Activity, {json:data,c:counter}),
-               e("button", {id: "nextButton1",style:btnChat,onClick:()=>setCounter(counter+1)}, "NEXT"),
+           e(Activity, {json:data,c:counter,btn : btnChat}),
+               e("button", {id: "nextButton1",style:btnChat,onClick:inc}, "NEXT"),
            )])
     ]);
 
 }
 
 
-function Activity(props){
+function Activity(props) {
     const divintro = {      //style della div contenente le activity
-        border:"solid",
-        borderColor:"black",
-        padding:"2px black"
+        border: "solid",
+        borderColor: "black",
+        padding: "2px black"
     }
 
 
     //console.log(props.json.accessibility.title);
-    console.log(props.c);                           //counter della classe App
+   // console.log(props.c);                           //counter della classe App
+
+    const askNav = {
+
+    }
+
+    // console.log(counter);
+    if (props.c <= 0) {
+        return e("div", {key: "actDescription", style: divintro}, exampleText);
+    } else {
+        //        document.getElementById("nextButton1").hidden;
+
+        let numberOfActivities = props.json.accessibility.activities.length;
+        let domanda = props.json.accessibility.activities[props.c - 1].question;
+        let answer = props.json.accessibility.activities[props.c - 1].answer;
+
+        const ListButtonAnswer = [];
 
 
-   // console.log(counter);
+            for (let i = 0; i < answer.length; i++) {       //Ogni Domanda puo avere n risposte diverse
+                ListButtonAnswer.push(e("button", null, answer[i]));
+            }
 
-    return e("div",{key:"actDescription",style:divintro},exampleText);
+        return e("div", {key: "actDescription"},
+            e("p", null, domanda),
+            e("div", {key: "buttonblock", style: askNav}, [
+                ListButtonAnswer
+            ]));
+
+
+        /*      NUMERO RISPOSTE FISSATO
+        return e("div", {key: "actDescription"},
+            e("p",null,domanda),
+            e("div", {key:"buttonblock",style:askNav},[
+                e("button", null, answer[0]),
+                e("button", null, answer[1]),
+                e("button", null, answer[2])
+            ]));
+  */
+
+
+    }
+
 }
-
+//0 3 ==> errore
+function check(activity , answer ,json){
+   if(answer === json[activity].correct){
+        console.log("Risposta Corretta");
+       }else{
+       //window.alert("Risposta Errata!");
+        console.log("Risposta Errata!");
+   }
+}
 export default App2;
 
 

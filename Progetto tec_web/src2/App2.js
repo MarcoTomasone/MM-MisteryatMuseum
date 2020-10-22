@@ -24,7 +24,6 @@ function App2() {
 
     const temp = readJSON('./Document.json');
     const data = JSON.parse(temp);
-   const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
     //console.log(data.accessibility.player.thicknessFrame );
 
     //nei campi style ricordati di sostituire 'px' inoltre da sistemare graficamente
@@ -111,10 +110,13 @@ function App2() {
 
 
 function Activity(props) {
-    const divintro = {      //style della div contenente le activity
+    const introBorder = {      //style della div contenente le activity
         border: "solid",
         borderColor: "black",
-        padding: "2px black"
+       // padding: "2px black"
+        width:"80%",
+        height:"55%",
+        marginBottom:"20%"
     }
 
 
@@ -122,12 +124,36 @@ function Activity(props) {
    // console.log(props.c);                           //counter della classe App
 
     const askNav = {
-
+        border: "solid",
+        borderColor: "red",
+        marginTop:"20%",
     }
 
+    const divActivity ={
+        height:"55%",
+        width:"80%",
+        border: "solid",
+        borderColor: "blue",
+        marginBottom:"20%",
+        //marginLeft:"5%",
+        //marginRight:"5%"
+    }
+
+    const buttProp = {
+        width:"30%",
+        height:"15%",
+        marginLeft: "10%",
+        marginRight: "10%"
+    }
     // console.log(counter);
-    if (props.c <= 0) {
-        return e("div", {key: "actDescription", style: divintro}, exampleText);
+    if (props.c <= 0 || props.c > props.json.accessibility.activities.length) {
+        let exampleText;
+        if (props.c > 0)
+            exampleText = "Fine Attivita";
+        else
+            exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+        return e("div", {key: "activitIntro", style: introBorder}, exampleText);
     } else {
         //        document.getElementById("nextButton1").hidden;
 
@@ -135,20 +161,32 @@ function Activity(props) {
         let domanda = props.json.accessibility.activities[props.c - 1].question;
         let answer = props.json.accessibility.activities[props.c - 1].answer;
 
-        const ListButtonAnswer = [];
+
+console.log("c = "+props.c);
+if(props.json.accessibility.activities[props.c - 1].type_answer === "button") {
+    const ListButtonAnswer = [];
+    for (let i = 0; i < answer.length; i++) {       //Ogni Domanda puo avere n risposte diverse
+        ListButtonAnswer.push(e("button", {
+            style: buttProp,
+            onClick: () => checkButton(props.c - 1, i, props.json.accessibility.activities)
+        }, answer[i]));
+    }
 
 
-            for (let i = 0; i < answer.length; i++) {       //Ogni Domanda puo avere n risposte diverse
-                ListButtonAnswer.push(e("button", null, answer[i]));
-            }
+    return e("div", {key: "actDescription", style: divActivity},
+        e("p", null, domanda),
+        e("div", {key: "buttonblock", style: askNav}, [
+            ListButtonAnswer
+        ]));
 
-        return e("div", {key: "actDescription"},
-            e("p", null, domanda),
-            e("div", {key: "buttonblock", style: askNav}, [
-                ListButtonAnswer
-            ]));
+}else {             //if(props.json.accessibility.activities[props.c].type === "text"){
+    return e("div", {key: "actDescription", style: divActivity},
+        e("p", null, domanda),
+        e("div", null, [
+            e("input",{type:"text"})
+        ]));
 
-
+}
         /*      NUMERO RISPOSTE FISSATO
         return e("div", {key: "actDescription"},
             e("p",null,domanda),
@@ -163,8 +201,10 @@ function Activity(props) {
     }
 
 }
+
+
 //0 3 ==> errore
-function check(activity , answer ,json){
+function checkButton(activity , answer ,json){
    if(answer === json[activity].correct){
         console.log("Risposta Corretta");
        }else{
@@ -172,6 +212,8 @@ function check(activity , answer ,json){
         console.log("Risposta Errata!");
    }
 }
+
+
 export default App2;
 
 

@@ -6,19 +6,26 @@
 			{
 				"question" : "Quanto fa 2 + 2?",
 				"answer": ["5","6","7","4"],
-				"correct": 3
-
+				"correct": 3,
+				"type_answer": "button"
 			},
 			{
 				"question" : "Quanto fa 3 x 5?",
 				"answer": ["52","16","15","7"],
-				"correct": 2
-
+				"correct": 2,
+				"type_answer": "button"
 			},
 			{
 				"question":"Quanto vale pi greco?",
 				"answer": ["3.14..","1.12","2.12","3"],
-				"correct": 1
+				"correct": 1,
+				"type_answer": "button"
+			},
+			{
+				"question":"Converti 5 in binario",
+				"answer":"101",
+				"type_answer": "text"
+
 			}
 		],
 		"ageEnd":"81",

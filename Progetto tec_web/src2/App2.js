@@ -13,6 +13,11 @@ function App2() {
 
     function inc(){
         setCounter(counter+ 1);
+
+        document.getElementById("btn0").style.backgroundColor="white";
+        document.getElementById("btn1").style.backgroundColor="white";
+        document.getElementById("btn2").style.backgroundColor="white";
+        document.getElementById("btn3").style.backgroundColor="white";
     }
       function readJSON(file) {
         let request = new XMLHttpRequest();
@@ -117,17 +122,13 @@ function Activity(props) {
         width:"80%",
         height:"55%",
         marginBottom:"20%"
-    }
-
-
-    //console.log(props.json.accessibility.title);
-   // console.log(props.c);                           //counter della classe App
+    };
 
     const askNav = {
         border: "solid",
         borderColor: "red",
         marginTop:"20%",
-    }
+    };
 
     const divActivity ={
         height:"55%",
@@ -137,67 +138,59 @@ function Activity(props) {
         marginBottom:"20%",
         //marginLeft:"5%",
         //marginRight:"5%"
-    }
+    };
 
     const buttProp = {
         width:"30%",
         height:"15%",
         marginLeft: "10%",
         marginRight: "10%"
-    }
-    // console.log(counter);
-    if (props.c <= 0 || props.c > props.json.accessibility.activities.length) {
-        let exampleText;
-        if (props.c > 0)
-            exampleText = "Fine Attivita";
-        else
-            exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+    };
 
-        return e("div", {key: "activitIntro", style: introBorder}, exampleText);
+    let intro = 0;
+    if (props.json.accessibility.activities[props.c ].type_ === "description" ){
+        if (props.c <= 0 || props.c > props.json.accessibility.activities.length)
+            intro++;
+        return e("div", {key: "activitIntro", style: introBorder}, props.json.accessibility.activities[props.c].question);
+
     } else {
-        //        document.getElementById("nextButton1").hidden;
 
-        let numberOfActivities = props.json.accessibility.activities.length;
-        let domanda = props.json.accessibility.activities[props.c - 1].question;
-        let answer = props.json.accessibility.activities[props.c - 1].answer;
+       let domanda = props.json.accessibility.activities[props.c].question;
+       let answer = props.json.accessibility.activities[props.c ].answer;
 
 
-console.log("c = "+props.c);
-if(props.json.accessibility.activities[props.c - 1].type_answer === "button") {
-    const ListButtonAnswer = [];
-    for (let i = 0; i < answer.length; i++) {       //Ogni Domanda puo avere n risposte diverse
-        ListButtonAnswer.push(e("button", {
-            style: buttProp,
-            onClick: () => checkButton(props.c - 1, i, props.json.accessibility.activities)
-        }, answer[i]));
-    }
+
+        if(props.json.accessibility.activities[props.c].type_ === "button") {
+            const ListButtonAnswer = [];
+            for (let i = 0; i < answer.length; i++) {       //Ogni Domanda puo avere n risposte diverse
+                ListButtonAnswer.push(e("button", {
+                    style: buttProp,
+                    id:"btn"+i,
+                    onClick: () => checkButton(props.c - intro , i, props.json.accessibility.activities)
+                }, answer[i]));
+            }
 
 
-    return e("div", {key: "actDescription", style: divActivity},
-        e("p", null, domanda),
-        e("div", {key: "buttonblock", style: askNav}, [
-            ListButtonAnswer
-        ]));
+            return e("div", {key: "actDescription", style: divActivity},
+                e("p", null, domanda),
+                e("div", {
+                    key: "buttonblock",
+                    style: askNav }, [
+                    ListButtonAnswer
+                ]));
 
-}else {             //if(props.json.accessibility.activities[props.c].type === "text"){
-    return e("div", {key: "actDescription", style: divActivity},
-        e("p", null, domanda),
-        e("div", null, [
-            e("input",{type:"text"})
-        ]));
+        }else {             //if(props.json.accessibility.activities[props.c].type === "text"){
+            return e("div", {key: "actDescription", style: divActivity},
+                e("p", null, domanda),
+                e("div", null, [
+                    e("input",{
+                        type:"text",
+                        id:"textAnswer",
+                        onClick: () => checkButton(props.c - intro , -1, props.json.accessibility.activities)
+                    })
+                ]));
 
-}
-        /*      NUMERO RISPOSTE FISSATO
-        return e("div", {key: "actDescription"},
-            e("p",null,domanda),
-            e("div", {key:"buttonblock",style:askNav},[
-                e("button", null, answer[0]),
-                e("button", null, answer[1]),
-                e("button", null, answer[2])
-            ]));
-  */
-
-
+        }
     }
 
 }
@@ -205,11 +198,22 @@ if(props.json.accessibility.activities[props.c - 1].type_answer === "button") {
 
 //0 3 ==> errore
 function checkButton(activity , answer ,json){
-   if(answer === json[activity].correct){
+
+
+    if(answer === -1){
+
+        if(document.getElementById("textAnswer").value  === json[activity].correct){
+            console.log("Risposta Corretta!");
+        }else{
+            console.log("Risposta Errata!");
+        }
+    }else if(answer === json[activity].correct){
+
         console.log("Risposta Corretta");
+        document.getElementById("btn"+answer).style.backgroundColor = "green";
        }else{
-       //window.alert("Risposta Errata!");
-        console.log("Risposta Errata!");
+        console.log("Risposta Errata");
+       document.getElementById("btn"+answer).style.backgroundColor = "red";
    }
 }
 

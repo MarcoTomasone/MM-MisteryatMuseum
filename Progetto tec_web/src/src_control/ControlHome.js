@@ -47,7 +47,7 @@ function Element(props){
 
     //waiting event
     socket.on('chat-message', data => {
-        appendMessage(`${data.name}: ${data.message}`)
+        appendMessage(`<b>${data.name}</b>: ${data.message}`)
     })
 
     const sendMessage = function (){
@@ -55,7 +55,7 @@ function Element(props){
         //const messageInput = document.getElementById('message-input').value
         console.log(document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0])
         const message = messageInput.value
-        appendMessage(`You: ${message}`) //lato client
+        appendMessage(`<b>You</b>: ${message}`) //lato client
         socket.emit('send-chat-message', {message: message, receiver: socket.id})  //lato server
         messageInput.value = ''
     }   

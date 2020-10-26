@@ -25,7 +25,7 @@
 			{
 				"question":"Quanto vale pi greco?",
 				"answer": ["3.14..","1.12","2.12","3"],
-				"correct": 0,
+				"correct": 0	,
 				"type_": "button"
 			},
 			{
@@ -52,23 +52,23 @@
 			"value":"singlePlayer"
 		},
 		"player":{
-			"background":"0000ff",
+			"background":"#0000ff",
 			"borderRadiusFrame":"1px",
 			
 			"chatButton":{
-				"backgroundColor":"#000000",
+				"backgroundColor":"#ff0000",
 				"borderColor":"#ffffff",
 				"borderRadius": "20px",
 				"height": "30px",
 				"left": "125px",
-				"textColor": "#ffffff",
+				"textColor": "#ff00ff",
 				"top": "30px",
 				"width": "60px"
 			},
 			"colorFrame":"#ffffff",
 			"fontFamily":"Arial, sans-serif",
 			"helpButton":{
-				"backgroundColor": "#000000",
+				"backgroundColor": "#fff000",
 				"borderColor": "#ffffff",
 				"borderRadius": "20px",
 				"height": "30px",

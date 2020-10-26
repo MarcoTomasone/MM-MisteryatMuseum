@@ -29,85 +29,109 @@ function App2() {
 
     const temp = readJSON('./Document.json');
     const data = JSON.parse(temp);
-    //console.log(data.accessibility.player.thicknessFrame );
+
 
     //nei campi style ricordati di sostituire 'px' inoltre da sistemare graficamente
     //tecnica substring()
 
     const player= {
-        overflow:'hidden',
+
         height:'667px',
         width:'375px',
-        backgroundColor: 'green'
-       /* background: '' + '#' + data.accessibility.player.background + '',
 
-        thicknessFrame: '' +  data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) + '',
-        topFrame: '' + data.accessibility.player.topFrame + '',
-        weightFont: '' + data.accessibility.player.weightFont + '',
-        widthFrame: '' + data.accessibility.player.widthFrame + ''
-    */
+        backgroundColor: data.accessibility.player.background,
+        borderRadiusFrame:data.accessibility.player.borderRadiusFrame
+        //thicknessFrame: '' +  data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) + '',
+        //topFrame: '' + data.accessibility.player.topFrame + '',
+        //weightFont: '' + data.accessibility.player.weightFont + '',
+        //widthFrame: '' + data.accessibility.player.widthFrame + ''
+
     };
 
-
+    //function proportion(words )
   //  console.log(data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) );
     const btnChat={
-        backgroundColor:'red',
-        borderRadius:'20px',
-        textAlign:'center',
-        width:'30%',
-        height:'7%'
-     /*   backgroundColor:''+data.accessibility.player.chatButton.backgroundColor+'',
-        borderColor:''+data.accessibility.player.chatButton.borderColor+'',
+      //  backgroundColor:'red',
+     //   borderRadius:'20px',
+       // textAlign:'center',
+      // width:'30%',
+        //height:'7%',
+
+
+
+        backgroundColor:''+data.accessibility.player.chatButton.backgroundColor+'',
+          borderColor:''+data.accessibility.player.chatButton.borderColor+'',
         borderRadius:''+data.accessibility.player.chatButton.borderRadius+'',
-        height:''+data.accessibility.player.chatButton.height+'',
-        left:''+data.accessibility.player.chatButton.left+'',
+
+        height:proportion(data.accessibility.player.chatButton.height,1)+"%",
+        left:proportion(data.accessibility.player.chatButton.left,0)+"%",
+
         textColor: ''+data.accessibility.player.chatButton.textColor+'',
-        top:''+data.accessibility.player.chatButton.top+'',
-        width:''+data.accessibility.player.chatButton.width+'',
-        position:'relative'
-    */
+        top:proportion(data.accessibility.player.chatButton.top,1)+"%",
+        width:proportion(data.accessibility.player.chatButton.width,0)+"%",
+
     };
 
+    function proportion(words , bh ){       //bool height /in {0,1}     Altezza -> 1
+        let height = 667;
+        let width = 375;
+
+        let _height = 437;
+        let _width = 202;
+
+        let bw = 1 - bh;
+
+        let parziale = (words.substring(0, words.length - 2) * (height*bh + width*bw ))/ (_height*bh+_width*bw);
+        let percentage = parziale * 100 /(height*bh + bw * width);
+
+        console.log(percentage);
+        return percentage
+    }
+
+
+    const btnNext={
+
+
+
+            backgroundColor:'red',
+            borderRadius:'20px',
+            textAlign:'center',
+            width:'30%',
+            height:'7%',
+    }
+
     const btnHelp={
-        width:'30%',
+/*        width:'30%',
         height:'7%',
         backgroundColor:'red',
         borderRadius:'20px',
         textAlign:'center',
+*/
 
-        /*       backgroundColor:''+data.accessibility.player.helpButton.backgroundColor+'',
-               borderColor:''+data.accessibility.player.helpButton.borderColor+'',
-               borderRadius:''+data.accessibility.player.helpButton.borderRadius+'',
-               height:''+data.accessibility.player.helpButton.height+'',
-               right:''+data.accessibility.player.helpButton.left+'',
-               textColor: ''+data.accessibility.player.helpButton.textColor+'',
-               top:''+data.accessibility.player.helpButton.top+'',
-               width:''+data.accessibility.player.helpButton.width+'',
-               position:'relative'
-          */
-    };
+        backgroundColor:''+data.accessibility.player.helpButton.backgroundColor+'',
+        borderColor:''+data.accessibility.player.helpButton.borderColor+'',
+        borderRadius:''+data.accessibility.player.helpButton.borderRadius+'',
 
-    const descr={
+        height:proportion(data.accessibility.player.helpButton.height,1)+"%",
+        left:proportion(data.accessibility.player.helpButton.left,0)+"%",
 
-       // colorFrame:''+data.accessibility.player.colorFrame+'',
-      //  fontFamily:''+data.accessibility.player.fontFamily+''
+        textColor: ''+data.accessibility.player.helpButton.textColor+'',
+        top:proportion(data.accessibility.player.helpButton.top,1)+"%",
+        width:proportion(data.accessibility.player.helpButton.width,0)+"%",
+
+
     };
 
 
-    const navbar ={
-        //padding:'5px',
-       // height:'90%',
-
-    };
     return e(React.Fragment, null, [
 
        e("div", {key:"player",style:player}, [
-           e("nav",{style:navbar},
+           e("nav",{key:"navPlayer"},
             e("button", {id: "chatButton1",style:btnChat}, "CHAT"),
-            e("button", {id: "helpButton1",style:btnHelp},/*component:() => e(Activity ,{data: data.accessibility}) },*/ "HELP"),
+            e("button", {id: "helpButton1",style:btnHelp}, "HELP"),
 
            e(Activity, {json:data,c:counter,btn : btnChat}),
-               e("button", {id: "nextButton1",style:btnChat,onClick:inc}, "NEXT"),
+               e("button", {id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"),
            )])
     ]);
 

@@ -6,6 +6,7 @@ import CreateHomeRealize_activity from "./CreateHomeRealize_activity.js"
 import CreateHomeRealize_firstLastActivity from "./CreateHomeRealize_firstLastActivity.js"
 
 const {Button, makeStyles} = window['MaterialUI']; //to load the component from the library
+
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -26,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const text1 = "Inserisci un testo introduttivo alla tua storia, per far immergere al meglio il giocatore"
+const text2 = "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore ed eventualmente lasciargli un ultimo messaggio"
+
+
 function CreateHomeRealize(props){
     /*window.addEventListener('beforeunload', function (e) {
         e.preventDefault(); 
@@ -45,7 +50,13 @@ function CreateHomeRealize(props){
     const [firstActivity, setFirstActivity] =  React.useState(false);
     const [lastActivity, setLastActivity] =  React.useState(false);
     const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}));
+    const [x, setX] =  React.useState(true);
 
+    function blinkHelpButton(){
+            if (x==true) document.getElementById("helpButton").classList.add("blinkHelpButton")
+            else document.getElementById("helpButton").classList.remove("blinkHelpButton")
+            setX((prev) => !prev)
+    }
 
     return e("div", {className: "containerHome"}, [
         e("div", {className:"containerHome_userSelected"}, [
@@ -79,7 +90,8 @@ function CreateHomeRealize(props){
                                 setStep: setStep, 
                                 firstLast: 0,
                                 activity: firstActivity,
-                                setActivity: setFirstActivity
+                                setActivity: setFirstActivity,
+                                text: text1
                             }))
                         /*} else {
                             alert("Prima compila e conferma i campi sullo stile del player")
@@ -97,7 +109,8 @@ function CreateHomeRealize(props){
                                 setStep: setStep, 
                                 firstLast: story.activities.length,
                                 activity: lastActivity,
-                                setActivity: setLastActivity
+                                setActivity: setLastActivity,
+                                text: text2
                             }))
                         /*} else {
                             alert("Prima compila e conferma i campi sullo stile del player")
@@ -125,7 +138,7 @@ function CreateHomeRealize(props){
                     e("div", {id: "phoneInternal"}, [
                         e("img", {id: "phoneImage"}),
                         e("button", {id: "chatButton"}, "CHAT"),
-                        e("button", {id: "helpButton"}, "HELP"),
+                        e("button", {id: "helpButton", onClick: blinkHelpButton}, "HELP"),
                         e("div", {id: "phoneText"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries...")
                     ])
                 ])

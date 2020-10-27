@@ -166,10 +166,11 @@
 .CreateHomeRealize_player{
     overflow: scroll;
 }
-.CreateHomeRealize_player p{
+.CreateHomeRealize_player p, .CreateHomeRealize_firstLastActivity > p{
     margin-top: 20px;
     text-align: center;
 }
+
 #arrayActivities{  /*barra con elenco delle storie*/
     height: 50px;
     width: 700px;
@@ -234,7 +235,7 @@
     margin-top: 25px;
     margin-bottom: 25px;
 }
-.sx_realize_option_player *:not(label){
+.sx_realize_option_player label {
     margin-left: 30px;
 }
 
@@ -306,18 +307,24 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
-#phoneText{
+#phoneText, #phoneTextBackground{
     position: absolute;
     top: 80px;
     left: 15px;
     height: 200px;
     width: 170px;
+}
+#phoneText{
     color: white;
     text-align: center;
     font-family: Arial, sans-serif;
     font-size: 14px;
     font-weight: 500;
-    word-wrap: break-word;
+    white-space: -moz-pre-wrap; /* Firefox */
+    white-space: -pre-wrap; /* ancient Opera */
+    white-space: -o-pre-wrap; /* newer Opera */
+    white-space: pre-wrap; /* Chrome; W3C standard */
+    word-wrap: break-word; /* IE */
     overflow: hidden;
     border: solid 1px white;
 }
@@ -347,9 +354,16 @@
 }
 
 
+.blinkHelpButton{
+    color: black !important;
+    animation: mymove 0.4s;
+    animation-iteration-count: infinite;
+}
 
-
-
+@keyframes mymove {
+    from {background-color: yellow}
+    to {background-color: white}
+}
 
 /*------------------------------------------------------------------------------------------------------*/
 /*SELECT PARTE PUBBLICA*/

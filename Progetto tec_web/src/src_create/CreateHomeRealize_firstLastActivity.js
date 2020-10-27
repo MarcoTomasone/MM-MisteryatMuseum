@@ -1,6 +1,33 @@
 const e = React.createElement;
+const {TextField, makeStyles, Button, Icon} = window['MaterialUI']; //to load the component from the library
+
 
 function CreateHomeRealize_firstLastActivity(props){
+
+    const useStyles = makeStyles((theme) => ({
+        input: {
+            width: 233,
+            [`& fieldset`]: {
+                borderRadius: 15,
+            }
+        },
+        input2: {
+            [`& fieldset`]: {
+                borderRadius: 15,
+            }
+        },
+        saveButton: {
+            backgroundColor: "grey",
+            color: "white",
+            borderRadius: 10,
+            minWidth: 110,
+            fontSize: 15,
+            boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
+            marginTop: 50,
+        }
+    }));
+
+    const classes = useStyles();
 
 
     React.useEffect(() => {
@@ -33,19 +60,17 @@ function CreateHomeRealize_firstLastActivity(props){
     }
 
     return(
-        e("form", {id: props.id, className: props.className, onSubmit: createActivity}, [
+        e("form", {id: props.id, className: props.className}, [
             e("p", null, "CORNICE TESTO"),
-            e("div", {className: "sx_realize_option_player"}, [
-                e("label", {htmlFor: "heightFrame"}, "Altezza:"),
-                e("input", {id: "heightFrame", type: "number"})
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {inputProps: {min: 5}, id: "heightFrame", className: classes.input, label: "Altezza", type:"number", variant:"outlined"})
             ]),
             e("hr", null),
             e("p", null, "TESTO"),
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor: "activityText"}, "Testo attività:"),
-                e("textarea", {id: "activityText"})
+            e("div", {className: "sx_realize_option_description"}, [
+                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, label: "Testo prima storia", type:"search", variant:"outlined"})
             ]),
-            e("input", {id: "sumbit_formFirstLastActivity", type: "submit", value: "SALVA"}),
+            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    
     )
 

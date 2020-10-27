@@ -3,16 +3,16 @@ const {Button, Icon, Radio, Select, MenuItem, Switch, TextField, InputLabel, mak
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-      [`& fieldset`]: {
-        borderRadius: 50,
-    }
+        margin: theme.spacing(1),
+        width: 233,
+        [`& fieldset`]: {
+            borderRadius: 15,
+        }
     },
     selectEmpty: {
       marginTop: theme.spacing(2),
     },
-    button: {
+    saveButton: {
         backgroundColor: "grey",
         color: "white",
         borderRadius: 10,
@@ -51,12 +51,15 @@ const marks = [
 const SwitchButton = withStyles({
     switchBase: {
       color: "red",
+      '&$track': {
+        color: "red",
+      },
       '&$checked': {
         color: "green",
       },
       '&$checked + $track': {
         backgroundColor: "green",
-      },
+      }
     },
     checked: {},
     track: {},
@@ -91,9 +94,9 @@ function CreateHomeRealize_info(props){
     
     function createNewJsonFile() {
         var c = true;
-        var allFields = [title, gender, objective, description]
+        var allFields = ["title", "gender", "objective", "description"]
         allFields.forEach((element) => {
-            if (element == "") c = false;
+            if (document.getElementById(element).value == "") c = false;
         })
         var file = {
             id: "",
@@ -116,13 +119,14 @@ function CreateHomeRealize_info(props){
             ageEnd: age[1],
             player: {
                 background: "#000000",
-                colorFrame: "#ffffff",
+                frameColor: "#ffffff",
                 topFrame: "80px",
                 leftFrame: "15px",
-                thicknessFrame: "1px",
                 widthFrame: "170px",
+                weightFrame: "1px",
                 borderRadiusFrame: "0px",
                 textColor: "#ffffff",
+                textBackgroundColor: "#000000",
                 fontFamily: "Arial, sans-serif",
                 sizeFont: "14px",
                 weightFont: 500,
@@ -134,7 +138,7 @@ function CreateHomeRealize_info(props){
                 },
                 chatButton: {
                     backgroundColor: "#000000",
-                    borderColor: "#ffffff",
+                    frameColor: "#ffffff",
                     textColor: "#ffffff",
                     height: "30px",
                     width: "60px",
@@ -144,7 +148,7 @@ function CreateHomeRealize_info(props){
                 },
                 helpButton: {
                     backgroundColor: "#000000",
-                    borderColor: "#ffffff",
+                    frameColor: "#ffffff",
                     textColor: "#ffffff",
                     height: "30px",
                     width: "60px",
@@ -185,13 +189,12 @@ function CreateHomeRealize_info(props){
                         e(MenuItem, {value: "Western"}, "Western"),
                     ])
                 ])
-
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "objective", className: classes.input, label: "Obbiettivo didattico:", type:"search", variant:"outlined", onChange: (e) => setObjective(e.target.value)})
+                e(TextField, {id: "objective", className: classes.input, label: "Obbiettivo didattico", type:"search", variant:"outlined", onChange: (e) => setObjective(e.target.value)})
             ]),
             e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "description", className: classes.input, multiline: true, rows: 2, inputProps: {maxLength: 140}, helperText: "Massimo 140 caratteri", label: "Breve descrizione:", type:"search", variant:"outlined", onChange: (e) => setDescription(e.target.value)})
+                e(TextField, {id: "description", className: classes.input, multiline: true, rows: 2, inputProps: {maxLength: 140}, helperText: "Massimo 140 caratteri", label: "Breve descrizione", type:"search", variant:"outlined", onChange: (e) => setDescription(e.target.value)})
             ]),
             e("div", {className: "sx_realize_option"}, [
                 e(FormControl, {id: "accessibility", variant: "outlined", className: classes.formControl}, [
@@ -209,15 +212,7 @@ function CreateHomeRealize_info(props){
                 e(Typography, {htmlFor:"age", gutterBottom: true}, "Range età consigliata (anni)"),
                 e(Slider, {id: "age", className: classes.age, value: age, onChange: (event, newEvent) => setAge(newEvent), valueLabelDisplay: "auto", color: "default", marks: marks})
             ]),
-            /*
-            const [ageStart, setSeStart] = React.useState("");
-            const [ageEnd, setAgeEnd] = React.useState("");
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "ageStart", className: classes.input, label: "Età minima consigliata:", type:"number", variant:"outlined", onChange: (e) => setSeStart(e.target.value)}),
-                e("span", {id: "ageSeparator"}), 
-                e(TextField, {id: "ageEnd", className: classes.input, label: "Età massima consigliata:", type:"number", variant:"outlined", onChange: (e) => setAgeEnd(e.target.value)}),
-            ]),*/
-            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.button,onClick: createNewJsonFile}, "SALVA"),
+            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createNewJsonFile}, "SALVA"),
         ])
     )
 }
@@ -333,10 +328,10 @@ function CreateHomeRealize_info(props){
             ageEnd: document.getElementById("ageEnd").value,
             player: {
                 background: "#000000",
-                colorFrame: "#ffffff",
+                frameColor: "#ffffff",
                 topFrame: "80px",
                 leftFrame: "15px",
-                thicknessFrame: "1px",
+                weightFrame: "1px",
                 widthFrame: "170px",
                 borderRadiusFrame: "0px",
                 textColor: "#ffffff",
@@ -351,7 +346,7 @@ function CreateHomeRealize_info(props){
                 },
                 chatButton: {
                     backgroundColor: "#000000",
-                    borderColor: "#ffffff",
+                    frameColor: "#ffffff",
                     textColor: "#ffffff",
                     height: "30px",
                     width: "60px",
@@ -361,7 +356,7 @@ function CreateHomeRealize_info(props){
                 },
                 helpButton: {
                     backgroundColor: "#000000",
-                    borderColor: "#ffffff",
+                    frameColor: "#ffffff",
                     textColor: "#ffffff",
                     height: "30px",
                     width: "60px",

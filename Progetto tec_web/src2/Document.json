@@ -83,13 +83,18 @@
 				"top": "0px",
 				"width": "202px"
 			},
-			"leftFrame": "15px",
-			"sizeFont": "14px",
+			"sizeFont": 14,
 			"textColor": "#ffffff",
-			"thicknessFrame": "1px",
-			"topFrame": "80px",
+			"thicknessFrame": "10px",
 			"weightFont": "500",
-			"widthFrame": "170px"
+
+
+			"topFrame": 230,
+			"leftFrame": 15,
+			"widthFrame": 170,
+			"heightFrame": 150,
+			"frameColor": "#ffff00",
+			"weightFrame": "10px"
 		},
 		"published": "false",
 		"title": "TitoloProva",

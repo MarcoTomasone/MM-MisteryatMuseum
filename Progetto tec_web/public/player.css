@@ -114,7 +114,7 @@ nav{
 }
 */
 
-player1{
+/*player1{
     width: 100%;
 
 }
@@ -144,4 +144,42 @@ phoneText1{
             borderColor: #ffffff;
             borderRadius: 20px;
             textColor: #ffffff;
+}*/
+
+* {
+    box-sizing: border-box;
+    margin: 0px;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    scroll-behavior: smooth;
+  }::-webkit-scrollbar {
+    display: none;
+    width: 0px; 
+    height: 0px;
+  }
+
+#player{
+    height: 100vh;
+    width: 100vw;
+}
+
+#navPlayer{
+    position: relative;
+}
+
+#activitIntro{
+    position: absolute;
+    overflow: scroll;
+    white-space: -moz-pre-wrap; /* Firefox */
+    white-space: -pre-wrap; /* ancient Opera */
+    white-space: -o-pre-wrap; /* newer Opera */
+    white-space: pre-wrap; /* Chrome; W3C standard */
+}
+
+#chatButton{
+    position: absolute;
 }

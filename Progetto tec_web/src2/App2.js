@@ -19,7 +19,7 @@ function App2() {
         document.getElementById("btn2").style.backgroundColor="white";
         document.getElementById("btn3").style.backgroundColor="white";
     }
-      function readJSON(file) {
+    function readJSON(file) {
         let request = new XMLHttpRequest();
         request.open('GET', file, false);
         request.send(null);
@@ -35,9 +35,6 @@ function App2() {
     //tecnica substring()
 
     const player= {
-
-        height:'667px',
-        width:'375px',
 
         backgroundColor: data.accessibility.player.background,
         borderRadiusFrame:data.accessibility.player.borderRadiusFrame
@@ -60,7 +57,7 @@ function App2() {
 
 
         backgroundColor:''+data.accessibility.player.chatButton.backgroundColor+'',
-          borderColor:''+data.accessibility.player.chatButton.borderColor+'',
+        borderColor:''+data.accessibility.player.chatButton.borderColor+'',
         borderRadius:''+data.accessibility.player.chatButton.borderRadius+'',
 
         height:proportion(data.accessibility.player.chatButton.height,1)+"%",
@@ -118,34 +115,48 @@ function App2() {
         textColor: ''+data.accessibility.player.helpButton.textColor+'',
         top:proportion(data.accessibility.player.helpButton.top,1)+"%",
         width:proportion(data.accessibility.player.helpButton.width,0)+"%",
-
-
     };
 
 
     return e(React.Fragment, null, [
 
-       e("div", {key:"player",style:player}, [
-           e("nav",{key:"navPlayer"},
+       e("div", {key:"player", id:"player", style:player}, [
+           e("nav",{key:"navPlayer", id:"navPlayer"},
             e("button", {id: "chatButton1",style:btnChat}, "CHAT"),
             e("button", {id: "helpButton1",style:btnHelp}, "HELP"),
 
-           e(Activity, {json:data,c:counter,btn : btnChat}),
+           e(Activity, {
+               json: data,
+               c: counter,
+               btn: btnChat
+            }), [
                e("button", {id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"),
-           )])
+            ])
+        ])
     ]);
 
 }
 
 
 function Activity(props) {
+    function readJSON(file) {
+        let request = new XMLHttpRequest();
+        request.open('GET', file, false);
+        request.send(null);
+        if (request.status == 200)
+            return request.responseText;
+    }
+    const temp = readJSON('./Document.json');
+    const data = JSON.parse(temp);
+
     const introBorder = {      //style della div contenente le activity
+        height: `${(data.accessibility.player.heightFrame * screen.height)/437}px`,
+        width: `${(data.accessibility.player.widthFrame * screen.width)/202}px`,
+        top: `${(data.accessibility.player.topFrame * screen.height)/437}px`,
+        left: `${(data.accessibility.player.leftFrame * screen.width)/202}px`,
         border: "solid",
-        borderColor: "black",
-       // padding: "2px black"
-        width:"80%",
-        height:"55%",
-        marginBottom:"20%"
+        borderColor: data.accessibility.player.frameColor,
+        borderWidth: data.accessibility.player.weightFrame,
     };
 
     const askNav = {
@@ -175,7 +186,7 @@ function Activity(props) {
     if (props.json.accessibility.activities[props.c ].type_ === "description" ){
         if (props.c <= 0 || props.c > props.json.accessibility.activities.length)
             intro++;
-        return e("div", {key: "activitIntro", style: introBorder}, props.json.accessibility.activities[props.c].question);
+        return e("div", {key: "activitIntro", id: "activitIntro", style: introBorder}, props.json.accessibility.activities[props.c].question);
 
     } else {
 

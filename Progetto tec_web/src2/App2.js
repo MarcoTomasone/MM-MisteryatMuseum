@@ -150,10 +150,10 @@ function Activity(props) {
     const data = JSON.parse(temp);
 
     const introBorder = {      //style della div contenente le activity
-        height: `${(data.accessibility.player.heightFrame * screen.height)/437}px`,
-        width: `${(data.accessibility.player.widthFrame * screen.width)/202}px`,
-        top: `${(data.accessibility.player.topFrame * screen.height)/437}px`,
-        left: `${(data.accessibility.player.leftFrame * screen.width)/202}px`,
+        height: `${(data.accessibility.player.heightFrame * screen.availHeight)/437}px`,
+        width: `${(data.accessibility.player.widthFrame * screen.availWidth)/202}px`,
+        top: `${(data.accessibility.player.topFrame * screen.availHeight)/437}px`,
+        left: `${(data.accessibility.player.leftFrame * screen.availWidth)/202}px`,
         border: "solid",
         borderColor: data.accessibility.player.frameColor,
         borderWidth: data.accessibility.player.weightFrame,

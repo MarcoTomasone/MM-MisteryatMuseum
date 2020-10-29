@@ -9,21 +9,13 @@ const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 
 
 function App2() {
-    const [counter,setCounter] = React.useState(0);
-
+ 
     React.useEffect(() => {
         document.getElementById("body2").style.height = `${screen.availHeight}px`;
         document.getElementById("body2").style.width = `${screen.availWidth}px`;
     }, [])
 
-    function inc(){
-        setCounter(counter+ 1);
-
-        document.getElementById("btn0").style.backgroundColor="white";
-        document.getElementById("btn1").style.backgroundColor="white";
-        document.getElementById("btn2").style.backgroundColor="white";
-        document.getElementById("btn3").style.backgroundColor="white";
-    }
+    
       function readJSON(file) {
         let request = new XMLHttpRequest();
         request.open('GET', file, false);
@@ -73,16 +65,8 @@ function App2() {
     */
     };
 
-    const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
-        backgroundColor:data.accessibility.player.chatButton.backgroundColor,
-        borderRadius:`${data.accessibility.player.chatButton.borderRadius}px`,
-        width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
-        height:`${data.accessibility.player.chatButton.borderRadius * screen.availHeight /202}px`,
-        position:'absolute',
-        bottom:'60px',
-        left:'150px'
 
-    }
+
     const btnHelp={
         backgroundColor:data.accessibility.player.helpButton.backgroundColor,
         //borderColor:data.accessibility.player.borderColor,
@@ -107,8 +91,6 @@ function App2() {
           */
     };
 
-
-
     const navbar ={
         //padding:'5px',
        // height:'90%',
@@ -119,24 +101,49 @@ function App2() {
        e("div", {key:"player",id:"player",style:player}, [
            e("nav",{style:navbar,id:"navPlayer"},
             e("button", {key:"buttonChat",id: "chatButton1",style:btnChat}, "CHAT"),
-            e("button", {key:"buttonHelp",id: "helpButton1",style:btnHelp}, "HELP"),
+            e("button", {key:"buttonHelp",id: "helpButton1",style:btnHelp}, "HELP")),
 
            e(Activity, {
-               json:data,
-               c:counter
-            }),
-               e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"),
-           )])
-    ]);
+               json:data
+            })
+    ]
+    )
+]);
 
 }
 
 
 function Activity(props) {
+   
+    const [counter,setCounter] = React.useState(0);
+
+    function inc(){
+        setCounter(counter+ 1);
+
+        console.log("prova");
+        document.getElementById("btn0").style.backgroundColor="white";
+        document.getElementById("btn1").style.backgroundColor="white";
+        document.getElementById("btn2").style.backgroundColor="white";
+        document.getElementById("btn3").style.backgroundColor="white";
+    }
+
+    const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
+        backgroundColor:props.json.accessibility.player.chatButton.backgroundColor,
+        borderRadius:`${props.json.accessibility.player.chatButton.borderRadius}px`,
+        //width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
+        width:"80%",
+        height:`${props.json.accessibility.player.chatButton.borderRadius * screen.availHeight /202}px`,
+        position:'absolute',
+        bottom:'60px',
+        left:'30px'
+
+    }
+    
+
     const introBorder = {      //style della div contenente le activity
         border: "solid",
+        
         borderColor: "black",
- 
        left:"50px",
        top:"100px",
        width:"80%",
@@ -151,6 +158,8 @@ function Activity(props) {
         marginTop:"20%",
     };
 
+  
+
     const divActivity = introBorder;
 
     const buttProp = {
@@ -161,47 +170,55 @@ function Activity(props) {
     };
 
     let intro = 0;
-    if (props.json.accessibility.activities[props.c ].type_ === "description" ){
-        if (props.c <= 0 || props.c > props.json.accessibility.activities.length)
+    if (props.json.accessibility.activities[counter].type_ === "description" ){
+        if (counter <= 0 || counter > props.json.accessibility.activities.length)
             intro++;
-        return e("div", {key: "activitIntro",id:"activitIntro", style: introBorder}, props.json.accessibility.activities[props.c].question);
+     
+        return e("div",null,
+                    e("div", {key: "activitIntro",id:"activitIntro", style: introBorder}, props.json.accessibility.activities[counter].question),
+                    e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
 
     } else {
 
-       let domanda = props.json.accessibility.activities[props.c].question;
-       let answer = props.json.accessibility.activities[props.c ].answer;
+       let domanda = props.json.accessibility.activities[counter].question;
+       let answer = props.json.accessibility.activities[counter].answer;
 
 
 
-        if(props.json.accessibility.activities[props.c].type_ === "button") {
+        if(props.json.accessibility.activities[counter].type_ === "button") {
+
             const ListButtonAnswer = [];
             for (let i = 0; i < answer.length; i++) {       //Ogni Domanda puo avere n risposte diverse
                 ListButtonAnswer.push(e("button", {
                     style: buttProp,
                     id:"btn"+i,
-                    onClick: () => checkButton(props.c - intro , i, props.json.accessibility.activities)
+                    onClick: () => checkButton(counter - intro , i, props.json.accessibility.activities)
                 }, answer[i]));
             }
 
 
-            return e("div", {key: "actDescription", style: divActivity},
-                e("p", null, domanda),
-                e("div", {
-                    key: "buttonblock",
-                    style: askNav }, [
-                    ListButtonAnswer
-                ]));
+            return e("div",null,
+                        e("div", {key: "actDescription", style: divActivity},
+                        e("p", null, domanda),
+                        e("div", {
+                            key: "buttonblock",
+                            style: askNav }, [
+                            ListButtonAnswer
+                        ])),e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
 
-        }else {             //if(props.json.accessibility.activities[props.c].type === "text"){
-            return e("div", {key: "actDescription", style: divActivity},
-                e("p", null, domanda),
-                e("div", null, [
-                    e("input",{
-                        type:"text",
-                        id:"textAnswer",
-                        onClick: () => checkButton(props.c - intro , -1, props.json.accessibility.activities)
-                    })
-                ]));
+        }else {             //if(props.json.accessibility.activitivitie[counter].type === "text"){
+            
+            return e("div",null,
+            
+                e("div", {key: "actDescription", style: divActivity},
+                    e("p", null, domanda),
+                    e("div", null, [
+                        e("input",{
+                            type:"text",
+                            id:"textAnswer",
+                            onClick: () => checkButton(counter - intro , -1, props.json.accessibility.activities)
+                        })
+                    ])),e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
 
         }
     }
@@ -217,8 +234,10 @@ function checkButton(activity , answer ,json){
 
         if(document.getElementById("textAnswer").value  === json[activity].correct){
             console.log("Risposta Corretta!");
+            
         }else{
             console.log("Risposta Errata!");
+            
         }
     }else if(answer === json[activity].correct){
 
@@ -227,6 +246,10 @@ function checkButton(activity , answer ,json){
        }else{
         console.log("Risposta Errata");
        document.getElementById("btn"+answer).style.backgroundColor = "red";
+       let appo = json[activity];
+            json[activity] = json[activity + 2];
+            json[activity + 2] = appo;
+            console.log(json);
    }
 }
 

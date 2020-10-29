@@ -329,26 +329,31 @@
     border: solid 1px white;
 }
 #chatButton{
-    position: absolute;
-    background-color: black;
-    color: white;
-    border: solid 1px white;
     height: 30px;
     width: 60px;
     top: 30px;
     left: 125px;
-    border-radius: 20px;
-    text-align: center;
 }
 #helpButton{
-    position: absolute;
-    background-color: black;
-    color: white;
-    border: solid 1px white;
     height: 30px;
     width: 60px;
     top: 30px;
     left: 15px;
+}
+
+#nextButton{
+    height: 30px;
+    width: 170px;
+    top: 390px;
+    left: 15px;
+}
+
+#chatButton, #helpButton, #nextButton{
+    position: absolute;
+    background-color: black;
+    color: white;
+    border: solid 1px white;
+    position: absolute;
     border-radius: 20px;
     text-align: center;
 }

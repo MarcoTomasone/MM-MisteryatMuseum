@@ -12,7 +12,6 @@ function App2() {
     const [counter,setCounter] = React.useState(0);
 
     React.useEffect(() => {
-        console.log(screen.availHeight)
         document.getElementById("body2").style.height = `${screen.availHeight}px`;
         document.getElementById("body2").style.width = `${screen.availWidth}px`;
     }, [])

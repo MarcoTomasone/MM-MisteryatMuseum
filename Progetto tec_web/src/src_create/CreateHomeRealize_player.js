@@ -2,9 +2,6 @@ const e = React.createElement;
 const {Button, Icon, IconButton, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, FormControlLabel, withStyles} = window['MaterialUI']; //to load the component from the library
 
 
-
-
-
 function CreateHomeRealize_player(props){
 
     const [backgroundColor, set_backgroundColor] = React.useState(props.story.player.background);
@@ -20,9 +17,7 @@ function CreateHomeRealize_player(props){
     const [backgroundColorNextButton, set_backgroundColorNextButton] = React.useState(props.story.player.nextButton.backgroundColor);
     const [frameColorNextButton, set_frameColorNextButton] = React.useState(props.story.player.nextButton.textColor);
     const [textColorNextButton, set_textColorNextButton] = React.useState(props.story.player.nextButton.textColor);
-    //attenzione qui sotto
-    const [font, set_font] = React.useState(props.story.player.fontFamily.split(",")[0]);
-    //attenzione qui sopra
+    const [font, set_font] = React.useState(props.story.player.fontFamily.split(",")[0]); //todo attenzione
     const [immageUpload, set_immageUpload] = React.useState(true)
     const [textBackgroundColorActived, set_textBackgroundColorActived] = React.useState(false);
 

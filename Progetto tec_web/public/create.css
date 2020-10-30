@@ -325,7 +325,7 @@
     white-space: -o-pre-wrap; /* newer Opera */
     white-space: pre-wrap; /* Chrome; W3C standard */
     word-wrap: break-word; /* IE */
-    overflow: hidden;
+    overflow: scroll;
     border: solid 1px white;
 }
 #chatButton{

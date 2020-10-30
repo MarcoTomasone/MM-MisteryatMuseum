@@ -17,7 +17,15 @@
 				"correct": 3,
 				"type_": "button",
 				"img": "0",
-				"wrongAnswer":2
+				
+				"wrongAnswerGo":5,
+				"correctAnswerGo":4,
+				"btnStyle":{
+					"width":"30%",
+					"height":"15%",
+					"marginLeft":"10%",
+					"marginRight":"10%"
+				}
 			},
 			{
 				"question" : "Quanto fa 3 x 5?",
@@ -25,21 +33,46 @@
 				"correct": 2,
 				"type_": "button",
 				"img": "0",
-				"wrongAnswer":3
+				"wrongAnswerGo":3,
+				"correctAnswerGo":3,
+				"btnStyle":{
+					"width":"30%",
+					"height":"15%",
+					"marginLeft":"10%",
+					"marginRight":"10%"
+				}
 			},{
 				"question": "Questa é una descrizione/riassunto di quello che ce stato prima e di quello che ci sara dopo [QUESTA DESCRIZIONE NON CONTIENE DOMANDE ]",
 				"type_": "description",
 				"img": "1",
 				"sourceImg": "./pikachu.png",
-				"wrongAnswer":4
+				"wrongAnswer":4,
+				
+				"wrongAnswerGo":4,
+				"correctAnswerGo":4,
+				"btnStyle":{
+					"width":"30%",
+					"height":"15%",
+					"marginLeft":"10%",
+					"marginRight":"10%"
+				}
 			},
 			{
 				"question":"Quanto vale pi greco?",
 				"answer": ["3.14..","1.12","2.12","3"],
-				"correct": 0	,
+				"correct": 0,
 				"type_": "button",
 				"img": "0",
-				"wrongAnswer":5
+				"wrongAnswer":5,
+				
+				"wrongAnswerGo":3,
+				"correctAnswerGo":4,
+				"btnStyle":{
+					"width":"30%",
+					"height":"15%",
+					"marginLeft":"10%",
+					"marginRight":"10%"
+				}
 			},
 			{
 				"question":"Converti 5 in binario",
@@ -54,9 +87,35 @@
 				"type_": "description",
 				"img": "1",
 				"sourceImg": "./pikachu.png",
-				"wrongAnswer":"random"
+				"wrongAnswer":"random",
+				"wrongAnswerGo":1,
+				"correctAnswerGo":1
 			}
 		],
+		"activityStyle":{
+			"btnNext":{
+					"backgroundColor":"#ff0000",
+					"borderColor":"#ffffff",
+					"borderRadius": 15,
+					"left": 30,
+					"textColor": "#ff00ff",
+					"bottom": 40,
+					"width": 100,
+					"height":100
+				},
+			"divisor":{
+				"border": "solid",
+				
+				"borderColor": "black",
+			   "left":30,
+			   "top":85,
+			   "width":320,
+				"height":120,
+				"marginBottom":"20%"
+				
+			}
+
+		},
 		"ageEnd":"81",
 		"ageStart":"15",
 		"description":"Short description",

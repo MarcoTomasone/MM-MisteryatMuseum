@@ -26,6 +26,11 @@ function App2() {
 
     const temp = readJSON('./Document.json');
     const data = JSON.parse(temp);
+
+    let actvtList = [];
+
+    actvtList.push(data.accessibility.activities[0]);
+    
     //console.log(data.accessibility.player.thicknessFrame );
 
     //nei campi style ricordati di sostituire 'px' inoltre da sistemare graficamente
@@ -104,7 +109,8 @@ function App2() {
             e("button", {key:"buttonHelp",id: "helpButton1",style:btnHelp}, "HELP")),
 
            e(Activity, {
-               json:data
+               json:data,
+               v : actvtList
             })
     ]
     )
@@ -118,38 +124,47 @@ function Activity(props) {
     const [counter,setCounter] = React.useState(0);
 
     function inc(){
-        setCounter(counter+ 1);
+    
+        if(counter + 1 === props.v.length)
+            props.v.push(props.json.accessibility.activities[counter + 1 ]);
+       
 
-        console.log("prova");
-        document.getElementById("btn0").style.backgroundColor="white";
-        document.getElementById("btn1").style.backgroundColor="white";
-        document.getElementById("btn2").style.backgroundColor="white";
-        document.getElementById("btn3").style.backgroundColor="white";
+            setCounter(counter+ 1);
+
+
+        //console.log(props.v);
+        if(props.v[counter - 1].type_ === "button"){
+            for(let i = 0; i < props.v[counter - 1].answer.length; i++)
+                document.getElementById("btn"+i).style.backgroundColor="white";
+        }       
     }
 
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
-        backgroundColor:props.json.accessibility.player.chatButton.backgroundColor,
-        borderRadius:`${props.json.accessibility.player.chatButton.borderRadius}px`,
+        borderColor:props.json.accessibility.activityStyle.btnNext.borderColor,
+        backgroundColor:props.json.accessibility.activityStyle.btnNext.backgroundColor,
+        borderRadius:`${props.json.accessibility.activityStyle.btnNext.borderRadius}px`,
         //width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
-        width:"80%",
-        height:`${props.json.accessibility.player.chatButton.borderRadius * screen.availHeight /202}px`,
+        width:"70%",
+        height:`${props.json.accessibility.activityStyle.btnNext.borderRadius * screen.availHeight /202}px`,
         position:'absolute',
-        bottom:'60px',
-        left:'30px'
+        bottom:`${props.json.accessibility.activityStyle.btnNext.bottom * screen.availHeight/437}px`,
+        left:`${props.json.accessibility.activityStyle.btnNext.left* screen.availWidth /202}px`,
+       textColor:props.json.accessibility.activityStyle.btnNext.textColor
 
     }
     
 
-    const introBorder = {      //style della div contenente le activity
-        border: "solid",
+    const divActivity = {      //style della div contenente le activity
+        border:props.json.accessibility.activityStyle.divisor.border,
         
-        borderColor: "black",
-       left:"50px",
-       top:"100px",
-       width:"80%",
-        height:"65%",
-        marginBottom:"20%",
-        position:'absolute'
+        borderColor: props.json.accessibility.activityStyle.divisor.borderColor,
+       left:`${props.json.accessibility.activityStyle.divisor.left* screen.availWidth /202}px`,
+       width:`${props.json.accessibility.activityStyle.divisor.width *screen.availWidth /437}px`,
+       height:`${props.json.accessibility.activityStyle.divisor.height * screen.availHeight /202}px`,
+       top:`${props.json.accessibility.activityStyle.divisor.top * screen.availHeight /437}px`,
+       // marginBottom:"20%",
+        position:'absolute',
+      
     };
 
     const askNav = {
@@ -158,41 +173,38 @@ function Activity(props) {
         marginTop:"20%",
     };
 
-  
-
-    const divActivity = introBorder;
-
-    const buttProp = {
-        width:"30%",
-        height:"15%",
-        marginLeft: "10%",
-        marginRight: "10%"
-    };
-
     let intro = 0;
-    if (props.json.accessibility.activities[counter].type_ === "description" ){
-        if (counter <= 0 || counter > props.json.accessibility.activities.length)
+    console.log("attivita attuale");
+    console.log(props.v[counter]);
+    if (props.v[counter].type_ === "description" ){
+        if (counter <= 0 )
             intro++;
-     
         return e("div",null,
-                    e("div", {key: "activitIntro",id:"activitIntro", style: introBorder}, props.json.accessibility.activities[counter].question),
+                    e("div", {key: "activitIntro",id:"activitIntro", style: divActivity}, props.v[counter].question),
                     e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
 
     } else {
 
-       let domanda = props.json.accessibility.activities[counter].question;
-       let answer = props.json.accessibility.activities[counter].answer;
+       let domanda = props.v[counter].question;
+       let answer = props.v[counter].answer;
 
 
 
-        if(props.json.accessibility.activities[counter].type_ === "button") {
+        if(props.v[counter].type_ === "button") {
+
+            const buttProp = {
+                width:props.v[counter].btnStyle.width,
+                height:props.v[counter].btnStyle.height,
+                marginLeft: props.v[counter].btnStyle.marginLeft,
+                marginRight:props.v[counter].btnStyle.marginRight
+            };
 
             const ListButtonAnswer = [];
             for (let i = 0; i < answer.length; i++) {       //Ogni Domanda puo avere n risposte diverse
                 ListButtonAnswer.push(e("button", {
                     style: buttProp,
                     id:"btn"+i,
-                    onClick: () => checkButton(counter - intro , i, props.json.accessibility.activities)
+                    onClick: () => checkButton(counter - intro , i, props.json.accessibility.activities,props.v)
                 }, answer[i]));
             }
 
@@ -206,7 +218,7 @@ function Activity(props) {
                             ListButtonAnswer
                         ])),e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
 
-        }else {             //if(props.json.accessibility.activitivitie[counter].type === "text"){
+        }else {        
             
             return e("div",null,
             
@@ -227,29 +239,33 @@ function Activity(props) {
 
 
 //0 3 ==> errore
-function checkButton(activity , answer ,json){
+function checkButton(activity , answer ,json,v){
 
 
     if(answer === -1){
 
         if(document.getElementById("textAnswer").value  === json[activity].correct){
             console.log("Risposta Corretta!");
+            v.push(json[activity + 1 % json.length]);
+            console.log("TextInsert Correct");
             
         }else{
             console.log("Risposta Errata!");
-            
+            v.push(json[activity + 1 % json.length]);
+            console.log("TextInsert Wrong");
         }
-    }else if(answer === json[activity].correct){
+        console.log(v);
+    }else if(answer === v[v.length - 1].correct){
 
         console.log("Risposta Corretta");
+        console.log(v);
         document.getElementById("btn"+answer).style.backgroundColor = "green";
+        v.push(json[json[activity].correctAnswerGo]);
        }else{
         console.log("Risposta Errata");
+        console.log(v);
        document.getElementById("btn"+answer).style.backgroundColor = "red";
-       let appo = json[activity];
-            json[activity] = json[activity + 2];
-            json[activity + 2] = appo;
-            console.log(json);
+       v.push(json[json[activity].wrongAnswerGo]);
    }
 }
 

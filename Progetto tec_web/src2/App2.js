@@ -156,7 +156,7 @@ function Activity(props) {
 
     const divActivity = {      //style della div contenente le activity
         border:props.json.accessibility.activityStyle.divisor.border,
-        
+        overflow:"scroll",
         borderColor: props.json.accessibility.activityStyle.divisor.borderColor,
        left:`${props.json.accessibility.activityStyle.divisor.left* screen.availWidth /202}px`,
        width:`${props.json.accessibility.activityStyle.divisor.width *screen.availWidth /437}px`,
@@ -174,14 +174,35 @@ function Activity(props) {
     };
 
     let intro = 0;
-    console.log("attivita attuale");
-    console.log(props.v[counter]);
+    
+        
+    let imgProp = [];
+    let imgStyle;
+
+    if(props.v[counter].img === "1"){
+        imgStyle = {
+            width:`${props.v[counter].styleImg.width  *screen.availWidth /202}px`,
+            height:`${props.v[counter].styleImg.height  *screen.availHeight /437}px`,
+            bottom:`${props.v[counter].styleImg.bottom  *screen.availWidth /437}px`,
+            left:`${props.v[counter].styleImg.left  *screen.availHeight /202}px`,
+            position:'absolute'
+        }
+
+      imgProp.push (e("img",{style:imgStyle,src:props.v[counter].sourceImg}));
+       
+    } else{
+        imgProp = [];
+    }
+
     if (props.v[counter].type_ === "description" ){
         if (counter <= 0 )
-            intro++;
-        return e("div",null,
-                    e("div", {key: "activitIntro",id:"activitIntro", style: divActivity}, props.v[counter].question),
-                    e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
+            intro++;  
+            
+       return e("div",null,
+                    e("div", {key: "activitIntro",id:"activitIntro", style: divActivity}, props.v[counter].question,
+               imgProp
+               )
+               ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
 
     } else {
 
@@ -216,7 +237,9 @@ function Activity(props) {
                             key: "buttonblock",
                             style: askNav }, [
                             ListButtonAnswer
-                        ])),e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
+                        ]),
+                        imgProp)
+                        ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
 
         }else {        
             
@@ -230,7 +253,8 @@ function Activity(props) {
                             id:"textAnswer",
                             onClick: () => checkButton(counter - intro , -1, props.json.accessibility.activities)
                         })
-                    ])),e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
+                    ]),
+                    imgProp),e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
 
         }
     }

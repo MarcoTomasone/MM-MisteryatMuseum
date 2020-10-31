@@ -16,7 +16,15 @@
 				"answer": ["5","6","7","4"],
 				"correct": 3,
 				"type_": "button",
-				"img": "0",
+				"img": "1",
+				"sourceImg": "./pikachu.png",
+
+				"styleImg":{
+					"height":100,
+					"width":100,
+					"left":20,
+					"bottom":20
+				},
 				
 				"wrongAnswerGo":5,
 				"correctAnswerGo":4,
@@ -46,8 +54,15 @@
 				"type_": "description",
 				"img": "1",
 				"sourceImg": "./pikachu.png",
+
+				"styleImg":{
+					"height":100,
+					"width":100,
+					"left":20,
+					"bottom":20
+				},
+
 				"wrongAnswer":4,
-				
 				"wrongAnswerGo":4,
 				"correctAnswerGo":4,
 				"btnStyle":{

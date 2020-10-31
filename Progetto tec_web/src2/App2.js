@@ -1,22 +1,19 @@
-
 const e = React.createElement;
+const {Icon, IconButton, Collapse, TextField, CardContent}  = MaterialUI;
 
 const HashRouter  = ReactRouterDOM.HashRouter ;
 const Switch = ReactRouterDOM.Switch;
 const Route = ReactRouterDOM.Route;
 const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-
-
 function App2() {
- 
+
     React.useEffect(() => {
         document.getElementById("body2").style.height = `${screen.availHeight}px`;
         document.getElementById("body2").style.width = `${screen.availWidth}px`;
-    }, [])
+                }, [])
 
-    
-      function readJSON(file) {
+    function readJSON(file) {
         let request = new XMLHttpRequest();
         request.open('GET', file, false);
         request.send(null);
@@ -27,9 +24,8 @@ function App2() {
     const temp = readJSON('./Document.json');
     const data = JSON.parse(temp);
 
-    let actvtList = [];
-
-    actvtList.push(data.accessibility.activities[0]);
+    let activityList = [];
+    activityList.push(data.accessibility.activities[0]);
     
     //console.log(data.accessibility.player.thicknessFrame );
 
@@ -47,9 +43,7 @@ function App2() {
         topFrame:`${data.accessibility.player.topFrame}px`,
         weightFont:`${data.accessibility.player.weightFont}px`,
         widthFrame: `${data.accessibility.player.widthFrame}px`
-    
     };
-
 
   //  console.log(data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) );
     const btnChat={
@@ -61,16 +55,10 @@ function App2() {
         top:`${data.accessibility.player.chatButton.top * screen.availHeight/437}px`,
         left:`${data.accessibility.player.chatButton.left * screen.availWidth /202}px`,
         //borderColor:data.accessibility.player.chatButton.borderColor,
-
         position:'absolute'
-        /*   
-        textColor: ''+data.accessibility.player.chatButton.textColor+'',
-        
-        position:'relative'
-    */
+        /*textColor: ''+data.accessibility.player.chatButton.textColor+'',
+        position:'relative' */
     };
-
-
 
     const btnHelp={
         backgroundColor:data.accessibility.player.helpButton.backgroundColor,
@@ -81,9 +69,7 @@ function App2() {
         height:`${data.accessibility.player.helpButton.borderRadius * screen.availHeight /202}px`,
         top:`${data.accessibility.player.helpButton.top * screen.availHeight /437}px`,
         left:`${data.accessibility.player.helpButton.left * screen.availWidth /202}px`,
-        
         position:'absolute'
-
         /*       backgroundColor:''+data.accessibility.player.helpButton.backgroundColor+'',
                borderColor:''+data.accessibility.player.helpButton.borderColor+'',
                borderRadius:''+data.accessibility.player.helpButton.borderRadius+'',
@@ -99,27 +85,67 @@ function App2() {
     const navbar ={
         //padding:'5px',
        // height:'90%',
-
     };
+
+    //boolean for the chat
+    const [expanded, setExpanded] = React.useState(false);
+
+    //Function to open and close the chat
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    }
+    //chat
+    const socket = io('http://localhost:3000')
+
+    //waiting event
+    socket.on('chat-message', data => {
+        appendMessage(`<b>${data.name}</b>: ${data.message}`)
+    })
+
+    const sendMessage = function (){
+        const messageInput = document.getElementById("message-input")
+        //const messageInput = document.getElementById('message-input').value
+        //console.log(document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0])
+        const message = messageInput.value
+        appendMessage(`<b>You</b>: ${message}`) //lato client
+        socket.emit('send-chat-message', {message: message, receiver: socket.id})  //lato server
+        messageInput.value = ''
+    }   
+
+    function appendMessage(message) {
+        const messageContainer = document.getElementById("message-container")
+        //const messageContainer = document.getElementById('message-container')
+
+        const messageElement = document.createElement('div')
+        messageElement.innerHTML = message
+        messageContainer.append(messageElement)
+    }
+
     return e(React.Fragment, null, [
 
        e("div", {key:"player",id:"player",style:player}, [
            e("nav",{style:navbar,id:"navPlayer"},
-            e("button", {key:"buttonChat",id: "chatButton1",style:btnChat}, "CHAT"),
-            e("button", {key:"buttonHelp",id: "helpButton1",style:btnHelp}, "HELP")),
+           // e("button", {key:"buttonChat",id: "chatButton1",style:btnChat}, "CHAT"),
+           e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: handleExpandClick}), 
+           //e("button", {key:"buttonHelp",id: "helpButton1",style:btnHelp}, "HELP")),
+           e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
+           e(Activity, { json:data,  v : activityList })
+       )]),
+        e(Collapse, {style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: true, children: [
+            e("div", {children: [
+                e("div",{id: "message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "1px solid grey", borderRadius: "5px", overflow: "scroll", fontSize: "10pt"}}), //div di arrivo delle risposte da valutare
+                e("form", {id: "send-container"}, [
+                    e(TextField, {id: "message-input", variant: "outlined", margin: "dense", style: {width: "95%", marginLeft: "2.5%"}, InputProps: {endAdornment: 
+                        e(IconButton, {id: "send-button", onClick: sendMessage, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
+                    )
+                ])
+            ]})
+        ]})
+    ])
+    }
 
-           e(Activity, {
-               json:data,
-               v : actvtList
-            })
-    ]
-    )
-]);
 
-}
-
-
-function Activity(props) {
+    function Activity(props) {
    
     const [counter,setCounter] = React.useState(0);
 

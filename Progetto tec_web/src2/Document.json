@@ -18,7 +18,7 @@
 				"type_": "button",
 				"img": "1",
 				"sourceImg": "./pikachu.png",
-
+				"alternativeText":"Icona Piakchu",
 				"styleImg":{
 					"height":100,
 					"width":100,
@@ -54,7 +54,7 @@
 				"type_": "description",
 				"img": "1",
 				"sourceImg": "./pikachu.png",
-
+				"alternativeText":"Icona Piakchu",
 				"styleImg":{
 					"height":100,
 					"width":100,

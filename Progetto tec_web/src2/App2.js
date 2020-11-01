@@ -178,9 +178,14 @@ function App2() {
        textColor:props.json.accessibility.activityStyle.btnNext.textColor
 
     }
-    
 
-    const divActivity = {      //style della div contenente le activity
+    const textStyle = {             //implementiamo uno stile di testo unico per tutte le Storie di un attivita'
+            fontSize:"20px",
+            textAlign:"center",
+            fontFamily:"Helvetica"
+    }
+
+        const divActivity = {      //style della div contenente le activity
         border:props.json.accessibility.activityStyle.divisor.border,
         overflow:"scroll",
         borderColor: props.json.accessibility.activityStyle.divisor.borderColor,
@@ -214,7 +219,7 @@ function App2() {
             position:'absolute'
         }
 
-      imgProp.push (e("img",{style:imgStyle,src:props.v[counter].sourceImg}));
+      imgProp.push (e("img",{style:imgStyle,alt:props.v[counter].alternativeText,src:props.v[counter].sourceImg}));
        
     } else{
         imgProp = [];
@@ -251,14 +256,14 @@ function App2() {
                 ListButtonAnswer.push(e("button", {
                     style: buttProp,
                     id:"btn"+i,
+                    alt:"bottone 1: "+answer[i],
                     onClick: () => checkButton(counter - intro , i, props.json.accessibility.activities,props.v)
                 }, answer[i]));
             }
 
-
             return e("div",null,
                         e("div", {key: "actDescription", style: divActivity},
-                        e("p", null, domanda),
+                        e("p", {style:textStyle}, domanda),
                         e("div", {
                             key: "buttonblock",
                             style: askNav }, [

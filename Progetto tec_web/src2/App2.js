@@ -152,17 +152,20 @@ function App2() {
     function inc(){
     
         if(counter + 1 === props.v.length)
-            props.v.push(props.json.accessibility.activities[counter + 1 ]);
+            props.v.push(props.json.accessibility.activities[counter + 2 % props.json.accessibility.activities.length]);
        
 
             setCounter(counter+ 1);
+            imgProp = [];
 
 
         //console.log(props.v);
         if(props.v[counter - 1].type_ === "button"){
             for(let i = 0; i < props.v[counter - 1].answer.length; i++)
                 document.getElementById("btn"+i).style.backgroundColor="white";
-        }       
+        }    
+        
+        console.log(props.v);
     }
 
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
@@ -208,21 +211,18 @@ function App2() {
     
         
     let imgProp = [];
-    let imgStyle;
+    let mediaStyle;
 
-    if(props.v[counter].img === "1"){
-        imgStyle = {
-            width:`${props.v[counter].styleImg.width  *screen.availWidth /202}px`,
-            height:`${props.v[counter].styleImg.height  *screen.availHeight /437}px`,
-            bottom:`${props.v[counter].styleImg.bottom  *screen.availWidth /437}px`,
-            left:`${props.v[counter].styleImg.left  *screen.availHeight /202}px`,
+    if(props.v[counter].media !== 0){
+        mediaStyle = {
+            width:`${props.v[counter].styleM.width  *screen.availWidth /202}px`,
+            height:`${props.v[counter].styleM.height  *screen.availHeight /437}px`,
+            bottom:`${props.v[counter].styleM.bottom  *screen.availWidth /437}px`,
+        	left:`${props.v[counter].styleM.left  *screen.availHeight /202}px`,
             position:'absolute'
         }
-
-      imgProp.push (e("img",{style:imgStyle,alt:props.v[counter].alternativeText,src:props.v[counter].sourceImg}));
+     imgProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,autoplay:"true"}));
        
-    } else{
-        imgProp = [];
     }
 
     if (props.v[counter].type_ === "description" ){

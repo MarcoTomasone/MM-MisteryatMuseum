@@ -7,19 +7,34 @@
 				"heightFrame":200,
 				"question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				"type_": "description",
-				"img": "0",
+				"media": 0,
 				"wrongAnswer":1
 
+			},
+			{
+				"question":"Prova video",
+				"type_":"description",
+				"media":"video",
+				"source":"./movie.mp4",
+				"alternativeText":"Prova video",
+				"styleM":{
+					"height":130,
+					"width":130,
+					"left":20,
+					"bottom":20
+				},
+				"wrongAnswer":2,
+				"correctAnswerGo":6
 			},
 			{
 				"question" : "Quanto fa 2 + 2?",
 				"answer": ["5","6","7","4"],
 				"correct": 3,
 				"type_": "button",
-				"img": "1",
-				"sourceImg": "./pikachu.png",
+				"media": "img",
+				"source": "./pikachu.png",
 				"alternativeText":"Icona Piakchu",
-				"styleImg":{
+				"styleM":{
 					"height":100,
 					"width":100,
 					"left":20,
@@ -40,7 +55,7 @@
 				"answer": ["52","16","15","7"],
 				"correct": 2,
 				"type_": "button",
-				"img": "0",
+				"media": 0,
 				"wrongAnswerGo":3,
 				"correctAnswerGo":3,
 				"btnStyle":{
@@ -49,22 +64,20 @@
 					"marginLeft":"10%",
 					"marginRight":"10%"
 				}
-			},{
+			},
+			{
 				"question": "Questa é una descrizione/riassunto di quello che ce stato prima e di quello che ci sara dopo [QUESTA DESCRIZIONE NON CONTIENE DOMANDE ]",
 				"type_": "description",
-				"img": "1",
-				"sourceImg": "./pikachu.png",
+				"media": "audio",
+				"source": "./record.mp3",
 				"alternativeText":"Icona Piakchu",
-				"styleImg":{
+				"styleM":{
 					"height":100,
 					"width":100,
 					"left":20,
 					"bottom":20
 				},
 
-				"wrongAnswer":4,
-				"wrongAnswerGo":4,
-				"correctAnswerGo":4,
 				"btnStyle":{
 					"width":"30%",
 					"height":"15%",
@@ -77,7 +90,7 @@
 				"answer": ["3.14..","1.12","2.12","3"],
 				"correct": 0,
 				"type_": "button",
-				"img": "0",
+				"media": 0,
 				"wrongAnswer":5,
 				
 				"wrongAnswerGo":3,
@@ -93,18 +106,25 @@
 				"question":"Converti 5 in binario",
 				"correct":"101",
 				"type_": "text",
-				"img": "0",
+				"media": 0,
 				"wrongAnswer": 6
 			}
 			,
 			{
 				"question": "Fine Attivita' Complimenti Hai terminato l'attivitá ",
 				"type_": "description",
-				"img": "1",
-				"sourceImg": "./pikachu.png",
+				"media": "img",
+				"source": "./pikachu.png",
 				"wrongAnswer":"random",
 				"wrongAnswerGo":1,
-				"correctAnswerGo":1
+				"correctAnswerGo":1,
+				"styleM":{
+					"height":100,
+					"width":100,
+					"left":20,
+					"bottom":20
+				}
+
 			}
 		],
 		"activityStyle":{

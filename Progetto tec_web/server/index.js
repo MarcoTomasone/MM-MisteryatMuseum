@@ -188,6 +188,7 @@ const io = require('socket.io')(3000)
 
 io.on('connection', socket => {
   socket.on('send-chat-message', data => {
+<<<<<<< Updated upstream
     //io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "Admin"});
     socket.broadcast.emit('chat-message', message);
   })
@@ -207,6 +208,10 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     socket.broadcast.emit('user-disconnected', users[socket.id])
     delete users[socket.id]
+=======
+    //io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "EniGuidi", id: data.id});
+    socket.emit("chat-message", {message: `${data.message}`, name: "EniGuidi", id: data.id})
+>>>>>>> Stashed changes
   })
 })
 

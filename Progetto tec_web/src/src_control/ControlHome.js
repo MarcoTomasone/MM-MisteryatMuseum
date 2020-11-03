@@ -1,8 +1,52 @@
 const e = React.createElement;
 const {makeStyles, Slide, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, Collapse} = MaterialUI;
 
+const all_messages = {};
+const socket = io('http://localhost:3000');
+
+//funzione ausiliare utilizzata per mettere i messaggi nel div
+const appendMessage = function(message, id) {
+    const messageContainer = document.getElementById(id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
+    //const messageContainer = document.getElementById('message-container')
+
+    const messageElement = document.createElement('div')
+    messageElement.innerHTML = message
+    messageContainer.append(messageElement)
+}
+
+//waiting event
+socket.on('chat-message', data => {
+    appendMessage(`<b>${data.name}</b>: ${data.message}`, data.id)
+
+    //save arrived message in a dictionary
+    if (!(data.id in all_messages)){
+        all_messages[data.id] = []
+    }
+    all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";
+
+    console.log(all_messages)
+})
 
 function Element(props){
+
+    //mi servirebbe per ricaricare i messaggi nel caso di ricaricamento della pagina
+    /* 
+    const uploadMessages = function(){
+        var message_app = "";
+        if (props.id in all_messages){
+            for (let i = 0; i < all_messages[props.id].length; i++) {
+                if(all_messages[props.id].charAt(i) == "/"){
+                    appendMessage(message_app, props.id);
+                    message_app = "";
+                }
+                else
+                    message_app = message_app + all_messages[props.id].charAt(i);
+            }
+        }
+    }
+    */
+
+
     const useStyles_card = makeStyles((theme) => ({
         root: {
           maxWidth: "222px",
@@ -42,22 +86,17 @@ function Element(props){
         setExpanded(!expanded);
     }
 
-    //chat
-    const socket = io('http://localhost:3000')
-
-    //waiting event
-    socket.on('chat-message', data => {
-        appendMessage(`<b>${data.name}</b>: ${data.message}`)
-    })
+    //expanded.addEventListener("false",uploadMessages())
 
     const sendMessage = function (){
         const messageInput = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0]
         //const messageInput = document.getElementById('message-input').value
-        console.log(document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0])
+        
         const message = messageInput.value
-        appendMessage(`<b>You</b>: ${message}`) //lato client
-        socket.emit('send-chat-message', {message: message, receiver: socket.id})  //lato server
+        appendMessage(`<b>You</b>: ${message}`, props.id) //lato client
+        socket.emit('send-chat-message', {message: message, receiver: socket.id, id: props.id})  //lato server
         messageInput.value = ''
+<<<<<<< Updated upstream
     }   
 
     function appendMessage(message) {
@@ -67,6 +106,15 @@ function Element(props){
         messageElement.innerHTML = message
         messageContainer.append(messageElement)
     }
+=======
+
+        //save sended message in a dictionary
+        if (!(props.id in all_messages)){
+            all_messages[props.id] = []
+        }
+        all_messages[props.id]= all_messages[props.id] +  "You:" + message + "/";
+    }   
+>>>>>>> Stashed changes
 
     return(
         e(Card, {className: classes_card.root, id: props.id, raised: true, children: [
@@ -82,7 +130,7 @@ function Element(props){
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}), //onClick: () =>{props.setSlide2(true);}
                 e(IconButton, {children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
             ]}),
-            e(Collapse, {style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: true, children: [
+            e(Collapse, {style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
                 e(CardContent, {children: [
                     e("div",{id: "message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "1px solid grey", borderRadius: "5px", overflow: "scroll", fontSize: "10pt"}}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
@@ -131,7 +179,7 @@ function controlHome(props){
             }).catch((error) => console.log(error));
     })*/
 
-    for(let i=0; i<25; i++){
+    for(let i=0; i<2; i++){
         //arrayOfPlayers.push(e(Cards, {slide: slide, setSlide: setSlide}));
         arrayOfPlayers.push(e(Element, {id: "Card"+i, name: "C"+i, slide: slide, setSlide: setSlide})); //, slide2: slide2, setSlide2: setSlide2, setSlide3: setSlide3
     }

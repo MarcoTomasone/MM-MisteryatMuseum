@@ -182,13 +182,31 @@ app.delete("/deleteStory/:story", (req, res) => {
     res.end();
 })
 
-
+/*
 //chat
 const io = require('socket.io')(3000)
 
 io.on('connection', socket => {
   socket.on('send-chat-message', data => {
-    io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "EniGuidi"});
+    //io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "Admin"});
+    socket.broadcast.emit('chat-message', message);
+  })
+})*/
+const io = require('socket.io')(3000)
+
+const users = {}
+
+io.on('connection', socket => {
+  socket.on('new-user', name => {
+    users[socket.id] = name
+    socket.broadcast.emit('user-connected', name)
+  })
+  socket.on('send-chat-message', message => {
+    socket.broadcast.emit('chat-message', message)
+  })
+  socket.on('disconnect', () => {
+    socket.broadcast.emit('user-disconnected', users[socket.id])
+    delete users[socket.id]
   })
 })
 

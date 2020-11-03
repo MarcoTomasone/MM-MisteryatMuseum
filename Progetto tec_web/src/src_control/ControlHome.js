@@ -61,9 +61,8 @@ function Element(props){
     }   
 
     function appendMessage(message) {
-        const messageContainer = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
-        //const messageContainer = document.getElementById('message-container')
-
+        //const messageContainer = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
+        const messageContainer = document.getElementById('message-container')
         const messageElement = document.createElement('div')
         messageElement.innerHTML = message
         messageContainer.append(messageElement)

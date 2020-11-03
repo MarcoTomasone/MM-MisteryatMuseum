@@ -8,7 +8,6 @@ const socket = io('http://localhost:3000');
 const appendMessage = function(message, id) {
     const messageContainer = document.getElementById(id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
     //const messageContainer = document.getElementById('message-container')
-
     const messageElement = document.createElement('div')
     messageElement.innerHTML = message
     messageContainer.append(messageElement)
@@ -17,13 +16,11 @@ const appendMessage = function(message, id) {
 //waiting event
 socket.on('chat-message', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, data.id)
-
     //save arrived message in a dictionary
     if (!(data.id in all_messages)){
         all_messages[data.id] = []
     }
     all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";
-
     console.log(all_messages)
 })
 
@@ -45,8 +42,6 @@ function Element(props){
         }
     }
     */
-
-
     const useStyles_card = makeStyles((theme) => ({
         root: {
           maxWidth: "222px",
@@ -91,30 +86,11 @@ function Element(props){
     const sendMessage = function (){
         const messageInput = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0]
         //const messageInput = document.getElementById('message-input').value
-        
         const message = messageInput.value
         appendMessage(`<b>You</b>: ${message}`, props.id) //lato client
         socket.emit('send-chat-message', {message: message, receiver: socket.id, id: props.id})  //lato server
         messageInput.value = ''
-<<<<<<< Updated upstream
-    }   
-
-    function appendMessage(message) {
-        //const messageContainer = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
-        const messageContainer = document.getElementById('message-container')
-        const messageElement = document.createElement('div')
-        messageElement.innerHTML = message
-        messageContainer.append(messageElement)
-    }
-=======
-
-        //save sended message in a dictionary
-        if (!(props.id in all_messages)){
-            all_messages[props.id] = []
-        }
-        all_messages[props.id]= all_messages[props.id] +  "You:" + message + "/";
-    }   
->>>>>>> Stashed changes
+    }     
 
     return(
         e(Card, {className: classes_card.root, id: props.id, raised: true, children: [

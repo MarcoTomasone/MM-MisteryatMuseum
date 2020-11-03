@@ -188,11 +188,11 @@ const io = require('socket.io')(3000)
 
 io.on('connection', socket => {
   socket.on('send-chat-message', data => {
-<<<<<<< Updated upstream
     //io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "Admin"});
     socket.broadcast.emit('chat-message', message);
   })
 })*/
+
 const io = require('socket.io')(3000)
 
 const users = {}
@@ -202,17 +202,18 @@ io.on('connection', socket => {
     users[socket.id] = name
     socket.broadcast.emit('user-connected', name)
   })
-  socket.on('send-chat-message', message => {
-    socket.broadcast.emit('chat-message', message)
-  })
-  socket.on('disconnect', () => {
+
+  socket.on('send-chat-message', data => {
+    socket.broadcast.emit('chat-message', {message : data.message , name :"Admin", id: "Card0"});
+    //io.to(`${data.receiver}`).emit("chat-message", { message: data.message, name: "Admin", id: "Card0"});
+})
+
+ /* socket.on('disconnect', () => {
     socket.broadcast.emit('user-disconnected', users[socket.id])
     delete users[socket.id]
-=======
     //io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "EniGuidi", id: data.id});
     socket.emit("chat-message", {message: `${data.message}`, name: "EniGuidi", id: data.id})
->>>>>>> Stashed changes
-  })
+  })*/
 })
 
 app.listen(8000, function () {

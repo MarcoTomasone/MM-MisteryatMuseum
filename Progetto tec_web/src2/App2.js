@@ -1,20 +1,19 @@
 const e = React.createElement;
-const {Icon, IconButton, Collapse, TextField, CardContent}  = MaterialUI;
+const {Icon, IconButton, Collapse, TextField, CardContent, Slide}  = MaterialUI;
 
 const HashRouter  = ReactRouterDOM.HashRouter ;
 const Switch = ReactRouterDOM.Switch;
 const Route = ReactRouterDOM.Route;
 const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-//chat
-const socket = io('http://localhost:3000')
 
+//Chat
+const socket = io('http://localhost:3000')
 //waiting event
 socket.on('chat-message', data => {
-   // appendMessage(`<b>${data.name}</b>: ${data.message}`)
-    appendMessage(data)
+    appendMessage(`<b>${data.name}</b>: ${data.message}`)
+   //   appendMessage(data)
 })
 
-  
 
 function appendMessage(message) {
     const messageContainer = document.getElementById("message-container")
@@ -116,7 +115,7 @@ function App2() {
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
         appendMessage(`<b>You</b>: ${message}`) //print client side 
-        socket.emit('send-chat-message', message)  //server side
+        socket.emit('send-chat-message', {message: message})  //server side
         messageInput.value = '' //clean the input text
     } 
 /*
@@ -163,7 +162,7 @@ function appendMessage(message) {
            e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
            e(Activity, { json:data,  v : activityList })
        )]),
-        e(Collapse, {style: {widht: "30%"}, in: expanded, timeout: "auto", unmountOnExit: true, children: [
+        e(Slide, {style: {widht: "30%"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
             e("div", {id : "chat-div", children: [
                 e("div",{id: "message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "1px solid grey", borderRadius: "5px", overflow: "scroll", fontSize: "10pt"}}), //div di arrivo delle risposte da valutare
                 e("form", {id: "send-container"}, [

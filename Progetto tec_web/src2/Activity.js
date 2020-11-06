@@ -10,7 +10,7 @@ function Activity(props) {
                 props.v.push(props.json.accessibility.activities[counter + 1 % props.json.accessibility.activities.length]);
             }    
             setCounter(counter+ 1);
-            imgProp = [];
+            MediaProp = [];
                         
             if(props.v[counter].type_ === "button" && counter > 0){
                 for(let i = 0; i < props.v[counter].answer.length; i++)
@@ -59,7 +59,7 @@ function Activity(props) {
         };
 
             
-        let imgProp = [];
+        let MediaProp = [];
         let mediaStyle;
     
         if(props.v[counter].media !== 0){
@@ -70,16 +70,16 @@ function Activity(props) {
                 left:`${props.v[counter].styleM.left  *screen.availHeight /202}px`,
                 position:'absolute'
             }
-         imgProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,autoPlay:true}));
+         MediaProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,autoPlay:true}));
            
         }
     
         if (props.v[counter].type_ === "description" ){
             
            return e("div",null,
-                        e("div", {key: "activitIntro",id:"activitIntro", style: divActivity}, props.v[counter].question,
-                   imgProp
-                   )
+                        e("div", {key: "activitIntro",id:"activitIntro", style: divActivity},
+                            props.v[counter].question,
+                            MediaProp )
                    ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
     
         } else {
@@ -99,12 +99,12 @@ function Activity(props) {
                 };
     
                 const ListButtonAnswer = [];
-                for (let i = 0; i < answer.length; i++) {       //Ogni Domanda puo avere n risposte diverse
+                for (let i = 0; i < answer.length; i++) {      
                     ListButtonAnswer.push(e("button", {
                         style: buttProp,
                         id:"btn"+i,
                         alt:"bottone 1: "+answer[i],
-                        onClick: () => checkButton(counter , i, props.json.accessibility.activities , props.v,counter)
+                        onClick: () => checkButton(counter , i, props.json.accessibility.activities , props.v)
                     }, answer[i]));
                 }
     
@@ -116,8 +116,9 @@ function Activity(props) {
                                 style: askNav }, [
                                 ListButtonAnswer
                             ]),
-                            imgProp)
-                            ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
+                            MediaProp)
+                            ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT")
+                        );
     
             }else {        
                 
@@ -129,42 +130,41 @@ function Activity(props) {
                             e("input",{
                                 type:"text",
                                 id:"textAnswer",
-                                onClick: () => checkButton(counter  , -1, props.json.accessibility.activities,props.v,counter)
+                                onClick: () => checkButton(counter  , -1, props.json.accessibility.activities,props.v)
                             })
                         ]),
-                        imgProp),e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
+                        MediaProp),
+                    e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
     
             }
         }
     
     }
     
-    
-    //0 3 ==> errore
-    function checkButton(activity , answer ,json,v,counter){
+
+
+    function checkButton(counter , answer , json , v){
     
         if(answer === -1){
     
-            if(document.getElementById("textAnswer").value  === json[activity].correct){
-                console.log("Risposta Corretta!");
-                v.push(json[activity + 1 % json.length]);
+            if(document.getElementById("textAnswer").value  ===v[counter].correct ){
+                v.push(json[counter + 1 % json.length]);
                 console.log("TextInsert Correct");
                 
             }else{
-                console.log("Risposta Errata!");
-                v.push(json[activity + 1 % json.length]);
+                v.push(json[counter + 1 % json.length]);
                 console.log("TextInsert Wrong");
             }
             console.log(v);
         }else if(answer === v[counter].correct){
     
             console.log("Risposta Corretta");
-            console.log(v);
+
             document.getElementById("btn"+answer).style.backgroundColor = "green";
             v.push(json[v[counter].correctAnswerGo]);
            }else{
             console.log("Risposta Errata");
-            console.log(v);
+
            document.getElementById("btn"+answer).style.backgroundColor = "red";
            v.push(json[v[counter].wrongAnswerGo]);
        }

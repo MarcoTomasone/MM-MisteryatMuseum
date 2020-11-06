@@ -1,3 +1,5 @@
+import Activity from './Activity.js'
+
 const e = React.createElement;
 const {Icon, IconButton, Collapse, TextField, Slide, Paper}  = MaterialUI;
 
@@ -86,16 +88,6 @@ function App2() {
         top:`${data.accessibility.player.helpButton.top * screen.availHeight /437}px`,
         left:`${data.accessibility.player.helpButton.left * screen.availWidth /202}px`,
         position:'absolute'
-        /*       backgroundColor:''+data.accessibility.player.helpButton.backgroundColor+'',
-               borderColor:''+data.accessibility.player.helpButton.borderColor+'',
-               borderRadius:''+data.accessibility.player.helpButton.borderRadius+'',
-               height:''+data.accessibility.player.helpButton.height+'',
-               right:''+data.accessibility.player.helpButton.left+'',
-               textColor: ''+data.accessibility.player.helpButton.textColor+'',
-               top:''+data.accessibility.player.helpButton.top+'',
-               width:''+data.accessibility.player.helpButton.width+'',
-               position:'relative'
-          */
     };
 
     const navbar ={
@@ -119,47 +111,27 @@ function App2() {
         socket.emit('send-chat-message', {message: message})  //server side
         messageInput.value = '' //clean the input text
     } 
-/*
-GITHUB
-const socket = io('http://localhost:3000')
-const messageContainer = document.getElementById('message-container')
-const messageForm = document.getElementById('send-container')
-const messageInput = document.getElementById('message-input')
 
-socket.on('chat-message', data => {
-  appendMessage(`${data.name}: ${data.message}`)
-})
 
-socket.on('user-connected', name => {
-  appendMessage(`${name} connected`)
-})
-
-socket.on('user-disconnected', name => {
-  appendMessage(`${name} disconnected`)
-})
-
-const sendMessage = function(){
-  //e.preventDefault()
-  const message = messageInput.value
-  appendMessage(`You: ${message}`)
-  socket.emit('send-chat-message', message)
-  messageInput.value = ''
-}
-
-function appendMessage(message) {
-  const messageElement = document.createElement('div')
-  messageElement.innerHTML = message
-  messageContainer.append(messageElement)
-  
-} */
-
+const divActivity = {      //style della div contenente le activity
+    border:data.accessibility.activityStyle.divisor.border,
+    overflow:"scroll",
+    borderColor: data.accessibility.activityStyle.divisor.borderColor,
+    left:data.accessibility.activityStyle.divisor.left* screen.availWidth /202 +"px",
+    width:data.accessibility.activityStyle.divisor.width *screen.availWidth /437+"px",
+    height:data.accessibility.activityStyle.divisor.height * screen.availHeight /202+"px",
+    top: data.accessibility.activityStyle.divisor.top * screen.availHeight /437+"px",
+    position:'absolute',
+    
+};
+console.log(btnHelp);
+console.log(divActivity);
     return e(React.Fragment, null, [
         e("div", null, [    
             e("div", {key:"player",id:"player",style:player}, [
                 e("nav",{style:navbar,id:"navPlayer"},
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlide(!slide);}}), 
-                e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
-                e(Activity, { json:data,  v : activityList })
+                e(IconButton, {children: e(Icon, {children: "help", color: "primary"})})
             )]),
             e(Slide, {in: slide, direction: "right", id: "slide", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
@@ -169,195 +141,13 @@ function appendMessage(message) {
                             e(IconButton, {id:"send-button", onClick: sendMessage, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])
-            ])})
+            ])}),
+            e(Activity, { json:data,  v : activityList })
         ])
     ])        
     }
         
         
-    
-
-
-    function Activity(props) {
-   
-    const [counter,setCounter] = React.useState(0);
-
-    function inc(){
-    
-        if(counter + 1 === props.v.length)
-            props.v.push(props.json.accessibility.activities[counter + 2 % props.json.accessibility.activities.length]);
-       
-
-            setCounter(counter+ 1);
-            imgProp = [];
-
-
-        //console.log(props.v);
-        if(props.v[counter - 1].type_ === "button"){
-            for(let i = 0; i < props.v[counter - 1].answer.length; i++)
-                document.getElementById("btn"+i).style.backgroundColor="white";
-        }    
-        
-        console.log(props.v);
-    }
-
-    const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
-        borderColor:props.json.accessibility.activityStyle.btnNext.borderColor,
-        backgroundColor:props.json.accessibility.activityStyle.btnNext.backgroundColor,
-        borderRadius:`${props.json.accessibility.activityStyle.btnNext.borderRadius}px`,
-        //width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
-        width:"70%",
-        height:`${props.json.accessibility.activityStyle.btnNext.borderRadius * screen.availHeight /202}px`,
-        position:'absolute',
-        bottom:`${props.json.accessibility.activityStyle.btnNext.bottom * screen.availHeight/437}px`,
-        left:`${props.json.accessibility.activityStyle.btnNext.left* screen.availWidth /202}px`,
-       textColor:props.json.accessibility.activityStyle.btnNext.textColor
-
-    }
-
-    const textStyle = {             //implementiamo uno stile di testo unico per tutte le Storie di un attivita'
-            fontSize:"20px",
-            textAlign:"center",
-            fontFamily:"Helvetica"
-    }
-
-        const divActivity = {      //style della div contenente le activity
-        border:props.json.accessibility.activityStyle.divisor.border,
-        overflow:"scroll",
-        borderColor: props.json.accessibility.activityStyle.divisor.borderColor,
-       left:`${props.json.accessibility.activityStyle.divisor.left* screen.availWidth /202}px`,
-       width:`${props.json.accessibility.activityStyle.divisor.width *screen.availWidth /437}px`,
-       height:`${props.json.accessibility.activityStyle.divisor.height * screen.availHeight /202}px`,
-       top:`${props.json.accessibility.activityStyle.divisor.top * screen.availHeight /437}px`,
-       // marginBottom:"20%",
-        position:'absolute',
-      
-    };
-
-    const askNav = {
-        border: "solid",
-        borderColor: "red",
-        marginTop:"20%",
-    };
-
-    let intro = 0;
-    
-        
-    let imgProp = [];
-    let mediaStyle;
-
-    if(props.v[counter].media !== 0){
-        mediaStyle = {
-            width:`${props.v[counter].styleM.width  *screen.availWidth /202}px`,
-            height:`${props.v[counter].styleM.height  *screen.availHeight /437}px`,
-            bottom:`${props.v[counter].styleM.bottom  *screen.availWidth /437}px`,
-        	left:`${props.v[counter].styleM.left  *screen.availHeight /202}px`,
-            position:'absolute'
-        }
-     imgProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,autoPlay:true}));
-       
-    }
-
-    if (props.v[counter].type_ === "description" ){
-        if (counter <= 0 )
-            intro++;  
-            
-       return e("div",null,
-                    e("div", {key: "activitIntro",id:"activitIntro", style: divActivity}, props.v[counter].question,
-               imgProp
-               )
-               ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
-
-    } else {
-
-       let domanda = props.v[counter].question;
-       let answer = props.v[counter].answer;
-
-
-
-        if(props.v[counter].type_ === "button") {
-
-            const buttProp = {
-                width:props.v[counter].btnStyle.width,
-                height:props.v[counter].btnStyle.height,
-                marginLeft: props.v[counter].btnStyle.marginLeft,
-                marginRight:props.v[counter].btnStyle.marginRight
-            };
-
-            const ListButtonAnswer = [];
-            for (let i = 0; i < answer.length; i++) {       //Ogni Domanda puo avere n risposte diverse
-                ListButtonAnswer.push(e("button", {
-                    style: buttProp,
-                    id:"btn"+i,
-                    alt:"bottone 1: "+answer[i],
-                    onClick: () => checkButton(counter - intro , i, props.json.accessibility.activities,props.v)
-                }, answer[i]));
-            }
-
-            return e("div",null,
-                        e("div", {key: "actDescription", style: divActivity},
-                        e("p", {style:textStyle}, domanda),
-                        e("div", {
-                            key: "buttonblock",
-                            style: askNav }, [
-                            ListButtonAnswer
-                        ]),
-                        imgProp)
-                        ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
-
-        }else {        
-            
-            return e("div",null,
-            
-                e("div", {key: "actDescription", style: divActivity},
-                    e("p", null, domanda),
-                    e("div", null, [
-                        e("input",{
-                            type:"text",
-                            id:"textAnswer",
-                            onClick: () => checkButton(counter - intro , -1, props.json.accessibility.activities)
-                        })
-                    ]),
-                    imgProp),e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
-
-        }
-    }
-
-}
-
-
-//0 3 ==> errore
-function checkButton(activity , answer ,json,v){
-
-
-    if(answer === -1){
-
-        if(document.getElementById("textAnswer").value  === json[activity].correct){
-            console.log("Risposta Corretta!");
-            v.push(json[activity + 1 % json.length]);
-            console.log("TextInsert Correct");
-            
-        }else{
-            console.log("Risposta Errata!");
-            v.push(json[activity + 1 % json.length]);
-            console.log("TextInsert Wrong");
-        }
-        console.log(v);
-    }else if(answer === v[v.length - 1].correct){
-
-        console.log("Risposta Corretta");
-        console.log(v);
-        document.getElementById("btn"+answer).style.backgroundColor = "green";
-        v.push(json[json[activity].correctAnswerGo]);
-       }else{
-        console.log("Risposta Errata");
-        console.log(v);
-       document.getElementById("btn"+answer).style.backgroundColor = "red";
-       v.push(json[json[activity].wrongAnswerGo]);
-   }
-}
-
-
 export default App2;
 
 

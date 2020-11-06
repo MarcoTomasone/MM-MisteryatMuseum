@@ -1,5 +1,5 @@
 const e = React.createElement;
-const {Icon, IconButton, Collapse, TextField, CardContent, Slide}  = MaterialUI;
+const {Icon, IconButton, Collapse, TextField, Slide, Paper}  = MaterialUI;
 
 const HashRouter  = ReactRouterDOM.HashRouter ;
 const Switch = ReactRouterDOM.Switch;
@@ -105,10 +105,11 @@ function App2() {
 
     //boolean for the chat
     const [expanded, setExpanded] = React.useState(false);
-
+    const [slide, setSlide] = React.useState(false);
+    
     //Function to open and close the chat
     const handleExpandClick = () => {
-        setExpanded(!expanded);
+        setExpanded(!expanded)
     }
     
     const sendMessage = function (){
@@ -157,23 +158,36 @@ function appendMessage(message) {
        e("div", {key:"player",id:"player",style:player}, [
            e("nav",{style:navbar,id:"navPlayer"},
            // e("button", {key:"buttonChat",id: "chatButton1",style:btnChat}, "CHAT"),
-           e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: handleExpandClick}), 
+           e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlide(true);}}), 
            //e("button", {key:"buttonHelp",id: "helpButton1",style:btnHelp}, "HELP")),
            e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
            e(Activity, { json:data,  v : activityList })
        )]),
-        e(Slide, {style: {widht: "30%"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
+        /*e(Collapse, {style: {widht: "30%"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
             e("div", {id : "chat-div", children: [
                 e("div",{id: "message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "1px solid grey", borderRadius: "5px", overflow: "scroll", fontSize: "10pt"}}), //div di arrivo delle risposte da valutare
                 e("form", {id: "send-container"}, [
                     e(TextField, {id: "message-input", variant: "outlined", margin: "dense", style: {width: "95%", marginLeft: "2.5%"}, InputProps: {endAdornment: 
                         e(IconButton, {id: "send-button", onClick: sendMessage, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
                     )
-                ])
+                 ])
             ]})
         ]})
     ])
+    }*/
+
+        e(Slide, {in: slide, direction: "down", id: "slide", children: e(Paper, null, [
+            e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
+                e("div",{style: {width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+                e(TextField, {variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                    e(IconButton, {children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
+               )
+            ])})
+        ])
     }
+        
+        
+    
 
 
     function Activity(props) {
@@ -252,7 +266,7 @@ function appendMessage(message) {
         	left:`${props.v[counter].styleM.left  *screen.availHeight /202}px`,
             position:'absolute'
         }
-     imgProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,autoplay:"true"}));
+     imgProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,autoPlay:true}));
        
     }
 

@@ -41,28 +41,10 @@ function App2() {
 
     const temp = readJSON('./Document.json');
     const data = JSON.parse(temp);
-
+    
     let activityList = [];
     activityList.push(data.accessibility.activities[0]);
     
-    //console.log(data.accessibility.player.thicknessFrame );
-
-    //nei campi style ricordati di sostituire 'px' inoltre da sistemare graficamente
-    //tecnica substring()
-
-    const player= {
-        //overflow:'hidden',
-        height:'100%',
-        width:'100%',
-        //backgroundColor: 'green'
-        background:  data.accessibility.player.background ,
-
-        thicknessFrame:`${data.accessibility.player.weightFont}px`,
-        topFrame:`${data.accessibility.player.topFrame}px`,
-        weightFont:`${data.accessibility.player.weightFont}px`,
-        widthFrame: `${data.accessibility.player.widthFrame}px`
-    };
-
   //  console.log(data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) );
     const btnChat={
         backgroundColor:data.accessibility.player.chatButton.backgroundColor,
@@ -113,26 +95,29 @@ function App2() {
     } 
 
 
-const divActivity = {      //style della div contenente le activity
+const div_a = {      //style della div contenente le activity
     border:data.accessibility.activityStyle.divisor.border,
     overflow:"scroll",
     borderColor: data.accessibility.activityStyle.divisor.borderColor,
-    left:data.accessibility.activityStyle.divisor.left* screen.availWidth /202 +"px",
-    width:data.accessibility.activityStyle.divisor.width *screen.availWidth /437+"px",
-    height:data.accessibility.activityStyle.divisor.height * screen.availHeight /202+"px",
-    top: data.accessibility.activityStyle.divisor.top * screen.availHeight /437+"px",
     position:'absolute',
+    background:  data.accessibility.player.background ,
+
+    thicknessFrame:`${data.accessibility.player.weightFont}px`,
+    topFrame:`${data.accessibility.player.topFrame}px`,
+    weightFont:`${data.accessibility.player.weightFont}px`,
+    widthFrame: `${data.accessibility.player.widthFrame}px`
     
 };
-console.log(btnHelp);
-console.log(divActivity);
+
+
     return e(React.Fragment, null, [
         e("div", null, [    
-            e("div", {key:"player",id:"player",style:player}, [
+            e("div", {key:"player",id:"player",style:div_a}, [
                 e("nav",{style:navbar,id:"navPlayer"},
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlide(!slide);}}), 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"})})
-            )]),
+            )],
+            e(Activity, { json:data,  v : activityList })),
             e(Slide, {in: slide, direction: "right", id: "slide", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
                     e("div",{id: "message-container", style: {width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
@@ -141,8 +126,7 @@ console.log(divActivity);
                             e(IconButton, {id:"send-button", onClick: sendMessage, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])
-            ])}),
-            e(Activity, { json:data,  v : activityList })
+            ])})
         ])
     ])        
     }

@@ -5,20 +5,18 @@ function Activity(props) {
         const [counter,setCounter] = React.useState(0);
     
         function inc(){
-        
-            if(counter + 1 === props.v.length)
-                props.v.push(props.json.accessibility.activities[counter + 2 % props.json.accessibility.activities.length]);
-                setCounter(counter+ 1);
-                imgProp = [];
-    
-    
-            //console.log(props.v);
-            if(props.v[counter - 1].type_ === "button"){
-                for(let i = 0; i < props.v[counter - 1].answer.length; i++)
+            
+            if(counter + 1 <= props.v.length){
+                props.v.push(props.json.accessibility.activities[counter + 1 % props.json.accessibility.activities.length]);
+            }    
+            setCounter(counter+ 1);
+            imgProp = [];
+                        
+            if(props.v[counter].type_ === "button" && counter > 0){
+                for(let i = 0; i < props.v[counter].answer.length; i++)
                     document.getElementById("btn"+i).style.backgroundColor="white";
             }    
             
-            //console.log(props.v);
         }
     
         const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
@@ -53,15 +51,13 @@ function Activity(props) {
           
         };
     
-        console.log(divActivity);
+
         const askNav = {
             border: "solid",
             borderColor: "red",
             marginTop:"20%",
         };
-    
-        let intro = 0;
-        
+
             
         let imgProp = [];
         let mediaStyle;
@@ -79,9 +75,7 @@ function Activity(props) {
         }
     
         if (props.v[counter].type_ === "description" ){
-            if (counter <= 0 )
-                intro++;  
-                
+            
            return e("div",null,
                         e("div", {key: "activitIntro",id:"activitIntro", style: divActivity}, props.v[counter].question,
                    imgProp
@@ -110,7 +104,7 @@ function Activity(props) {
                         style: buttProp,
                         id:"btn"+i,
                         alt:"bottone 1: "+answer[i],
-                        onClick: () => checkButton(counter - intro , i, props.json.accessibility.activities,props.v)
+                        onClick: () => checkButton(counter , i, props.json.accessibility.activities , props.v,counter)
                     }, answer[i]));
                 }
     
@@ -135,7 +129,7 @@ function Activity(props) {
                             e("input",{
                                 type:"text",
                                 id:"textAnswer",
-                                onClick: () => checkButton(counter - intro , -1, props.json.accessibility.activities)
+                                onClick: () => checkButton(counter  , -1, props.json.accessibility.activities,props.v,counter)
                             })
                         ]),
                         imgProp),e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
@@ -147,8 +141,7 @@ function Activity(props) {
     
     
     //0 3 ==> errore
-    function checkButton(activity , answer ,json,v){
-    
+    function checkButton(activity , answer ,json,v,counter){
     
         if(answer === -1){
     
@@ -163,17 +156,17 @@ function Activity(props) {
                 console.log("TextInsert Wrong");
             }
             console.log(v);
-        }else if(answer === v[v.length - 1].correct){
+        }else if(answer === v[counter].correct){
     
             console.log("Risposta Corretta");
             console.log(v);
             document.getElementById("btn"+answer).style.backgroundColor = "green";
-            v.push(json[json[activity].correctAnswerGo]);
+            v.push(json[v[counter].correctAnswerGo]);
            }else{
             console.log("Risposta Errata");
             console.log(v);
            document.getElementById("btn"+answer).style.backgroundColor = "red";
-           v.push(json[json[activity].wrongAnswerGo]);
+           v.push(json[v[counter].wrongAnswerGo]);
        }
     }
 

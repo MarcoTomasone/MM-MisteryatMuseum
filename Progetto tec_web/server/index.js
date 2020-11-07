@@ -182,17 +182,18 @@ app.delete("/deleteStory/:story", (req, res) => {
     res.end();
 })
 
-/*
+
 //chat
 const io = require('socket.io')(3000)
 
 io.on('connection', socket => {
   socket.on('send-chat-message', data => {
-    //io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "Admin"});
-    socket.broadcast.emit('chat-message', message);
+    io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "Admin", id: data.id});
+    //socket.broadcast.emit('chat-message', message);
   })
-})*/
+})
 
+/*
 const io = require('socket.io')(3000)
 
 const users = {}
@@ -207,14 +208,15 @@ io.on('connection', socket => {
     socket.broadcast.emit('chat-message', {message : data.message , name :"Admin", id: "Card0"});
     //io.to(`${data.receiver}`).emit("chat-message", { message: data.message, name: "Admin", id: "Card0"});
 })
+*/
 
  /* socket.on('disconnect', () => {
     socket.broadcast.emit('user-disconnected', users[socket.id])
     delete users[socket.id]
     //io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "EniGuidi", id: data.id});
     socket.emit("chat-message", {message: `${data.message}`, name: "EniGuidi", id: data.id})
-  })*/
-})
+  })
+})*/
 
 app.listen(8000, function () {
     console.log("Server listenig behind port 8000");

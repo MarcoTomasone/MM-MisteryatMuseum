@@ -1,124 +1,41 @@
+import CardPlayer from "./CardPlayer.js";
+
+const {Slide, Paper, IconButton, Icon, TextField, Slider} = MaterialUI;
 const e = React.createElement;
-const {makeStyles, Slide, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, Collapse} = MaterialUI;
 
 const all_messages = {};
 const socket = io('http://localhost:3000');
+var count = 0;
 
 //funzione ausiliare utilizzata per mettere i messaggi nel div
-const appendMessage = function(message, id) {
+export const appendMessage = function(message, id) {
     const messageContainer = document.getElementById(id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
     //const messageContainer = document.getElementById('message-container')
+
     const messageElement = document.createElement('div')
     messageElement.innerHTML = message
     messageContainer.append(messageElement)
 }
 
+//intermezzo tra CardPlayer e il socket, usata in CardPlayer
+export const send = function (message, id){
+    socket.emit('send-chat-message', {message: message, receiver: socket.id, id: id})  //lato server
+} 
+
 //waiting event
 socket.on('chat-message', data => {
-    appendMessage(`<b>${data.name}</b>: ${data.message}`, data.id)
-    //save arrived message in a dictionary
+    var today = new Date();
+    count = count+1;
+    appendMessage(`<b>${data.name}</b>: ${data.message} <p style="font-size:7pt; display:inline">(${today.getHours()}:${today.getMinutes()})</p>`, data.id)
+
+    /*save arrived message in a dictionary
     if (!(data.id in all_messages)){
         all_messages[data.id] = []
     }
     all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";
-    console.log(all_messages)
+    */
 })
 
-function Element(props){
-
-    //mi servirebbe per ricaricare i messaggi nel caso di ricaricamento della pagina
-    /* 
-    const uploadMessages = function(){
-        var message_app = "";
-        if (props.id in all_messages){
-            for (let i = 0; i < all_messages[props.id].length; i++) {
-                if(all_messages[props.id].charAt(i) == "/"){
-                    appendMessage(message_app, props.id);
-                    message_app = "";
-                }
-                else
-                    message_app = message_app + all_messages[props.id].charAt(i);
-            }
-        }
-    }
-    */
-    const useStyles_card = makeStyles((theme) => ({
-        root: {
-          maxWidth: "222px",
-          float: "left",
-          margin: "5px"
-        },
-    /*    media: {
-          height: 0,
-          paddingTop: '56.25%', // 16:9
-        },
-        expand: {
-          transform: 'rotate(0deg)',
-          marginLeft: 'auto',
-        },*/
-        avatar: {
-          backgroundColor: "red",
-        },
-      }));
-
-    const useStyles_grid = makeStyles((theme) => ({
-        root: {
-        flexGrow: 1,
-        },
-        paper: {
-        padding: theme.spacing(2),
-        textAlign: 'center',
-        color: theme.palette.text.primary,
-        },
-     }));
- 
-    const classes_card = useStyles_card();
-    const classes_grid = useStyles_grid();
-
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    }
-
-    //expanded.addEventListener("false",uploadMessages())
-
-    const sendMessage = function (){
-        const messageInput = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0]
-        //const messageInput = document.getElementById('message-input').value
-        const message = messageInput.value
-        appendMessage(`<b>You</b>: ${message}`, props.id) //lato client
-        socket.emit('send-chat-message', {message: message, receiver: socket.id, id: props.id})  //lato server
-        messageInput.value = ''
-    }     
-
-    return(
-        e(Card, {className: classes_card.root, id: props.id, raised: true, children: [
-            e(CardHeader, {avatar: e(Avatar, {children: props.name, className: classes_card.avatar}), action: e(IconButton, {children: e(Icon, {children: "more_vert"})}), title: props.id, subheader: "Date or time"}),
-            e(CardContent, {className: classes_grid.root, children: [
-                e(Grid, {container: true, spacing: "2", children: [
-                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper, xs: "6"}, [ e("p", null, "Section "), e("p", null, props.section) ])}),
-                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper, xs: "6"}, [ e("p", null, "Points "), e("p", null, props.points) ])}),
-                ]})
-            ]}),
-            e(CardActions, {disableSpacing: true, children: [
-                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: handleExpandClick}),//onClick: () =>{props.setSlide3(true);} 
-                e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}), //onClick: () =>{props.setSlide2(true);}
-                e(IconButton, {children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
-            ]}),
-            e(Collapse, {style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
-                e(CardContent, {children: [
-                    e("div",{id: "message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "1px solid grey", borderRadius: "5px", overflow: "scroll", fontSize: "10pt"}}), //div di arrivo delle risposte da valutare
-                    e("form", {id: "send-container"}, [
-                        e(TextField, {id: "message-input", variant: "outlined", margin: "dense", style: {width: "95%", marginLeft: "2.5%"}, InputProps: {endAdornment: 
-                            e(IconButton, {id: "send-button", onClick: sendMessage, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
-                        )
-                    ])
-                ]})
-            ]})
-        ]})
-    )
-}
 
 function controlHome(props){
     var arrayOfPlayers = [];
@@ -156,9 +73,8 @@ function controlHome(props){
     })*/
 
     for(let i=0; i<2; i++){
-        //arrayOfPlayers.push(e(Cards, {slide: slide, setSlide: setSlide}));
-        arrayOfPlayers.push(e(Element, {id: "Card"+i, name: "C"+i, slide: slide, setSlide: setSlide})); //, slide2: slide2, setSlide2: setSlide2, setSlide3: setSlide3
-    }
+        arrayOfPlayers.push(e(CardPlayer, {id: "Card"+i, name: "C"+i, slide: slide, setSlide: setSlide})); //, slide2: slide2, setSlide2: setSlide2, setSlide3: setSlide3
+    } 
 
     return e(React.Fragment, null, [
                 e("div",null, arrayOfPlayers), //arrayPlayers
@@ -168,7 +84,8 @@ function controlHome(props){
                     e(TextField, {variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
                         e(IconButton, {children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                     ),
-            ])})
+                ])}),
+                //e(Slider, {id: "slider", value: value, onChange: handleChange})
             ])
 
 }
@@ -219,73 +136,3 @@ export default controlHome;
             }).catch((error) => console.log(error));
     })*/
 
-/*
-function Cards(props){
-    
-    const openForm = function(){
-        document.getElementById(props.id).childNodes[0].style.height = "60%";
-        document.getElementById(props.id).childNodes[1].style.height = "60%";
-        document.getElementById(props.id).childNodes[2].style.display = "none";
-        document.getElementById(props.id).childNodes[3].style.display = "block";
-        document.getElementById(props.id).style.height = "300px";
-        document.getElementById()
-    }
-
-    const closeForm = function(){
-        document.getElementById(props.id).childNodes[3].style.display = "none";
-        document.getElementById(props.id).childNodes[2].style.display = "block";
-        document.getElementById(props.id).childNodes[1].style.height = "86%";
-        document.getElementById(props.id).childNodes[0].style.height = "86%";
-        document.getElementById(props.id).style.height = "200px";
-    }
-    
-
-    return(
-        e("div",{id: props.id, className: "control_home"},[
-            e("div",{id: "description_card", className: "left_div"},[
-                e("div", {className: "div_card"}, [
-                    e("label", null, "Name/Id:"),  //aggiungere accessibilità
-                    e("p",null, props.id)
-                ]), 
-                e("div", {className: "div_card"}, [
-                    e("label", null, "Section:"),   //aggiungere accessibilità
-                    e("p",null, props.section)
-                ]),
-                e("div", {className: "div_card"}, [
-                    e("label", null, "Points:"),    //aggiungere accessibilità
-                    e("p",null, props.points)
-                ])
-            ]),
-            e("div", {id: "led_card", className: "right_div"}, [
-                e("div", {id: "help"}, [
-                    e("p",{className: "led_text"}, "Help"),
-                    e("span", {id: "led_help"})
-                ]),
-                e("div", {id: "evalutation"}, [
-                    e("p",{className: "led_text"}, ["Human",e("br"),"Evaluation"]),
-                    e("span", {id: "led_evalutation", onClick: () =>{
-                        props.setSlide(true);
-                    }})
-                ]),
-            ]),
-            
-            e("div", {id: "buttn"},[
-                e("button", {type: "button", className: "open-button", onClick: () =>{
-                    props.setSlide(true);
-                }}, "Chat")
-            ]),
-            e("div", {id: "chat_card", className: "bottom_div chat-popup", id: "myForm"},[
-                e("form", {action: "", className: "form-container"},[  //aggiungere l'url della parte server che manda il messaggio
-                    e("h5", null, "Chat"),
-                    e("ul", {id: "messages"}),
-                    e("textarea", {placeholder: "Type message..", name: "msg", required: "required"}),
-                
-                //    e("button", {type: "submit", className: "btn", onClick: sendMessage}, "Send"),
-                //    e("button", {type: "button", className: "btn cancel"}, "Close")
-                
-                ])
-            ])
-        ])
-    )
-}
-*/

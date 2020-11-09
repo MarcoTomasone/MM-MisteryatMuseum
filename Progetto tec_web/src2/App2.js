@@ -43,7 +43,10 @@ function App2() {
     const data = JSON.parse(temp);
     
     let activityList = [];
-    activityList.push(data.accessibility.activities[0]);
+
+    for(let i = 0;i < data.accessibility.activities.length - 1;i++) {
+        activityList.push(data.accessibility.activities[i]);
+    }
     
   //  console.log(data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) );
     const btnChat={

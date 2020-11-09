@@ -1,3 +1,4 @@
+
 const e = React.createElement;
 
 function Activity(props) {
@@ -5,10 +6,15 @@ function Activity(props) {
         const [counter,setCounter] = React.useState(0);
     
         function inc(){
-            
-            if(counter + 1 <= props.v.length){
-                props.v.push(props.json.accessibility.activities[counter + 1 % props.json.accessibility.activities.length]);
-            }    
+            console.log(props.v);
+         //   if(counter + 3 <= props.v.length){
+          //      props.v.push(props.json.accessibility.activities[counter + 4 % props.json.accessibility.activities.length]);
+          //  }
+
+            if(counter  === props.v.length - 2){
+               // console.log(props.json.accessibility.);
+                props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
+            }
             setCounter(counter+ 1);
             MediaProp = [];
                         
@@ -70,8 +76,8 @@ function Activity(props) {
                 left:`${props.v[counter].styleM.left  *screen.availHeight /202}px`,
                 position:'absolute'
             }
-         MediaProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,autoPlay:true}));
-           
+         MediaProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,controls:true,autoPlay:true}));
+
         }
     
         if (props.v[counter].type_ === "description" ){
@@ -144,30 +150,43 @@ function Activity(props) {
 
 
     function checkButton(counter , answer , json , v){
-    
+        if(!(counter === json.length -2) ){
         if(answer === -1){
-    
+
             if(document.getElementById("textAnswer").value  ===v[counter].correct ){
-                v.push(json[counter + 1 % json.length]);
+                let appo = v[counter + 1];
+                v[counter+1] = json[v[counter].correctAnswerGo];
+                v.push(appo);
+
                 console.log("TextInsert Correct");
-                
+
             }else{
-                v.push(json[counter + 1 % json.length]);
+                let appo = v[counter + 1];
+                v[counter+1] = json[v[counter].wrongAnswerGo];
+                v.push(appo);
+
                 console.log("TextInsert Wrong");
             }
             console.log(v);
         }else if(answer === v[counter].correct){
-    
+
             console.log("Risposta Corretta");
 
             document.getElementById("btn"+answer).style.backgroundColor = "green";
-            v.push(json[v[counter].correctAnswerGo]);
-           }else{
+
+            let appo = v[counter + 1];
+            v[counter+1] = json[v[counter].correctAnswerGo];
+            v.push(appo);
+
+        }else{
             console.log("Risposta Errata");
 
            document.getElementById("btn"+answer).style.backgroundColor = "red";
-           v.push(json[v[counter].wrongAnswerGo]);
-       }
+            let appo = v[counter + 1];
+            v[counter+1] = json[v[counter].wrongAnswerGo];
+            v.push(appo);
+        }
+        }
     }
 
     export default Activity;

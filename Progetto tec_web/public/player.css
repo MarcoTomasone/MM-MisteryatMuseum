@@ -145,7 +145,7 @@ phoneText1{
             borderRadius: 20px;
             textColor: #ffffff;
 }*/
-#slide{
+#slide-chat{
     border-radius: 0px;
     background-color: rgba(247, 244, 244, 0.9);
     position: fixed;
@@ -155,6 +155,17 @@ phoneText1{
     border-top-left-radius: 15px;
    /* z-index: 1;*/
 }
+#slide-help{
+    border-radius: 0px;
+    background-color: rgba(247, 244, 244, 0.9);
+    position: fixed;
+    height: 30%;
+    width: 80%;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+   /* z-index: 1;*/
+}
+
 
 * {
     box-sizing: border-box;

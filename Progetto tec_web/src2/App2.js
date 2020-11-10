@@ -24,6 +24,7 @@ function appendMessage(message) {
     messageContainer.append(messageElement)
 }
 
+
 function App2() {
 
     React.useEffect(() => {
@@ -81,14 +82,9 @@ function App2() {
     };
 
     //boolean for the chat
-    const [expanded, setExpanded] = React.useState(false);
-    const [slide, setSlide] = React.useState(false);
-    
-    //Function to open and close the chat
-    const handleExpandClick = () => {
-        setExpanded(!expanded)
-    }
-    
+    const [slideHelp, setSlideHelp] = React.useState(false);
+    const [slideChat, setSlideChat] = React.useState(false);
+   
     const sendMessage = function (){
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
@@ -97,6 +93,16 @@ function App2() {
         messageInput.value = '' //clean the input text
     } 
 
+        
+    function openHelp() {
+        setSlideHelp(!slideHelp);
+        //REFRACTORING E TUTTO IN UNA FUNZIONE 
+        const messageContainer = document.getElementById("help-message-container")
+        const message = "Ciao io sono l'aiuto!"
+        const messageElement = document.createElement('div')
+        messageElement.innerHTML = message
+        messageContainer.append(messageElement)
+    }
 
 const div_a = {      //style della div contenente le activity
     border:data.accessibility.activityStyle.divisor.border,
@@ -117,18 +123,22 @@ const div_a = {      //style della div contenente le activity
         e("div", null, [    
             e("div", {key:"player",id:"player",style:div_a}, [
                 e("nav",{style:navbar,id:"navPlayer"},
-                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlide(!slide);}}), 
-                e(IconButton, {children: e(Icon, {children: "help", color: "primary"})})
+                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
+                e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: openHelp})
             )],
             e(Activity, { json:data,  v : activityList })),
-            e(Slide, {in: slide, direction: "right", id: "slide", children: e(Paper, null, [
-                e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
-                    e("div",{id: "message-container", style: {width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+            e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
+                e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
+                    e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
                         e(TextField, {id: "message-input", variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
                             e(IconButton, {id:"send-button", onClick: sendMessage, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])
+            ])}),
+            e(Slide, {in: slideHelp, direction:"down", id: "slide-help", children: e(Paper, null, [
+                e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideHelp(false)}}),
+                e("div",{id: "help-message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
             ])})
         ])
     ])        

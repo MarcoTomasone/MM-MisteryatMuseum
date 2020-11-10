@@ -6,7 +6,7 @@ const e = React.createElement;
 function CardPlayer(props){
 
     //mi servirebbe per ricaricare i messaggi nel caso di ricaricamento della pagina
-    /* 
+    /*
     const uploadMessages = function(){
         var message_app = "";
         if (props.id in all_messages){

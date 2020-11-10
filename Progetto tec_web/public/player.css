@@ -150,20 +150,20 @@ phoneText1{
     background-color: rgba(247, 244, 244, 0.9);
     position: fixed;
     height: 100%;
-    width: 80%;
-    border-bottom-left-radius: 15px;
-    border-top-left-radius: 15px;
-   /* z-index: 1;*/
+    width: 40%;
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    box-sizing: border-box;
 }
 #slide-help{
     border-radius: 0px;
     background-color: rgba(247, 244, 244, 0.9);
     position: fixed;
     height: 30%;
-    width: 80%;
+    width: 100%;
     border-bottom-left-radius: 15px;
-    border-top-left-radius: 15px;
-   /* z-index: 1;*/
+    border-bottom-right-radius: 15px;
+    box-sizing: border-box;
 }
 
 

@@ -28,12 +28,13 @@ socket.on('chat-message', data => {
     count = count+1;
     appendMessage(`<b>${data.name}</b>: ${data.message} <p style="font-size:7pt; display:inline">(${today.getHours()}:${today.getMinutes()})</p>`, data.id)
 
-    /*save arrived message in a dictionary
+    //save arrived message in a dictionary
     if (!(data.id in all_messages)){
         all_messages[data.id] = []
     }
     all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";
-    */
+    
+    console.log(all_messages);
 })
 
 

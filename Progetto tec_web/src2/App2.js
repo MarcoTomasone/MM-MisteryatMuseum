@@ -95,7 +95,7 @@ function App2() {
 
         
     function openHelp() {
-        setSlideHelp(!slideHelp);
+        setSlideHelp(true);
         //REFRACTORING E TUTTO IN UNA FUNZIONE 
         const messageContainer = document.getElementById("help-message-container")
         const message = "Ciao io sono l'aiuto!"
@@ -123,7 +123,7 @@ const div_a = {      //style della div contenente le activity
         e("div", null, [    
             e("div", {key:"player",id:"player",style:div_a}, [
                 e("nav",{style:navbar,id:"navPlayer"},
-                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
+                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(true);}}), 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: openHelp})
             )],
             e(Activity, { json:data,  v : activityList })),
@@ -136,9 +136,9 @@ const div_a = {      //style della div contenente le activity
                             )
                         ])
             ])}),
-            e(Slide, {in: slideHelp, direction:"down", id: "slide-help", children: e(Paper, null, [
+            e(Slide, {in: slideHelp, direction:"down", id: "slide-help", children: e(Paper, null, [   //unmountOnExit: true -> but we have a problem
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideHelp(false)}}),
-                e("div",{id: "help-message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+                    e("div",{id: "help-message-container", style: {overflow:"scroll", width: "80%", height: "60%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
             ])})
         ])
     ])        

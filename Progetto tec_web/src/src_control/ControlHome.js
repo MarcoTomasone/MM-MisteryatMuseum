@@ -1,4 +1,5 @@
 import CardPlayer from "./CardPlayer.js";
+//import {setC} from "./CardPlayer.js";
 
 const {Slide, Paper, IconButton, Icon, TextField, Slider} = MaterialUI;
 const e = React.createElement;
@@ -9,12 +10,11 @@ var count = 0;
 
 //funzione ausiliare utilizzata per mettere i messaggi nel div
 export const appendMessage = function(message, id) {
-    const messageContainer = document.getElementById(id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
-    //const messageContainer = document.getElementById('message-container')
+    const messageContainer = document.getElementById(id + '_message-container');
+    const messageElement = document.createElement('div');
 
-    const messageElement = document.createElement('div')
-    messageElement.innerHTML = message
-    messageContainer.append(messageElement)
+    messageElement.innerHTML = message;
+    messageContainer.append(messageElement);
 }
 
 //intermezzo tra CardPlayer e il socket, usata in CardPlayer
@@ -43,22 +43,28 @@ function controlHome(props){
 
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
     const [slide, setSlide] = React.useState(false);
+    //const [value, setValue] = React.useState(false);
+
+    /*const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };*/
 
     
-    /*
     React.useEffect(() => {
-        axios.get(`https://api.github.com/search/repositories?q=user:lucajett99&sort=updated`)
+
+        axios.get(`http://localhost:8000/status`)
             .then((response) => {
-                response.data.items.forEach((element) => {
-                    arrayOfPlayers.push(e(Element, {
+                response.data.Players.forEach((element) => {
+                    arrayOfPlayers.push(e(CardPlayer, {
                         key: element.id, 
                         id: element.id,
                         name: element.name, 
+                        timer: element.timer,
                         section: element.section, 
                         points: element.points,
-                        help: element.help,
-                        humanE: element.humanE,
-                        other: response.data
+                        chat: element.chat,
+                        slide: slide,
+                        setSlide: setSlide
                     }))
                 })
 
@@ -67,18 +73,19 @@ function controlHome(props){
             })
             .then((response) => {
                 response.forEach((element) => {
-                  //  if (element.help == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[0].childNodes[1].classList.add("need_help");
-                   // if (element.humanE == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[1].childNodes[1].classList.add("need_help");
+                   // if(element.props.chat)
+                    //  document.getElementById(element.props.id + "_chat").classList.add("MuiIcon-colorSecondary");
                 })
             }).catch((error) => console.log(error));
-    })*/
+    })
 
-    for(let i=0; i<2; i++){
+    
+    /*for(let i=0; i<2; i++){
         arrayOfPlayers.push(e(CardPlayer, {id: "Card"+i, name: "C"+i, slide: slide, setSlide: setSlide})); //, slide2: slide2, setSlide2: setSlide2, setSlide3: setSlide3
-    } 
+    }*/
 
     return e(React.Fragment, null, [
-                e("div",null, arrayOfPlayers), //arrayPlayers
+                e("div",null, arrayPlayers), //arrayPlayers
                 e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
                     e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
                     e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare

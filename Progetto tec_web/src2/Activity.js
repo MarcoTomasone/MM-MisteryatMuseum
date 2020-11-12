@@ -6,22 +6,21 @@ function Activity(props) {
         const [counter,setCounter] = React.useState(0);
     
         function inc(){
-            console.log(props.v);
-         //   if(counter + 3 <= props.v.length){
-          //      props.v.push(props.json.accessibility.activities[counter + 4 % props.json.accessibility.activities.length]);
-          //  }
-
-            if(counter  === props.v.length - 2){
-               // console.log(props.json.accessibility.);
-                props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
-            }
+            
+            
             setCounter(counter+ 1);
             MediaProp = [];
-                        
-            if(props.v[counter].type_ === "button" && counter > 0){
+
+            if(counter  === props.v.length - 2){
+                props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
+                document.getElementById("nextButton").style.backgroundColor="grey";
+            }
+            
+           if(props.v[counter].type_ === "button" && counter > 0){
                 for(let i = 0; i < props.v[counter].answer.length; i++)
-                    document.getElementById("btn"+i).style.backgroundColor="white";
-            }    
+                    document.getElementById("btn"+i).style.backgroundColor=props.v[counter].btnStyle.bckgrndClr;
+            }
+
             
         }
     
@@ -56,8 +55,7 @@ function Activity(props) {
             position:'absolute',
           
         };
-    
-
+        
         const askNav = {
             border: "solid",
             borderColor: "red",
@@ -72,10 +70,11 @@ function Activity(props) {
             mediaStyle = {
                 width:`${props.v[counter].styleM.width  *screen.availWidth /202}px`,
                 height:`${props.v[counter].styleM.height  *screen.availHeight /437}px`,
-                bottom:`${props.v[counter].styleM.bottom  *screen.availWidth /437}px`,
-                left:`${props.v[counter].styleM.left  *screen.availHeight /202}px`,
+                bottom:`${props.v[counter].styleM.bottom  *screen.availHeight /437}px`,
+                left:`${props.v[counter].styleM.left  *screen.availWidth /202}px`,
                 position:'absolute'
             }
+            
          MediaProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,controls:true,autoPlay:true}));
 
         }
@@ -96,20 +95,25 @@ function Activity(props) {
     
     
             if(props.v[counter].type_ === "button") {
-    
+                console.log(counter);
+                console.log(props.v[counter].btnStyle.bc);
                 const buttProp = {
-                    width:props.v[counter].btnStyle.width,
-                    height:props.v[counter].btnStyle.height,
-                    marginLeft: props.v[counter].btnStyle.marginLeft,
-                    marginRight:props.v[counter].btnStyle.marginRight
-                };
-    
-                const ListButtonAnswer = [];
+                backgroundColor:props.v[counter].btnStyle.bckgrndClr,
+                width:`${props.v[counter].btnStyle.width  *screen.availWidth /202}px`,
+                height:`${props.v[counter].btnStyle.height  *screen.availHeight /437}px`,
+                marginLeft:`${props.v[counter].btnStyle.marginLeft *screen.availWidth /202}px`,
+                marginRight:`${props.v[counter].btnStyle.marginRight  *screen.availHeight /437}px`,
+                marginTop:`${props.v[counter].btnStyle.marginTop  *screen.availHeight /437}px`,
+                borderRadius:`${props.v[counter].btnStyle.borderRadius}px`,
+                                
+               };
+               
+               const ListButtonAnswer = [];
                 for (let i = 0; i < answer.length; i++) {      
                     ListButtonAnswer.push(e("button", {
                         style: buttProp,
                         id:"btn"+i,
-                        alt:"bottone 1: "+answer[i],
+                        alt:"bottone : "+answer[i],
                         onClick: () => checkButton(counter , i, props.json.accessibility.activities , props.v)
                     }, answer[i]));
                 }
@@ -126,7 +130,7 @@ function Activity(props) {
                             ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT")
                         );
     
-            }else {        
+            }else if(props.v[counter].type_ === "text"){        
                 
                 return e("div",null,
                 
@@ -140,8 +144,18 @@ function Activity(props) {
                             })
                         ]),
                         MediaProp),
-                    e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
+                    e("button", {key:"buttonNext",id: "nextButton",style:btnNext,onClick:inc}, "NEXT"));
     
+            }else{
+                return e("div",null,
+                
+                    e("div", {key: "actDescription", style: divActivity},
+                        e("p", null, domanda),
+                        e("div", null, [
+                            e("input",{type:"range", key:"range",id:"range"})
+                        ]),
+                        MediaProp),
+                    e("button", {key:"buttonNext",id: "nextButton",style:btnNext,onClick:inc}, "NEXT"));
             }
         }
     
@@ -150,6 +164,10 @@ function Activity(props) {
 
 
     function checkButton(counter , answer , json , v){
+        console.log(counter);
+        console.log(answer);
+        console.log(json);
+        console.log(v);
         if(!(counter === json.length -2) ){
         if(answer === -1){
 
@@ -171,9 +189,7 @@ function Activity(props) {
         }else if(answer === v[counter].correct){
 
             console.log("Risposta Corretta");
-
-            document.getElementById("btn"+answer).style.backgroundColor = "green";
-
+            document.getElementById("btn"+answer).style.backgroundColor = v[counter].btnStyle.bckgrndClrC;
             let appo = v[counter + 1];
             v[counter+1] = json[v[counter].correctAnswerGo];
             v.push(appo);
@@ -181,7 +197,9 @@ function Activity(props) {
         }else{
             console.log("Risposta Errata");
 
-           document.getElementById("btn"+answer).style.backgroundColor = "red";
+           
+           document.getElementById("btn"+answer).style.backgroundColor =  v[counter].btnStyle.bckgrndClrW;
+
             let appo = v[counter + 1];
             v[counter+1] = json[v[counter].wrongAnswerGo];
             v.push(appo);

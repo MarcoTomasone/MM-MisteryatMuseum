@@ -1,4 +1,3 @@
-
 const e = React.createElement;
 
 function Activity(props) {
@@ -12,7 +11,7 @@ function Activity(props) {
           //  }
 
             if(counter  === props.v.length - 2){
-               // console.log(props.json.accessibility.);
+              // console.log(props.json.accessibility.);
                 props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
             }
             setCounter(counter+ 1);
@@ -56,7 +55,51 @@ function Activity(props) {
             position:'absolute',
           
         };
-    
+         //  console.log(data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) );
+    const btnChat={
+        backgroundColor:data.accessibility.player.chatButton.backgroundColor,
+        borderRadius:`${data.accessibility.player.chatButton.borderRadius}px`,
+        textAlign:'center',
+        width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
+        height:`${data.accessibility.player.chatButton.borderRadius * screen.availHeight /202}px`,
+        top:`${data.accessibility.player.chatButton.top * screen.availHeight/437}px`,
+        left:`${data.accessibility.player.chatButton.left * screen.availWidth /202}px`,
+        //borderColor:data.accessibility.player.chatButton.borderColor,
+        position:'absolute'
+        /*textColor: ''+data.accessibility.player.chatButton.textColor+'',
+        position:'relative' */
+    };
+
+    const btnHelp={
+        backgroundColor:data.accessibility.player.helpButton.backgroundColor,
+        //borderColor:data.accessibility.player.borderColor,
+        borderRadius:`${data.accessibility.player.helpButton.borderRadius}px`,
+        textAlign:'center',
+        width:`${data.accessibility.player.helpButton.width *screen.availWidth /437}px`,
+        height:`${data.accessibility.player.helpButton.borderRadius * screen.availHeight /202}px`,
+        top:`${data.accessibility.player.helpButton.top * screen.availHeight /437}px`,
+        left:`${data.accessibility.player.helpButton.left * screen.availWidth /202}px`,
+        position:'absolute'
+    };
+
+    const navbar ={
+        //padding:'5px',
+       // height:'90%',
+    };
+
+        const div_a = {      //style della div contenente le activity
+            border:data.accessibility.activityStyle.divisor.border,
+            overflow:"scroll",
+            borderColor: data.accessibility.activityStyle.divisor.borderColor,
+            position:'absolute',
+            background:  data.accessibility.player.background ,
+        
+            thicknessFrame:`${data.accessibility.player.weightFont}px`,
+            topFrame:`${data.accessibility.player.topFrame}px`,
+            weightFont:`${data.accessibility.player.weightFont}px`,
+            widthFrame: `${data.accessibility.player.widthFrame}px`
+            
+        };
 
         const askNav = {
             border: "solid",

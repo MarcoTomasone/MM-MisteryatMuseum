@@ -119,7 +119,16 @@
 			},
 			{
 				"question": "Questa é la prova per un range di possibilita. Vediamo quanto sei trash? ",
-				"type_": "range",
+				"type_": "input",
+				"type":"range",
+				"minRange":1,
+				"maxRange":10,
+				"styleInput":{
+					"width":100,
+                    "height":15,
+					"left":20,
+					"bottom":170
+				},
 				"media": "img",
 				"source": "./pikachu.png",
 				"wrongAnswerGo":1,

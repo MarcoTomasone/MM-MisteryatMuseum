@@ -10,7 +10,7 @@ function Activity(props) {
             setCounter(counter+ 1);
             MediaProp = [];
 
-            if(counter  === props.v.length - 2){
+            if(counter  === props.v.length - 1){
               // console.log(props.json.accessibility.);
                 props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
                 document.getElementById("nextButton").style.backgroundColor="grey";
@@ -138,8 +138,14 @@ function Activity(props) {
                             ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT")
                         );
     
-            }else if(props.v[counter].type_ === "text"){        
-                
+            }else if(props.v[counter].type_ === "text" ){        
+
+                const styl = {
+                    width:"200px",
+                    height:"40px",
+                    left:"30px",
+                }
+
                 return e("div",null,
                 
                     e("div", {key: "actDescription", style: divActivity},
@@ -148,6 +154,8 @@ function Activity(props) {
                             e("input",{
                                 type:"text",
                                 id:"textAnswer",
+                                key:"input",
+                                style:styl,
                                 onClick: () => checkButton(counter  , -1, props.json.accessibility.activities,props.v)
                             })
                         ]),
@@ -155,16 +163,45 @@ function Activity(props) {
                     e("button", {key:"buttonNext",id: "nextButton",style:btnNext,onClick:inc}, "NEXT"));
     
             }else{
-                return e("div",null,
+                
+                const styl = {
+                    width:`${props.v[counter].styleInput.width  *screen.availWidth /202}px`,
+                    height:`${props.v[counter].styleInput.height  *screen.availHeight /437}px`,
+                    bottom:`${props.v[counter].styleInput.bottom  *screen.availHeight /437}px`,
+                    left:`${props.v[counter].styleInput.left  *screen.availWidth /202}px`,
+                    position:'absolute'
+                }
+                const stylB = {
+                    width:`${(props.v[counter].styleInput.width - 20  )*screen.availWidth /202}px`,
+                    height:`${props.v[counter].styleInput.height  *screen.availHeight /437}px`,
+                    bottom:`${(props.v[counter].styleInput.bottom - 20) *screen.availHeight /437}px`,
+                    left:`${(props.v[counter].styleInput.left -10) *screen.availWidth /202}px`,
+                    position:'absolute'
+                    
+                }
+                  return e("div",null,
                 
                     e("div", {key: "actDescription", style: divActivity},
                         e("p", null, domanda),
-                        e("div", null, [
-                            e("input",{type:"range", key:"range",id:"range"})
+                        e("br",null),
+                        e("div", {style:{height:"100%",width:"100%"}}, [
+                            e("input",{
+                                type:props.v[counter].type, 
+                                key:props.v[counter].type,
+                                min:props.v[counter].minRange,
+                                max:props.v[counter].maxRange,
+                                id:"rangenpt",style:styl,
+                                }),
+                                e("button",{
+                                    style:stylB,
+                                    key:"confirm",
+                                    id:"confirm",
+                                    onClick: () => checkButton(counter,-2,props.json.accessibility.activities,props.v)},"Check")
                         ]),
                         MediaProp),
                     e("button", {key:"buttonNext",id: "nextButton",style:btnNext,onClick:inc}, "NEXT"));
-            }
+            
+                    }
         }
     
     }
@@ -172,17 +209,15 @@ function Activity(props) {
 
 
     function checkButton(counter , answer , json , v){
-        console.log(counter);
-        console.log(answer);
-        console.log(json);
-        console.log(v);
-        if(!(counter === json.length -2) ){
+        
+
+        if(!(counter === json.length -1) ){
         if(answer === -1){
 
             if(document.getElementById("textAnswer").value  ===v[counter].correct ){
-                let appo = v[counter + 1];
-                v[counter+1] = json[v[counter].correctAnswerGo];
-                v.push(appo);
+                    let appo = v[counter + 1];
+                    v[counter+1] = json[v[counter].correctAnswerGo];
+                    v.push(appo);
 
                 console.log("TextInsert Correct");
 
@@ -194,6 +229,9 @@ function Activity(props) {
                 console.log("TextInsert Wrong");
             }
             console.log(v);
+        }else if(answer === -2){
+           alert(document.getElementById("rangenpt").value);
+            
         }else if(answer === v[counter].correct){
 
             console.log("Risposta Corretta");

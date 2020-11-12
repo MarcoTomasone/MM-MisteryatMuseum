@@ -1,5 +1,7 @@
 import Activity from './Activity.js'
+import {readJSON} from '../utils.js'
 
+var tmp = 0;
 const e = React.createElement;
 const {Icon, IconButton, Collapse, TextField, Slide, Paper}  = MaterialUI;
 
@@ -31,14 +33,6 @@ function App2() {
         document.getElementById("body2").style.height = `${screen.availHeight}px`;
         document.getElementById("body2").style.width = `${screen.availWidth}px`;
                 }, [])
-
-    function readJSON(file) {
-        let request = new XMLHttpRequest();
-        request.open('GET', file, false);
-        request.send(null);
-        if (request.status == 200)
-            return request.responseText;
-    }
 
     const temp = readJSON('./Document.json');
     const data = JSON.parse(temp);
@@ -123,7 +117,7 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(true);}}), 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: openHelp})
             )],
-            e(Activity, { json:data,  v : activityList })),
+            e(Activity, { json:data,  v : activityList})),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare

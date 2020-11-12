@@ -1,3 +1,4 @@
+
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
@@ -182,8 +183,9 @@ app.delete("/deleteStory/:story", (req, res) => {
     res.end();
 })
 
+//----------------------------------------------------------------CHAT-------------------------------------------------------------------------------------------------------
+
 /*
-//chat
 const io = require('socket.io')(3000)
 
 io.on('connection', socket => {
@@ -196,15 +198,16 @@ io.on('connection', socket => {
 
 const io = require('socket.io')(3000)
 
-const users = {}
+//var messagereceived = false; //variable for my test (Luca)
 
 io.on('connection', socket => {
   socket.on('new-user', name => {
-    users[socket.id] = name
-    socket.broadcast.emit('user-connected', name)
+    users[socket.id] = name;
+    socket.broadcast.emit('user-connected', name);
   })
 
   socket.on('send-chat-message', data => {
+    //messagereceived = true;
     socket.broadcast.emit('chat-message', {message : data.message , name :"Admin", id: "Card0"});
     //io.to(`${data.receiver}`).emit("chat-message", { message: data.message, name: "Admin", id: "Card0"});
 })
@@ -217,6 +220,23 @@ io.on('connection', socket => {
     socket.emit("chat-message", {message: `${data.message}`, name: "EniGuidi", id: data.id})
   })*/
 })
+
+
+//----------------------------------------------------------------GET STATUS PLAYER-------------------------------------------------------------------------------------------------------
+app.get("/status", (req, res) => {
+    var file = fs.readFileSync(`../src/src_control/JSON_Player.json`, {encoding:'utf8', flag:'r'});
+    /*const tmp = JSON.parse(file);
+
+    tmp.Players.forEach((element) => {
+        if(messagereceived){
+            element.chat = true;
+            messagereceived = false;
+        }
+    })
+    file = JSON.stringify(tmp);*/
+    res.end(file);
+})
+//--------------------------------------------------------------------------------------------------------------------------------------------------
 
 app.listen(8000, function () {
     console.log("Server listenig behind port 8000");

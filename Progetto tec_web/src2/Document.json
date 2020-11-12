@@ -15,6 +15,7 @@
 				"media":"video",
 				"source":"./movie.mp4",
 				"alternativeText":"Prova video",
+				"help" :"Sono l'aiuto dell'activity 1",
 				"styleM":{
 					"height":100,
 					"width":100,
@@ -32,6 +33,7 @@
 				"media": "img",
 				"source": "./pikachu.png",
 				"alternativeText":"Icona Piakchu",
+				"help" : "Sono l'aiuto dell'activity 2",
 				"styleM":{
 					"height":100,
 					"width":100,
@@ -61,6 +63,7 @@
 				"media": 0,
 				"wrongAnswerGo":3,
 				"correctAnswerGo":3,
+				"help" : "Sono l'aiuto dell'activity 3",
 				"btnStyle":{
 					"width":40,
 					"height":30,
@@ -79,6 +82,7 @@
 				"media": "audio",
 				"source": "./record.mp3",
 				"alternativeText":"Icona Piakchu",
+				"help" : "Sono l'aiuto dell'activity 4",
 				"styleM":{
 					"height":100,
 					"width":145,

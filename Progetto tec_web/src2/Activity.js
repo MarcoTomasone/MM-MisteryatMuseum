@@ -1,7 +1,7 @@
 const e = React.createElement;
 
 function Activity(props) {
-   
+    let inputProp = [];
         const [counter,setCounter] = React.useState(0);
     
         function inc(){
@@ -9,7 +9,7 @@ function Activity(props) {
             
             setCounter(counter+ 1);
             MediaProp = [];
-
+           // inputProp = [];
             if(counter  === props.v.length - 1){
               // console.log(props.json.accessibility.);
                 props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
@@ -66,6 +66,7 @@ function Activity(props) {
   
             
         let MediaProp = [];
+        
         let mediaStyle;
     
         if(props.v[counter].media !== 0){
@@ -90,7 +91,6 @@ function Activity(props) {
                    ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
     
         } else {
-    
            let domanda = props.v[counter].question;
            let answer = props.v[counter].answer;
     
@@ -138,70 +138,68 @@ function Activity(props) {
                             ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT")
                         );
     
-            }else if(props.v[counter].type_ === "text" ){        
-
+            }else {
+                if(props.v[counter].type_ === "text" ){        
+                    console.log("enter condition text");
                 const styl = {
                     width:"200px",
                     height:"40px",
                     left:"30px",
                 }
 
-                return e("div",null,
-                
-                    e("div", {key: "actDescription", style: divActivity},
-                        e("p", null, domanda),
-                        e("div", null, [
-                            e("input",{
-                                type:"text",
-                                id:"textAnswer",
-                                key:"input",
-                                style:styl,
-                                onClick: () => checkButton(counter  , -1, props.json.accessibility.activities,props.v)
-                            })
-                        ]),
-                        MediaProp),
-                    e("button", {key:"buttonNext",id: "nextButton",style:btnNext,onClick:inc}, "NEXT"));
-    
-            }else{
-                
-                const styl = {
-                    width:`${props.v[counter].styleInput.width  *screen.availWidth /202}px`,
-                    height:`${props.v[counter].styleInput.height  *screen.availHeight /437}px`,
-                    bottom:`${props.v[counter].styleInput.bottom  *screen.availHeight /437}px`,
-                    left:`${props.v[counter].styleInput.left  *screen.availWidth /202}px`,
-                    position:'absolute'
-                }
-                const stylB = {
-                    width:`${(props.v[counter].styleInput.width - 20  )*screen.availWidth /202}px`,
-                    height:`${props.v[counter].styleInput.height  *screen.availHeight /437}px`,
-                    bottom:`${(props.v[counter].styleInput.bottom - 20) *screen.availHeight /437}px`,
-                    left:`${(props.v[counter].styleInput.left -10) *screen.availWidth /202}px`,
-                    position:'absolute'
-                    
-                }
-                  return e("div",null,
-                
-                    e("div", {key: "actDescription", style: divActivity},
-                        e("p", null, domanda),
-                        e("br",null),
-                        e("div", {style:{height:"100%",width:"100%"}}, [
-                            e("input",{
-                                type:props.v[counter].type, 
-                                key:props.v[counter].type,
-                                min:props.v[counter].minRange,
-                                max:props.v[counter].maxRange,
-                                id:"rangenpt",style:styl,
-                                }),
-                                e("button",{
-                                    style:stylB,
-                                    key:"confirm",
-                                    id:"confirm",
-                                    onClick: () => checkButton(counter,-2,props.json.accessibility.activities,props.v)},"Check")
-                        ]),
-                        MediaProp),
-                    e("button", {key:"buttonNext",id: "nextButton",style:btnNext,onClick:inc}, "NEXT"));
-            
+                inputProp.push(e("input",{
+                    type:"text",
+                    id:"textAnswer",
+                    key:"input",
+                    style:styl,
+                    onClick: () => checkButton(counter  , -1, props.json.accessibility.activities,props.v)
+                }));
+
+      
+                }else if(props.v[counter].type_ === "range" ) {
+                    console.log("enter condition range");
+                    const styleRange = {
+                        width:`${props.v[counter].styleInput.width  *screen.availWidth /202}px`,
+                        height:`${props.v[counter].styleInput.height  *screen.availHeight /437}px`,
+                        bottom:`${props.v[counter].styleInput.bottom  *screen.availHeight /437}px`,
+                        left:`${props.v[counter].styleInput.left  *screen.availWidth /202}px`,
+                        position:'absolute'
                     }
+                    const stylB = {
+                        width:`${(props.v[counter].styleInput.width - 70  )*screen.availWidth /202}px`,
+                        height:`${props.v[counter].styleInput.height  *screen.availHeight /437}px`,
+                        bottom:`${(props.v[counter].styleInput.bottom - 20) *screen.availHeight /437}px`,
+                        left:`${(props.v[counter].styleInput.left +40) *screen.availWidth /202}px`,
+                        position:'absolute'
+                        
+                    }
+                    inputProp.push(e("input",{
+                                    type:"range", 
+                                    key:"rangebar",
+                                    min:props.v[counter].minRange,
+                                    max:props.v[counter].maxRange,
+                                    id:"rangenpt",style:styleRange,
+                                    }),                               
+                                    e("button",{
+                                        style:stylB,
+                                        key:"confirm",
+                                        id:"confirm",
+                                        onClick: () => checkButton(counter,-2,props.json.accessibility.activities,props.v)},"Check")
+                            );
+                    }
+        
+
+                    return e("div",null, e("div", {key: "actDescription", style: divActivity},
+                        e("p", null, domanda),
+                        e("div", null, 
+                            inputProp
+                        ),
+                        MediaProp),
+                    e("button", {key:"buttonNext",id: "nextButton",style:btnNext,onClick:inc}, "NEXT"));
+               
+               
+            }
+        
         }
     
     }

@@ -44,6 +44,13 @@ function Activity(props) {
                 fontFamily:"Helvetica"
         }
     
+       
+        const askNav = {
+            border: "solid",
+            borderColor: "red",
+            marginTop:"20%",
+        };
+
         const divActivity = {      //style della div contenente le activity
             border:props.json.accessibility.activityStyle.divisor.border,
             overflow:"scroll",
@@ -56,57 +63,7 @@ function Activity(props) {
           
         };
          //  console.log(data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) );
-    const btnChat={
-        backgroundColor:data.accessibility.player.chatButton.backgroundColor,
-        borderRadius:`${data.accessibility.player.chatButton.borderRadius}px`,
-        textAlign:'center',
-        width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
-        height:`${data.accessibility.player.chatButton.borderRadius * screen.availHeight /202}px`,
-        top:`${data.accessibility.player.chatButton.top * screen.availHeight/437}px`,
-        left:`${data.accessibility.player.chatButton.left * screen.availWidth /202}px`,
-        //borderColor:data.accessibility.player.chatButton.borderColor,
-        position:'absolute'
-        /*textColor: ''+data.accessibility.player.chatButton.textColor+'',
-        position:'relative' */
-    };
-
-    const btnHelp={
-        backgroundColor:data.accessibility.player.helpButton.backgroundColor,
-        //borderColor:data.accessibility.player.borderColor,
-        borderRadius:`${data.accessibility.player.helpButton.borderRadius}px`,
-        textAlign:'center',
-        width:`${data.accessibility.player.helpButton.width *screen.availWidth /437}px`,
-        height:`${data.accessibility.player.helpButton.borderRadius * screen.availHeight /202}px`,
-        top:`${data.accessibility.player.helpButton.top * screen.availHeight /437}px`,
-        left:`${data.accessibility.player.helpButton.left * screen.availWidth /202}px`,
-        position:'absolute'
-    };
-
-    const navbar ={
-        //padding:'5px',
-       // height:'90%',
-    };
-
-        const div_a = {      //style della div contenente le activity
-            border:data.accessibility.activityStyle.divisor.border,
-            overflow:"scroll",
-            borderColor: data.accessibility.activityStyle.divisor.borderColor,
-            position:'absolute',
-            background:  data.accessibility.player.background ,
-        
-            thicknessFrame:`${data.accessibility.player.weightFont}px`,
-            topFrame:`${data.accessibility.player.topFrame}px`,
-            weightFont:`${data.accessibility.player.weightFont}px`,
-            widthFrame: `${data.accessibility.player.widthFrame}px`
-            
-        };
-
-        const askNav = {
-            border: "solid",
-            borderColor: "red",
-            marginTop:"20%",
-        };
-
+  
             
         let MediaProp = [];
         let mediaStyle;
@@ -156,7 +113,13 @@ function Activity(props) {
                         onClick: () => checkButton(counter , i, props.json.accessibility.activities , props.v)
                     }, answer[i]));
                 }
-    
+                //Charge The help message
+                const messageContainer = document.getElementById("help-message-container")
+                const message = props.json.accessibility.activities[counter].help
+                const messageElement = document.createElement('div')
+                messageElement.innerHTML = message
+                messageContainer.append(messageElement)
+                
                 return e("div",null,
                             e("div", {key: "actDescription", style: divActivity},
                             e("p", {style:textStyle}, domanda),
@@ -183,8 +146,8 @@ function Activity(props) {
                             })
                         ]),
                         MediaProp),
-                    e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
-    
+                    e("button", {key:"buttonNext",id: "nextButton1",style:btnNext, onClick:inc}, "NEXT"));
+                        
             }
         }
     

@@ -48,9 +48,52 @@ function App2() {
     for(let i = 0;i < data.accessibility.activities.length - 1;i++) {
         activityList.push(data.accessibility.activities[i]);
     }
+    const navbar ={
+        //padding:'5px',
+       // height:'90%',
+    };
+    const btnChat={
+        backgroundColor:data.accessibility.player.chatButton.backgroundColor,
+        borderRadius:`${data.accessibility.player.chatButton.borderRadius}px`,
+        textAlign:'center',
+        width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
+        height:`${data.accessibility.player.chatButton.borderRadius * screen.availHeight /202}px`,
+        top:`${data.accessibility.player.chatButton.top * screen.availHeight/437}px`,
+        left:`${data.accessibility.player.chatButton.left * screen.availWidth /202}px`,
+        //borderColor:data.accessibility.player.chatButton.borderColor,
+        position:'absolute'
+        /*textColor: ''+data.accessibility.player.chatButton.textColor+'',
+        position:'relative' */
+    };
+
+    const btnHelp={
+        backgroundColor:data.accessibility.player.helpButton.backgroundColor,
+        //borderColor:data.accessibility.player.borderColor,
+        borderRadius:`${data.accessibility.player.helpButton.borderRadius}px`,
+        textAlign:'center',
+        width:`${data.accessibility.player.helpButton.width *screen.availWidth /437}px`,
+        height:`${data.accessibility.player.helpButton.borderRadius * screen.availHeight /202}px`,
+        top:`${data.accessibility.player.helpButton.top * screen.availHeight /437}px`,
+        left:`${data.accessibility.player.helpButton.left * screen.availWidth /202}px`,
+        position:'absolute'
+    };
+
+   
+    const div_a = {      //style della div contenente le activity
+        border:data.accessibility.activityStyle.divisor.border,
+        overflow:"scroll",
+        borderColor: data.accessibility.activityStyle.divisor.borderColor,
+        position:'absolute',
+        background:  data.accessibility.player.background ,
     
- 
-    //boolean for the chat
+        thicknessFrame:`${data.accessibility.player.weightFont}px`,
+        topFrame:`${data.accessibility.player.topFrame}px`,
+        weightFont:`${data.accessibility.player.weightFont}px`,
+        widthFrame: `${data.accessibility.player.widthFrame}px`
+        
+    };
+
+    //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);
     const [slideChat, setSlideChat] = React.useState(false);
    
@@ -66,11 +109,11 @@ function App2() {
     function openHelp() {
         setSlideHelp(true);
         //REFACTORING E TUTTO IN UNA FUNZIONE 
-        const messageContainer = document.getElementById("help-message-container")
+       /* const messageContainer = document.getElementById("help-message-container")
         const message = data.accessibility.activities[2].help
         const messageElement = document.createElement('div')
         messageElement.innerHTML = message
-        messageContainer.append(messageElement)
+        messageContainer.append(messageElement)*/
     }
 
     return e(React.Fragment, null, [

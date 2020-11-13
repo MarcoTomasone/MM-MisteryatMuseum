@@ -1,4 +1,6 @@
-import InputProp from './InputProp.js'
+import ButtonType from './ButtonType.js';
+import inputType from './InputType.js';
+
 const e = React.createElement;
 
 function Activity(props) {
@@ -89,7 +91,7 @@ function Activity(props) {
                         e("div", {key: "activitIntro",id:"activitIntro", style: divActivity},
                             props.v[counter].question,
                             MediaProp )
-                   ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT"));
+                   ,e("button", {key:"buttonNext",id: "nextButton",style:btnNext,onClick:inc}, "NEXT"));
     
         } else {
            let domanda = props.v[counter].question;
@@ -98,49 +100,11 @@ function Activity(props) {
     
     
             if(props.v[counter].type_ === "button") {
-                //console.log(counter);
-                //console.log(props.v[counter].btnStyle.bc);
-                const buttProp = {
-                backgroundColor:props.v[counter].btnStyle.bckgrndClr,
-                width:`${props.v[counter].btnStyle.width  *screen.availWidth /202}px`,
-                height:`${props.v[counter].btnStyle.height  *screen.availHeight /437}px`,
-                marginLeft:`${props.v[counter].btnStyle.marginLeft *screen.availWidth /202}px`,
-                marginRight:`${props.v[counter].btnStyle.marginRight  *screen.availHeight /437}px`,
-                marginTop:`${props.v[counter].btnStyle.marginTop  *screen.availHeight /437}px`,
-                borderRadius:`${props.v[counter].btnStyle.borderRadius}px`,
-                                
-               };
-               
-               const ListButtonAnswer = [];
-                for (let i = 0; i < answer.length; i++) {      
-                    ListButtonAnswer.push(e("button", {
-                        style: buttProp,
-                        id:"btn"+i,
-                        alt:"bottone : "+answer[i], 
-                        onClick: () => checkButton(counter , i, props.json.accessibility.activities , props.v)
-                    }, answer[i]));
-                }
-                //Charge The help message
-                const messageContainer = document.getElementById("help-message-container")
-                const message = props.json.accessibility.activities[counter].help
-                const messageElement = document.createElement('div')
-                messageElement.innerHTML = message
-                messageContainer.append(messageElement)
-                
-                return e("div",null,
-                            e("div", {key: "actDescription", style: divActivity},
-                            e("p", {style:textStyle}, domanda),
-                            e("div", {
-                                key: "buttonblock",
-                                style: askNav }, [
-                                ListButtonAnswer
-                            ]),
-                            MediaProp)
-                            ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:inc}, "NEXT")
-                        );
-    
+                return e(ButtonType, { answer:answer,askNav:askNav,textStyle:textStyle,domanda:domanda,json:props.json,counter:counter,  v : props.v,checkButton : checkButton ,btnNext:btnNext, MediaProp : MediaProp,inc:inc});
+        
+             
             }else {
-                return e(InputProp, { domanda:domanda,json:props.json,counter:counter,  v : props.v,checkButton : checkButton ,btnNext:btnNext, MediaProp : MediaProp,inc:inc});
+                return e(inputType, { domanda:domanda,json:props.json,counter:counter,  v : props.v,checkButton : checkButton ,btnNext:btnNext, MediaProp : MediaProp,inc:inc});
         }
     
     }

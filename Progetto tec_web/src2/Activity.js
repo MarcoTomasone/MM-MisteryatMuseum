@@ -1,7 +1,8 @@
+import InputProp from './InputProp.js'
 const e = React.createElement;
 
 function Activity(props) {
-    let inputProp = [];
+ 
         const [counter,setCounter] = React.useState(0);
     
         function inc(){
@@ -97,8 +98,8 @@ function Activity(props) {
     
     
             if(props.v[counter].type_ === "button") {
-                console.log(counter);
-                console.log(props.v[counter].btnStyle.bc);
+                //console.log(counter);
+                //console.log(props.v[counter].btnStyle.bc);
                 const buttProp = {
                 backgroundColor:props.v[counter].btnStyle.bckgrndClr,
                 width:`${props.v[counter].btnStyle.width  *screen.availWidth /202}px`,
@@ -115,7 +116,7 @@ function Activity(props) {
                     ListButtonAnswer.push(e("button", {
                         style: buttProp,
                         id:"btn"+i,
-                        alt:"bottone : "+answer[i],
+                        alt:"bottone : "+answer[i], 
                         onClick: () => checkButton(counter , i, props.json.accessibility.activities , props.v)
                     }, answer[i]));
                 }
@@ -139,70 +140,11 @@ function Activity(props) {
                         );
     
             }else {
-                if(props.v[counter].type_ === "text" ){        
-                    console.log("enter condition text");
-                const styl = {
-                    width:"200px",
-                    height:"40px",
-                    left:"30px",
-                }
-
-                inputProp.push(e("input",{
-                    type:"text",
-                    id:"textAnswer",
-                    key:"input",
-                    style:styl,
-                    onClick: () => checkButton(counter  , -1, props.json.accessibility.activities,props.v)
-                }));
-
-      
-                }else if(props.v[counter].type_ === "range" ) {
-                    console.log("enter condition range");
-                    const styleRange = {
-                        width:`${props.v[counter].styleInput.width  *screen.availWidth /202}px`,
-                        height:`${props.v[counter].styleInput.height  *screen.availHeight /437}px`,
-                        bottom:`${props.v[counter].styleInput.bottom  *screen.availHeight /437}px`,
-                        left:`${props.v[counter].styleInput.left  *screen.availWidth /202}px`,
-                        position:'absolute'
-                    }
-                    const stylB = {
-                        width:`${(props.v[counter].styleInput.width - 70  )*screen.availWidth /202}px`,
-                        height:`${props.v[counter].styleInput.height  *screen.availHeight /437}px`,
-                        bottom:`${(props.v[counter].styleInput.bottom - 20) *screen.availHeight /437}px`,
-                        left:`${(props.v[counter].styleInput.left +40) *screen.availWidth /202}px`,
-                        position:'absolute'
-                        
-                    }
-                    inputProp.push(e("input",{
-                                    type:"range", 
-                                    key:"rangebar",
-                                    min:props.v[counter].minRange,
-                                    max:props.v[counter].maxRange,
-                                    id:"rangenpt",style:styleRange,
-                                    }),                               
-                                    e("button",{
-                                        style:stylB,
-                                        key:"confirm",
-                                        id:"confirm",
-                                        onClick: () => checkButton(counter,-2,props.json.accessibility.activities,props.v)},"Check")
-                            );
-                    }
-        
-
-                    return e("div",null, e("div", {key: "actDescription", style: divActivity},
-                        e("p", null, domanda),
-                        e("div", null, 
-                            inputProp
-                        ),
-                        MediaProp),
-                    e("button", {key:"buttonNext",id: "nextButton",style:btnNext,onClick:inc}, "NEXT"));
-               
-               
-            }
-        
+                return e(InputProp, { domanda:domanda,json:props.json,counter:counter,  v : props.v,checkButton : checkButton ,btnNext:btnNext, MediaProp : MediaProp,inc:inc});
         }
     
     }
+}
     
 
 
@@ -216,7 +158,7 @@ function Activity(props) {
                     let appo = v[counter + 1];
                     v[counter+1] = json[v[counter].correctAnswerGo];
                     v.push(appo);
-
+                    console.log(appo);
                 console.log("TextInsert Correct");
 
             }else{

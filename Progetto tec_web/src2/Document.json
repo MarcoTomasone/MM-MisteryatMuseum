@@ -115,11 +115,19 @@
 				"question":"Converti 5 in binario",
 				"correct":"101",
 				"type_": "text",
-				"media": 0
+				"styleInput":{
+					"width":100,
+                    "height":15,
+					"left":20,
+					"bottom":170
+				},
+				"media": 0,
+				"wrongAnswerGo":4,
+				"correctAnswerGo":4				
 			},
 			{
 				"question": "Questa é la prova per un range di possibilita. Vediamo quanto sei trash? ",
-				"type_": "input",
+				"type_": "range",
 				"type":"range",
 				"minRange":1,
 				"maxRange":10,

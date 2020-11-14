@@ -124,7 +124,7 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: openHelp})
             )],
             e(Activity, { json:data,  v : activityList })),
-            e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
+            e(Slide, {in: slideChat,direction: "right", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
@@ -133,7 +133,7 @@ function App2() {
                             )
                         ])
             ])}),
-            e(Slide, {in: slideHelp, direction:"down", id: "slide-help",unmountOnExit: false, children: e(Paper, null, [   //unmountOnExit: true -> but we have a problem
+            e(Slide, {in: slideHelp,unmountOnExit:true, direction:"down", id: "slide-help",unmountOnExit: false, children: e(Paper, null, [   //unmountOnExit: true -> but we have a problem
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideHelp(false)}}),
                     e("div",{id: "help-message-container", style: {overflow:"scroll", width: "80%", height: "60%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
             ])})

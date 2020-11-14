@@ -3,10 +3,19 @@ const e = React.createElement;
 function Activity(props) {
    
         const [counter,setCounter] = React.useState(0);
-    
-        function inc(){
-            
-            
+
+        
+
+        function inc(){    
+        //Charge The help message
+        const messageContainer = document.getElementById("help-message-container")
+        messageContainer.innerHTML = ""
+        var message = props.json.accessibility.activities[counter].help
+        message = (message == null) ?  "Non ci sono aiuti per questa activity!" : message
+        const messageElement = document.createElement('div')
+        messageElement.innerHTML = message
+        messageContainer.append(messageElement) 
+        
             setCounter(counter+ 1);
             MediaProp = [];
 
@@ -119,12 +128,7 @@ function Activity(props) {
                         onClick: () => checkButton(counter , i, props.json.accessibility.activities , props.v)
                     }, answer[i]));
                 }
-                //Charge The help message
-                const messageContainer = document.getElementById("help-message-container")
-                const message = props.json.accessibility.activities[counter].help
-                const messageElement = document.createElement('div')
-                messageElement.innerHTML = message
-                messageContainer.append(messageElement)
+                
                 
                 return e("div",null,
                             e("div", {key: "actDescription", style: divActivity},

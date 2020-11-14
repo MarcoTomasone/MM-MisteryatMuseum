@@ -64,25 +64,20 @@ function CardPlayer(props){
     const classes_grid = useStyles_grid();
 
     const [expanded, setExpanded] = React.useState(false);
-    const [badge, setBadge] = React.useState(0);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);        
-    }
-
+    //const [badge, setBadge] = React.useState(0);
 
     const sendMessage = function (){
-        const messageInput = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[0].childNodes[0].childNodes[0];
-        //const messageInput = document.getElementById('message-input').value
+        const messageInput = document.getElementById(props.id + '_message-input');
         const message = messageInput.value;
+
         appendMessage(`<b>You</b>: ${message}`, props.id); //lato client
         send(message, props.id);
         messageInput.value = ''
-    }   
+    } 
 
     return(
         e(Card, {className: classes_card.root, id: props.id, raised: true, children: [
-            e(CardHeader, {avatar: e(Avatar, {children: props.name, className: classes_card.avatar}), action: e(IconButton, {children: e(Icon, {children: "more_vert"})}), title: props.id, subheader: "Date or time"}),
+            e(CardHeader, {avatar: e(Avatar, {children: props.name, className: classes_card.avatar}), action: e(IconButton, {children: e(Icon, {children: "more_vert"})}), title: props.id, subheader: "Time: " + props.timer}),
             e(CardContent, {className: classes_grid.root, children: [
                 e(Grid, {container: true, spacing: "2", children: [
                     e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper, xs: "6"}, [ e("p", null, "Section "), e("p", null, props.section) ])}),
@@ -91,16 +86,16 @@ function CardPlayer(props){
             ]}),
             e(CardActions, {disableSpacing: true, children: [
                 //e(Badge, {id: "badge", badgeContent: badge, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}),
-                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: handleExpandClick}), 
+                e(IconButton, {children: e(Icon, {id: props.id + "_chat", children: "chat", color: "primary"}), onClick: () => {setExpanded(!expanded)}}), //document.getElementById(props.id + "_chat").classList.remove("MuiIcon-colorSecondary") 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: () => setBadge(count)}),
                 e(IconButton, {children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
             ]}),
             e(Collapse, {style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
                 e(CardContent, {children: [
-                    e("div",{id: "message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "1px solid grey", borderRadius: "5px", overflow: "scroll", fontSize: "10pt"}}), //div di arrivo delle risposte da valutare
+                    e("div",{id: props.id + "_message-container", style: {width: "95%", height: "200px", marginLeft: "2.5%", border: "1px solid grey", borderRadius: "5px", overflow: "scroll", fontSize: "10pt"}}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
-                        e(TextField, {id: "message-input", variant: "outlined", margin: "dense", style: {width: "95%", marginLeft: "2.5%"}, InputProps: {endAdornment: 
-                            e(IconButton, {id: "send-button", onClick: sendMessage, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
+                        e(TextField, {id: props.id + "_message-input", variant: "outlined", margin: "dense", style: {width: "95%", marginLeft: "2.5%"}, InputProps: {endAdornment: 
+                            e(IconButton, {id: "send-button", onClick: sendMessage , size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
                         )
                     ])
                 ]})

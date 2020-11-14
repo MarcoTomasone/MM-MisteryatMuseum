@@ -1,18 +1,14 @@
 import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
-
+import {appendMessage} from '../utils.js';
 const e = React.createElement;
 
 function loadHelpMessage(props, counter){
-    //Charge The help message
     const messageContainer = document.getElementById("help-message-container")
     messageContainer.innerHTML = ""
     var message = props.json.accessibility.activities[counter].help
     message = (message == null) ?  "Non ci sono aiuti per questa activity!" : message
-    const messageElement = document.createElement('div')
-    messageElement.innerHTML = message
-    messageContainer.append(messageElement) 
-
+    appendMessage(message, "help-message-container");
 }
 function Activity(props) {
 

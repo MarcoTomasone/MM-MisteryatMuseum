@@ -5,3 +5,9 @@ export function readJSON(file) {
     if (request.status == 200)
         return request.responseText;
 }
+export function appendMessage(message, container) {
+    const messageContainer = document.getElementById(container)
+    const messageElement = document.createElement('div')
+    messageElement.innerHTML = message
+    messageContainer.append(messageElement)
+}

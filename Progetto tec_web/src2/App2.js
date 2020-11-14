@@ -1,5 +1,5 @@
 import Activity from './Activity.js'
-import {readJSON} from '../utils.js'
+import {readJSON, appendMessage} from '../utils.js'
 
 var tmp = 0;
 const e = React.createElement;
@@ -14,18 +14,9 @@ const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 const socket = io('http://localhost:3000')
 //waiting event
 socket.on('chat-message', data => {
-    appendMessage(`<b>${data.name}</b>: ${data.message}`)
+    appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
    //   appendMessage(data)
 })
-
-
-function appendMessage(message) {
-    const messageContainer = document.getElementById("message-container")
-    const messageElement = document.createElement('div')
-    messageElement.innerHTML = message
-    messageContainer.append(messageElement)
-}
-
 
 function App2() {
 
@@ -99,23 +90,12 @@ function App2() {
         messageInput.value = '' //clean the input text
     } 
 
-        
-    function openHelp() {
-        setSlideHelp(true);
-        //REFACTORING E TUTTO IN UNA FUNZIONE 
-       /* const messageContainer = document.getElementById("help-message-container")
-        const message = data.accessibility.activities[2].help
-        const messageElement = document.createElement('div')
-        messageElement.innerHTML = message
-        messageContainer.append(messageElement)*/
-    }
-
     return e(React.Fragment, null, [
         e("div", null, [    
             e("div", {key:"player",id:"player",style:div_a}, [
                 e("nav",{style:navbar,id:"navPlayer"},
-                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(true);}}), 
-                e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: openHelp})
+                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
+                e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
             e(Activity, { json:data,  v : activityList})),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [

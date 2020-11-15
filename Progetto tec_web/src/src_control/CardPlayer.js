@@ -1,4 +1,5 @@
-import {appendMessage, send} from "./ControlHome.js"
+import {send} from './ControlHome.js';
+import {appendMessage} from '../../utils.js'
 
 const {Badge, makeStyles, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardContent, CardActions, Avatar, Collapse} = MaterialUI;
 const e = React.createElement;
@@ -66,14 +67,16 @@ function CardPlayer(props){
     const [expanded, setExpanded] = React.useState(false);
     //const [badge, setBadge] = React.useState(0);
 
+    
     const sendMessage = function (){
         const messageInput = document.getElementById(props.id + '_message-input');
         const message = messageInput.value;
 
-        appendMessage(`<b>You</b>: ${message}`, props.id); //lato client
+        appendMessage(`<b>You</b>: ${message}`, props.id + "_message-container"); //lato client
         send(message, props.id);
         messageInput.value = ''
     } 
+    
 
     return(
         e(Card, {className: classes_card.root, id: props.id, raised: true, children: [

@@ -82,13 +82,16 @@ function App2() {
     const [slideHelp, setSlideHelp] = React.useState(false);
     const [slideChat, setSlideChat] = React.useState(false);
    
+    
     const sendMessage = function (){
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
-        appendMessage(`<b>You</b>: ${message}`) //print client side 
-        socket.emit('send-chat-message', {message: message})  //server side
+
+        appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
+        socket.emit('send-chat-message', {message: message, id: "Card0"})  //server side
         messageInput.value = '' //clean the input text
     } 
+
 
     return e(React.Fragment, null, [
         e("div", null, [    

@@ -1,5 +1,5 @@
-import CardPlayer from "./CardPlayer.js";
-//import {setC} from "./CardPlayer.js";
+import CardPlayer from './CardPlayer.js';
+import {appendMessage} from '../../utils.js';
 
 const {Slide, Paper, IconButton, Icon, TextField, Slider} = MaterialUI;
 const e = React.createElement;
@@ -8,25 +8,18 @@ const all_messages = {};
 const socket = io('http://localhost:3000');
 var count = 0;
 
-//funzione ausiliare utilizzata per mettere i messaggi nel div
-export const appendMessage = function(message, id) {
-    const messageContainer = document.getElementById(id + '_message-container');
-    const messageElement = document.createElement('div');
+//intermezzo tra CardPlayer e il socket, usata in CardPlayer
 
-    messageElement.innerHTML = message;
-    messageContainer.append(messageElement);
+export const send = function (message, id){
+    socket.emit('send-chat-message', {message: message, id: id}); //receiver: socket.id
 }
 
-//intermezzo tra CardPlayer e il socket, usata in CardPlayer
-export const send = function (message, id){
-    socket.emit('send-chat-message', {message: message, receiver: socket.id, id: id})  //lato server
-} 
 
 //waiting event
 socket.on('chat-message', data => {
     var today = new Date();
     count = count+1;
-    appendMessage(`<b>${data.name}</b>: ${data.message} <p style="font-size:7pt; display:inline">(${today.getHours()}:${today.getMinutes()})</p>`, data.id)
+    appendMessage(`<b>${data.name}</b>: ${data.message} <p style="font-size:7pt; display:inline">(${today.getHours()}:${today.getMinutes()})</p>`, data.id + '_message-container')
 
     //save arrived message in a dictionary
     if (!(data.id in all_messages)){

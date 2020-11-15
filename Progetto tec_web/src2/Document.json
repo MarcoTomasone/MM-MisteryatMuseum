@@ -41,8 +41,8 @@
 					"bottom":20
 				},
 				
-				"wrongAnswerGo":5,
-				"correctAnswerGo":4,
+				"wrongAnswerGo":[5,4,6],
+				"correctAnswerGo":[2,3,4],
 				"btnStyle":{
 					"width":40,
 					"height":30,
@@ -61,8 +61,8 @@
 				"correct": 2,
 				"type_": "button",
 				"media": 0,
-				"wrongAnswerGo":3,
-				"correctAnswerGo":3,
+				"wrongAnswerGo":[3,4,5],
+				"correctAnswerGo":[3,4,5],
 				"help" : "Sono l'aiuto dell'activity 3",
 				"btnStyle":{
 					"width":40,
@@ -97,8 +97,8 @@
 				"type_": "button",
 				"media": 0,
 
-				"wrongAnswerGo":3,
-				"correctAnswerGo":4,
+				"wrongAnswerGo":[3,4],
+				"correctAnswerGo":[3,4],
 				"btnStyle":{
 					"width":40,
 					"height":30,
@@ -122,8 +122,8 @@
 					"bottom":170
 				},
 				"media": 0,
-				"wrongAnswerGo":4,
-				"correctAnswerGo":4				
+				"wrongAnswerGo":[5,6],
+				"correctAnswerGo":[4,5]				
 			},
 			{
 				"question": "Questa é la prova per un range di possibilita. Vediamo quanto sei trash? ",
@@ -139,8 +139,8 @@
 				},
 				"media": "img",
 				"source": "./pikachu.png",
-				"wrongAnswerGo":1,
-				"correctAnswerGo":1,
+				"wrongAnswerGo":[2,3],
+				"correctAnswerGo":[2,3],
 				"styleM":{
 					"height":100,
 					"width":100,
@@ -156,8 +156,8 @@
 				"type_": "description",
 				"media": "img",
 				"source": "./pikachu.png",
-				"wrongAnswerGo":1,
-				"correctAnswerGo":1,
+				"wrongAnswerGo":[],
+				"correctAnswerGo":[],
 				"styleM":{
 					"height":100,
 					"width":100,

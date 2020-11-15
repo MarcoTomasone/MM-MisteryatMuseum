@@ -54,14 +54,18 @@ function inputType(props){
             left:`${props.v[props.counter].styleInput.left  *screen.availWidth /202}px`,
             position:'absolute'
         }
+        //document.getElementById("rangept").value =1  ;
         
         inputElement.push(e("input",{
                         type:"range", 
                         key:"rangebar",
                         min:props.v[props.counter].minRange,
                         max:props.v[props.counter].maxRange,
+                        defaultValue:props.v[props.counter].minRange + (props.v[props.counter].maxRange - props.v[props.counter].minRange       )/2,
+                        step:1,
+                        //value:5,
                         id:"rangenpt",style:styleRange,
-                        }),                               
+                        }),//e("p",null,valueR),                               
                         e("button",{
                             style:stylB,
                             key:"confirm",
@@ -71,10 +75,11 @@ function inputType(props){
         }
 
 
+
         return e("div",null, e("div", {key: "actDescription", style: divActivitys},
             e("p", null, props.domanda),
             e("div", null, 
-                inputElement
+                inputElement,
             ),
             props.MediaProp),
         e("button", {key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "NEXT"));

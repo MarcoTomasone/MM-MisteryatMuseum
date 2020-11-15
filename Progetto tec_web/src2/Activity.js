@@ -13,14 +13,22 @@ function loadHelpMessage(props, counter){
 function Activity(props) {
 
         const [counter,setCounter] = React.useState(0);
-
+        
+        
         function inc(){    
-            loadHelpMessage(props, counter);
+            
+            //console.log(props.v);
+            
+           //loadHelpMessage(props, counter );
+            //console.log(counter);
+            //console.log(props.v[counter+1]);
             setCounter(counter+ 1);
             MediaProp = [];
+            //console.log(counter);
            // inputProp = [];
-            if(counter  === props.v.length - 1){
-              // console.log(props.json.accessibility.);
+            if(counter === props.v.length - 1 || props.v[counter + 1] === undefined){
+                
+               console.log("last activities");
                 props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
                 document.getElementById("nextButton").style.backgroundColor="grey";
             }
@@ -82,6 +90,7 @@ function Activity(props) {
             }
          MediaProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,controls:true,autoPlay:true}));
         }
+        console.log(counter);   
         if (props.v[counter].type_ === "description" ){
              return e("div",null,
                         e("div", {key: "activitIntro", id:"activitIntro", style: divActivity}, props.v[counter].question, MediaProp ),
@@ -101,19 +110,21 @@ function Activity(props) {
 
 
     function checkButton(counter, answer, json, v){
-        if(!(counter === json.length -1) ){
+        console.log("checkbottom");
+        //if(!(counter === json.length -1) ){
         if(answer === -1){
             if(document.getElementById("textAnswer").value  ===v[counter].correct ){
-                let appo = v[counter + 1];
+            /*    let appo = v[counter + 1];
                 v[counter+1] = json[v[counter].correctAnswerGo];
-                v.push(appo);
-                console.log(appo);
+                v.push(appo);*/
+                getActivity(1,v,counter,json);
                 console.log("TextInsert Correct");
             }
-            else {
+            else {/*
                 let appo = v[counter + 1];
                 v[counter+1] = json[v[counter].wrongAnswerGo];
-                v.push(appo);
+                v.push(appo);*/
+                getActivity(0,v,counter,json);
                 console.log("TextInsert Wrong");
             }
             console.log(v);
@@ -124,18 +135,73 @@ function Activity(props) {
         else if(answer === v[counter].correct){
             console.log("Risposta Corretta");
             document.getElementById("btn"+answer).style.backgroundColor = v[counter].btnStyle.bckgrndClrC;
-            let appo = v[counter + 1];
-            v[counter+1] = json[v[counter].correctAnswerGo];
+            getActivity(1,v,counter,json);
+            /*  let appo = v[counter + 1];
+         //TEST
+            let correctWay= v[counter].correctAnswerGo;
+            let length = correctWay.length;
+            let index = getRandomInt(0,length- 1);
+            v[counter+1] = json[correctWay[index]];
             v.push(appo);
+           /* console.log(correctWay[index]);
+            console.log("random:"+index);
+            console.log(v[counter+1]);*/
         }
         else {
+            getActivity(0,v,counter,json);
             console.log("Risposta Errata");
             document.getElementById("btn"+answer).style.backgroundColor =  v[counter].btnStyle.bckgrndClrW;
-            let appo = v[counter + 1];
-            v[counter+1] = json[v[counter].wrongAnswerGo];
+           /* let appo = v[counter + 1];
+     
+            //TEST
+            let errorWay= v[counter].wrongAnswerGo;
+            let length = errorWay.length;
+            let index = getRandomInt(0,length- 1);
+            v[counter+1] = json[errorWay[index]];
             v.push(appo);
+
+            
+             console.log(errorWay[index]);
+            console.log("random:"+index);
+            console.log(v[counter+1]);
+        */
         }
+  //  }
+}
+
+function getActivity(correct,v,counter,json){
+    if(correct === 1){
+            let appo = v[counter + 1];
+            //TEST
+           let correctWay= v[counter].correctAnswerGo;
+           let length = correctWay.length;
+           let index = getRandomInt(0,length- 1);
+           v[counter+1] = json[correctWay[index]];
+           
+      //  console.log("next P ");console.log(v[counter+1]);
+      //  console.log(v);
+
+           v.push(appo);
+        //   console.log(correctWay[index]);
+        //   console.log("random:"+index);
+        //   console.log(v[counter+1]);
+    }else{
+        let appo = v[counter + 1];
+     
+        //TEST
+        let errorWay= v[counter].wrongAnswerGo;
+        let length = errorWay.length;
+        let index = getRandomInt(0,length- 1);
+        v[counter+1] = json[errorWay[index]];
+        v.push(appo);
+       // console.log(errorWay[index]);
+       // console.log("random:"+index);
+       // console.log(v[counter+1]);
+        
     }
+}
+function getRandomInt( min, max ) {
+	return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 }
 
 export default Activity;

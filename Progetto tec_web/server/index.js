@@ -1,7 +1,7 @@
-
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
+const path = require("path");
 const bodyParser = require('body-parser');
 const { COPYFILE_EXCL } = fs.constants;
 
@@ -9,35 +9,88 @@ const { COPYFILE_EXCL } = fs.constants;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 let directory = "storiesFolder";
 let dirBuf = Buffer.from(directory);
-
 var array = []
 
-app.use(cors());
-
-/*app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    next();
-});*/
 
 
-/*app.post("/login", (req, res) => {
-    fs.readFile("./log.json", "utf8",  (err, data) => {
-        if (err) throw err;
-        var tmp = JSON.parse(data);
-        if(!(tmp.hasOwnProperty(req.body.username))){
-            var username = req.body.username;
-            var password = req.body.password;
-            tmp.push(username = password)
-            fs.writeFile("./log.json", JSON.stringify(tmp), (err) => {if (err) throw err})
-            
+app.post("/check", (req, res) => {
+    var pathName = "Empty.png"
+    var files = fs.readdirSync("./upload")
+    files.forEach((element) =>{
+        var tmp = element.split('.')[0]
+        if (req.body.id == tmp) {
+            pathName = element
         }
-    });
-    res.end()
-});*/
+    })
+    res.status(200).end(pathName)
+})
 
+app.post("/addImage/:id/:type", (req, res) => {
+    if (req.files === null){
+        return res.status(400).json({msg: "No file uploaded"})
+    }
+    const file = req.files.file
+    const extension = path.extname(file.name)
+    const name = req.params.id.split('.')[0]
+    var newImage = ""
+
+    var files = fs.readdirSync("./upload")
+    
+    if (req.params.type == "bckgrnd"){
+        files.forEach((element) =>{
+            var tmp = element.split('.')[0]
+            var tmp2 = req.params.id.split('.')[0] + "_background"
+            if (tmp == tmp2) {
+                fs.unlink(`./upload/${element}`, (err) => {if (err) throw err});
+                console.log(`Delete image \"${element}\"`)
+            }
+        })
+        newImage = `${name}_background${extension}`
+        
+    } else {
+        var indexActivity = req.params.type.split("t")[1]
+        files.forEach((element) =>{
+            var tmp = element.split('.')[0]
+            var tmp2 = `${req.params.id.split('.')[0]}_activity${indexActivity}`
+            if (tmp == tmp2) {
+                fs.unlink(`./upload/${element}`, (err) => {if (err) throw err})
+                console.log(`Delete image \"${element}\"`)
+            }
+        })
+        newImage = `${name}_activity${indexActivity}${extension}`
+    }
+    file.mv(`${__dirname}/upload/${newImage}`, (err) => {if (err) throw err})
+    console.log(`Add image \"${newImage}\"`)
+    res.end(newImage)
+})
+
+app.delete("/deleteImage/:id/:type", (req, res) => {
+    var files = fs.readdirSync("./upload") 
+    if (req.params.type == "bckgrnd"){
+        files.forEach((element) =>{
+            var tmp = element.split('.')[0]
+            var tmp2 = req.params.id.split('.')[0] + "_background"
+            if (tmp == tmp2) {
+                fs.unlink(`./upload/${element}`, (err) => {if (err) throw err});
+                console.log(`Delete image \"${element}\"`)
+            }
+        })        
+    } else {
+        var indexActivity = req.params.type.split("t")[1]
+        files.forEach((element) =>{
+            var tmp = element.split('.')[0]
+            var tmp2 = `${req.params.id.split('.')[0]}_activity${indexActivity}`
+            if (tmp == tmp2) {
+                fs.unlink(`./upload/${element}`, (err) => {if (err) throw err})
+                console.log(`Delete image \"${element}\"`)
+            }
+        })
+    }
+})
 
 //restituisce l'array di tutte le storie create dall'utente
 app.get("/storiesFolder/:username", (req, res) => {
@@ -110,36 +163,35 @@ app.get("/duplyStory/:username", (req, res) => {
     res.status(200).end();
 })
 
-
-
-
-//creare una storia
-app.post("/createStory/info", (req, res) => {
+app.get("/createStory/id/:id", (req, res) => {
     fs.readdir(dirBuf, (err, files) =>{
         let i = 0;
         if (err){
             console.log(err.message);
+            res.status(400).end(`Error`);
         } else {
             files.forEach((element) => {
-                if(`${req.body.user}_${i}.json` == element) i = i +1;
+                if(`${req.params.id}_${i}.json` == element) i = i +1;
             })
-            const data = req.body.file;
-            data.id = `${req.body.user}_${i}.json`;
-            data.user = req.body.user;
-            data.x = array.length;
-            if (data.accessibility.value  == "Si") data.accessibility.url = "../img/accessibility_1.png";
-            else data.accessibility.url = "../img/no_accessibility_1.png";
-            if (data.participantsType.value == "singlePlayer") data.participantsType.url = "../img/single.png";
-            else if (data.participantsType.value == "group") data.participantsType.url = "../img/one_group.png";
-            else if (data.participantsType.value == "differentGroup") data.participantsType.url = "../img/more_group.png";
-            array.push(data)
-            /*fs.writeFileSync(`./storiesFolder/${req.body.user}_${i}.json`, JSON.stringify(data, null, 2), function (err) {
-                if (err) throw err;
-                console.log(`File is created successfully (the utent \"${req.body.user}\" has created the file ${req.body.user}_${i}.json)`);
-            });*/
-            console.log(array)
+            res.status(200).end(`${req.params.id}_${i}.json`);
         }
     })
+});
+
+
+//creare una storia
+app.post("/createStory/info", (req, res) => {          
+    const data = req.body.file;
+    data.id = req.body.id;
+    data.user = req.body.user;
+    data.x = array.length;
+    if (data.accessibility.value  == "Si") data.accessibility.url = "../img/accessibility_1.png";
+    else data.accessibility.url = "../img/no_accessibility_1.png";
+    if (data.participantsType.value == "singlePlayer") data.participantsType.url = "../img/single.png";
+    else if (data.participantsType.value == "group") data.participantsType.url = "../img/one_group.png";
+    else if (data.participantsType.value == "differentGroup") data.participantsType.url = "../img/more_group.png";
+    array.push(data)
+    console.log(array)
     res.status(200).end(req.body.file.title);
 });
 
@@ -187,7 +239,6 @@ app.delete("/deleteStory/:story", (req, res) => {
 
 /*
 const io = require('socket.io')(3000)
-
 io.on('connection', socket => {
   socket.on('send-chat-message', data => {
     io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "Admin", id: data.id});
@@ -219,7 +270,6 @@ io.on('connection', socket => {
 app.get("/status", (req, res) => {
     var file = fs.readFileSync(`../src/src_control/JSON_Player.json`, {encoding:'utf8', flag:'r'});
     /*const tmp = JSON.parse(file);
-
     tmp.Players.forEach((element) => {
         if(messagereceived){
             element.chat = true;

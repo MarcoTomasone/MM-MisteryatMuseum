@@ -106,7 +106,7 @@ function Card(props){
 }
 
 
-function CreateHomeSelect(props){
+function Select(props){
     const classes = useStyles();
 
     const [arrayPrivateStories, setArrayPrivateStories] =  React.useState([]);
@@ -167,7 +167,7 @@ function CreateHomeSelect(props){
 
 }
 
-export default CreateHomeSelect;
+export default Select;
 
 
     /*mechanism to avoid th effect of refresh (refresh restes the variables used with the hooks)

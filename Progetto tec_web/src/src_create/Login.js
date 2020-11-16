@@ -1,6 +1,6 @@
 const e = React.createElement;
 
-function CreateHomeLogin(props){
+function Login(props){
     const {TextField, Button } = window['MaterialUI']; //to load the component from the library
     var username = ""
     var password = ""
@@ -54,7 +54,7 @@ function CreateHomeLogin(props){
     ])
 }
 
-export default CreateHomeLogin;
+export default Login;
 
 
 

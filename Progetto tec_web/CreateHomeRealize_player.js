@@ -1,5 +1,5 @@
 const e = React.createElement;
-const {Button, Icon, IconButton, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, FormControlLabel, withStyles} = window['MaterialUI']; //to load the component from the library
+const {Button, Icon, IconButton, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, withStyles} = window['MaterialUI']; //to load the component from the library
 
 
 function CreateHomeRealize_player(props){
@@ -61,45 +61,19 @@ function CreateHomeRealize_player(props){
             color: "white",
             boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
         },
-        buttonBackground: {
-            backgroundColor: backgroundColor,
-        },
-        buttonFrameColor: {
-            backgroundColor: frameColor,
-        },
-        buttonTextColor: {
-            backgroundColor: textColor,
-        },
-        buttonTextBackgroundColor: {
-            backgroundColor: textBackgroundColor,
-        },
-        buttonBackgroundColorNextButton: {
-            backgroundColor: backgroundColorNextButton,
-        },
-        buttonFrameColorNextButton: {
-            backgroundColor: frameColorNextButton,
-        },
-        buttonTextColorNextButton: {
-            backgroundColor: textColorNextButton,
-        },
-        buttonBackgroundColorChatButton: {
-            backgroundColor: backgroundColorChatButton,
-        },
-        buttonFrameColorChatButton: {
-            backgroundColor: frameColorChatButton,
-        },
-        buttonTextColorChatButton: {
-            backgroundColor: textColorChatButton,
-        },
-        buttonBackgroundColorHelpButton: {
-            backgroundColor: backgroundColorHelpButton,
-        },
-        buttonFrameColorHelpButton: {
-            backgroundColor: frameColorHelpButton,
-        },
-        buttonTextColorHelpButton: {
-            backgroundColor: textColorHelpButton,
-        },
+        buttonBackground: {backgroundColor: backgroundColor},
+        buttonFrameColor: {backgroundColor: frameColor},
+        buttonTextColor: {backgroundColor: textColor},
+        buttonTextBackgroundColor: {backgroundColor: textBackgroundColor},
+        buttonBackgroundColorNextButton: {backgroundColor: backgroundColorNextButton},
+        buttonFrameColorNextButton: {backgroundColor: frameColorNextButton},
+        buttonTextColorNextButton: {backgroundColor: textColorNextButton},
+        buttonBackgroundColorChatButton: {backgroundColor: backgroundColorChatButton},
+        buttonFrameColorChatButton: {backgroundColor: frameColorChatButton},
+        buttonTextColorChatButton: {backgroundColor: textColorChatButton},
+        buttonBackgroundColorHelpButton: {backgroundColor: backgroundColorHelpButton},
+        buttonFrameColorHelpButton: {backgroundColor: frameColorHelpButton},
+        buttonTextColorHelpButton: {backgroundColor: textColorHelpButton},
     }));
 
     const SwitchButton = withStyles({
@@ -114,193 +88,193 @@ function CreateHomeRealize_player(props){
           '&$checked + $track': {
             backgroundColor: "green",
           },
-        },
-        checked: {},
-        track: {},
+        }
     })(Switch);
-
-
-    function uploadImage(){
-        const inpFile = document.getElementById("background_image");
-        const imageScreen = document.getElementById("phoneImage")
-        inpFile.addEventListener("change", function(){
-            const file = this.files[0];
-            if (file){
-                const reader = new FileReader();
-                reader.addEventListener("load", function(){
-                    imageScreen.setAttribute("src", this.result)
-                });
-                reader.readAsDataURL(file);
-                set_immageUpload(false)
-            }
-        })     
-    }
-
-    function deleteImage(){
-        document.getElementById("phoneImage").setAttribute("src", "../../img/Empty.png")
-        set_immageUpload(true)
-    }
-
+    
     const classes = useStyles();
-
-
-    React.useEffect(() => {
+    
+    React.useEffect(async () => {
+        var tmp = ""
+        var path = props.story.id.split(".")[0]
+        await axios.post(`http://localhost:8000/check`, {
+            id: `${path}_background`
+        })
+        .then((response) => {
+            tmp = `../../server/upload/${response.data}`
+        })
+        .catch(error => {console.log(error)})
 
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea il layout al player (i valori sono tutti in pixel e la dimensione dello schermo è di 437 x 202, ovvero 6.1\")";
-        
-        document.getElementById("background_color").value = props.story.player.background;
-        document.getElementById("heighImage").value = props.story.player.image.height;
-        document.getElementById("widthImage").value = props.story.player.image.width;
-        document.getElementById("topImage").value = props.story.player.image.top;
-        document.getElementById("leftImage").value = props.story.player.image.left;
+        document.getElementById("background_color").value           =   props.story.player.background;
+        document.getElementById("heighImage").value                 =   props.story.player.image.height;
+        document.getElementById("widthImage").value                 =   props.story.player.image.width;
+        document.getElementById("topImage").value                   =   props.story.player.image.top;
+        document.getElementById("leftImage").value                  =   props.story.player.image.left;
+        document.getElementById("topFrame").value                   =   props.story.player.topFrame;
+        document.getElementById("leftFrame").value                  =   props.story.player.leftFrame;
+        document.getElementById("widthFrame").value                 =   props.story.player.widthFrame;
+        document.getElementById("frameColor").value                 =   props.story.player.frameColor;
+        document.getElementById("weightFrame").value                =   props.story.player.weightFrame;
+        document.getElementById("borderRadiusFrame").value          =   props.story.player.borderRadiusFrame;
+        document.getElementById("textColor").value                  =   props.story.player.textColor;
+        document.getElementById("textBackgroundColor").value        =   props.story.player.textBackgroundColor;
+        document.getElementById("fontFamily").value                 =   props.story.player.fontFamily.split(",")[0];
+        document.getElementById("sizeFont").value                   =   props.story.player.sizeFont;
+        document.getElementById("weightFont").value                 =   props.story.player.weightFont;
+        document.getElementById("backgroundColorNextButton").value  =   props.story.player.nextButton.backgroundColor;
+        document.getElementById("frameColorNextButton").value       =   props.story.player.nextButton.frameColor;
+        document.getElementById("textColorNextButton").value        =   props.story.player.nextButton.textColor;
+        document.getElementById("topNextButton").value              =   props.story.player.nextButton.top;
+        document.getElementById("leftNextButton").value             =   props.story.player.nextButton.left;
+        document.getElementById("heightNextButton").value           =   props.story.player.nextButton.height;
+        document.getElementById("widthNextButton").value            =   props.story.player.nextButton.width;
+        document.getElementById("borderRadiusNextButton").value     =   props.story.player.nextButton.borderRadius;
+        document.getElementById("backgroundColorChatButton").value  =   props.story.player.chatButton.backgroundColor;
+        document.getElementById("frameColorChatButton").value       =   props.story.player.chatButton.frameColor;
+        document.getElementById("textColorChatButton").value        =   props.story.player.chatButton.textColor;
+        document.getElementById("topChatButton").value              =   props.story.player.chatButton.top;
+        document.getElementById("leftChatButton").value             =   props.story.player.chatButton.left;
+        document.getElementById("heightChatButton").value           =   props.story.player.chatButton.height;
+        document.getElementById("widthChatButton").value            =   props.story.player.chatButton.width;
+        document.getElementById("borderRadiusChatButton").value     =   props.story.player.chatButton.borderRadius;
+        document.getElementById("backgroundColorHelpButton").value  =   props.story.player.helpButton.backgroundColor;
+        document.getElementById("frameColorHelpButton").value       =   props.story.player.helpButton.frameColor
+        document.getElementById("textColorHelpButton").value        =   props.story.player.helpButton.textColor
+        document.getElementById("topHelpButton").value              =   props.story.player.helpButton.top;
+        document.getElementById("leftHelpButton").value             =   props.story.player.helpButton.left;
+        document.getElementById("heightHelpButton").value           =   props.story.player.helpButton.height;
+        document.getElementById("widthHelpButton").value            =   props.story.player.helpButton.width;
+        document.getElementById("borderRadiusHelpButton").value     =   props.story.player.helpButton.borderRadius;
 
-        document.getElementById("topFrame").value = props.story.player.topFrame;
-        document.getElementById("leftFrame").value = props.story.player.leftFrame;
-        document.getElementById("widthFrame").value = props.story.player.widthFrame;
-        document.getElementById("frameColor").value = props.story.player.frameColor;
-        document.getElementById("weightFrame").value = props.story.player.weightFrame;
-        document.getElementById("borderRadiusFrame").value = props.story.player.borderRadiusFrame;
 
-        document.getElementById("textColor").value = props.story.player.textColor;
-        document.getElementById("textBackgroundColor").value = props.story.player.textBackgroundColor;
-        document.getElementById("fontFamily").value = props.story.player.fontFamily.split(",")[0];
-        document.getElementById("sizeFont").value = props.story.player.sizeFont;
-        document.getElementById("weightFont").value = props.story.player.weightFont;
+        document.getElementById("phoneImage").setAttribute("src", tmp)
+        document.getElementById("phoneInternal").style.background   =      backgroundColor;
+        document.getElementById("phoneImage").style.height          =   `${document.getElementById("heighImage").value}px`;
+        document.getElementById("phoneImage").style.width           =   `${document.getElementById("widthImage").value}px`;
+        document.getElementById("phoneImage").style.top             =   `${document.getElementById("topImage").value}px`;
+        document.getElementById("phoneImage").style.left            =   `${document.getElementById("leftImage").value}px`;
+        document.getElementById("phoneText").style.borderColor      =      document.getElementById("frameColor").value;
+        document.getElementById("phoneText").style.top              =   `${document.getElementById("topFrame").value}px`;
+        document.getElementById("phoneText").style.left             =   `${document.getElementById("leftFrame").value}px`;
+        document.getElementById("phoneText").style.width            =   `${document.getElementById("widthFrame").value}px`;
+        document.getElementById("phoneText").style.borderWidth      =   `${document.getElementById("weightFrame").value}px`;
+        document.getElementById("phoneText").style.borderRadius     =   `${document.getElementById("borderRadiusFrame").value}px`;
+        document.getElementById("phoneText").style.color            =      document.getElementById("textColor").value;
+        document.getElementById("phoneText").style.fontFamily       =   `${document.getElementById("fontFamily").value}, sans-serif`;
+        document.getElementById("phoneText").style.fontSize         =   `${document.getElementById("sizeFont").value}px`;
+        document.getElementById("phoneText").style.fontWeight       =      document.getElementById("weightFont").value;
+        document.getElementById("nextButton").style.backgroundColor =      document.getElementById("backgroundColorNextButton").value;
+        document.getElementById("nextButton").style.borderColor     =      document.getElementById("frameColorNextButton").value;
+        document.getElementById("nextButton").style.color           =      document.getElementById("textColorNextButton").value;
+        document.getElementById("nextButton").style.top             =   `${document.getElementById("topNextButton").value}px`;
+        document.getElementById("nextButton").style.left            =   `${document.getElementById("leftNextButton").value}px`;
+        document.getElementById("nextButton").style.height          =   `${document.getElementById("heightNextButton").value}px`;
+        document.getElementById("nextButton").style.width           =   `${document.getElementById("widthNextButton").value}px`;
+        document.getElementById("nextButton").style.borderRadius    =   `${document.getElementById("borderRadiusNextButton").value}px`;
+        document.getElementById("chatButton").style.backgroundColor =      document.getElementById("backgroundColorChatButton").value;
+        document.getElementById("chatButton").style.borderColor     =      document.getElementById("frameColorChatButton").value;
+        document.getElementById("chatButton").style.color           =      document.getElementById("textColorChatButton").value;
+        document.getElementById("chatButton").style.top             =   `${document.getElementById("topChatButton").value}px`;
+        document.getElementById("chatButton").style.left            =   `${document.getElementById("leftChatButton").value}px`;
+        document.getElementById("chatButton").style.height          =   `${document.getElementById("heightChatButton").value}px`;
+        document.getElementById("chatButton").style.width           =   `${document.getElementById("widthChatButton").value}px`;
+        document.getElementById("chatButton").style.borderRadius    =   `${document.getElementById("borderRadiusChatButton").value}px`;
+        document.getElementById("helpButton").style.backgroundColor =      document.getElementById("backgroundColorHelpButton").value;
+        document.getElementById("helpButton").style.borderColor     =      document.getElementById("frameColorHelpButton").value;
+        document.getElementById("helpButton").style.color           =      document.getElementById("textColorHelpButton").value;
+        document.getElementById("helpButton").style.top             =   `${document.getElementById("topHelpButton").value}px`;
+        document.getElementById("helpButton").style.left            =   `${document.getElementById("leftHelpButton").value}px`;
+        document.getElementById("helpButton").style.height          =   `${document.getElementById("heightHelpButton").value}px`;
+        document.getElementById("helpButton").style.width           =   `${document.getElementById("widthHelpButton").value}px`;
+        document.getElementById("helpButton").style.borderRadius    =   `${document.getElementById("borderRadiusHelpButton").value}px`;
 
-        document.getElementById("backgroundColorNextButton").value = props.story.player.nextButton.backgroundColor;
-        document.getElementById("frameColorNextButton").value = props.story.player.nextButton.frameColor;
-        document.getElementById("textColorNextButton").value = props.story.player.nextButton.textColor;
-        document.getElementById("topNextButton").value = props.story.player.nextButton.top;
-        document.getElementById("leftNextButton").value = props.story.player.nextButton.left;
-        document.getElementById("heightNextButton").value = props.story.player.nextButton.height;
-        document.getElementById("widthNextButton").value = props.story.player.nextButton.width;
-        document.getElementById("borderRadiusNextButton").value = props.story.player.nextButton.borderRadius;
+    }, [backgroundColor])
 
-        document.getElementById("backgroundColorChatButton").value = props.story.player.chatButton.backgroundColor;
-        document.getElementById("frameColorChatButton").value = props.story.player.chatButton.frameColor;
-        document.getElementById("textColorChatButton").value = props.story.player.chatButton.textColor;
-        document.getElementById("topChatButton").value = props.story.player.chatButton.top;
-        document.getElementById("leftChatButton").value = props.story.player.chatButton.left;
-        document.getElementById("heightChatButton").value = props.story.player.chatButton.height;
-        document.getElementById("widthChatButton").value = props.story.player.chatButton.width;
-        document.getElementById("borderRadiusChatButton").value = props.story.player.chatButton.borderRadius;
 
-        document.getElementById("backgroundColorHelpButton").value = props.story.player.helpButton.backgroundColor;
-        document.getElementById("frameColorHelpButton").value = props.story.player.helpButton.frameColor
-        document.getElementById("textColorHelpButton").value = props.story.player.helpButton.textColor
-        document.getElementById("topHelpButton").value = props.story.player.helpButton.top;
-        document.getElementById("leftHelpButton").value = props.story.player.helpButton.left;
-        document.getElementById("heightHelpButton").value = props.story.player.helpButton.height;
-        document.getElementById("widthHelpButton").value = props.story.player.helpButton.width;
-        document.getElementById("borderRadiusHelpButton").value = props.story.player.helpButton.borderRadius;
-
-        const interval = setInterval(() => {
-            document.getElementById("phoneInternal").style.background = document.getElementById("background_color").value;
-
-            document.getElementById("phoneImage").style.height = `${document.getElementById("heighImage").value}px`;
-            document.getElementById("phoneImage").style.width = `${document.getElementById("widthImage").value}px`;
-            document.getElementById("phoneImage").style.top = `${document.getElementById("topImage").value}px`;
-            document.getElementById("phoneImage").style.left = `${document.getElementById("leftImage").value}px`;
-
-            document.getElementById("phoneText").style.borderColor = document.getElementById("frameColor").value;
-            document.getElementById("phoneText").style.top = `${document.getElementById("topFrame").value}px`;
-            document.getElementById("phoneText").style.left = `${document.getElementById("leftFrame").value}px`;
-            document.getElementById("phoneText").style.width = `${document.getElementById("widthFrame").value}px`;
-            document.getElementById("phoneText").style.borderWidth = `${document.getElementById("weightFrame").value}px`;
-            document.getElementById("phoneText").style.borderRadius = `${document.getElementById("borderRadiusFrame").value}px`;
-
-            document.getElementById("phoneText").style.color = document.getElementById("textColor").value;
-            document.getElementById("phoneText").style.fontFamily = `${document.getElementById("fontFamily").value}, sans-serif`;
-            document.getElementById("phoneText").style.fontSize = `${document.getElementById("sizeFont").value}px`;
-            document.getElementById("phoneText").style.fontWeight = document.getElementById("weightFont").value;
-
-            document.getElementById("nextButton").style.backgroundColor = document.getElementById("backgroundColorNextButton").value;
-            document.getElementById("nextButton").style.borderColor = document.getElementById("frameColorNextButton").value;
-            document.getElementById("nextButton").style.color = document.getElementById("textColorNextButton").value;
-            document.getElementById("nextButton").style.top = `${document.getElementById("topNextButton").value}px`;
-            document.getElementById("nextButton").style.left = `${document.getElementById("leftNextButton").value}px`;
-            document.getElementById("nextButton").style.height = `${document.getElementById("heightNextButton").value}px`;
-            document.getElementById("nextButton").style.width = `${document.getElementById("widthNextButton").value}px`;
-            document.getElementById("nextButton").style.borderRadius = `${document.getElementById("borderRadiusNextButton").value}px`;
-
-            document.getElementById("chatButton").style.backgroundColor = document.getElementById("backgroundColorChatButton").value;
-            document.getElementById("chatButton").style.borderColor = document.getElementById("frameColorChatButton").value;
-            document.getElementById("chatButton").style.color = document.getElementById("textColorChatButton").value;
-            document.getElementById("chatButton").style.top = `${document.getElementById("topChatButton").value}px`;
-            document.getElementById("chatButton").style.left = `${document.getElementById("leftChatButton").value}px`;
-            document.getElementById("chatButton").style.height = `${document.getElementById("heightChatButton").value}px`;
-            document.getElementById("chatButton").style.width = `${document.getElementById("widthChatButton").value}px`;
-            document.getElementById("chatButton").style.borderRadius = `${document.getElementById("borderRadiusChatButton").value}px`;
-
-            document.getElementById("helpButton").style.backgroundColor = document.getElementById("backgroundColorHelpButton").value;
-            document.getElementById("helpButton").style.borderColor = document.getElementById("frameColorHelpButton").value;
-            document.getElementById("helpButton").style.color = document.getElementById("textColorHelpButton").value;
-            document.getElementById("helpButton").style.top = `${document.getElementById("topHelpButton").value}px`;
-            document.getElementById("helpButton").style.left = `${document.getElementById("leftHelpButton").value}px`;
-            document.getElementById("helpButton").style.height = `${document.getElementById("heightHelpButton").value}px`;
-            document.getElementById("helpButton").style.width = `${document.getElementById("widthHelpButton").value}px`;
-            document.getElementById("helpButton").style.borderRadius = `${document.getElementById("borderRadiusHelpButton").value}px`;
-        }, 300);
-        return () => clearInterval(interval);
-    }, [])
 
     function createNewJsonFile() {
-        props.story.player.background = document.getElementById("background_color").value;
-
-        props.story.player.image.height = document.getElementById("heighImage").value;
-        props.story.player.image.width = document.getElementById("widthImage").value;
-        props.story.player.image.top = document.getElementById("topImage").value;
-        props.story.player.image.left = document.getElementById("leftImage").value;
-
-        props.story.player.topFrame = document.getElementById("topFrame").value;
-        props.story.player.leftFrame = document.getElementById("leftFrame").value;
-        props.story.player.widthFrame = document.getElementById("widthFrame").value;
-        props.story.player.frameColor = document.getElementById("frameColor").value;
-        props.story.player.weightFrame = document.getElementById("weightFrame").value;
-        props.story.player.borderRadiusFrame = document.getElementById("borderRadiusFrame").value;
-
-        props.story.player.textColor = document.getElementById("textColor").value;
-        props.story.player.textBackgroundColor = document.getElementById("textBackgroundColor").value;
-        props.story.player.fontFamily = `${document.getElementById("fontFamily").value}, sans-serif`;
-        props.story.player.sizeFont =  document.getElementById("sizeFont").value;
-        props.story.player.weightFont = document.getElementById("weightFont").value;
-
-        props.story.player.nextButton.backgroundColor = document.getElementById("backgroundColorNextButton").value;
-        props.story.player.nextButton.frameColor = document.getElementById("frameColorNextButton").value;
-        props.story.player.nextButton.textColor = document.getElementById("textColorNextButton").value;
-        props.story.player.nextButton.top =  document.getElementById("topNextButton").value;
-        props.story.player.nextButton.left = document.getElementById("leftNextButton").value;
-        props.story.player.nextButton.height =  document.getElementById("heightNextButton").value;
-        props.story.player.nextButton.width =  document.getElementById("widthNextButton").value;
-        props.story.player.nextButton.borderRadius = document.getElementById("borderRadiusNextButton").value;
-
-        props.story.player.chatButton.backgroundColor = document.getElementById("backgroundColorChatButton").value;
-        props.story.player.chatButton.frameColor = document.getElementById("frameColorChatButton").value;
-        props.story.player.chatButton.textColor = document.getElementById("textColorChatButton").value;
-        props.story.player.chatButton.top =  document.getElementById("topChatButton").value;
-        props.story.player.chatButton.left = document.getElementById("leftChatButton").value;
-        props.story.player.chatButton.height =  document.getElementById("heightChatButton").value;
-        props.story.player.chatButton.width =  document.getElementById("widthChatButton").value;
-        props.story.player.chatButton.borderRadius = document.getElementById("borderRadiusChatButton").value;
-        
-        props.story.player.helpButton.backgroundColor = document.getElementById("backgroundColorHelpButton").value;
-        props.story.player.helpButton.frameColor = document.getElementById("frameColorHelpButton").value;
-        props.story.player.helpButton.textColor = document.getElementById("textColorHelpButton").value;
-        props.story.player.helpButton.top = document.getElementById("topHelpButton").value;
-        props.story.player.helpButton.left = document.getElementById("leftHelpButton").value;
-        props.story.player.helpButton.height = document.getElementById("heightHelpButton").value;
-        props.story.player.helpButton.width = document.getElementById("widthHelpButton").value;
-        props.story.player.helpButton.borderRadius = document.getElementById("borderRadiusHelpButton").value;
+        props.story.player.background                   =   document.getElementById("background_color").value;
+        props.story.player.image.height                 =   document.getElementById("heighImage").value;
+        props.story.player.image.width                  =   document.getElementById("widthImage").value;
+        props.story.player.image.top                    =   document.getElementById("topImage").value;
+        props.story.player.image.left                   =   document.getElementById("leftImage").value;
+        props.story.player.topFrame                     =   document.getElementById("topFrame").value;
+        props.story.player.leftFrame                    =   document.getElementById("leftFrame").value;
+        props.story.player.widthFrame                   =   document.getElementById("widthFrame").value;
+        props.story.player.frameColor                   =   document.getElementById("frameColor").value;
+        props.story.player.weightFrame                  =   document.getElementById("weightFrame").value;
+        props.story.player.borderRadiusFrame            =   document.getElementById("borderRadiusFrame").value;
+        props.story.player.textColor                    =   document.getElementById("textColor").value;
+        props.story.player.textBackgroundColor          =   document.getElementById("textBackgroundColor").value;
+        props.story.player.fontFamily                   =`${document.getElementById("fontFamily").value}, sans-serif`;
+        props.story.player.sizeFont                     =   document.getElementById("sizeFont").value;
+        props.story.player.weightFont                   =   document.getElementById("weightFont").value;
+        props.story.player.nextButton.backgroundColor   =   document.getElementById("backgroundColorNextButton").value;
+        props.story.player.nextButton.frameColor        =   document.getElementById("frameColorNextButton").value;
+        props.story.player.nextButton.textColor         =   document.getElementById("textColorNextButton").value;
+        props.story.player.nextButton.top               =   document.getElementById("topNextButton").value;
+        props.story.player.nextButton.left              =   document.getElementById("leftNextButton").value;
+        props.story.player.nextButton.height            =   document.getElementById("heightNextButton").value;
+        props.story.player.nextButton.width             =   document.getElementById("widthNextButton").value;
+        props.story.player.nextButton.borderRadius      =   document.getElementById("borderRadiusNextButton").value;
+        props.story.player.chatButton.backgroundColor   =   document.getElementById("backgroundColorChatButton").value;
+        props.story.player.chatButton.frameColor        =   document.getElementById("frameColorChatButton").value;
+        props.story.player.chatButton.textColor         =   document.getElementById("textColorChatButton").value;
+        props.story.player.chatButton.top               =   document.getElementById("topChatButton").value;
+        props.story.player.chatButton.left              =   document.getElementById("leftChatButton").value;
+        props.story.player.chatButton.height            =   document.getElementById("heightChatButton").value;
+        props.story.player.chatButton.width             =   document.getElementById("widthChatButton").value;
+        props.story.player.chatButton.borderRadius      =   document.getElementById("borderRadiusChatButton").value;  
+        props.story.player.helpButton.backgroundColor   =   document.getElementById("backgroundColorHelpButton").value;
+        props.story.player.helpButton.frameColor        =   document.getElementById("frameColorHelpButton").value;
+        props.story.player.helpButton.textColor         =   document.getElementById("textColorHelpButton").value;
+        props.story.player.helpButton.top               =   document.getElementById("topHelpButton").value;
+        props.story.player.helpButton.left              =   document.getElementById("leftHelpButton").value;
+        props.story.player.helpButton.height            =   document.getElementById("heightHelpButton").value;
+        props.story.player.helpButton.width             =   document.getElementById("widthHelpButton").value;
+        props.story.player.helpButton.borderRadius      =   document.getElementById("borderRadiusHelpButton").value;
 
         props.setStep([true, true, false])
     }
 
 
+
+    
+    
+    function addImage(e){
+        e.preventDefault()
+        const formData = new FormData();
+        formData.append("file", e.target.files[0])
+        axios.post(`http://localhost:8000/addImage/${props.story.id}/bckgrnd`, formData, {
+            headers:{
+                "Content-Type": "multipart/form-data"
+            }
+        })
+        .then((response) => {
+            set_immageUpload(false)
+            const fileName = response.data.fileName
+            const filePath = response.data.filePath
+        })
+        .catch(error => {
+            if (error.response.status === 500) {
+                console.log("Errore con il server")
+            } else {
+                console.log(error)
+            }
+        })  
+    }
+
+    function deleteImage(){
+        axios.delete(`http://localhost:8000/deleteImage/${props.story.id}/bckgrnd`)
+        set_immageUpload(true)
+    }
+
+
     return(
-        e("form", {id: props.id, className: props.className, onSubmit: createNewJsonFile}, [
+        e("div", {id: props.id, className: props.className}, [
             e("p", null, "SFONDO"),
             e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "background_color", className: classes.hide, type: "color", onChange: (e) => set_backgroundColor(e.target.value)}),
+                e("input", {id: "background_color", className: classes.hide, type: "color", onChange:  (e) => {set_backgroundColor(e.target.value), console.log(backgroundColor)}}),
                 e("label", {htmlFor:"background_color"}, [
                     e(IconButton, {className: [classes.buttonBackground, classes.buttonStandard], component: "span"}, 
                         e(Icon, {children: "color_lens"}),  
@@ -309,13 +283,13 @@ function CreateHomeRealize_player(props){
                 ]),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "background_image", className: classes.hide, type: "file", accept:"image/x-png,image/gif,image/jpeg"}),
+                e("input", {id: "background_image", name: "upload", className: classes.hide, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addImage}),
                 e("label", {htmlFor:"background_image"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: uploadImage}, 
+                    e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
                         e(Icon, {children: "image"}),  
                     ),
                     " AGGIUNGI IMMAGINE DELLO SFONDO"
-                ]),
+                ])
             ]),
             e("div", {className: "sx_realize_option"}, [
                 e("label", {htmlFor:"delete_background_image"}, [
@@ -568,12 +542,40 @@ function CreateHomeRealize_player(props){
                 e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusHelpButton", className: classes.input, label: "Arrotondamento angoli", type:"number", variant:"outlined"})
             ]),
 
-            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createNewJsonFile}, "SALVA"),
+            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: (e) => createNewJsonFile(e)}, "SALVA"),
         ])
     )
 }
 
 export default CreateHomeRealize_player;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -631,3 +633,32 @@ export default CreateHomeRealize_player;
     const [leftHelpButton, set_leftHelpButton] = React.useState("");
     const [borderRadiusHelpButton, set_borderRadiusHelpButton] = React.useState("");
 */
+
+
+
+
+    /*function uploadImage(){
+        const inpFile = document.getElementById("background_image");
+        const imageScreen = document.getElementById("phoneImage")
+        inpFile.addEventListener("change", function(){
+            const file = this.files[0];
+            if (file){
+                const reader = new FileReader();
+                reader.addEventListener("load", function(){
+                    imageScreen.setAttribute("src", this.result)
+                });
+                reader.readAsDataURL(file);
+                set_immageUpload(false)
+            }
+        })     
+    }*/
+
+    /*function deleteImage(){
+        document.getElementById("phoneImage").setAttribute("src", "../../img/Empty.png")
+        set_immageUpload(true)
+    }*/
+
+
+
+
+ 

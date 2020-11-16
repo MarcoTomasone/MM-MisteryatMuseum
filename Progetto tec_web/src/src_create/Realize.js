@@ -1,9 +1,9 @@
 const e = React.createElement;
 
-import CreateHomeRealize_info from "./CreateHomeRealize_info.js"
-import CreateHomeRealize_player from "./CreateHomeRealize_player.js"
-import CreateHomeRealize_activity from "./CreateHomeRealize_activity.js"
-import CreateHomeRealize_firstLastActivity from "./CreateHomeRealize_firstLastActivity.js"
+import CreateHomeRealize_info from "./Realize_info.js"
+import CreateHomeRealize_player from "./Realize_player.js"
+import CreateHomeRealize_activity from "./Realize_activity.js"
+import CreateHomeRealize_firstLastActivity from "./Realize_FL_Activity.js"
 
 const {Button, makeStyles} = window['MaterialUI']; //to load the component from the library
 
@@ -31,7 +31,7 @@ const text1 = "Inserisci un testo introduttivo alla tua storia, per far immerger
 const text2 = "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore ed eventualmente lasciargli un ultimo messaggio"
 
 
-function CreateHomeRealize(props){
+function Realize(props){
     /*window.addEventListener('beforeunload', function (e) {
         e.preventDefault(); 
         e.returnValue = ''; 
@@ -72,11 +72,11 @@ function CreateHomeRealize(props){
                         setPageLoad(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
                     }}, "INFO"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        //if(step[0] == true){
+                        if(step[0] == true){
                             setPageLoad(e(CreateHomeRealize_player, {id: "CreateHomeRealize_player", className: "CreateHomeRealize_player", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
-                        /*} else {
+                        } else {
                             alert("Prima compila e conferma i campi di info generali")
-                        }*/
+                        }
                     }},"PLAYER"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         //if (step[1] == true){
@@ -107,7 +107,7 @@ function CreateHomeRealize(props){
                                 setStory: setStory, 
                                 step: step, 
                                 setStep: setStep, 
-                                firstLast: story.activities.length,
+                                firstLast: 1,
                                 activity: lastActivity,
                                 setActivity: setLastActivity,
                                 text: text2
@@ -117,11 +117,11 @@ function CreateHomeRealize(props){
                         }*/
                     }}, "ATTIVITA' CONCLUSIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        if (step[2] == true){
+                        //if (step[2] == true){
                             setPageLoad(e(CreateHomeRealize_activity, {id: "CreateHomeRealize_activity", className: "CreateHomeRealize_activity", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
-                        } else {
+                        /*} else {
                             alert("Crea almeno un'attività")
-                        }
+                        }*/
                     }}, "CREA ATTIVITA'"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         //if (step[1] == true){
@@ -136,12 +136,12 @@ function CreateHomeRealize(props){
             e("div", {id: "dx_realize", className: "dx_realize"}, [
                 e("div", {id: "phone"}, [
                     e("div", {id: "phoneInternal"}, [
-                        e("img", {id: "phoneImage"}),
+                        e("img", {id: "phoneImage", src: "../../img/Empty.png"}),
                         e("button", {id: "chatButton"}, "CHAT"),
                         e("button", {id: "helpButton", onClick: blinkHelpButton}, "HELP"),
                         e("div", {id: "phoneText"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.. It has survived not only five centuries... It has survived not only five centuries... It has survived not only five centuries...."),
-                        e("div", {id: "mediaDiv"}),
-                        e("button", {id: "inputDiv"}),
+                        e("img", {id: "mediaDiv", src: "../../img/Empty.png"}),
+                        e("div", {id: "inputDiv"}),
                         e("button", {id: "nextButton"}, "SUCCESSIVO")
                     ])
                 ])
@@ -150,57 +150,4 @@ function CreateHomeRealize(props){
     ])
 }
 
-export default CreateHomeRealize;
-
-
-
-
-
-
-/*function prova(){
-    const colorInputEl = document.getElementById("color")
-    colorInputEl.addEventListener("input", (event) => {
-        const color = event.target.value
-        const hexColorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
-        if (color.match(hexColorRegex)){
-            colorInputEl.style.borderColor = color
-        } else {
-            colorInputEl.style.borderColor = "rgb(266, 266, 266)"
-        }
-    })
-}
-
-
-
-
-function labelAndButton(props){
-    return e("div", null, [
-        e("label", {id: props.labelId, htmlFor: props.inputID}, props.labelText),
-        e("input", {id: props.inputID, type: props.inputType})
-    ])
-}
-
-function submitAction(e){
-    e.preventDefault();
-    const storia = {
-        titolo: document.getElementById("titolo").value,
-        numero: parseInt(document.getElementById("number").value),
-        genere: document.getElementById("gender").value,
-        genere: document.getElementById("gender2").value
-    }
-    console.log(storia)
-}
-*/
-
-
-/*if (c) {
-
-    //location.href = "./#/Create/realize/player"
-    /*axios.post('http://localhost:8000/createStory', {
-        user: props.user,
-        file
-    })
-    .catch((error) => console.log(error));
-    props.setArrayActivities(["ciao"])
-    alert(arrayActivities)
-}*/
+export default Realize;

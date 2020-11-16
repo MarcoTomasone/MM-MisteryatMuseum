@@ -1,13 +1,13 @@
 const e = React.createElement;
 
-import CreateHomeLogin from "./CreateHomeLogin.js"
-import CreateHomeSelect from "./CreateHomeSelect.js"
-import CreateHomeRealize from "./CreateHomeRealize.js"
+import CreateHomeLogin from "./Login.js"
+import CreateHomeSelect from "./Select.js"
+import CreateHomeRealize from "./Realize.js"
 
 const HashRouter  = ReactRouterDOM.HashRouter ;
 const Route = ReactRouterDOM.Route;
 
-function CreateHome(){
+function CreatHome(){
     const [user, setUser] =  React.useState("");
 
     return e(React.Fragment, null, [
@@ -19,4 +19,4 @@ function CreateHome(){
     ])
 }
 
-export default CreateHome;
+export default CreatHome;

@@ -66,7 +66,7 @@ const SwitchButton = withStyles({
 })(Switch);
 
 
-function CreateHomeRealize_info(props){
+function Realize_info(props){
     const classes = useStyles();
 
     const [title, setTitle] = React.useState("");
@@ -77,14 +77,13 @@ function CreateHomeRealize_info(props){
     const [participantsType, setParticipantsType] = React.useState('singlePlayer');
     const [age, setAge] = React.useState([0, 100]);
 
-
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Inserisci le informazioni generali della tua storia";
         if (props.step[0] == true) {
-            document.getElementById("title").value = props.story.title;
+            document.getElementById("title").value          =   props.story.title;
             setGender(props.story.gender);
-            document.getElementById("objective").value = props.story.objective;
-            document.getElementById("description").value = props.story.description;
+            document.getElementById("objective").value      =   props.story.objective;
+            document.getElementById("description").value    =   props.story.description;
             setaccessibility(props.story.accessibility.value);
             setParticipantsType(props.story.participantsType.value);
             setAge([props.story.ageStart, props.story.ageEnd]);
@@ -98,82 +97,89 @@ function CreateHomeRealize_info(props){
         allFields.forEach((element) => {
             if (document.getElementById(element).value == "") c = false;
         })
-        var file = {
-            id: "",
-            user: props.user, 
-            published: false, 
-            title: title.charAt(0).toUpperCase() + title.substring(1),
-            gender: gender,
-            objective: objective.charAt(0).toUpperCase() + title.substring(1),
-            description: description.charAt(0).toUpperCase() + description.substring(1),
-            accessibility: {
-                value: accessibility,
-                url: ""
-            },
-            participantsType: {
-                value: participantsType,
-                url: ""
-            }, 
-            participantsNumber: 0,
-            ageStart: age[0],
-            ageEnd: age[1],
-            player: {
-                background: "#000000",
-                frameColor: "#ffffff",
-                topFrame: 80,
-                leftFrame: 15,
-                widthFrame: 170,
-                weightFrame: 1,
-                borderRadiusFrame: 0,
-                textColor: "#ffffff",
-                textBackgroundColor: "#000000",
-                fontFamily: "Arial, sans-serif",
-                sizeFont: 14,
-                weightFont: 500,
-                image: {
-                    height: 437,
-                    width: 202,
-                    top: 0,
-                    left: 0,
-                },
-                nextButton: {
-                    backgroundColor: "#000000",
-                    frameColor: "#ffffff",
-                    textColor: "#ffffff",
-                    height: 30,
-                    width: 170,
-                    top: 390,
-                    left: 15,
-                    borderRadius: 20,
-                },
-                chatButton: {
-                    backgroundColor: "#000000",
-                    frameColor: "#ffffff",
-                    textColor: "#ffffff",
-                    height: 30,
-                    width: 60,
-                    top: 30,
-                    left: 125,
-                    borderRadius: 20,
-                },
-                helpButton: {
-                    backgroundColor: "#000000",
-                    frameColor: "#ffffff",
-                    textColor: "#ffffff",
-                    height: 30,
-                    width: 60,
-                    top: 30,
-                    left: 15,
-                    borderRadius: 20,
-                }
-            },
-            activities: []
-        }
         if (!c) {
             alert("Compila prima tutti i campi")  
         } else {
-            props.setStory(file)
-            props.setStep([true, false, false])
+            axios.get(`http://localhost:8000/createStory/id/${props.user}`)
+            .then((response) => {
+                var file = {
+                    id: response.data,
+                    user: props.user, 
+                    published: false, 
+                    title: title.charAt(0).toUpperCase() + title.substring(1),
+                    gender: gender,
+                    objective: objective.charAt(0).toUpperCase() + title.substring(1),
+                    description: description.charAt(0).toUpperCase() + description.substring(1),
+                    accessibility: {
+                        value: accessibility,
+                        url: ""
+                    },
+                    participantsType: {
+                        value: participantsType,
+                        url: ""
+                    }, 
+                    participantsNumber: 0,
+                    ageStart: age[0],
+                    ageEnd: age[1],
+                    player: {
+                        background: "#000000",
+                        backgroundImageCheck: true,
+                        backgroundImageUrl: "../../server/upload/Empty.png",
+                        frameColor: "#ffffff",
+                        topFrame: 80,
+                        leftFrame: 15,
+                        widthFrame: 170,
+                        weightFrame: 1,
+                        borderRadiusFrame: 0,
+                        textColor: "#ffffff",
+                        textBackgroundColor: "#000000",
+                        fontFamily: "Arial",
+                        sizeFont: 14,
+                        weightFont: 500,
+                        image: {
+                            height: 437,
+                            width: 202,
+                            top: 0,
+                            left: 0,
+                        },
+                        nextButton: {
+                            backgroundColor: "#000000",
+                            frameColor: "#ffffff",
+                            textColor: "#ffffff",
+                            height: 30,
+                            width: 170,
+                            top: 390,
+                            left: 15,
+                            borderRadius: 20,
+                        },
+                        chatButton: {
+                            backgroundColor: "#000000",
+                            frameColor: "#ffffff",
+                            textColor: "#ffffff",
+                            height: 30,
+                            width: 60,
+                            top: 30,
+                            left: 125,
+                            borderRadius: 20,
+                        },
+                        helpButton: {
+                            backgroundColor: "#000000",
+                            frameColor: "#ffffff",
+                            textColor: "#ffffff",
+                            height: 30,
+                            width: 60,
+                            top: 30,
+                            left: 15,
+                            borderRadius: 20,
+                        }
+                    },
+                    activities: []
+                }
+                props.setStory(file)
+                props.setStep([true, false, false])
+            })
+            .catch((error) => console.log(error))
+
         }
     }
 
@@ -227,7 +233,7 @@ function CreateHomeRealize_info(props){
     )
 }
 
-export default CreateHomeRealize_info;
+export default Realize_info;
 
 
 

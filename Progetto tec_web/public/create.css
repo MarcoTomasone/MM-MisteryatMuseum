@@ -159,14 +159,14 @@
     overflow: scroll;
     border: solid 2px grey;
 }
-.CreateHomeRealize_info, .CreateHomeRealize_player, .CreateHomeRealize_activity{
+.CreateHomeRealize_info, .CreateHomeRealize_player, .CreateHomeRealize_firstLastActivity, .CreateHomeRealize_activity{
     height: 100%;
     width: 100%;
 }
 .CreateHomeRealize_player{
     overflow: scroll;
 }
-.CreateHomeRealize_player p, .CreateHomeRealize_firstLastActivity > p{
+.CreateHomeRealize_player p, .CreateHomeRealize_firstLastActivity p, .CreateHomeRealize_activity p{
     margin-top: 20px;
     text-align: center;
 }
@@ -311,7 +311,7 @@
     position: absolute;
     top: 80px;
     left: 15px;
-    height: 200px;
+    height: 160px;
     width: 170px;
 }
 #phoneText{
@@ -327,6 +327,13 @@
     word-wrap: break-word; /* IE */
     overflow: scroll;
     border: solid 1px white;
+}
+#mediaDiv{
+    position: absolute;
+    top: 250px;
+    left: 15px;
+    height: 50px;
+    width: 170px;
 }
 #chatButton{
     height: 30px;

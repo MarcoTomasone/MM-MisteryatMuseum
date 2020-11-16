@@ -1,23 +1,15 @@
 import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
-import {appendMessage} from '../utils.js';
+import {loadHelpMessage} from '../utils.js';
 const e = React.createElement;
 
-function loadHelpMessage(props, counter){
-    const messageContainer = document.getElementById("help-message-container");
-    messageContainer.innerHTML = "";
-    var message = props.v[counter].help;
-    message = (message == null) ?  "Non ci sono aiuti per questa activity!" : message;
-    appendMessage(message, "help-message-container");
-}
+
 function Activity(props) {
 
         const [counter,setCounter] = React.useState(0);
         
-        
         function inc(){    
             
-        
             setCounter(counter+ 1);
             loadHelpMessage(props, counter +1);
             

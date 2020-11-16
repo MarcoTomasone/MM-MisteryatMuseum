@@ -27,3 +27,10 @@ export function appendMessage(message, container) {
 }
 
 
+export function loadHelpMessage(props, counter){
+    const messageContainer = document.getElementById("help-message-container");
+    messageContainer.innerHTML = "";
+    var message = props.v[counter].help;
+    message = (message == null) ?  "Non ci sono aiuti per questa activity!" : message;
+    appendMessage(message, "help-message-container");
+}

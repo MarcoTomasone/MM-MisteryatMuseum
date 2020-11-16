@@ -4,7 +4,7 @@ import CreateHomeRealize_info from "./Realize_info.js"
 import CreateHomeRealize_player from "./Realize_player.js"
 import CreateHomeRealize_activity from "./Realize_activity.js"
 import CreateHomeRealize_firstLastActivity from "./Realize_FL_Activity.js"
-import DialogComponent from "./Dialog.js"
+import {DialogComponent} from "./Dialog.js"
 
 const {Button, makeStyles} = window['MaterialUI']; //to load the component from the library
 

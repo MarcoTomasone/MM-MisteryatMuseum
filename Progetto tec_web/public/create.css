@@ -525,6 +525,18 @@
     word-break: break-all
 }
 
+#prova {
+    margin: 0px;
+    margin-bottom: 5px;
+    margin-left: 40px;
+    text-align: left;
+}
+
+#answerList {
+    margin: 5px;
+    margin-bottom: 20px;
+    margin-left: 50px;
+}
 
 /*BOHHHHHH*/
 /*

@@ -149,6 +149,18 @@
 					"borderRadius":10
 				}
 
+			},{
+				"question":"Choose a profile picture",
+				"type_":"imgUpload",
+				
+
+				"media":0,
+				"styleInput":{
+					"width":150,
+                    "height":20,
+					"left":20,
+					"bottom":200
+				}
 			}
 			,
 			{

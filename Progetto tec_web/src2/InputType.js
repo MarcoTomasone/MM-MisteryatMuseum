@@ -55,7 +55,7 @@ function inputType(props){
             position:'absolute'
         }
         //document.getElementById("rangept").value =1  ;
-        let range = true;
+       
         inputElement.push(e("input",{
                         type:"range", 
                         key:"rangebar",
@@ -72,6 +72,31 @@ function inputType(props){
                             id:"confirm",
                             onClick: () => props.checkButton(props.counter,-2,props.json.accessibility.activities,props.v)},"Check")
                 );
+        }else if(props.v[props.counter].type_ === "imgUpload" ){
+            const stylein = {
+                width:`${props.v[props.counter].styleInput.width  *screen.availWidth /202}px`,
+                height:`${props.v[props.counter].styleInput.height  *screen.availHeight /437}px`,
+                bottom:`${props.v[props.counter].styleInput.bottom  *screen.availHeight /437}px`,
+                left:`${props.v[props.counter].styleInput.left  *screen.availWidth /202}px`,
+                position:'absolute'
+            }
+
+
+            inputElement.push(e("input",{
+                type:"file", 
+                key:"fileUplodad",
+                id:"flUpld",
+                accept:"image/png, image/jpeg",
+                style:stylein,
+                capture:"camera",
+                })//e("p",null,valueR),                               
+                ,e("button",{
+                    style:stylB,
+                    key:"confirm",
+                    id:"confirm",
+                   /* onClick: () => props.checkButton(props.counter,-2,props.json.accessibility.activities,props.v)*/},"Check")
+                );
+    
         }
 
 

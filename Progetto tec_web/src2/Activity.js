@@ -17,10 +17,10 @@ function Activity(props) {
             console.log(counter);
         
             if(counter === props.v.length - 2 || props.v[counter + 1] === undefined){
-                if(counter === props.v.length - 2)
-                    console.log("last activities");
-                else 
-                    console.log("undefined term");
+                //if(counter === props.v.length - 2)
+                //    console.log("last activities");
+                //else 
+                 //   console.log("undefined term");
                     props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
                 document.getElementById("nextButton").style.backgroundColor="grey";
             }

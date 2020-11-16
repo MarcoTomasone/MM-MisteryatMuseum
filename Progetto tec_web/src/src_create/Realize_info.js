@@ -173,13 +173,28 @@ function Realize_info(props){
                             borderRadius: 20,
                         }
                     },
+                    firstActivity: {
+                        heightFrame: 160,
+                        text: "",
+                        topImage: 250,
+                        leftImage: 15,
+                        heightImage: 50,
+                        widthImage: 170
+                    },
+                    lastActivity: {
+                        heightFrame: 160,
+                        text: "",
+                        topImage: 250,
+                        leftImage: 15,
+                        heightImage: 50,
+                        widthImage: 170
+                    },
                     activities: []
                 }
                 props.setStory(file)
                 props.setStep([true, false, false])
             })
             .catch((error) => console.log(error))
-
         }
     }
 

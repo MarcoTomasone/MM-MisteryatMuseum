@@ -47,8 +47,6 @@ function Realize(props){
 
     const [story, setStory] =  React.useState({});
     const [step, setStep] =  React.useState([false, false, false]);
-    const [firstActivity, setFirstActivity] =  React.useState(false);
-    const [lastActivity, setLastActivity] =  React.useState(false);
     const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}));
     const [x, setX] =  React.useState(true);
 
@@ -88,9 +86,7 @@ function Realize(props){
                                 setStory: setStory, 
                                 step: step, 
                                 setStep: setStep, 
-                                firstLast: 0,
-                                activity: firstActivity,
-                                setActivity: setFirstActivity,
+                                activity: story.firstActivity,
                                 text: text1
                             }))
                         /*} else {
@@ -107,9 +103,7 @@ function Realize(props){
                                 setStory: setStory, 
                                 step: step, 
                                 setStep: setStep, 
-                                firstLast: 1,
-                                activity: lastActivity,
-                                setActivity: setLastActivity,
+                                activity: story.lastActivity,
                                 text: text2
                             }))
                         /*} else {

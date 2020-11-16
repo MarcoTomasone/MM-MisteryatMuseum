@@ -4,6 +4,7 @@ import CreateHomeRealize_info from "./Realize_info.js"
 import CreateHomeRealize_player from "./Realize_player.js"
 import CreateHomeRealize_activity from "./Realize_activity.js"
 import CreateHomeRealize_firstLastActivity from "./Realize_FL_Activity.js"
+import DialogComponent from "./Dialog.js"
 
 const {Button, makeStyles} = window['MaterialUI']; //to load the component from the library
 
@@ -43,9 +44,12 @@ function Realize(props){
     }
 
     const [story, setStory] =  React.useState({});
-    const [step, setStep] =  React.useState([false, false, false]);
+    const [step, setStep] =  React.useState([false, false, false, false]);
     const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}));
     const [x, setX] =  React.useState(true);
+    const [openErrorDialog, setOpenErrorDialog] = React.useState(false);
+    const [textErrorDialog, setTextErrorDialog] = React.useState("");
+
 
     function blinkHelpButton(){
             if (x==true) document.getElementById("helpButton").classList.add("blinkHelpButton")
@@ -64,13 +68,29 @@ function Realize(props){
                 e("div", {className: "sx_realize_bottom"}, [
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => console.log(story)}, "JSON"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        setPageLoad(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
+                        setPageLoad(e(CreateHomeRealize_info, {
+                            id: "CreateHomeRealize_info", 
+                            className: "CreateHomeRealize_info", 
+                            user: props.user, 
+                            story: story, 
+                            setStory: setStory, 
+                            step: step, 
+                            setStep: setStep
+                        }))
                     }}, "INFO"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if(step[0] == true){
-                            setPageLoad(e(CreateHomeRealize_player, {id: "CreateHomeRealize_player", className: "CreateHomeRealize_player", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
+                            setPageLoad(e(CreateHomeRealize_player, {
+                                id: "CreateHomeRealize_player", 
+                                className: "CreateHomeRealize_player", 
+                                user: props.user, 
+                                story: story, 
+                                setStory: setStory, 
+                                setStep: setStep
+                            }))
                         } else {
-                            alert("Prima compila e conferma i campi di info generali")
+                            setTextErrorDialog("Prima compila e salva i campi di info generali")
+                            setOpenErrorDialog(true)
                         }
                     }},"PLAYER"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
@@ -81,7 +101,6 @@ function Realize(props){
                                 user: props.user, 
                                 story: story, 
                                 setStory: setStory, 
-                                step: step, 
                                 setStep: setStep, 
                                 activity: story.firstActivity,
                                 indexActivity: "firstActivity",
@@ -89,18 +108,18 @@ function Realize(props){
                                 text: "Inserisci un testo introduttivo alla tua storia, per far immergere al meglio il giocatore"
                             }))
                         /*} else {
-                            alert("Prima compila e conferma i campi sullo stile del player")
+                            setTextErrorDialog("Prima compila e salva i campi sullo stile del player")
+                            setOpenErrorDialog(true)
                         }*/
                     }}, "ATTIVITA' INTRODUTTIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        //if (step[1] == true){
+                        //if (step[2] == true){
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {
                                 id: "CreateHomeRealize_firstActivity", 
                                 className: "CreateHomeRealize_firstLastActivity", 
                                 user: props.user, 
                                 story: story, 
                                 setStory: setStory, 
-                                step: step, 
                                 setStep: setStep, 
                                 activity: story.lastActivity,
                                 indexActivity: "lastActivity",
@@ -108,22 +127,39 @@ function Realize(props){
                                 text: "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore ed eventualmente lasciargli un ultimo messaggio"
                             }))
                         /*} else {
-                            alert("Prima compila e conferma i campi sullo stile del player")
+                            setTextErrorDialog("Prima crea e salva l'attività introduttiva")
+                            setOpenErrorDialog(true)          
                         }*/
                     }}, "ATTIVITA' CONCLUSIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         //if (step[2] == true){
-                            setPageLoad(e(CreateHomeRealize_activity, {id: "CreateHomeRealize_activity", className: "CreateHomeRealize_activity", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}))
+                            setPageLoad(e(CreateHomeRealize_activity, {
+                                id: "CreateHomeRealize_activity", 
+                                className: "CreateHomeRealize_activity", 
+                                user: props.user, 
+                                story: story,
+                                setStep: setStep,
+                                setStory: setStory,
+                                lenght: story.activities.lenght
+                            }))
                         /*} else {
-                            alert("Crea almeno un'attività")
+                            setTextErrorDialog("Prima crea e salva l'attività introduttiva")
+                            setOpenErrorDialog(true)   
                         }*/
                     }}, "CREA ATTIVITA'"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        //if (step[1] == true){
+                        //if (step[3] == true){
                             seFirstLast("last");
-                            setPageLoad(e(CreateHomeRealize_firstLastActivity, {id: "CreateHomeRealize_lastActivity", className: "CreateHomeRealize_firstLastActivity", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep, firstLast: firstLast}))
+                            setPageLoad(e(CreateHomeRealize_firstLastActivity, {
+                                id: "CreateHomeRealize_lastActivity", 
+                                className: "CreateHomeRealize_firstLastActivity", 
+                                user: props.user, 
+                                story: story, 
+                                setStory: setStory, 
+                            }))
                         /*} else {
-                            alert("Prima compila e conferma i campi sullo stile del player")
+                            setTextErrorDialog("Prima crea e salva almeno un'attività diversa da quella introduttiva")
+                            setOpenErrorDialog(true)   
                         }*/
                     }}, "MODIFICA ATTIVITA'")
                 ])
@@ -141,7 +177,8 @@ function Realize(props){
                     ])
                 ])
             ])
-        ])
+        ]),
+        e(DialogComponent, {fun: setOpenErrorDialog, open: openErrorDialog, textError: textErrorDialog} )
     ])
 }
 

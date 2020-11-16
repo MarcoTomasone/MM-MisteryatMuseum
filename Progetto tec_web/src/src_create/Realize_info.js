@@ -192,7 +192,7 @@ function Realize_info(props){
                     activities: []
                 }
                 props.setStory(file)
-                props.setStep([true, false, false])
+                props.setStep([true, false, false, false])
             })
             .catch((error) => console.log(error))
         }

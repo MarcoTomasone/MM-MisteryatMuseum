@@ -1,5 +1,5 @@
 const e = React.createElement;
-const {TextField, IconButton, makeStyles, Button, Icon} = window['MaterialUI']; //to load the component from the library
+const {TextField, IconButton, makeStyles, Button, Icon, FormControl, InputLabel, Select, MenuItem} = window['MaterialUI']; //to load the component from the library
 
 
 const useStyles = makeStyles((theme) => ({
@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     },
     input2: {
         [`& fieldset`]: {
+            width: 600,
             borderRadius: 15,
         }
     },
@@ -36,16 +37,22 @@ const useStyles = makeStyles((theme) => ({
 function Realize_activity(props){
     const classes = useStyles();
     const [immageUpload, set_immageUpload] = React.useState(true)
+    const [activitySaved, setActivitySaved] = React.useState(false)
     const [activity, setActivity] = React.useState({
+        title           :   "",
         heightFrame     :   160,
-        question        :   "",
+        text            :   "",
+        media           :   false,
+        topImage        :   250,
+        leftImage       :   15,
+        heightImage     :   50,
+        widthImage      :   170,
+        score           :   0,
+        widgetType      :   "",
         answer          :   [],
         correctAnswers  :   [],
         correctAnswerGo :   0,
         wrongAnswerGo   :   0,
-        score           :   0,
-        media           :   false,
-        type_           :   "",
     })
 
 
@@ -76,7 +83,7 @@ function Realize_activity(props){
 
 
     React.useEffect(() => {
-        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea l'attività introduttiva della tua storia";
+        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea una nuova attività";
 
         document.getElementById("phoneText").style.height   = `${activity.heightFrame}px`;
         document.getElementById("phoneText").innerHTML      =    activity.text;
@@ -84,22 +91,49 @@ function Realize_activity(props){
         document.getElementById("mediaDiv").style.left      = `${activity.leftImage}px`;
         document.getElementById("mediaDiv").style.height    = `${activity.heightImage}px`;
         document.getElementById("mediaDiv").style.width     = `${activity.widthImage}px`;
+
+        switch(activity.widgetType){
+            case "Scelta multipla":
+                break;
+            case "Input testuale":
+                break;
+            case "Range":
+                break;
+            case "Foto":
+                break;
+            
+        }
+
     }, [activity])
 
 
     const createActivity = () => {
+        var oldStory = props.story;
         var tmp = {
-            heightFrame :    parseInt(activity.heightFrame),
-            text        :             activity.text,
-            topImage    :    parseInt(activity.topImage),
-            leftImage   :    parseInt(activity.leftImage),
-            heightImage :    parseInt(activity.heightImage),
-            widthImage  :    parseInt(activity.widthImage),
+            title           :   activity.title,
+            heightFrame     :   activity.heightFrame,
+            text            :   activity.text,
+            media           :   activity.media,
+            topImage        :   activity.topImage,
+            leftImage       :   activity.leftImage,
+            heightImage     :   activity.heightImage,
+            widthImage      :   activity.widthImage,
+            score           :   activity.score,
+            widgetType      :   activity.widgetType,
+            answer          :   activity.answer,
+            correctAnswers  :   activity.correctAnswers,
+            correctAnswerGo :   activity.correctAnswerGo,
+            wrongAnswerGo   :   activity.wrongAnswerGo
         };
-        console.log(tmp)
-        if (props.indexActivity == "firstActivity") props.story.firstActivity = tmp
-        else props.story.lastActivity = tmp
-        //props.setStory(tmp);
+        if (activitySaved == false){
+            oldStory.activities.push(tmp)
+            setActivitySaved(true)
+            props.setStep([true, true, true, true])
+        } else {
+            const lenght = oldStory.activities.lenght - 1;
+            oldStory.activities.splice(lenght, 1, tmp)
+        }
+        props.setStory(oldStory);
     }
 
     function updateField(e){
@@ -111,6 +145,18 @@ function Realize_activity(props){
 
     return(
         e("form", {id: props.id, className: props.className}, [
+            e("p", null, "TTITOLO ATTIVITA'"),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "title", className: classes.input, value: activity.title, name: "title", label: "Titolo", inputProps: {maxLength: 20}, variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("hr", null),
+
+            e("p", null, "DOMANDA"),
+            e("div", {className: "sx_realize_option_description"}, [
+                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.text, name: "text", label: "Testo prima storia", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("hr", null),
+
             e("p", null, "CORNICE TESTO"),
             e("div", {className: "sx_realize_option"}, [
                 e(TextField, {inputProps: {min: 5}, id: "heightFrame", className: classes.input, value: activity.heightFrame, name: "heightFrame", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
@@ -149,10 +195,23 @@ function Realize_activity(props){
             ]),
             e("hr", null),
 
-            e("p", null, "TESTO"),
-            e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.text, name: "text", label: "Testo prima storia", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("p", null, "RISPOSTA"),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "score", className: classes.input, value: activity.score, name: "score", label: "Punteggio", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(FormControl, {variant: "outlined", className: classes.input}, [
+                    e(InputLabel, {htmlFor: "widgetType"}, "Font"),
+                    e(Select, {id: "widgetType", label: "Tipo di risposta", value: activity.widgetType, name:"widgetType", onChange:  (e) => updateField(e)}, [
+                        e(MenuItem, {value: "Scelta multipla", selected: true}, "Scelta multipla"),
+                        e(MenuItem, {value: "Input testuale"}, "Input testuale"),
+                        e(MenuItem, {value: "Range"}, "Range"),
+                        e(MenuItem, {value: "Foto"}, "Foto"),
+                    ])
+                ])
+            ]),
+
+
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    
     )

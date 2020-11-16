@@ -230,7 +230,7 @@ function Realize_player(props){
         props.story.player.helpButton.width             =   parseInt(playerStyle.widthHelpButton)
         props.story.player.helpButton.borderRadius      =   parseInt(playerStyle.borderRadiusHelpButton)
 
-        props.setStep([true, true, false])
+        props.setStep([true, true, false, false])
     }
 
     function addImage(e){

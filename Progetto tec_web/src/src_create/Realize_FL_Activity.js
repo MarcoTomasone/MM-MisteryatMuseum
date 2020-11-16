@@ -105,7 +105,7 @@ function Realize_FL_Activity(props){
         if (props.indexActivity == "firstActivity") oldStory.firstActivity = tmp
         else {
             oldStory.lastActivity = tmp
-            setStep([true, true, true])
+            props.setStep([true, true, true, false])
         }
         props.setStory(oldStory);
     }

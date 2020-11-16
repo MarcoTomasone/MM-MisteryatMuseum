@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const upload = require("express-fileupload");
 const bodyParser = require('body-parser');
 const { COPYFILE_EXCL } = fs.constants;
 
@@ -9,6 +10,7 @@ const { COPYFILE_EXCL } = fs.constants;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(upload());
 app.use(cors());
 
 let directory = "storiesFolder";

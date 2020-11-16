@@ -36,18 +36,37 @@ const useStyles = makeStyles((theme) => ({
 
 function Realize_FL_Activity(props){
 
-    console.log(props.activity)
     const classes = useStyles();
     const [immageUpload, set_immageUpload] = React.useState(true)
     const [activity, setActivity] = React.useState({
-        heightFrame : props.activity.heightFrame,
-        text        : props.activity.text,
-        topImage    : props.activity.topImage,
-        leftImage   : props.activity.leftImage,
-        heightImage : props.activity.heightImage,
-        widthImage  : props.activity.widthImage,
+        heightFrame     : props.activity.heightFrame,
+        text            : props.activity.text,
+        topImage        : props.activity.topImage,
+        leftImage       : props.activity.leftImage,
+        heightImage     : props.activity.heightImage,
+        widthImage      : props.activity.widthImage,
     })
 
+    React.useEffect(() => {
+        document.getElementById("phoneText").style.height   = `${activity.heightFrame}px`;
+        document.getElementById("phoneText").innerHTML      =    activity.text;
+        document.getElementById("mediaDiv").style.height    = `${activity.topImage}px`;
+        document.getElementById("mediaDiv").style.width     = `${activity.leftImage}px`;
+        document.getElementById("mediaDiv").style.top       = `${activity.heightImage}px`;
+        document.getElementById("mediaDiv").style.left      = `${activity.widthImage}px`;
+    }, [activity])
+
+    React.useEffect(() => {
+        document.getElementById("containerHome_userSelected_realize_info").innerHTML = props.title;
+        setActivity({
+            heightFrame     : props.activity.heightFrame,
+            text            : props.activity.text,
+            topImage        : props.activity.topImage,
+            leftImage       : props.activity.leftImage,
+            heightImage     : props.activity.heightImage,
+            widthImage      : props.activity.widthImage,
+        })
+    }, [props.title])
 
     function addImage(e){
         e.preventDefault()
@@ -73,22 +92,9 @@ function Realize_FL_Activity(props){
         set_immageUpload(true)
     }
     
-
-
-    React.useEffect(() => {
-        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea l'attività introduttiva della tua storia";
-
-        document.getElementById("phoneText").style.height   = `${activity.heightFrame}px`;
-        document.getElementById("phoneText").innerHTML      =    activity.text;
-        document.getElementById("mediaDiv").style.top       = `${activity.topImage}px`;
-        document.getElementById("mediaDiv").style.left      = `${activity.leftImage}px`;
-        document.getElementById("mediaDiv").style.height    = `${activity.heightImage}px`;
-        document.getElementById("mediaDiv").style.width     = `${activity.widthImage}px`;
-    }, [activity])
-
-
-    const createActivity = () => {
-        props.activity = {
+    function createActivity(){
+        var oldStory = props.story;
+        var tmp = {
             heightFrame :    parseInt(activity.heightFrame),
             text        :             activity.text,
             topImage    :    parseInt(activity.topImage),
@@ -96,8 +102,12 @@ function Realize_FL_Activity(props){
             heightImage :    parseInt(activity.heightImage),
             widthImage  :    parseInt(activity.widthImage),
         };
-        props.setStory(tmp);
-        props.setActivity(true);
+        if (props.indexActivity == "firstActivity") oldStory.firstActivity = tmp
+        else {
+            oldStory.lastActivity = tmp
+            setStep([true, true, true])
+        }
+        props.setStory(oldStory);
     }
 
     function updateField(e){
@@ -106,6 +116,7 @@ function Realize_FL_Activity(props){
             [e.target.name]: e.target.value
         });
     };
+        
 
     return(
         e("form", {id: props.id, className: props.className}, [
@@ -149,7 +160,7 @@ function Realize_FL_Activity(props){
 
             e("p", null, "TESTO"),
             e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.text, name: "text", label: "Testo prima storia", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.text, name: "text", label: "Testo", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    

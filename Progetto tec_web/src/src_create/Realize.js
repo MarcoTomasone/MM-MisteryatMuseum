@@ -27,9 +27,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const text1 = "Inserisci un testo introduttivo alla tua storia, per far immergere al meglio il giocatore"
-const text2 = "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore ed eventualmente lasciargli un ultimo messaggio"
-
 
 function Realize(props){
     /*window.addEventListener('beforeunload', function (e) {
@@ -87,7 +84,9 @@ function Realize(props){
                                 step: step, 
                                 setStep: setStep, 
                                 activity: story.firstActivity,
-                                text: text1
+                                indexActivity: "firstActivity",
+                                title: "Crea l'attività introduttiva alla tua storia",
+                                text: "Inserisci un testo introduttivo alla tua storia, per far immergere al meglio il giocatore"
                             }))
                         /*} else {
                             alert("Prima compila e conferma i campi sullo stile del player")
@@ -104,7 +103,9 @@ function Realize(props){
                                 step: step, 
                                 setStep: setStep, 
                                 activity: story.lastActivity,
-                                text: text2
+                                indexActivity: "lastActivity",
+                                title: "Crea l'attività conclusiva alla tua storia",
+                                text: "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore ed eventualmente lasciargli un ultimo messaggio"
                             }))
                         /*} else {
                             alert("Prima compila e conferma i campi sullo stile del player")

@@ -76,54 +76,44 @@ function Realize_activity(props){
 
 
     React.useEffect(() => {
-        if (props.activity == true){
-            var i = props.firstLast;
-            document.getElementById("heightFrame").value    =   props.story.activities[i].heightFrame;
-            document.getElementById("activityText").value   =   props.story.activities[i].text;
-            document.getElementById("heighImage").value     =   props.story.activities[i].text;
-            document.getElementById("widthImage").value     =   props.story.activities[i].text;
-            document.getElementById("topImage").value       =   props.story.activities[i].text;
-            document.getElementById("leftImage").value      =   props.story.activities[i].text;
-        } else {    
-            document.getElementById("heightFrame").value    =   160;
-            document.getElementById("activityText").value   =   "";
-            document.getElementById("heighImage").value     =   50;
-            document.getElementById("widthImage").value     =   170;
-            document.getElementById("topImage").value       =   250;
-            document.getElementById("leftImage").value      =   15;
-        }
+        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea l'attività introduttiva della tua storia";
 
-        const interval = setInterval(() => {
-            document.getElementById("phoneText").style.height   = `${document.getElementById("heightFrame").value}px`;
-            document.getElementById("phoneText").innerHTML      =    document.getElementById("activityText").value;
-            document.getElementById("mediaDiv").style.height    = `${document.getElementById("heighImage").value}px`;
-            document.getElementById("mediaDiv").style.width     = `${document.getElementById("widthImage").value}px`;
-            document.getElementById("mediaDiv").style.top       = `${document.getElementById("topImage").value}px`;
-            document.getElementById("mediaDiv").style.left      = `${document.getElementById("leftImage").value}px`;
-        }, 100);
-        return () => clearInterval(interval);
-    })
+        document.getElementById("phoneText").style.height   = `${activity.heightFrame}px`;
+        document.getElementById("phoneText").innerHTML      =    activity.text;
+        document.getElementById("mediaDiv").style.top       = `${activity.topImage}px`;
+        document.getElementById("mediaDiv").style.left      = `${activity.leftImage}px`;
+        document.getElementById("mediaDiv").style.height    = `${activity.heightImage}px`;
+        document.getElementById("mediaDiv").style.width     = `${activity.widthImage}px`;
+    }, [activity])
 
 
     const createActivity = () => {
-        var tmp = props.story;
-        tmp.activities[props.firstLast] = {
-            heightFrame :    document.getElementById("heightFrame").value,
-            text        :    document.getElementById("activityText").value,
-            heightImage :    document.getElementById("heighImage").value,
-            widthImage  :    document.getElementById("widthImage").value,
-            topImage    :    document.getElementById("topImage").value,
-            leftImage   :    document.getElementById("leftImage").value,
+        var tmp = {
+            heightFrame :    parseInt(activity.heightFrame),
+            text        :             activity.text,
+            topImage    :    parseInt(activity.topImage),
+            leftImage   :    parseInt(activity.leftImage),
+            heightImage :    parseInt(activity.heightImage),
+            widthImage  :    parseInt(activity.widthImage),
         };
-        props.setStory(tmp);
-        props.setActivity(true);
+        console.log(tmp)
+        if (props.indexActivity == "firstActivity") props.story.firstActivity = tmp
+        else props.story.lastActivity = tmp
+        //props.setStory(tmp);
     }
+
+    function updateField(e){
+        setActivity({
+            ...activity,
+            [e.target.name]: e.target.value
+        });
+    };
 
     return(
         e("form", {id: props.id, className: props.className}, [
             e("p", null, "CORNICE TESTO"),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "heightFrame", className: classes.input, label: "Altezza", type:"number", variant:"outlined"})
+                e(TextField, {inputProps: {min: 5}, id: "heightFrame", className: classes.input, value: activity.heightFrame, name: "heightFrame", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
 
@@ -146,22 +136,22 @@ function Realize_activity(props){
                 ]),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "topImage", disabled: immageUpload, className: classes.input, label: "Distanza dal lato in alto", type:"number", variant:"outlined"})
+                e(TextField, {id: "topImage", disabled: immageUpload, className: classes.input, value: activity.topImage, name: "topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "leftImage", disabled: immageUpload, className: classes.input, label: "Distanza dal lato sinistro", type:"number", variant:"outlined"})
+                e(TextField, {id: "leftImage", disabled: immageUpload, className: classes.input, value: activity.leftImage, name: "leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heighImage", disabled: immageUpload, className: classes.input, label: "Altezza", type:"number", variant:"outlined"})
+                e(TextField, {id: "heighImage", disabled: immageUpload, className: classes.input, value: activity.heighImage, name: "heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthImage", disabled: immageUpload, className: classes.input, label: "Larghezza", type:"number", variant:"outlined"})
+                e(TextField, {id: "widthImage", disabled: immageUpload, className: classes.input, value: activity.widthImage, name: "widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
 
             e("p", null, "TESTO"),
             e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, label: "Testo prima storia", type:"search", variant:"outlined"})
+                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.text, name: "text", label: "Testo prima storia", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    

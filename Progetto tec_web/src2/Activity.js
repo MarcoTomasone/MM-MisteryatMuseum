@@ -4,10 +4,10 @@ import {appendMessage} from '../utils.js';
 const e = React.createElement;
 
 function loadHelpMessage(props, counter){
-    const messageContainer = document.getElementById("help-message-container")
-    messageContainer.innerHTML = ""
-    var message = props.json.accessibility.activities[counter].help
-    message = (message == null) ?  "Non ci sono aiuti per questa activity!" : message
+    const messageContainer = document.getElementById("help-message-container");
+    messageContainer.innerHTML = "";
+    var message = props.v[counter].help;
+    message = (message == null) ?  "Non ci sono aiuti per questa activity!" : message;
     appendMessage(message, "help-message-container");
 }
 function Activity(props) {
@@ -17,19 +17,19 @@ function Activity(props) {
         
         function inc(){    
             
-            //console.log(props.v);
-            
-           //loadHelpMessage(props, counter );
-            //console.log(counter);
-            //console.log(props.v[counter+1]);
+        
             setCounter(counter+ 1);
+            loadHelpMessage(props, counter +1);
+            
             MediaProp = [];
-            //console.log(counter);
-           // inputProp = [];
-            if(counter === props.v.length - 1 || props.v[counter + 1] === undefined){
-                
-               console.log("last activities");
-                props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
+            console.log(counter);
+        
+            if(counter === props.v.length - 2 || props.v[counter + 1] === undefined){
+                if(counter === props.v.length - 2)
+                    console.log("last activities");
+                else 
+                    console.log("undefined term");
+                    props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
                 document.getElementById("nextButton").style.backgroundColor="grey";
             }
             if(props.v[counter].type_ === "button" && counter > 0){
@@ -88,11 +88,11 @@ function Activity(props) {
                 left:`${props.v[counter].styleM.left  *screen.availWidth /202}px`,
                 position:'absolute'
             }
-         MediaProp.push (e(props.v[counter].media,{style:mediaStyle,alt:props.v[counter].alternativeText,src:props.v[counter].source,controls:true,autoPlay:true}));
+         MediaProp.push (e(props.v[counter].media,{style:mediaStyle,key:"media",alt:props.v[counter].alternativeText,src:props.v[counter].source,controls:true,autoPlay:true}));
         }
-        console.log(counter);   
+           
         if (props.v[counter].type_ === "description" ){
-             return e("div",null,
+             return e("div",{key:"divCont"},
                         e("div", {key: "activitIntro", id:"activitIntro", style: divActivity}, props.v[counter].question, MediaProp ),
                         e("button", {key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT"));
         } else {
@@ -110,8 +110,7 @@ function Activity(props) {
 
 
     function checkButton(counter, answer, json, v){
-        console.log("checkbottom");
-        //if(!(counter === json.length -1) ){
+        
         if(answer === -1){
             if(document.getElementById("textAnswer").value  ===v[counter].correct ){
             /*    let appo = v[counter + 1];
@@ -130,7 +129,11 @@ function Activity(props) {
             console.log(v);
         }
         else if(answer === -2) {
-            alert(document.getElementById("rangenpt").value); 
+            let value =document.getElementById("rangenpt").value; 
+            alert(value); 
+            if(value > 5){
+                getActivity(1,v,counter,json);
+            }
         }
         else if(answer === v[counter].correct){
             console.log("Risposta Corretta");
@@ -166,11 +169,11 @@ function Activity(props) {
             console.log(v[counter+1]);
         */
         }
-  //  }
+  
 }
 
 function getActivity(correct,v,counter,json){
-    if(correct === 1){
+    if(correct === 1){      //fare in modo che le ultime attivita accettino la risposta ma non aggiungano nuove attivita
             let appo = v[counter + 1];
             //TEST
            let correctWay= v[counter].correctAnswerGo;

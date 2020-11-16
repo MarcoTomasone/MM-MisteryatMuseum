@@ -44,7 +44,7 @@ function inputType(props){
         onClick: () => props.checkButton(props.counter,-1,props.json.accessibility.activities,props.v)},"Check"));
 
 
-
+            let range = false;
     }else if(props.v[props.counter].type_ === "range" ) {
         
         const styleRange = {
@@ -55,7 +55,7 @@ function inputType(props){
             position:'absolute'
         }
         //document.getElementById("rangept").value =1  ;
-        
+        let range = true;
         inputElement.push(e("input",{
                         type:"range", 
                         key:"rangebar",
@@ -77,11 +77,12 @@ function inputType(props){
 
 
         return e("div",null, e("div", {key: "actDescription", style: divActivitys},
-            e("p", null, props.domanda),
-            e("div", null, 
+            e("p", {key:"textQuestion"}, props.domanda),
+            e("div", {key:"inputElement"}, 
                 inputElement,
             ),
             props.MediaProp),
+        //     range ? e("p",null,document.getElementById("rangept").value : null),
         e("button", {key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "NEXT"));
    
    

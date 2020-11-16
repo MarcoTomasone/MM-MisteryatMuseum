@@ -40,6 +40,7 @@ function ButtonType(props){
        const ListButtonAnswer = [];
         for (let i = 0; i < props.answer.length; i++) {      
             ListButtonAnswer.push(e("button", {
+                key:"Btn"+i,
                 style: buttProp,
                 id:"btn"+i,
                 alt:"bottone : "+props.answer[i], 
@@ -49,7 +50,7 @@ function ButtonType(props){
        
         return e("div",null,
                     e("div", {key: "actDescription", style: divActivity},
-                    e("p", {style:props.textStyle}, props.domanda),
+                    e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda),
                     e("div", {
                         key: "buttonblock",
                         style: props.askNav }, [

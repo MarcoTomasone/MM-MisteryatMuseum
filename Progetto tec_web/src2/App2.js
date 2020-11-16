@@ -30,7 +30,7 @@ function App2() {
     
     let activityList = [];
 
-    for(let i = 0;i < data.accessibility.activities.length - 1;i++) {
+    for(let i = 0;i < data.accessibility.activities.length  - 1;i++) {
         activityList.push(data.accessibility.activities[i]);
     }
     const navbar ={

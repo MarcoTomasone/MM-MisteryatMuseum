@@ -7,16 +7,14 @@
 			"name": "C0",
 			"timer": "50s",
 			"section": 3,
-			"points": 150,
-			"chat": false
+			"points": 150
 		},
 		{
 			"id": "Card1",
 			"name": "C1",
 			"timer": "2min",
 			"section": 1,
-			"points": 50,
-			"chat": false
+			"points": 50
 		}
 	]
 }

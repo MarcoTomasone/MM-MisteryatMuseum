@@ -14,16 +14,6 @@
    /* z-index: 1;*/
 }
 
-.control_home{
-    width: 200px;
-    height: 200px;
-    border: 1px solid black;
-    float: left;
-    margin: 5px;
-    box-sizing: border-box;
-    border-radius: 25px;
-}
-
 
 #myForm{
     display: none;

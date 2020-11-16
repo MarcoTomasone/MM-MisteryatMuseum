@@ -6,28 +6,35 @@ const e = React.createElement;
 
 const all_messages = {};
 const socket = io('http://localhost:3000');
-var count = 0;
 
-//intermezzo tra CardPlayer e il socket, usata in CardPlayer
-
+//interlude between CardPlayer and socket, used in CardPlayer
 export const send = function (message, id){
     socket.emit('send-chat-message', {message: message, id: id}); //receiver: socket.id
 }
 
 
-//waiting event
+//waiting event "chat-message"
 socket.on('chat-message', data => {
     var today = new Date();
-    count = count+1;
+    const collapseContainer = document.getElementById(data.id + "_collapse");
+    const collapseChatButton = document.getElementById(data.id + "_chat").childNodes[1];
+ 
     appendMessage(`<b>${data.name}</b>: ${data.message} <p style="font-size:7pt; display:inline">(${today.getHours()}:${today.getMinutes()})</p>`, data.id + '_message-container')
+    
+    if(collapseContainer.classList.contains("MuiCollapse-hidden")){
+        if(parseInt(collapseChatButton.innerHTML) == 0){
+          collapseChatButton.classList.remove("MuiBadge-invisible");
+          collapseChatButton.classList.add("MuiBadge-visible");
+        }
+        collapseChatButton.innerHTML = parseInt(collapseChatButton.innerHTML) + 1;
+    }
+
 
     //save arrived message in a dictionary
-    if (!(data.id in all_messages)){
+    /*if (!(data.id in all_messages)){
         all_messages[data.id] = []
     }
-    all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";
-    
-    console.log(all_messages);
+    all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";*/
 })
 
 
@@ -57,18 +64,13 @@ function controlHome(props){
                         points: element.points,
                         chat: element.chat,
                         slide: slide,
-                        setSlide: setSlide
+                        setSlide: setSlide,
                     }))
                 })
 
                 setArrayPlayers(arrayOfPlayers);
                 return arrayOfPlayers;
-            })
-            .then((response) => {
-                response.forEach((element) => {
-                   // if(element.props.chat)
-                    //  document.getElementById(element.props.id + "_chat").classList.add("MuiIcon-colorSecondary");
-                })
+                
             }).catch((error) => console.log(error));
     })
 
@@ -81,7 +83,7 @@ function controlHome(props){
                 e("div",null, arrayPlayers), //arrayPlayers
                 e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
                     e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
-                    e("div",{style: {width: "80%", height: "50%", "margin-left": "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+                    e("div",{style: {width: "80%", height: "50%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
                     e(TextField, {variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
                         e(IconButton, {children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                     ),
@@ -93,47 +95,4 @@ function controlHome(props){
 
 export default controlHome;
 
-
-
-
-//in control home
-/*
-    function handleClickOpen() {
-        //document.getElementById("btn_slide").style.display = "none";
-        setSlide(true);
-    }
-      
-    function handleClose() {
-        setSlide(false);
-        document.getElementById("btn_slide").style.display = "block";
-    }
-    */
-
-   /* 
-    React.useEffect(() => {
-        axios.get(`https://api.github.com/search/repositories?q=user:lucajett99&sort=updated`)
-            .then((response) => {
-                response.data.items.forEach((element) => {
-                    arrayOfPlayers.push(e(Element, {
-                        key: element.id, 
-                        id: element.id,
-                        name: element.name, 
-                        section: element.section, 
-                        points: element.points,
-                        help: element.help,
-                        humanE: element.humanE,
-                        other: response.data
-                    }))
-                })
-
-                setArrayPlayers(arrayOfPlayers);
-                return arrayOfPlayers;
-            })
-            .then((response) => {
-                response.forEach((element) => {
-                  //  if (element.help == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[0].childNodes[1].classList.add("need_help");
-                   // if (element.humanE == true) document.getElementById(arr[i].props.id).childNodes[1].childNodes[1].childNodes[1].classList.add("need_help");
-                })
-            }).catch((error) => console.log(error));
-    })*/
 

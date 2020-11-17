@@ -3,7 +3,7 @@ import {readJSON, appendMessage} from '../utils.js'
 
 var tmp = 0;
 const e = React.createElement;
-const {Icon, IconButton, Collapse, TextField, Slide, Paper}  = MaterialUI;
+const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
 const HashRouter  = ReactRouterDOM.HashRouter ;
 const Switch = ReactRouterDOM.Switch;
@@ -15,7 +15,6 @@ const socket = io('http://localhost:3000')
 //waiting event
 socket.on('chat-message', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
-   //   appendMessage(data)
 })
 
 function App2() {
@@ -81,8 +80,12 @@ function App2() {
     //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);
     const [slideChat, setSlideChat] = React.useState(false);
-   
-    
+    const [dialog, setDialog] = React.useState(true);
+
+    function handleClose() {
+        setDialog(false);
+    }
+
     const sendMessage = function (){
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
@@ -100,6 +103,17 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
+            /*    e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
+                    e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
+                    e(DialogContent, null, [
+                        e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),
+                        e("form", {id: "send-container"}, [
+                            e(TextField, {id: "message-input", variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                                e(IconButton, {id:"send-button", onClick: handleClose, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
+                                )
+                            ])
+                    ]),
+                        ]),*/
             e(Activity, { json:data,  v : activityList})),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
@@ -110,7 +124,8 @@ function App2() {
                             )
                         ])
             ])}),
-            e(Slide, {in: slideHelp, direction:"down", id: "slide-help",unmountOnExit: false, children: e(Paper, null, [   //unmountOnExit: true -> but we have a problem
+            e(Slide, {in: slideHelp, direction:"down", id: "slide-help",unmountOnExit: false, children: 
+            e(Paper, null, [   //unmountOnExit: true -> but we have a problem
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideHelp(false)}}),
                     e("div",{id: "help-message-container", style: {overflow:"scroll", width: "80%", height: "60%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
             ])})

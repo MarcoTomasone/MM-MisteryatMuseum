@@ -15,8 +15,8 @@ function Login(props){
     //check the input name, if it isn't present return an alert of error, otherwise it set the value of input
     //to the "user" variable passed as a props
     function loginFunction(){   
-        if (username == "" || password == ""){
-            alert("Prima di proseguire, inserire un username e password validi")
+        if (username == ""){
+            alert("Prima di proseguire, inserire un username valido")
         } else {
             if (username.includes("_") || username.includes(".") || username.includes("/") || username.includes(" ")){
                 alert("Evitare gli spazi e i seguenti valori:   .   _   /")
@@ -40,7 +40,7 @@ function Login(props){
             onChange: (e) => username = (e.target.value),
             onKeyDown: handleKeyDown
         }),
-        e(TextField, {
+        /*e(TextField, {
             id:"password_TextField",
             className: "login",
             label:"Password",
@@ -49,7 +49,7 @@ function Login(props){
             required: true,
             onChange: (e) => password = (e.target.value),
             onKeyDown: handleKeyDown
-        }),
+        }),*/
         e(Button, {id: "loginDiv_button", variant: "outlined", onClick: loginFunction},"ENTRA" ),
     ])
 }

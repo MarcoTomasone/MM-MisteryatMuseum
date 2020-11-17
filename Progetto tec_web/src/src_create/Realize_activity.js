@@ -1,6 +1,6 @@
 const e = React.createElement;
 const {TextField, IconButton, makeStyles, Button, Icon, FormControl, InputLabel, Select, MenuItem, Tooltip} = window['MaterialUI']; //to load the component from the library
-import {DialogComponent2} from "./Dialog.js"
+import {DialogComponent, DialogComponent2} from "./Dialog.js"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -136,7 +136,11 @@ function Realize_activity(props){
         if (activity.widgetType == "Quattro opzioni" && arrayOfAnswer.number >= 4){
             alert("Raggiunto limite risposte")
             setAnswer("")
+        } else if (activity.widgetType == "Vero o falso" && arrayOfAnswer.number >= 2){
+            alert("Raggiunto limite risposte")
+            setAnswer("")
         } else {
+            console.log(activity.widgetType, arrayOfAnswer.number)
             setArrayOfAnswer({
                 number: arrayOfAnswer.number +1,
                 array: [...arrayOfAnswer.array, answer]
@@ -241,7 +245,7 @@ function Realize_activity(props){
                     e(Select, {visibility: "hidden", id: "widgetType", label: "Tipo di risposta", value: activity.widgetType, name:"widgetType", onChange:  (e) => {updateField(e), deleteAllAnswer()}}, [
                         e(MenuItem, {value: "Quattro opzioni", selected: true}, "Quattro opzioni"),
                         e(MenuItem, {value: "Scelta multipla"}, "Scelta multipla"),
-                        e(MenuItem, {value: "Vero o Falso"}, "Vero o falso"),
+                        e(MenuItem, {value: "Vero o falso"}, "Vero o falso"),
                         e(MenuItem, {value: "Input testuale"}, "Input testuale"),
                         e(MenuItem, {value: "Range"}, "Range"),
                         e(MenuItem, {value: "Foto"}, "Foto"),
@@ -269,6 +273,7 @@ function Realize_activity(props){
                 e(TextField, {id: "widthImage", disabled: immageUpload, className: classes.input, value: activity.widthImage, name: "widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
 
+            e(DialogComponent, {fun: setOpenErrorDialog, open: openErrorDialog, textError: "prova"} ),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: () => console.log(arrayOfAnswer.array)}, "SALVA"),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    

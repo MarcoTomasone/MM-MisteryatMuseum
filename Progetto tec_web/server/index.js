@@ -250,15 +250,9 @@ io.on('connection', socket => {
 var io = require('socket.io')(3000, {cors: {origin: '*'}});
 
 io.on('connection', socket => {
-    socket.on('new-user', name => {
-        users[socket.id] = name;
-        socket.broadcast.emit('user-connected', name);
-    })
-
     socket.on('send-chat-message', data => {
-        //messagereceived = true;
         socket.broadcast.emit('chat-message', {message : data.message , name :"Admin", id: data.id});
-        //io.to(`${data.receiver}`).emit("chat-message", { message: data.message, name: "Admin", id: "Card0"});
+        //io.to(`${data.receiver}`).emit("chat-message", { message: data.message, name: "Admin", id: data.id});
     })
 
 })
@@ -267,16 +261,18 @@ io.on('connection', socket => {
 
 //----------------------------------------------------------------GET STATUS PLAYER-------------------------------------------------------------------------------------------------------
 app.get("/status", (req, res) => {
-   var file = fs.readFileSync(`../src/src_control/JSON_Player.json`, {encoding:'utf8', flag:'r'});
-    /*const tmp = JSON.parse(file);
-    tmp.Players.forEach((element) => {
-        if(messagereceived){
-            element.chat = true;
-            messagereceived = false;
-        }
-    })
-    file = JSON.stringify(tmp);*/
-    res.end(file);
+   var arrayPlayers = [];
+   const path = '../src/src_control/JSON_Players';
+   var files = fs.readdirSync(path);
+
+   files.forEach((element) => {
+    const file = fs.readFileSync(`${path}/${element}`, {encoding:'utf8', flag:'r'});
+    const data = JSON.parse(file);
+    arrayPlayers.push(data);
+   });
+   
+    arrayPlayers = JSON.stringify(arrayPlayers);
+    res.end(arrayPlayers);
 })
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 

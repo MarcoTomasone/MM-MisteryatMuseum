@@ -1,16 +1,7 @@
-import {send} from './ControlHome.js';
 import {appendMessage} from '../../utils.js'
 
 const {Badge, makeStyles, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardContent, CardActions, Avatar, Collapse} = MaterialUI;
 const e = React.createElement;
-
-//variabile usata per controllare se mi è arrivato un messaggio
-var msg = false;
-
-//funzione usata (esportata in ControlHome) per settare l'arrivo o meno di messaggi
-export const set = function(bool){
-    msg = bool;
-}
 
 /* ---------------------------------------------------------------------Style-------------------------------------------------------------------------------------- */
 const useStyles_card = makeStyles((theme) => ({
@@ -60,43 +51,45 @@ const useStyles_grid = makeStyles((theme) => ({
 }));
 
 
-/* ------------------------------------------------------------------Component Function-------------------------------------------------------------------------------------- */
 
-export default function CardPlayer(props){
+/* ------------------------------------------------------------------Component Function-------------------------------------------------------------------------------------- */
+var counter = 0; //used to count the notifications (chat)
+var exp = false; //used to save the current value of the expanded when it is changed
+
+export function CardPlayer(props){
+
     const classes_card = useStyles_card();
     const classes_grid = useStyles_grid();
     const classes_message = useStyles_message();
 
     const [expanded, setExpanded] = React.useState(false);
-    const [counter, setCounter] = React.useState(0);
 
     //function to send messages to the evaluator
     const sendMessage = function (){
         const messageInput = document.getElementById(props.id + '_message-input');
         const message = messageInput.value;
-
         appendMessage(`<b>You</b>: ${message}`, props.id + "_message-container"); //lato client
-        send(message, props.id);
+        props.socket.emit('send-chat-message', {message: message, id: props.id});
         messageInput.value = ''
     }
 
-    //function to open the chat and set the badge
-    const handleExpanded = function(){
-        setExpanded(!expanded);
-    }
-
+    //function to reset the notifications counter
     React.useEffect(() => {
-        if(expanded == true)
-            setCounter(0);
+        exp = expanded;
+        if(expanded)
+            counter = 0;
     }, [expanded]);
 
-    React.useEffect(() => {
-        if(expanded == false && msg == true){
-            setCounter(counter + 1)
-            set(false);
-        }
-    },[expanded, msg])
-        
+    //waits for messages to arrive and set the notifications counter
+    React.useEffect(() => {    
+        props.socket.on('chat-message', data => {
+            if(data.id == props.id){
+                appendMessage(`<b>${data.name}</b>: ${data.message}`, data.id + '_message-container');
+                if(!exp)
+                    counter += 1;
+            }   
+        });
+    },[]);
 
     return(
         e(Card, {className: classes_card.root, id: props.id, raised: true, children: [
@@ -108,7 +101,7 @@ export default function CardPlayer(props){
                 ]})
             ]}),
             e(CardActions, {disableSpacing: true, children: [
-                e(IconButton, {children: e(Badge, {id: props.id  + "_chat", badgeContent: counter, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: handleExpanded}),
+                e(IconButton, {children: e(Badge, {id: props.id  + "_chat", badgeContent: counter, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: () => {setExpanded(!expanded);}}),
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
                 e(IconButton, {children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
             ]}),
@@ -125,7 +118,6 @@ export default function CardPlayer(props){
         ]})
     )
 }
-
 
     /*function to open the chat and set the badge
     const handleExpanded = function(){

@@ -1,6 +1,4 @@
-import CardPlayer from './CardPlayer.js';
-import {appendMessage} from '../../utils.js';
-import {set} from './CardPlayer.js';
+import {CardPlayer} from './CardPlayer.js';
 
 const {Slide, Paper, IconButton, Icon, TextField, Slider} = MaterialUI;
 const e = React.createElement;
@@ -24,19 +22,6 @@ const socket = io('http://localhost:3000');
         }
 }*/
 
-//interlude between CardPlayer and socket, used in CardPlayer
-export const send = function (message, id){
-    socket.emit('send-chat-message', {message: message, id: id}); //receiver: socket.id
-}
-
-
-//waiting event "chat-message"
-socket.on('chat-message', data => {
-    appendMessage(`<b>${data.name}</b>: ${data.message}`, data.id + '_message-container');
-    set(true); //esportata da Card Player mi permette di settare l'arrivo di un messaggio
-})
-
-
 function controlHome(props){
     var arrayOfPlayers = [];
 
@@ -48,7 +33,7 @@ function controlHome(props){
 
         axios.get(`http://localhost:8000/status`)
             .then((response) => {
-                response.data.Players.forEach((element) => {
+                response.data.forEach((element) => {
                     arrayOfPlayers.push(e(CardPlayer, {
                         key: element.id, 
                         id: element.id,
@@ -58,19 +43,14 @@ function controlHome(props){
                         points: element.points,
                         slide: slide,
                         setSlide: setSlide,
+                        socket: socket
                     }))
                 })
 
                 setArrayPlayers(arrayOfPlayers);
-                return arrayOfPlayers;
-
+                return arrayOfPlayers; 
             }).catch((error) => console.log(error));
     })
-
-    
-    /*for(let i=0; i<2; i++){
-        arrayOfPlayers.push(e(CardPlayer, {id: "Card"+i, name: "C"+i, slide: slide, setSlide: setSlide})); //, slide2: slide2, setSlide2: setSlide2, setSlide3: setSlide3
-    }*/
 
     return e(React.Fragment, null, [
                 e("div",null, arrayPlayers), //arrayPlayers

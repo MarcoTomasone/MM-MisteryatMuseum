@@ -21,7 +21,6 @@ export function readJSON(file) {
 export function appendMessage(message, container) {
     const messageContainer = document.getElementById(container);
     const messageElement = document.createElement('div');
-
     messageElement.innerHTML = message;
     messageContainer.append(messageElement);
 }

@@ -4,6 +4,14 @@ import {appendMessage} from '../../utils.js'
 const {Badge, makeStyles, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardContent, CardActions, Avatar, Collapse} = MaterialUI;
 const e = React.createElement;
 
+//variabile usata per controllare se mi è arrivato un messaggio
+var msg = false;
+
+//funzione usata (esportata in ControlHome) per settare l'arrivo o meno di messaggi
+export const set = function(bool){
+    msg = bool;
+}
+
 /* ---------------------------------------------------------------------Style-------------------------------------------------------------------------------------- */
 const useStyles_card = makeStyles((theme) => ({
     root: {
@@ -60,7 +68,8 @@ export default function CardPlayer(props){
     const classes_message = useStyles_message();
 
     const [expanded, setExpanded] = React.useState(false);
-    
+    const [counter, setCounter] = React.useState(0);
+
     //function to send messages to the evaluator
     const sendMessage = function (){
         const messageInput = document.getElementById(props.id + '_message-input');
@@ -74,14 +83,19 @@ export default function CardPlayer(props){
     //function to open the chat and set the badge
     const handleExpanded = function(){
         setExpanded(!expanded);
-        const collapseChatButton = document.getElementById(props.id + "_chat").childNodes[1];
-
-        if(parseInt(collapseChatButton.innerHTML) > 0){
-            collapseChatButton.innerHTML = 0;
-            collapseChatButton.classList.remove("MuiBadge-visible");
-            collapseChatButton.classList.add("MuiBadge-invisible");
-        }
     }
+
+    React.useEffect(() => {
+        if(expanded == true)
+            setCounter(0);
+    }, [expanded]);
+
+    React.useEffect(() => {
+        if(expanded == false && msg == true){
+            setCounter(counter + 1)
+            set(false);
+        }
+    },[expanded, msg])
         
 
     return(
@@ -94,7 +108,7 @@ export default function CardPlayer(props){
                 ]})
             ]}),
             e(CardActions, {disableSpacing: true, children: [
-                e(IconButton, {children: e(Badge, {id: props.id  + "_chat", badgeContent: 0, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: handleExpanded}),
+                e(IconButton, {children: e(Badge, {id: props.id  + "_chat", badgeContent: counter, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: handleExpanded}),
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
                 e(IconButton, {children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
             ]}),
@@ -113,36 +127,15 @@ export default function CardPlayer(props){
 }
 
 
-    /*
-    function appendMessage(message) {
-        //const messageContainer = document.getElementById(props.id).childNodes[3].childNodes[0].childNodes[0].childNodes[0].childNodes[0]
-        const messageContainer = document.getElementById('message-container')
-        const messageElement = document.createElement('div')
-        messageElement.innerHTML = message
-        messageContainer.append(messageElement)
-    
+    /*function to open the chat and set the badge
+    const handleExpanded = function(){
+        setExpanded(!expanded);
+        const collapseChatButton = document.getElementById(props.id + "_chat").childNodes[1];
 
-        //save sended message in a dictionary
-        if (!(props.id in all_messages)){
-            all_messages[props.id] = []
+        //remove notification
+        if(parseInt(collapseChatButton.innerHTML) > 0){
+            collapseChatButton.innerHTML = 0;
+            collapseChatButton.classList.remove("MuiBadge-visible");
+            collapseChatButton.classList.add("MuiBadge-invisible");
         }
-        all_messages[props.id]= all_messages[props.id] +  "You:" + message + "/";
-    }  */
-
-
-    //mi servirebbe per ricaricare i messaggi nel caso di ricaricamento della pagina
-    /*
-    const uploadMessages = function(){
-        var message_app = "";
-        if (props.id in all_messages){
-            for (let i = 0; i < all_messages[props.id].length; i++) {
-                if(all_messages[props.id].charAt(i) == "/"){
-                    appendMessage(message_app, props.id);
-                    message_app = "";
-                }
-                else
-                    message_app = message_app + all_messages[props.id].charAt(i);
-            }
-        }
-    }
-    */
+    }*/

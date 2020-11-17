@@ -1,11 +1,28 @@
 import CardPlayer from './CardPlayer.js';
 import {appendMessage} from '../../utils.js';
+import {set} from './CardPlayer.js';
 
 const {Slide, Paper, IconButton, Icon, TextField, Slider} = MaterialUI;
 const e = React.createElement;
 
 const all_messages = {};
 const socket = io('http://localhost:3000');
+
+
+//mi servirebbe per ricaricare i messaggi nel caso di ricaricamento della pagina
+/*const uploadMessages = function(){
+    var message_app = "";
+    if (props.id in all_messages){
+        for (let i = 0; i < all_messages[props.id].length; i++) {
+            if(all_messages[props.id].charAt(i) == "/"){
+                appendMessage(message_app, props.id + "_message-container");
+                message_app = "";
+            }
+            else
+                message_app = message_app + all_messages[props.id].charAt(i);
+            }
+        }
+}*/
 
 //interlude between CardPlayer and socket, used in CardPlayer
 export const send = function (message, id){
@@ -15,26 +32,8 @@ export const send = function (message, id){
 
 //waiting event "chat-message"
 socket.on('chat-message', data => {
-    var today = new Date();
-    const collapseContainer = document.getElementById(data.id + "_collapse");
-    const collapseChatButton = document.getElementById(data.id + "_chat").childNodes[1];
- 
-    appendMessage(`<b>${data.name}</b>: ${data.message} <p style="font-size:7pt; display:inline">(${today.getHours()}:${today.getMinutes()})</p>`, data.id + '_message-container')
-    
-    if(collapseContainer.classList.contains("MuiCollapse-hidden")){
-        if(parseInt(collapseChatButton.innerHTML) == 0){
-          collapseChatButton.classList.remove("MuiBadge-invisible");
-          collapseChatButton.classList.add("MuiBadge-visible");
-        }
-        collapseChatButton.innerHTML = parseInt(collapseChatButton.innerHTML) + 1;
-    }
-
-
-    //save arrived message in a dictionary
-    /*if (!(data.id in all_messages)){
-        all_messages[data.id] = []
-    }
-    all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";*/
+    appendMessage(`<b>${data.name}</b>: ${data.message}`, data.id + '_message-container');
+    set(true); //esportata da Card Player mi permette di settare l'arrivo di un messaggio
 })
 
 
@@ -43,11 +42,6 @@ function controlHome(props){
 
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
     const [slide, setSlide] = React.useState(false);
-    //const [value, setValue] = React.useState(false);
-
-    /*const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };*/
 
     
     React.useEffect(() => {
@@ -62,7 +56,6 @@ function controlHome(props){
                         timer: element.timer,
                         section: element.section, 
                         points: element.points,
-                        chat: element.chat,
                         slide: slide,
                         setSlide: setSlide,
                     }))
@@ -70,7 +63,7 @@ function controlHome(props){
 
                 setArrayPlayers(arrayOfPlayers);
                 return arrayOfPlayers;
-                
+
             }).catch((error) => console.log(error));
     })
 
@@ -87,12 +80,50 @@ function controlHome(props){
                     e(TextField, {variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
                         e(IconButton, {children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                     ),
-                ])}),
-                //e(Slider, {id: "slider", value: value, onChange: handleChange})
+                ])})
             ])
 
 }
 
 export default controlHome;
 
+//save sended message in a dictionary
+    /*if (!(id in all_messages)){
+        all_messages[id] = []
+    }
+    all_messages[id]= all_messages[id] + "You:" + message + "/";
+
+    socket.emit('send-chat-message', {message: message, id: id}); //receiver: socket.id
+   
+    var dictstring = JSON.stringify(all_messages);
+    var blob = new Blob(["Welcome to Websparrow.org."], { type: "json;charset=utf-8" });
+    saveAs(blob, "static.json");*/
+
+
+    
+//save arrived message in a dictionary
+/*if (!(data.id in all_messages)){
+    all_messages[data.id] = []
+}
+all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";
+
+console.log(all_messages);*/
+
+
+/*waiting event "chat-message"
+socket.on('chat-message', data => {
+    const collapseContainer = document.getElementById(data.id + "_collapse");
+    const collapseChatButton = document.getElementById(data.id + "_chat").childNodes[1];
+ 
+    appendMessage(`<b>${data.name}</b>: ${data.message}`, data.id + '_message-container')
+    
+    //adds notification
+    if(collapseContainer.classList.contains("MuiCollapse-hidden")){
+        if(parseInt(collapseChatButton.innerHTML) == 0){
+          collapseChatButton.classList.remove("MuiBadge-invisible");
+          collapseChatButton.classList.add("MuiBadge-visible");
+        }
+        collapseChatButton.innerHTML = parseInt(collapseChatButton.innerHTML) + 1;
+    }
+})*/
 

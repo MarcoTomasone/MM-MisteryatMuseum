@@ -103,17 +103,17 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
-            /*    e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
-                    e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
-                    e(DialogContent, null, [
-                        e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),
-                        e("form", {id: "send-container"}, [
-                            e(TextField, {id: "message-input", variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
-                                e(IconButton, {id:"send-button", onClick: handleClose, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
-                                )
-                            ])
-                    ]),
-                        ]),*/
+            e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
+                e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
+                e(DialogContent, null, [
+                    e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),
+                    e("form", {id: "id-container"}, [
+                        e(TextField, {id: "id-input", variant: "outlined", margin: "dense", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                        e(IconButton, {id:"id-send-button", onClick: handleClose, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
+                        )
+                    ])
+                ]),
+            ]),
             e(Activity, { json:data,  v : activityList})),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),

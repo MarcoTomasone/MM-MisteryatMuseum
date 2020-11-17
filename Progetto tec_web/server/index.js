@@ -5,18 +5,16 @@ const path = require("path");
 const upload = require("express-fileupload");
 const bodyParser = require('body-parser');
 const { COPYFILE_EXCL } = fs.constants;
+const app = express()
 
-
-const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload());
-app.use(cors());
 
 let directory = "storiesFolder";
 let dirBuf = Buffer.from(directory);
 var array = []
-
 
 
 app.post("/check", (req, res) => {
@@ -249,9 +247,7 @@ io.on('connection', socket => {
 })
 */
 
-const io = require('socket.io')(3000)
-
-//var messagereceived = false; //variable for my test (Luca)
+var io = require('socket.io')(3000, {cors: {origin: '*'}});
 
 io.on('connection', socket => {
     socket.on('new-user', name => {
@@ -268,9 +264,10 @@ io.on('connection', socket => {
 })
 
 
+
 //----------------------------------------------------------------GET STATUS PLAYER-------------------------------------------------------------------------------------------------------
 app.get("/status", (req, res) => {
-    var file = fs.readFileSync(`../src/src_control/JSON_Player.json`, {encoding:'utf8', flag:'r'});
+   var file = fs.readFileSync(`../src/src_control/JSON_Player.json`, {encoding:'utf8', flag:'r'});
     /*const tmp = JSON.parse(file);
     tmp.Players.forEach((element) => {
         if(messagereceived){
@@ -286,4 +283,3 @@ app.get("/status", (req, res) => {
 app.listen(8000, function () {
     console.log("Server listenig behind port 8000");
 });
-

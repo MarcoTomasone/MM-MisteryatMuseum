@@ -99,10 +99,11 @@ function inputType(props){
                             setProgess(progress);
                         }*/
                     }).then(res => {
-                        console.log(res);
-                        /*getFile({ name: res.data.name,
+                       
+                        getFile({ name: res.data.name,
                                  path: 'http://localhost:8000' + res.data.path
-                               })*/
+                               })
+                       alert(res.data.path)
                     }).catch(err => console.log(err))}
             
            

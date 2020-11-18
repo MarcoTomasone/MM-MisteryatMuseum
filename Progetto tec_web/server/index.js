@@ -36,7 +36,7 @@ app.post('/uploadImg', (req, res) => {
     }
         // accessing the file
     const myFile = req.files.file;
-    console.log(myFile)
+    //console.log(myFile)
     //  mv() method places the file inside public directory
     myFile.mv(`${__dirname}/uploadPlayer/${myFile.name}`, function (err) {
         if (err) {
@@ -44,7 +44,9 @@ app.post('/uploadImg', (req, res) => {
             return res.status(500).send({ msg: "Error occured" });
         }
         // returing the response with file path and name
-        return res.send({name: myFile.name, path: `/${myFile.name}`});
+        //console.log(myFile.name)
+        
+        return res.send({name: myFile.name, path: `uploadPlayer/${myFile.name}`});
     });
 })
 

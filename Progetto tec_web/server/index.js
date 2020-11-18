@@ -295,6 +295,17 @@ app.get("/status", (req, res) => {
     arrayPlayers = JSON.stringify(arrayPlayers);
     res.end(arrayPlayers);
 })
+
+
+app.post('/postJson', (req, res) => {
+    const path = `./statusFiles/`;
+    if (!fs.existsSync(path))
+        fs.mkdirSync(path);
+    //Pubblico il file nel path
+    fs.writeFileSync( path + 'student-2.json', JSON.stringify(req.body));
+    res.status(200).end();
+});
+
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
 app.listen(8000, function () {

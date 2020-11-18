@@ -1,9 +1,7 @@
 //get id from the Dialog and write it on the JSON FILE
 export function getID(playerID){
-    playerID = {
+    const player = {
         id : playerID
     }
-    
-    playerID = JSON.stringify(playerID);
-    axios.post()
+    axios.post(`http://localhost:8000/postJson/`, player);
 }

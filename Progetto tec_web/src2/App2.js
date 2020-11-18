@@ -1,5 +1,6 @@
 import Activity from './Activity.js'
 import {readJSON, appendMessage} from '../utils.js'
+import { getID } from './dataHandler.js';
 
 var tmp = 0;
 const e = React.createElement;
@@ -84,6 +85,10 @@ function App2() {
 
     function handleClose() {
         setDialog(false);
+        const idContainer = document.getElementById("id-input");
+        const id = idContainer.value;
+        console.log(id);
+        // getID(id);
     }
 
     const sendMessage = function (){
@@ -103,7 +108,7 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
-        /*    e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
+           /* e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
                     e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),

@@ -11,7 +11,7 @@ function inputType(props){
         position:'absolute'
         
     };
-    const divActivitys = {      //style della div contenente le activity
+    const divActivity = {      //style della div contenente le activity
         border:props.json.accessibility.activityStyle.divisor.border,
         overflow:"scroll",
         borderColor: props.json.accessibility.activityStyle.divisor.borderColor,
@@ -32,16 +32,18 @@ function inputType(props){
     }
 
     inputElement.push(e("input",{
-        type:"text",
-        id:"textAnswer",
-        key:"input",
-        style:styl,
-      }),
-        e("button",{
-        style:stylB,
-        key:"confirm",
-        id:"confirm",
-        onClick: () => props.checkButton(props.counter,-1,props.json.accessibility.activities,props.v)},"Check"));
+                                type:"text",
+                                id:"textAnswer",
+                                key:"input",
+                                style:styl,
+                            }),
+                        e("button",{
+                                style:stylB,
+                                key:"confirm",
+                                id:"confirm",
+                                onClick: () => props.checkButton(props.counter,-1,props.json.accessibility.activities,props.v)},
+                                "Check")
+                    );
 
 
             let range = false;
@@ -54,7 +56,7 @@ function inputType(props){
             left:`${props.v[props.counter].styleInput.left  *screen.availWidth /202}px`,
             position:'absolute'
         }
-        //document.getElementById("rangept").value =1  ;
+     
        
         inputElement.push(e("input",{
                         type:"range", 
@@ -73,6 +75,39 @@ function inputType(props){
                             onClick: () => props.checkButton(props.counter,-2,props.json.accessibility.activities,props.v)},"Check")
                 );
         }else if(props.v[props.counter].type_ === "imgUpload" ){
+           
+            
+                const [file, setFile] = React.useState(''); // storing the uploaded file    // storing the recived file from backend
+                const [data, getFile] = React.useState({ name: "", path: "" });    
+                const [progress, setProgess] = React.useState(0); // progess bar
+                const el = React.useRef(); // accesing input element
+                const handleChange = (e) => {
+                    setProgess(0)
+                    const file = e.target.files[0]; // accesing file
+                    console.log(file);
+                    setFile(file); // storing file
+                }
+                
+                const uploadFile = () => {
+                    const formData = new FormData();        
+                    formData.append('file', file); // appending file
+                    console.log(formData)
+                    axios.post('http://localhost:8000/uploadImg', formData, {
+                        /*onUploadProgress: (ProgressEvent) => {
+                            let progress = Math.round(
+                            ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
+                            setProgess(progress);
+                        }*/
+                    }).then(res => {
+                        console.log(res);
+                        /*getFile({ name: res.data.name,
+                                 path: 'http://localhost:8000' + res.data.path
+                               })*/
+                    }).catch(err => console.log(err))}
+            
+           
+           
+           
             const stylein = {
                 width:`${props.v[props.counter].styleInput.width  *screen.availWidth /202}px`,
                 height:`${props.v[props.counter].styleInput.height  *screen.availHeight /437}px`,
@@ -89,11 +124,13 @@ function inputType(props){
                 accept:"image/png, image/jpeg",
                 style:stylein,
                 capture:"camera",
+                onChange:handleChange
                 })//e("p",null,valueR),                               
                 ,e("button",{
                     style:stylB,
                     key:"confirm",
                     id:"confirm",
+                    onClick:uploadFile
                    /* onClick: () => props.checkButton(props.counter,-2,props.json.accessibility.activities,props.v)*/},"Check")
                 );
     
@@ -101,13 +138,15 @@ function inputType(props){
 
 
 
-        return e("div",null, e("div", {key: "actDescription", style: divActivitys},
-            e("p", {key:"textQuestion"}, props.domanda),
-            e("div", {key:"inputElement"}, 
-                inputElement,
-            ),
-            props.MediaProp),
-        //     range ? e("p",null,document.getElementById("rangept").value : null),
+        return e("div",null, 
+                    e("div", {key: "contentDescription", style: divActivity},
+                    e("p", {key:"textQuestion"}, props.domanda),
+                    e("div", {key:"inputElement"}, 
+                        inputElement,
+                    ),
+                    props.MediaProp),
+        
+                    //     range ? e("p",null,document.getElementById("rangept").value : null),
         e("button", {key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "NEXT"));
    
    

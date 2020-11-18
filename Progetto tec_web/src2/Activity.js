@@ -13,15 +13,12 @@ function Activity(props) {
             setCounter(counter+ 1);
             loadHelpMessage(props, counter +1);
             
-            MediaProp = [];
-            console.log(counter);
+            MediaProp = [];             // Contains React Element type: Media
+            //console.log(counter);
         
-            if(counter === props.v.length - 2 || props.v[counter + 1] === undefined){
-                //if(counter === props.v.length - 2)
-                //    console.log("last activities");
-                //else 
-                 //   console.log("undefined term");
-                    props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
+            if(counter === props.v.length - 2 || props.v[counter + 1] === undefined){                               //if the story ends
+
+                props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
                 document.getElementById("nextButton").style.backgroundColor="grey";
             }
             if(props.v[counter].type_ === "button" && counter > 0){
@@ -72,7 +69,7 @@ function Activity(props) {
         let MediaProp = [];
         let mediaStyle;
                 
-        if(props.v[counter].media !== 0){
+        if(props.v[counter].media !== 0){               
             mediaStyle = {
                 width:`${props.v[counter].styleM.width  *screen.availWidth /202}px`,
                 height:`${props.v[counter].styleM.height  *screen.availHeight /437}px`,
@@ -80,47 +77,57 @@ function Activity(props) {
                 left:`${props.v[counter].styleM.left  *screen.availWidth /202}px`,
                 position:'absolute'
             }
+         
          MediaProp.push (e(props.v[counter].media,{style:mediaStyle,key:"media",alt:props.v[counter].alternativeText,src:props.v[counter].source,controls:true,autoPlay:true}));
         }
            
         if (props.v[counter].type_ === "description" ){
-             return e("div",{key:"divCont"},
+   
+            return e("div",{key:"divCont"},
                         e("div", {key: "activitIntro", id:"activitIntro", style: divActivity}, props.v[counter].question, MediaProp ),
-                        e("button", {key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT"));
+                        e("button", {key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
+                    );
+        
+
+
         } else {
             let domanda = props.v[counter].question;
             let answer = props.v[counter].answer;
     
             if(props.v[counter].type_ === "button") {
+                    // multiple answer || true\false
+
                 return e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc});
-            }else {
-                return e(inputType, { domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc});
+            
+            }else { 
+                    //avaible Input type == 'range' || type=='text' || type=="file"
+                
+                    return e(inputType, { domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc});
         }
     }
 }
     
 
 
-    function checkButton(counter, answer, json, v){
-        
-        if(answer === -1){
+    function checkButton(counter, answer, json, v){         //the function check the answer with the answer given from json file
+
+        if(answer === -1){      //INPUT TYPE == TEXT
             if(document.getElementById("textAnswer").value  ===v[counter].correct ){
-            /*    let appo = v[counter + 1];
-                v[counter+1] = json[v[counter].correctAnswerGo];
-                v.push(appo);*/
+
                 getActivity(1,v,counter,json);
+
                 console.log("TextInsert Correct");
             }
-            else {/*
-                let appo = v[counter + 1];
-                v[counter+1] = json[v[counter].wrongAnswerGo];
-                v.push(appo);*/
+            else {
+                
                 getActivity(0,v,counter,json);
+
                 console.log("TextInsert Wrong");
             }
-            console.log(v);
+            
         }
-        else if(answer === -2) {
+        else if(answer === -2) {    //INPUT TYPE == RANGE 
+          
             let value =document.getElementById("rangenpt").value; 
             alert(value); 
             if(value > 5){
@@ -131,68 +138,41 @@ function Activity(props) {
             console.log("Risposta Corretta");
             document.getElementById("btn"+answer).style.backgroundColor = v[counter].btnStyle.bckgrndClrC;
             getActivity(1,v,counter,json);
-            /*  let appo = v[counter + 1];
-         //TEST
-            let correctWay= v[counter].correctAnswerGo;
-            let length = correctWay.length;
-            let index = getRandomInt(0,length- 1);
-            v[counter+1] = json[correctWay[index]];
-            v.push(appo);
-           /* console.log(correctWay[index]);
-            console.log("random:"+index);
-            console.log(v[counter+1]);*/
+
+
         }
         else {
             getActivity(0,v,counter,json);
             console.log("Risposta Errata");
             document.getElementById("btn"+answer).style.backgroundColor =  v[counter].btnStyle.bckgrndClrW;
-           /* let appo = v[counter + 1];
-     
-            //TEST
-            let errorWay= v[counter].wrongAnswerGo;
-            let length = errorWay.length;
-            let index = getRandomInt(0,length- 1);
-            v[counter+1] = json[errorWay[index]];
-            v.push(appo);
 
-            
-             console.log(errorWay[index]);
-            console.log("random:"+index);
-            console.log(v[counter+1]);
-        */
         }
   
 }
 
-function getActivity(correct,v,counter,json){
+function getActivity(correct,v,counter,json){     //EVERY ACTIVITY CHANGE WAY ACCORDING TO THE USER'S ANSWER
+ 
     if(correct === 1){      //fare in modo che le ultime attivita accettino la risposta ma non aggiungano nuove attivita
-            let appo = v[counter + 1];
-            //TEST
+           let appo = v[counter + 1];
+
            let correctWay= v[counter].correctAnswerGo;
            let length = correctWay.length;
            let index = getRandomInt(0,length- 1);
            v[counter+1] = json[correctWay[index]];
-           
-      //  console.log("next P ");console.log(v[counter+1]);
-      //  console.log(v);
 
            v.push(appo);
-        //   console.log(correctWay[index]);
-        //   console.log("random:"+index);
-        //   console.log(v[counter+1]);
-    }else{
+
+        }else{
         let appo = v[counter + 1];
      
         //TEST
         let errorWay= v[counter].wrongAnswerGo;
         let length = errorWay.length;
         let index = getRandomInt(0,length- 1);
+        
         v[counter+1] = json[errorWay[index]];
         v.push(appo);
-       // console.log(errorWay[index]);
-       // console.log("random:"+index);
-       // console.log(v[counter+1]);
-        
+
     }
 }
 function getRandomInt( min, max ) {

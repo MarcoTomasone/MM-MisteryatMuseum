@@ -29,6 +29,25 @@ app.post("/check", (req, res) => {
     res.status(200).end(pathName)
 })
 
+app.post('/uploadImg', (req, res) => {
+
+    if (!req.files) {
+        return res.status(500).send({ msg: "file is not found" })
+    }
+        // accessing the file
+    const myFile = req.files.file;
+    console.log(myFile)
+    //  mv() method places the file inside public directory
+    myFile.mv(`${__dirname}/uploadPlayer/${myFile.name}`, function (err) {
+        if (err) {
+            console.log(err)
+            return res.status(500).send({ msg: "Error occured" });
+        }
+        // returing the response with file path and name
+        return res.send({name: myFile.name, path: `/${myFile.name}`});
+    });
+})
+
 app.post("/addImage/:id/:type", (req, res) => {
     if (req.files === null){
         return res.status(400).json({msg: "No file uploaded"})

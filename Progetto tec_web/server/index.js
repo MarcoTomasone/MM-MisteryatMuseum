@@ -29,14 +29,16 @@ app.post("/check", (req, res) => {
     res.status(200).end(pathName)
 })
 
+/**
+ * Funzione che dal player manda un immagine al valutatore
+ * call by InputType.js
+ */
 app.post('/uploadImg', (req, res) => {
 
     if (!req.files) {
         return res.status(500).send({ msg: "file is not found" })
     }
-        // accessing the file
     const myFile = req.files.file;
-    //console.log(myFile)
     //  mv() method places the file inside public directory
     myFile.mv(`${__dirname}/uploadPlayer/${myFile.name}`, function (err) {
         if (err) {
@@ -44,8 +46,6 @@ app.post('/uploadImg', (req, res) => {
             return res.status(500).send({ msg: "Error occured" });
         }
         // returing the response with file path and name
-        //console.log(myFile.name)
-        
         return res.send({name: myFile.name, path: `uploadPlayer/${myFile.name}`});
     });
 })

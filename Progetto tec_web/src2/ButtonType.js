@@ -1,5 +1,14 @@
 const e = React.createElement;
 
+/**
+ * Button Type 
+ * contains definition of Button properties 
+ * on answer type:
+ *  - Multiple Answer
+ *  - True/False Answer 
+ * @param {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc}} props 
+ */
+
 function ButtonType(props){
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
         borderColor:props.json.accessibility.activityStyle.btnNext.borderColor,
@@ -26,6 +35,8 @@ function ButtonType(props){
         position:'absolute',
       
     };
+
+    //style's prop of single button [but it 's the same forall]
     const buttProp = {
         backgroundColor:props.v[props.counter].btnStyle.bckgrndClr,
         width:`${props.v[props.counter].btnStyle.width  *screen.availWidth /202}px`,
@@ -36,8 +47,8 @@ function ButtonType(props){
         borderRadius:`${props.v[props.counter].btnStyle.borderRadius}px`,
                         
        };
-       
-       const ListButtonAnswer = [];
+
+       const ListButtonAnswer = [];     //Array that contains every button
         for (let i = 0; i < props.answer.length; i++) {      
             ListButtonAnswer.push(e("button", {
                 key:"Btn"+i,

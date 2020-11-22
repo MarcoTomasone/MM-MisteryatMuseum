@@ -1,5 +1,11 @@
 const e = React.createElement;
-
+/**
+ * function thath contains the properties of Input type
+ *  - Text Answer with a specifically answer
+ *  - Range 
+ *  - File type allowed: { img/jpeg : img/ png}
+ * @param { domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc} props 
+ */
 function inputType(props){
 
     let inputElement = [];
@@ -67,7 +73,7 @@ function inputType(props){
                         step:1,
                         //value:5,
                         id:"rangenpt",style:styleRange,
-                        }),//e("p",null,valueR),                               
+                        }),                             
                         e("button",{
                             style:stylB,
                             key:"confirm",
@@ -87,19 +93,13 @@ function inputType(props){
                     console.log(file);
                     setFile(file); // storing file
                 }
-                
+
+                //send to server an image to evaluation
                 const uploadFile = () => {
                     const formData = new FormData();        
                     formData.append('file', file); // appending file
                     console.log(formData)
-                    axios.post('http://localhost:8000/uploadImg', formData, {
-                        /*onUploadProgress: (ProgressEvent) => {
-                            let progress = Math.round(
-                            ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
-                            setProgess(progress);
-                        }*/
-                    }).then(res => {
-                       
+                    axios.post('http://localhost:8000/uploadImg', formData).then(res => {
                         getFile({ name: res.data.name,
                                  path: 'http://localhost:8000' + res.data.path
                                })
@@ -132,7 +132,7 @@ function inputType(props){
                     key:"confirm",
                     id:"confirm",
                     onClick:uploadFile
-                   /* onClick: () => props.checkButton(props.counter,-2,props.json.accessibility.activities,props.v)*/},"Check")
+                    },"Check")
                 );
     
         }

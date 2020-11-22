@@ -3,7 +3,14 @@ import inputType from './InputType.js';
 import {loadHelpMessage} from '../utils.js';
 const e = React.createElement;
 
-
+/**         Activity 
+ * contains the interactive activities 
+ * state[Counter]   <-- number of activity from v[] {dinamic Array}
+ * v[counter + 1 ] contains the next activity
+ * every element on v[i] is a copy from props.json.accessibility
+ * 
+ * @param{json:data,  v : activityList}
+ */
 function Activity(props) {
 
         const [counter,setCounter] = React.useState(0);
@@ -14,7 +21,6 @@ function Activity(props) {
             loadHelpMessage(props, counter +1);
             
             MediaProp = [];             // Contains React Element type: Media
-            //console.log(counter);
         
             if(counter === props.v.length - 2 || props.v[counter + 1] === undefined){                               //if the story ends
 
@@ -54,7 +60,7 @@ function Activity(props) {
             marginTop:"20%",
         };
 
-        const divActivity = {      //style della div contenente le activity
+        const divActivity = {     //style della div contenente le activity
             border:props.json.accessibility.activityStyle.divisor.border,
             overflow:"scroll",
             borderColor: props.json.accessibility.activityStyle.divisor.borderColor,
@@ -65,7 +71,7 @@ function Activity(props) {
             position:'absolute',
           
         };
-         //  console.log(data.accessibility.player.thicknessFrame.substring(0, data.accessibility.player.thicknessFrame.length -2) );
+
         let MediaProp = [];
         let mediaStyle;
                 
@@ -150,9 +156,9 @@ function Activity(props) {
   
 }
 
-function getActivity(correct,v,counter,json){     //EVERY ACTIVITY CHANGE WAY ACCORDING TO THE USER'S ANSWER
+function getActivity(correct,v,counter,json){                //EVERY ACTIVITY CHANGE WAY ACCORDING TO THE USER'S ANSWER
  
-    if(correct === 1){      //fare in modo che le ultime attivita accettino la risposta ma non aggiungano nuove attivita
+if(correct === 1){              //fare in modo che le ultime attivita accettino la risposta ma non aggiungano nuove attivita
            let appo = v[counter + 1];
 
            let correctWay= v[counter].correctAnswerGo;
@@ -175,6 +181,7 @@ function getActivity(correct,v,counter,json){     //EVERY ACTIVITY CHANGE WAY AC
 
     }
 }
+
 function getRandomInt( min, max ) {
 	return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 }

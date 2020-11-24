@@ -1,19 +1,12 @@
-import {appendMessage} from '../../utils.js'
+import { appendMessage } from '../../utils.js'
 
-const {Badge, makeStyles, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardContent, CardActions, Avatar, Collapse} = MaterialUI;
+const { Badge, makeStyles, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardContent, CardActions, Avatar, Collapse } = MaterialUI;
 const e = React.createElement;
 
 /* ---------------------------------------------------------------------Style-------------------------------------------------------------------------------------- */
 const useStyles_card = makeStyles((theme) => ({
     root: {
         maxWidth: "222px",
-        float: "left",
-        margin: "5px"
-    },
-
-    root2: {
-        maxWidth: "150px",
-        maxHeight: "100px",
         float: "left",
         margin: "5px"
     },
@@ -53,47 +46,56 @@ const useStyles_grid = makeStyles((theme) => ({
 
 
 /* ------------------------------------------------------------------Component Function-------------------------------------------------------------------------------------- */
-var counter = 0; //used to count the notifications (chat)
-var exp = false; //used to save the current value of the expanded when it is changed
-
-export function CardPlayer(props){
-
+export default function CardPlayer(props){
+    //Styles
     const classes_card = useStyles_card();
     const classes_grid = useStyles_grid();
     const classes_message = useStyles_message();
 
+    //States
     const [expanded, setExpanded] = React.useState(false);
+    const [badge, setBadge] = React.useState(0);
+    const [arrived, setArrived] = React.useState(false);
 
-    //function to send messages to the evaluator
-    const sendMessage = function (){
+    //Function to send messages to the evaluator
+    const sendMessage = () => {
         const messageInput = document.getElementById(props.id + '_message-input');
-        const message = messageInput.value;
-        appendMessage(`<b>You</b>: ${message}`, props.id + "_message-container"); //lato client
-        props.socket.emit('send-chat-message', {message: message, id: props.id});
+        const message = `<b>You</b>: ${messageInput.value}`;
+        const container = props.id + "_message-container";
+        appendMessage(message, container); //lato client
+        props.socket.emit('send-chat-message', {message: messageInput.value, id: props.id});
         messageInput.value = ''
     }
 
-    //function to reset the notifications counter
+    //Function to reset the notifications counter
     React.useEffect(() => {
-        exp = expanded;
         if(expanded)
-            counter = 0;
+            setBadge(0);
     }, [expanded]);
 
-    //waits for messages to arrive and set the notifications counter
+    //Waits for messages to arrive and set the notifications counter
     React.useEffect(() => {    
         props.socket.on('chat-message', data => {
             if(data.id == props.id){
-                appendMessage(`<b>${data.name}</b>: ${data.message}`, data.id + '_message-container');
-                if(!exp)
-                    counter += 1;
+                setArrived(true); //is used to notify the arrival of messages 
+                const message = `<b>${data.name}</b>: ${data.message}`;
+                const container = data.id + '_message-container';
+                appendMessage(message , container);
             }   
         });
-    },[]);
+    },[props.socket]);
+
+    //Function to set the notifications counter
+    React.useEffect(() => {
+        if(!expanded && arrived){
+            setBadge(badge+1);
+        }
+        setArrived(false);
+    }, [arrived])
 
     return(
         e(Card, {className: classes_card.root, id: props.id, raised: true, children: [
-            e(CardHeader, {avatar: e(Avatar, {children: props.name, className: classes_card.avatar}), action: e(IconButton, {children: e(Icon, {children: "more_vert"})}), title: props.id, subheader: "Time: " + props.timer}),
+            e(CardHeader, {avatar: e(Avatar, {children: props.name, className: classes_card.avatar}), title: props.id, subheader: "Time: " + props.timer}),
             e(CardContent, {className: classes_grid.root, children: [
                 e(Grid, {container: true, spacing: "2", children: [
                     e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper}, [ e("p", null, "Section "), e("p", null, props.section) ])}),
@@ -101,7 +103,7 @@ export function CardPlayer(props){
                 ]})
             ]}),
             e(CardActions, {disableSpacing: true, children: [
-                e(IconButton, {children: e(Badge, {id: props.id  + "_chat", badgeContent: counter, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: () => {setExpanded(!expanded);}}),
+                e(IconButton, {children: e(Badge, {id: props.id  + "_chat", badgeContent: badge, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: () => {setExpanded(!expanded);}}),
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
                 e(IconButton, {children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
             ]}),
@@ -118,16 +120,3 @@ export function CardPlayer(props){
         ]})
     )
 }
-
-    /*function to open the chat and set the badge
-    const handleExpanded = function(){
-        setExpanded(!expanded);
-        const collapseChatButton = document.getElementById(props.id + "_chat").childNodes[1];
-
-        //remove notification
-        if(parseInt(collapseChatButton.innerHTML) > 0){
-            collapseChatButton.innerHTML = 0;
-            collapseChatButton.classList.remove("MuiBadge-visible");
-            collapseChatButton.classList.add("MuiBadge-invisible");
-        }
-    }*/

@@ -13,6 +13,7 @@ const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 
 //Chat
 const socket = io('http://localhost:3000')
+
 //waiting event
 socket.on('chat-message', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")

@@ -25,7 +25,11 @@ export function appendMessage(message, container) {
     messageContainer.append(messageElement);
 }
 
-
+/**
+ * Vai Marco, scrivi che cazzo fa
+ * @param props 
+ * @param counter 
+ */
 export function loadHelpMessage(props, counter){
     const messageContainer = document.getElementById("help-message-container");
     messageContainer.innerHTML = "";

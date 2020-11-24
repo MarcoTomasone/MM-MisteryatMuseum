@@ -1,5 +1,6 @@
-@keyframes led { 
-    50% { background-color: red; }
+.test{
+    max-width: 150px;
+    max-height: 100px;
 }
 
 #slide{

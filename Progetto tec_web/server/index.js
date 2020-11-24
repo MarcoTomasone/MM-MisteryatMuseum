@@ -258,27 +258,8 @@ app.delete("/deleteStory/:story", (req, res) => {
 
 //----------------------------------------------------------------CHAT-------------------------------------------------------------------------------------------------------
 
-/*
-const io = require('socket.io')(3000)
-io.on('connection', socket => {
-  socket.on('send-chat-message', data => {
-    io.to(`${data.receiver}`).emit("chat-message", {message: `${data.message}`, name: "Admin", id: data.id});
-    //socket.broadcast.emit('chat-message', message);
-  })
-})
-*/
-
 var io = require('socket.io')(3000, {cors: {origin: '*'}});
-
-io.on('connection', socket => {
-    socket.on('send-chat-message', data => {
-        socket.broadcast.emit('chat-message', {message : data.message , name :"Admin", id: data.id});
-        //io.to(`${data.receiver}`).emit("chat-message", { message: data.message, name: "Admin", id: data.id});
-    })
-
-})
-
-
+require('./chat.js')(io);
 
 //----------------------------------------------------------------GET STATUS PLAYER-------------------------------------------------------------------------------------------------------
 app.get("/status", (req, res) => {

@@ -1,37 +1,41 @@
-import {CardPlayer} from './CardPlayer.js';
+import CardPlayer from './CardPlayer.js';
 
 const {Slide, Paper, IconButton, Icon, TextField, Slider} = MaterialUI;
 const e = React.createElement;
 
-const all_messages = {};
+//const all_messages = {};
 const socket = io('http://localhost:3000');
 
+export default function controlHome(props){
+    let arrayOfPlayers = [];
 
-//mi servirebbe per ricaricare i messaggi nel caso di ricaricamento della pagina
-/*const uploadMessages = function(){
-    var message_app = "";
-    if (props.id in all_messages){
-        for (let i = 0; i < all_messages[props.id].length; i++) {
-            if(all_messages[props.id].charAt(i) == "/"){
-                appendMessage(message_app, props.id + "_message-container");
-                message_app = "";
-            }
-            else
-                message_app = message_app + all_messages[props.id].charAt(i);
-            }
-        }
-}*/
-
-function controlHome(props){
-    var arrayOfPlayers = [];
-
+    //States
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
     const [slide, setSlide] = React.useState(false);
+    //const [value, setValue] = React.useState(100);
 
-    
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    /*
     React.useEffect(() => {
+        if(value == 30)
+            for(let i = 0; i < 2; i++){
+                const card = document.getElementById("Card"+i);
+                card.classList.add("test");
+            }
+        
+        if(value == 10)
+            for(let i = 0; i < 2; i++){
+                const card = document.getElementById("Card"+i);
+                card.classList.remove("test");
+            }
+            
+    },[value])*/
 
-        axios.get(`http://localhost:8000/status`)
+    React.useEffect(() => {
+        axios.get('http://localhost:8000/status')
             .then((response) => {
                 response.data.forEach((element) => {
                     arrayOfPlayers.push(e(CardPlayer, {
@@ -46,26 +50,38 @@ function controlHome(props){
                         socket: socket
                     }))
                 })
-
                 setArrayPlayers(arrayOfPlayers);
                 return arrayOfPlayers; 
             }).catch((error) => console.log(error));
-    })
+    }, [])
 
     return e(React.Fragment, null, [
-                e("div",null, arrayPlayers), //arrayPlayers
-                e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
-                    e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
-                    e("div",{style: {width: "80%", height: "50%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
-                    e(TextField, {variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
-                        e(IconButton, {children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
-                    ),
-                ])})
-            ])
+        e("div",null, arrayPlayers), //arrayPlayers
+        e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
+            e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
+            e("div",{style: {width: "80%", height: "50%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+            e(TextField, {variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+            e(IconButton, {children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}})
+        ])}),
+        //e(Slider, {marks: true, step: 10, onChange: handleChange})
+    ])
 
 }
 
-export default controlHome;
+//mi servirebbe per ricaricare i messaggi nel caso di ricaricamento della pagina
+/*const uploadMessages = function(){
+    let message_app = "";
+    if (props.id in all_messages){
+        for (let i = 0; i < all_messages[props.id].length; i++) {
+            if(all_messages[props.id].charAt(i) == "/"){
+                appendMessage(message_app, props.id + "_message-container");
+                message_app = "";
+            }
+            else
+                message_app = message_app + all_messages[props.id].charAt(i);
+            }
+        }
+}*/
 
 //save sended message in a dictionary
     /*if (!(id in all_messages)){
@@ -75,8 +91,8 @@ export default controlHome;
 
     socket.emit('send-chat-message', {message: message, id: id}); //receiver: socket.id
    
-    var dictstring = JSON.stringify(all_messages);
-    var blob = new Blob(["Welcome to Websparrow.org."], { type: "json;charset=utf-8" });
+    let dictstring = JSON.stringify(all_messages);
+    let blob = new Blob(["Welcome to Websparrow.org."], { type: "json;charset=utf-8" });
     saveAs(blob, "static.json");*/
 
 
@@ -88,22 +104,4 @@ export default controlHome;
 all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";
 
 console.log(all_messages);*/
-
-
-/*waiting event "chat-message"
-socket.on('chat-message', data => {
-    const collapseContainer = document.getElementById(data.id + "_collapse");
-    const collapseChatButton = document.getElementById(data.id + "_chat").childNodes[1];
- 
-    appendMessage(`<b>${data.name}</b>: ${data.message}`, data.id + '_message-container')
-    
-    //adds notification
-    if(collapseContainer.classList.contains("MuiCollapse-hidden")){
-        if(parseInt(collapseChatButton.innerHTML) == 0){
-          collapseChatButton.classList.remove("MuiBadge-invisible");
-          collapseChatButton.classList.add("MuiBadge-visible");
-        }
-        collapseChatButton.innerHTML = parseInt(collapseChatButton.innerHTML) + 1;
-    }
-})*/
 

@@ -12,27 +12,7 @@ export default function controlHome(props){
     //States
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
     const [slide, setSlide] = React.useState(false);
-    //const [value, setValue] = React.useState(100);
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
-    /*
-    React.useEffect(() => {
-        if(value == 30)
-            for(let i = 0; i < 2; i++){
-                const card = document.getElementById("Card"+i);
-                card.classList.add("test");
-            }
-        
-        if(value == 10)
-            for(let i = 0; i < 2; i++){
-                const card = document.getElementById("Card"+i);
-                card.classList.remove("test");
-            }
-            
-    },[value])*/
 
     React.useEffect(() => {
         axios.get('http://localhost:8000/status')
@@ -105,3 +85,36 @@ all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/
 
 console.log(all_messages);*/
 
+
+
+
+
+//--------------slider
+    //const [value, setValue] = React.useState(100);
+
+    /*
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+    */
+
+    /*
+    React.useEffect(() => {
+        if(value == 30)
+            for(let i = 0; i < 10; i++){
+                const card = document.getElementById("Card"+i);
+                const grid = document.getElementById("Card"+i+"_grid");
+                card.classList.add("test1");
+                grid.classList.add("test2");
+            }
+        
+        if(value == 20)
+            for(let i = 0; i < 10; i++){
+                const card = document.getElementById("Card"+i);
+                const grid = document.getElementById("Card"+i+"_grid");
+                card.classList.remove("test1");
+                grid.classList.remove("test2");
+            }
+            
+    },[value]);
+    */

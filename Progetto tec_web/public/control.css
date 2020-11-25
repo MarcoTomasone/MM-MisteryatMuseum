@@ -1,7 +1,13 @@
-.test{
-    max-width: 150px;
-    max-height: 100px;
+/*
+.test1{ 
+    width: 150px;
+    height: 150px;
 }
+
+.test2{
+    display: none;
+}
+*/
 
 #slide{
     border-radius: 0px;

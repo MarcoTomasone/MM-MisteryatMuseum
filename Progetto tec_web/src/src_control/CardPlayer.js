@@ -43,8 +43,6 @@ const useStyles_grid = makeStyles((theme) => ({
     
 }));
 
-
-
 /* ------------------------------------------------------------------Component Function-------------------------------------------------------------------------------------- */
 export default function CardPlayer(props){
     //Styles
@@ -66,6 +64,12 @@ export default function CardPlayer(props){
         props.socket.emit('send-chat-message', {message: messageInput.value, id: props.id});
         messageInput.value = ''
     }
+    
+    //Function to send messages when you press enter
+    const keyDown = (event) => {
+        if (event.key == "Enter")
+            sendMessage();
+    }
 
     //Function to reset the notifications counter
     React.useEffect(() => {
@@ -73,7 +77,15 @@ export default function CardPlayer(props){
             setBadge(0);
     }, [expanded]);
 
-    //Waits for messages to arrive and set the notifications counter
+    //Function to set the notifications counter
+    React.useEffect(() => {
+        if(!expanded && arrived){
+            setBadge(badge+1);
+        }
+        setArrived(false);
+    }, [arrived])
+
+    //Function to wait for messages to arrive
     React.useEffect(() => {    
         props.socket.on('chat-message', data => {
             if(data.id == props.id){
@@ -85,18 +97,10 @@ export default function CardPlayer(props){
         });
     },[props.socket]);
 
-    //Function to set the notifications counter
-    React.useEffect(() => {
-        if(!expanded && arrived){
-            setBadge(badge+1);
-        }
-        setArrived(false);
-    }, [arrived])
-
     return(
         e(Card, {className: classes_card.root, id: props.id, raised: true, children: [
             e(CardHeader, {avatar: e(Avatar, {children: props.name, className: classes_card.avatar}), title: props.id, subheader: "Time: " + props.timer}),
-            e(CardContent, {className: classes_grid.root, children: [
+            e(CardContent, {id: props.id + "_grid", className: classes_grid.root, children: [
                 e(Grid, {container: true, spacing: "2", children: [
                     e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper}, [ e("p", null, "Section "), e("p", null, props.section) ])}),
                     e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper}, [ e("p", null, "Points "), e("p", null, props.points) ])}),
@@ -111,7 +115,7 @@ export default function CardPlayer(props){
                 e(CardContent, {children: [
                     e("div",{className: classes_message.messageContainer, id: props.id + "_message-container"}), //div di arrivo delle risposte da valutare
                     e("form", {id: props.id + "_send-container"}, [
-                        e(TextField, {className: classes_message.messageInput, id: props.id + "_message-input", variant: "outlined", margin: "dense", InputProps: {endAdornment: 
+                        e(TextField, {className: classes_message.messageInput, id: props.id + "_message-input", onKeyDown: keyDown, variant: "outlined", margin: "dense", InputProps: {endAdornment: 
                             e(IconButton, {id: props.id + "_send-button", onClick: sendMessage, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
                         )
                     ])

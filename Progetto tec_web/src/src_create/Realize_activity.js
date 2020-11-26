@@ -35,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
     },
     leggendButton: {
         marginLeft: 10
+    },
+    score: {
+        marginLeft: 20,
+        marginRight: 10,
     }
 }));
 
@@ -58,12 +62,18 @@ function Realize_activity(props){
         correctAnswerGo :   0,
         wrongAnswerGo   :   0,
     })
+    const [openInfoDialog, setOpenInfoDialog] = React.useState(false);
     const [openErrorDialog, setOpenErrorDialog] = React.useState(false);
     const [answer, setAnswer] = React.useState()
     const [arrayOfAnswer, setArrayOfAnswer] = React.useState({
         number: 0,
         array: []
     })
+    const [arrayOfMenuItem, setArrayOfMenuItem] = React.useState([])
+    const [answerSelect, setAnswerSelect] = React.useState("")
+    const [score, setScore] = React.useState(0)
+
+    
 
 
     function addImage(e){
@@ -94,7 +104,6 @@ function Realize_activity(props){
 
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea una nuova attività";
-
         document.getElementById("phoneText").style.height   = `${activity.heightFrame}px`;
         document.getElementById("phoneText").innerHTML      =    activity.text;
         document.getElementById("mediaDiv").style.top       = `${activity.topImage}px`;
@@ -102,6 +111,18 @@ function Realize_activity(props){
         document.getElementById("mediaDiv").style.height    = `${activity.heightImage}px`;
         document.getElementById("mediaDiv").style.width     = `${activity.widthImage}px`;
     }, [activity])
+
+    
+    React.useEffect(() => {
+        var tmp = []
+        for (var i = 0; i < arrayOfAnswer.number; i++){
+            if (i == 0) tmp.push(e(MenuItem, {value: arrayOfAnswer.array[0].text, selected: true}, arrayOfAnswer.array[0].text))
+            else tmp.push(e(MenuItem, {value: arrayOfAnswer.array[i].text}, arrayOfAnswer.array[i].text))
+        }
+        setArrayOfMenuItem(tmp)
+
+    }, [arrayOfAnswer])
+
 
     const createActivity = () => {
         var oldStory = props.story;
@@ -116,7 +137,7 @@ function Realize_activity(props){
             widthImage      :   activity.widthImage,
             score           :   activity.score,
             widgetType      :   activity.widgetType,
-            answer          :   activity.answer,
+            answer          :   arrayOfAnswer.array,
             correctAnswers  :   activity.correctAnswers,
             correctAnswerGo :   activity.correctAnswerGo,
             wrongAnswerGo   :   activity.wrongAnswerGo
@@ -133,26 +154,34 @@ function Realize_activity(props){
     }
 
     function addAnswer(){
-        if (activity.widgetType == "Quattro opzioni" && arrayOfAnswer.number >= 4){
-            alert("Raggiunto limite risposte")
-            setAnswer("")
-        } else if (activity.widgetType == "Vero o falso" && arrayOfAnswer.number >= 2){
-            alert("Raggiunto limite risposte")
+        if ((activity.widgetType == "Quattro opzioni" && arrayOfAnswer.number >= 4) || (activity.widgetType == "Vero o falso" && arrayOfAnswer.number >= 2)){
+            setOpenErrorDialog(true)
             setAnswer("")
         } else {
-            console.log(activity.widgetType, arrayOfAnswer.number)
+            const newAnswer = {
+                text: answer,
+                score: 0,
+            }
             setArrayOfAnswer({
                 number: arrayOfAnswer.number +1,
-                array: [...arrayOfAnswer.array, answer]
+                array: [...arrayOfAnswer.array, newAnswer]
             })
             setAnswer("")
             var node = document.createElement("LI");
-            var textnode = document.createTextNode(answer);
+            node.setAttribute("id", answer)
+            node.style.color = "red"
+            var textnode = document.createTextNode(`${answer}   -   0pt`);
             node.addEventListener("click", function () {
                 this.parentNode.removeChild(this);
                 var liChild = document.getElementById("answerList").children
                 var newArray = []
-                for (var i = 0; i < liChild.length; i++) newArray.push(liChild[i].innerText)
+                for (var i = 0; i < liChild.length; i++) {
+                    const newAnswer = {
+                        text: liChild[i].text,
+                        score: liChild[i].score,
+                    }
+                    newArray.push(newAnswer)
+                }
                 setArrayOfAnswer({
                     number: newArray.length,
                     array: newArray
@@ -182,6 +211,11 @@ function Realize_activity(props){
             [e.target.name]: e.target.value
         });
     };
+
+    function updateScore(){
+        var tmp = document.getElementById(answerSelect)
+        tmp.style.color = "green"
+    }
 
     return(
         e("form", {id: props.id, className: props.className}, [
@@ -242,7 +276,7 @@ function Realize_activity(props){
             e("div", {className: "sx_realize_option"}, [
                 e(FormControl, {variant: "outlined", className: classes.input}, [
                     e(InputLabel, {htmlFor: "widgetType"}, "Tipo di widget"),
-                    e(Select, {visibility: "hidden", id: "widgetType", label: "Tipo di risposta", value: activity.widgetType, name:"widgetType", onChange:  (e) => {updateField(e), deleteAllAnswer()}}, [
+                    e(Select, {id: "widgetType", label: "Tipo di widget", value: activity.widgetType, name:"widgetType", onChange:  (e) => {updateField(e), deleteAllAnswer()}}, [
                         e(MenuItem, {value: "Quattro opzioni", selected: true}, "Quattro opzioni"),
                         e(MenuItem, {value: "Scelta multipla"}, "Scelta multipla"),
                         e(MenuItem, {value: "Vero o falso"}, "Vero o falso"),
@@ -251,10 +285,10 @@ function Realize_activity(props){
                         e(MenuItem, {value: "Foto"}, "Foto"),
                     ])
                 ]),
-                e(Tooltip, {title: "SPIEGAZIONE TIPO DI WIDGET"}, e(IconButton, {id: "leggend", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: (e) => {e.preventDefault(); setOpenErrorDialog(true)}}, 
+                e(Tooltip, {title: "SPIEGAZIONE TIPO DI WIDGET"}, e(IconButton, {id: "leggend", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: (e) => {e.preventDefault(); setOpenInfoDialog(true)}}, 
                     e(Icon, {children: "not_listed_location"}),  
                 )),
-                e(DialogComponent2, {fun: setOpenErrorDialog, open: openErrorDialog, textError: "prova"} )
+                e(DialogComponent2, {fun: setOpenInfoDialog, open: openInfoDialog, textError: "prova"} )
             ]),
 
 
@@ -265,16 +299,23 @@ function Realize_activity(props){
                 ),
             ]),
             e("div", null, [
-                e("p", {id: "prova"}, "Qui sotto le risposte inserite (cliccaci sopra per eliminarle)"),
+                e("p", {id: "p_answerList"}, "Qui sotto le risposte inserite (cliccaci sopra per eliminarle)"),
                 e("ul", {id: "answerList"})
             ]),
             
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthImage", disabled: immageUpload, className: classes.input, value: activity.widthImage, name: "widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(FormControl, {variant: "outlined", className: classes.input}, [
+                    e(InputLabel, {htmlFor: "correctAnswer"}, "Risposta esatta"),
+                    e(Select, {id: "correctAnswer", label: "Risposta esatta", name:"correctAnswer", onChange: (e) => setAnswerSelect(e.target.value)}, arrayOfMenuItem)
+                ]),
+                e(TextField, {id: "score", className: [classes.input, classes.score], value: score, name: "score", label: "Punteggio", type:"number", variant:"outlined", onChange:  (e) => setScore(e.target.value)}),
+                e(IconButton, {id: "changeScore", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: updateScore}, 
+                    e(Icon, {children: "update"}),  
+                ),
             ]),
 
-            e(DialogComponent, {fun: setOpenErrorDialog, open: openErrorDialog, textError: "prova"} ),
-            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: () => console.log(arrayOfAnswer.array)}, "SALVA"),
+            e(DialogComponent, {fun: setOpenErrorDialog, open: openErrorDialog, textError: "Raggiunto limite risposte per questo tipo di widget"} ),
+            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: () => console.log(answerSelect)}, "SALVA"),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    
     )

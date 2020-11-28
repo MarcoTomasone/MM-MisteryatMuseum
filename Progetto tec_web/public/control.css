@@ -1,13 +1,23 @@
-/*
-.test1{ 
+/*-----------------------------------------------*/
+.card_minimized{ 
     width: 150px;
     height: 150px;
 }
 
-.test2{
+.display_minimized{
     display: none;
 }
-*/
+
+.recenter_avatar{
+    margin-top: 10px;
+    margin-left: 40px;
+}
+
+.recenter_icon{
+    display: flex;
+    align-items: center;
+}
+/*--------------------------------------------------*/
 
 #slide{
     border-radius: 0px;

@@ -3,5 +3,5 @@ export function getID(playerID){
     const player = {
         id : playerID
     }
-    axios.post(`http://localhost:8000/postJson/`, player);
+    axios.post(`http://localhost:8000/postJson`, {id: "pippo"});
 }

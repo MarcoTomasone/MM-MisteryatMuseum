@@ -84,13 +84,12 @@ function App2() {
     const [slideChat, setSlideChat] = React.useState(false);
     const [dialog, setDialog] = React.useState(true);
 
-   /* function handleClose() {
+   function handleClose() {
         setDialog(false);
         const idContainer = document.getElementById("id-input");
         const id = idContainer.value;
-        console.log(id);
-        getID(id);
-    }*/
+        //getID(id);
+    }
   
 
     const sendMessage = function (){
@@ -110,7 +109,7 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
-          /*  e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
+          e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
                     e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),
@@ -120,7 +119,7 @@ function App2() {
                         )
                     ])
                 ]),
-            ]),*/
+            ]),
             e(Activity, { json:data,  v : activityList})),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),

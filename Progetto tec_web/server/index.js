@@ -1,3 +1,4 @@
+const http = require('http');
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
@@ -267,7 +268,10 @@ const statusPlayers = require('./statusPlayers');
 statusPlayers.createRoutes(app);
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
+const server = http.createServer(app);
+server.listen(8000, () => console.log('Server listening behind port 8000'));
 
-app.listen(8000, function () {
-    console.log("Server listenig behind port 8000");
-});
+
+
+
+

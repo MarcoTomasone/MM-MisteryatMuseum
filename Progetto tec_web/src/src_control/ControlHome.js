@@ -1,6 +1,7 @@
-import CardPlayer from './CardPlayer.js';
+import ButtonAppBar from './components/ButtonAppBar.js';
+import CardPlayer from './components/CardPlayer.js'
 
-const {Slide, Paper, IconButton, Icon, TextField, Slider} = MaterialUI;
+const {Slide, Paper, IconButton, Icon, TextField, Checkbox} = MaterialUI;
 const e = React.createElement;
 
 //const all_messages = {};
@@ -12,7 +13,50 @@ export default function controlHome(props){
     //States
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
     const [slide, setSlide] = React.useState(false);
+    const [checked, setChecked] = React.useState(false);
 
+    const handleChange = () => {
+        setChecked(!checked);
+    };
+
+    //Mininimized cards with css
+    React.useEffect(() => {
+        if(checked == true){
+            for(let i = 0; i < 10; i++){
+                let card = document.getElementById("Card"+i);
+                let grid = document.getElementById("Card"+i+"_grid");
+                let data_time = document.getElementsByClassName("MuiCardHeader-content")[i];
+                let avatar = document.getElementsByClassName("MuiCardHeader-root")[i];
+                let icons = document.getElementsByClassName("MuiCardActions-root")[i];
+
+                card.classList.add("card_minimized");
+                grid.classList.add("display_minimized");
+                data_time.classList.add("display_minimized");
+                avatar.classList.add("recenter_avatar");
+                icons.style.padding = "0px";
+                icons.classList.add("recenter_icon");
+            }
+        }
+        else{
+            for(let i = 0; i < 10; i++){
+                let card_min = document.getElementById("Card"+i);
+                let grid_min = document.getElementById("Card"+i+"_grid");
+                let data_time = document.getElementsByClassName("MuiCardHeader-content")[i];
+                let avatar = document.getElementsByClassName("MuiCardHeader-root")[i];
+                let icons = document.getElementsByClassName("MuiCardActions-root")[i];
+
+                if(card_min && grid_min){
+                    card_min.classList.remove("card_minimized");
+                    grid_min.classList.remove("display_minimized");
+                    data_time.classList.remove("display_minimized");
+                    avatar.classList.remove("recenter_avatar");
+                    icons.classList.remove("recenter_icon");
+                    icons.style.padding = "8px";
+                }
+            }
+        }           
+    },[checked]);
+    
 
     React.useEffect(() => {
         axios.get('http://localhost:8000/status')
@@ -36,16 +80,16 @@ export default function controlHome(props){
     }, [])
 
     return e(React.Fragment, null, [
-        e("div",null, arrayPlayers), //arrayPlayers
+        e(ButtonAppBar, "null"),
+        e("div",null, arrayPlayers),
+        e(Checkbox, {checked: checked, onChange: handleChange}),
         e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
             e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
             e("div",{style: {width: "80%", height: "50%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
             e(TextField, {variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
             e(IconButton, {children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}})
         ])}),
-        //e(Slider, {marks: true, step: 10, onChange: handleChange})
     ])
-
 }
 
 //mi servirebbe per ricaricare i messaggi nel caso di ricaricamento della pagina
@@ -89,32 +133,3 @@ console.log(all_messages);*/
 
 
 
-//--------------slider
-    //const [value, setValue] = React.useState(100);
-
-    /*
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-    */
-
-    /*
-    React.useEffect(() => {
-        if(value == 30)
-            for(let i = 0; i < 10; i++){
-                const card = document.getElementById("Card"+i);
-                const grid = document.getElementById("Card"+i+"_grid");
-                card.classList.add("test1");
-                grid.classList.add("test2");
-            }
-        
-        if(value == 20)
-            for(let i = 0; i < 10; i++){
-                const card = document.getElementById("Card"+i);
-                const grid = document.getElementById("Card"+i+"_grid");
-                card.classList.remove("test1");
-                grid.classList.remove("test2");
-            }
-            
-    },[value]);
-    */

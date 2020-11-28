@@ -1,4 +1,4 @@
-import { appendMessage } from '../../utils.js'
+import { appendMessage } from '../../../utils.js'
 
 const { Badge, makeStyles, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardContent, CardActions, Avatar, Collapse } = MaterialUI;
 const e = React.createElement;

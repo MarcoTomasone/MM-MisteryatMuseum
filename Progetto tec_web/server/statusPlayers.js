@@ -19,6 +19,7 @@ module.exports = {
 
         app.post('/postJson', (req, res) => {
             const path = `./statusFiles/`;
+            console.log(req.body);
             if (!fs.existsSync(path))
                 fs.mkdirSync(path);
             //Pubblico il file nel path

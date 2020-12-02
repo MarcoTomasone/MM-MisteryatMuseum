@@ -35,12 +35,6 @@ function Activity(props) {
             
             MediaProp = [];             // Contains React Element type: Media
         
-          /*  if(counter === props.v.length - 2 || props.v[counter + 1] === undefined){                               //if the story ends
-                
-                
-                props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
-                document.getElementById("nextButton").style.backgroundColor="grey";
-            }*/
             if(props.v[counter].type_ === "button" && counter > 0){
                 for(let i = 0; i < props.v[counter].answer.length; i++)
                     document.getElementById("btn"+i).style.backgroundColor=props.v[counter].btnStyle.bckgrndClr;
@@ -89,7 +83,8 @@ function Activity(props) {
         let MediaProp = [];
         let mediaStyle;
                 
-        if(props.v[counter].media !== 0){               
+        if(props.v[counter].media !== 0){     
+            // -->  richiesta al server per il media          
             mediaStyle = {
                 width:`${props.v[counter].styleM.width  *screen.availWidth /202}px`,
                 height:`${props.v[counter].styleM.height  *screen.availHeight /437}px`,

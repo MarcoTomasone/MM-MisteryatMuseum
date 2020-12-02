@@ -19,6 +19,18 @@ socket.on('chat-message', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
 })
 
+const temp = readJSON('./Document.json');
+const data = JSON.parse(temp);
+
+let activityList = [];
+
+// for(let i = 0;i < data.accessibility.activities.length  - 1;i++) {
+//     activityList.push(data.accessibility.activities[i]);
+// }
+
+activityList.push(data.accessibility.activities[0]);
+
+
 function App2() {
 
     React.useEffect(() => {
@@ -26,18 +38,7 @@ function App2() {
         document.getElementById("body2").style.width = `${screen.availWidth}px`;
                 }, [])
 
-    const temp = readJSON('./Document.json');
-    const data = JSON.parse(temp);
-    
-    let activityList = [];
-
-   // for(let i = 0;i < data.accessibility.activities.length  - 1;i++) {
-   //     activityList.push(data.accessibility.activities[i]);
-   // }
-
-    activityList.push(data.accessibility.activities[0]);
-  
-
+   
     const navbar ={
         //padding:'5px',
        // height:'90%',
@@ -126,8 +127,8 @@ function App2() {
                         )
                     ])
                 ]),
-            ]),
-            e(Activity, { json:data,  v : activityList})),
+            ])),
+            e(Activity, { json:data,  v : activityList}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare

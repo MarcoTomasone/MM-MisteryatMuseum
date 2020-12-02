@@ -16,17 +16,31 @@ function Activity(props) {
         const [counter,setCounter] = React.useState(0);
         
         function inc(){    
+ 
+            //aggiungerá il prossimo mettere la condizione se é vuoto
+            if(props.v[counter + 1] === undefined)
+                //props.v.push(props.json.accessibility.activities[counter])
             
+            if(counter + 1 <= props.v.length){
+                props.v.push(props.json.accessibility.activities[counter + 1 % props.json.accessibility.activities.length]);
+            } 
+              
+            if(counter >= props.json.accessibility.activities.length -2 ){
+                props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length -1])
+                document.getElementById("nextButton").style.backgroundColor="grey";
+            }
+               
             setCounter(counter+ 1);
             loadHelpMessage(props, counter +1);
             
             MediaProp = [];             // Contains React Element type: Media
         
-            if(counter === props.v.length - 2 || props.v[counter + 1] === undefined){                               //if the story ends
-
+          /*  if(counter === props.v.length - 2 || props.v[counter + 1] === undefined){                               //if the story ends
+                
+                
                 props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
                 document.getElementById("nextButton").style.backgroundColor="grey";
-            }
+            }*/
             if(props.v[counter].type_ === "button" && counter > 0){
                 for(let i = 0; i < props.v[counter].answer.length; i++)
                     document.getElementById("btn"+i).style.backgroundColor=props.v[counter].btnStyle.bckgrndClr;
@@ -114,7 +128,7 @@ function Activity(props) {
 }
     
 
-
+/**
     function checkButton(counter, answer, json, v){         //the function check the answer with the answer given from json file
 
         if(answer === -1){      //INPUT TYPE == TEXT
@@ -155,6 +169,7 @@ function Activity(props) {
         }
   
 }
+//giochi con le posizione dell'array
 
 function getActivity(correct,v,counter,json){                //EVERY ACTIVITY CHANGE WAY ACCORDING TO THE USER'S ANSWER
  
@@ -181,9 +196,43 @@ if(correct === 1){              //fare in modo che le ultime attivita accettino 
 
     }
 }
-
+*/
 function getRandomInt( min, max ) {
 	return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 }
 
+
+//0 3 ==> errore
+function checkButton(counter, answer ,json,v){
+    
+    if(answer === -2){
+        let value =document.getElementById("rangenpt").value; 
+        console.log(value); 
+    }else if(answer === -1){
+
+        if(document.getElementById("textAnswer").value  === v[counter].correct){
+            let index = getRandomInt(0,v[counter].correctAnswerGo.length);
+            console.log("Risposta Corretta!");
+            v.push(json[index]);
+
+        }else{
+            let index = getRandomInt(0,v[counter].wrongAnswerGo.length);
+            console.log("Risposta Errata!");
+            v.push(json[index]);
+        }
+        console.log(v);
+    }else if(answer === v[counter].correct){
+        let index = getRandomInt(0,v[counter].correctAnswerGo.length);
+        document.getElementById("btn"+answer).style.backgroundColor = "green";
+        v.push(json[index]);
+        console.log("risposta corretta")
+        }else{
+            let index = getRandomInt(0,v[counter].wrongAnswerGo.length);
+            console.log("Risposta Errata");
+            document.getElementById("btn"+answer).style.backgroundColor = "red";
+            v.push(json[index]);
+        }
+}
+
+ 
 export default Activity;

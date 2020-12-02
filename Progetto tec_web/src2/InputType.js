@@ -98,7 +98,7 @@ function inputType(props){
                 const uploadFile = () => {
                     const formData = new FormData();        
                     formData.append('file', file); // appending file
-                    console.log(formData)
+                    //console.log(formData)
                     axios.post('http://localhost:8000/uploadImg', formData).then(res => {
                         getFile({ name: res.data.name,
                                  path: 'http://localhost:8000' + res.data.path

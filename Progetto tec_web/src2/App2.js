@@ -31,9 +31,13 @@ function App2() {
     
     let activityList = [];
 
-    for(let i = 0;i < data.accessibility.activities.length  - 1;i++) {
-        activityList.push(data.accessibility.activities[i]);
-    }
+   // for(let i = 0;i < data.accessibility.activities.length  - 1;i++) {
+   //     activityList.push(data.accessibility.activities[i]);
+   // }
+
+    activityList.push(data.accessibility.activities[0]);
+  
+
     const navbar ={
         //padding:'5px',
        // height:'90%',
@@ -89,6 +93,8 @@ function App2() {
         const idContainer = document.getElementById("id-input");
         const id = idContainer.value;
         //getID(id);
+        //si potrebbe passare al server come 
+        //parametro l'id e lui restituisce il json corrispondente 
     }
   
 
@@ -109,7 +115,8 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
-          e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
+                    //open : dialog
+          e(Dialog, {open: false, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
                     e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),

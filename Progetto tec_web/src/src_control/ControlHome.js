@@ -18,17 +18,19 @@ export default function controlHome(props){
         axios.get('http://localhost:8000/status')
             .then((response) => {
                 response.data.forEach((element) => {
+                    const index = element.sectionsArray.length - 1;
                     arrayOfPlayers.push(e(CardPlayer, {
                         key: element.id, 
                         id: element.id,
                         name: element.name, 
-                        timer: element.timer,
-                        section: element.section, 
-                        points: element.points,
+                        timer: element.sectionsArray[index].timer,
+                        section: element.sectionsArray[index].section, 
+                        points: element.sectionsArray[index].points,
                         slide: slide,
                         setSlide: setSlide,
                         socket: socket
                     }))
+                    
                 })
                 setArrayPlayers(arrayOfPlayers);
                 return arrayOfPlayers; 

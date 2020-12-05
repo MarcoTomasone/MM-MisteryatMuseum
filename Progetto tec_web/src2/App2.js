@@ -14,6 +14,9 @@ const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 //Chat
 const socket = io('http://localhost:3000')
 
+const id = "pippo";
+socket.emit('new-user', {playerID: id});
+
 //waiting event
 socket.on('chat-message', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
@@ -88,8 +91,8 @@ function App2() {
 
    function handleClose() {
         setDialog(false);
-        const idContainer = document.getElementById("id-input");
-        const id = idContainer.value;
+        //const idContainer = document.getElementById("id-input");
+        //const id = idContainer.value;
         //getID(id);
         //si potrebbe passare al server come 
         //parametro l'id e lui restituisce il json corrispondente 

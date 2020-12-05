@@ -3,11 +3,13 @@ const { Socket } = require("socket.io");
 module.exports = function(io) {
     
     const socketDictionary = {};
+    let counter = 0;
     
     io.on('connection', socket => {
        
         socket.on('new-user', data => {
             socketDictionary[data.playerID + counter] = socket.id;
+            counter = counter + 1;
         })
 
         socket.on('send-chat-message', data => {

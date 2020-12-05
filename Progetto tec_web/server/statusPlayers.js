@@ -6,7 +6,6 @@ module.exports = {
             let arrayPlayers = [];
             const path = '../src/src_control/JSON_Players';
             const files = fs.readdirSync(path);
-        
             files.forEach((element) => {
             const file = fs.readFileSync(`${path}/${element}`, {encoding:'utf8', flag:'r'});
             const data = JSON.parse(file);

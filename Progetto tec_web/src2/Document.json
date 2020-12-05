@@ -12,8 +12,8 @@
 			{
 				"question":"Prova video",
 				"type_":"description",
-				"media":"video",
-				"source":"./movie.mp4",
+				"media":"img",
+				"source":"pikachu.png",
 				"alternativeText":"Prova video",
 				"help" :"Sono l'aiuto dell'activity 1",
 				"styleM":{
@@ -31,14 +31,14 @@
 				"correct": 3,
 				"type_": "button",
 				"media": "img",
-				"source": "./pikachu.png",
+				"source": "./prova.jpg",
 				"alternativeText":"Icona Piakchu",
 				"help" : "Sono l'aiuto dell'activity 2",
 				"styleM":{
 					"height":100,
-					"width":100,
-					"left":20,
-					"bottom":20
+					"width":150,
+					"left":0,
+					"bottom":10
 				},
 				
 				"wrongAnswerGo":[5,4,6],
@@ -79,8 +79,8 @@
 			{
 				"question": "Questa é una descrizione/riassunto di quello che ce stato prima e di quello che ci sara dopo [QUESTA DESCRIZIONE NON CONTIENE DOMANDE ]",
 				"type_": "description",
-				"media": "audio",
-				"source": "./record.mp3",
+				"media": "img",
+				"source": "./p.png",
 				"alternativeText":"Icona Piakchu",
 				"help" : "Sono l'aiuto dell'activity 4",
 				"styleM":{

@@ -30,10 +30,21 @@ app.post("/check", (req, res) => {
     res.status(200).end(pathName)
 })
 
+app.get('/downloadImage/:source',(req,res) =>{
+//uploadPlayer use by player to load resource to evaluate
+//or download file to append to DOM
+  
+    let path = './uploadPlayer/'+req.params.source;
+    let data = fs.readFileSync(path);
+    res.send(data);
+   
+})
+
 /**
  * Funzione che dal player manda un immagine al valutatore
  * call by InputType.js
  */
+
 app.post('/uploadImg', (req, res) => {
 
     if (!req.files) {

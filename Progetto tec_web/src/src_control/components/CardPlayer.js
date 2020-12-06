@@ -61,7 +61,7 @@ export default function CardPlayer(props){
         const message = `<b>You</b>: ${messageInput.value}`;
         const container = props.id + "_message-container";
         appendMessage(message, container); //lato client
-        props.socket.emit('send-chat-message', {message: messageInput.value, id: props.id});
+        props.socket.emit('send-to-player', {message: messageInput.value, id: props.id});
         messageInput.value = ''
     }
     
@@ -87,7 +87,7 @@ export default function CardPlayer(props){
 
     //Function to wait for messages to arrive
     React.useEffect(() => {    
-        props.socket.on('chat-message', data => {
+        props.socket.on('message-from-player', data => {
             if(data.id == props.id){
                 setArrived(true); //is used to notify the arrival of messages 
                 const message = `<b>${data.name}</b>: ${data.message}`;

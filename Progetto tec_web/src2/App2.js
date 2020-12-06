@@ -12,13 +12,13 @@ const Route = ReactRouterDOM.Route;
 const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 //Chat
-const socket = io('http://localhost:3000')
+const socket = io('http://localhost:3000', {query: 'type=player'})
 
-const id = "pippo";
-socket.emit('new-user', {playerID: id});
+const id = "Card0";
+socket.emit('new-player', {playerID: id});
 
 //waiting event
-socket.on('chat-message', data => {
+socket.on('message-from-evaluator', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
 })
 
@@ -104,7 +104,7 @@ function App2() {
         const message = messageInput.value
 
         appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
-        socket.emit('send-chat-message', {message: message, id: "Card0"})  //server side
+        socket.emit('send-to-evaluator', {message: message, id: "Card0"})  //server side
         messageInput.value = '' //clean the input text
     } 
 

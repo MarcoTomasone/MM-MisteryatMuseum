@@ -158,7 +158,7 @@ function checkButton(counter, answer ,json,v){
             let index = getRandomInt(0,v[counter].correctAnswerGo.length);
             console.log("Risposta Corretta!");
             v.push(json[index]);
-
+        
         }else{
             let index = getRandomInt(0,v[counter].wrongAnswerGo.length);
             console.log("Risposta Errata!");

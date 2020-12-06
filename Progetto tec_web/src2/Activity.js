@@ -174,6 +174,7 @@ function checkButton(counter, answer ,json,v){
             let index = getRandomInt(0,v[counter].wrongAnswerGo.length);
             console.log("Risposta Errata");
             document.getElementById("btn"+answer).style.backgroundColor = "red";
+            
             v.push(json[index]);
         }
 }

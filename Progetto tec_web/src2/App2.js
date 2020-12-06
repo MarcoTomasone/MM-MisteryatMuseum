@@ -2,7 +2,6 @@ import Activity from './Activity.js'
 import {readJSON, appendMessage} from '../utils.js'
 import { getID } from './dataHandler.js';
 
-var tmp = 0;
 const e = React.createElement;
 const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
@@ -22,17 +21,16 @@ socket.on('chat-message', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
 })
 
-const temp = readJSON('./Document.json');
+
+const temp = readJSON(id);
 const data = JSON.parse(temp);
 
 let activityList = [];
-
-
 activityList.push(data.accessibility.activities[0]);
 
-
 function App2() {
-
+    
+    
     React.useEffect(() => {
         document.getElementById("body2").style.height = `${screen.availHeight}px`;
         document.getElementById("body2").style.width = `${screen.availWidth}px`;
@@ -146,6 +144,10 @@ function App2() {
         ])
     ])        
     }
+        
+
+    
+    
         
 export default App2;
 

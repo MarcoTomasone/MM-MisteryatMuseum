@@ -16,11 +16,11 @@ export default function Control(props){
     const [slide, setSlide] = React.useState(false);    
 
     const story = window.location.href.replace('http://127.0.0.1:5500/?#/ControlHome/Control/', '');
-    
 
     React.useEffect(() => {
         axios.get('http://localhost:8000/status', { params: { story: story } })
             .then((response) => {
+                console.log(response);
                 response.data.forEach((element) => {
                     const lastSection = element.sectionsArray.length - 1;
                     arrayOfPlayers.push(e(CardPlayer, {

@@ -1,4 +1,6 @@
 const fs = require("fs");
+const { jsPDF } = require("jspdf");
+require('jspdf-autotable');
 
 //array of active stories 
 const storiesActive = {};
@@ -23,19 +25,46 @@ module.exports = {
     createRoutes: (app) => {
         //get current status of players
         app.get('/status', (req, res) => {
-            story = req.query.story;
+            const story = req.query.story;
             const arrayPlayers = JSON.stringify(storiesActive[story]);
             res.end(arrayPlayers);
         });
 
-        //get stories in game
+        //get active stories
         app.get('/stories', (req, res) => {
             const keys = Object.keys(storiesActive);
-            const stories = JSON.stringify(keys);
+            const nPlayers = {};
+            for(element in keys){
+                const key = keys[element];
+                nPlayers[key] = storiesActive[key].length;  //number of active players
+            }
+            const stories = JSON.stringify({stories: keys, nPlayers: nPlayers});
             res.end(stories);
-        });
+        });     
 
-        //post status files og players
+        app.get('/pdf', (req, res) => {
+            const player = req.query.player;
+            const infoPlayer = JSON.parse(fs.readFileSync(`./inGame/Story1/${player}.json`, {encoding:'utf8', flag:'r'}));
+            const doc = new jsPDF();
+            const col = ["Section", "Question", "Answer", "Time", "Points"];
+            const rows = [];
+            doc.setFontSize(30);
+            doc.setFont("calibri");
+            doc.text( `${player}`, 100, 15, {align: "center"});
+            infoPlayer.sectionsArray.forEach((section, i) => {
+                const item = [section.section, section.question, section.answer, section.time, section.points];
+                rows.push(item);
+            });
+            doc.autoTable(col, rows,  {
+                tableLineColor: [189, 195, 199],
+                tableLineWidth: 0.3,
+                startY: 20
+            });
+            const pdf = doc.output();
+            fs.writeFileSync(`./inGame/${player}.pdf`, pdf, 'binary');
+        })
+
+        //post status files of players
         app.post('/postJson', (req, res) => {
 
             /*
@@ -43,7 +72,7 @@ module.exports = {
             const story = req.body.story; //you also have to pass him which story he wants to play
             if(!(story in storiesActive))
                 storiesActive[story] = []; //added new story
-            storiesActive.push(player);
+            storiesActive.push(player);  //push the player in the story
             res.status(200).end();
             */
 

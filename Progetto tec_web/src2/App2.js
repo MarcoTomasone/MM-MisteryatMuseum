@@ -100,7 +100,6 @@ function App2() {
     const sendMessage = function (){
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
-
         appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
         socket.emit('send-to-evaluator', {message: message, id: "Card0"})  //server side
         messageInput.value = '' //clean the input text

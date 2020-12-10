@@ -1,14 +1,26 @@
-import { appendMessage } from '../../../utils.js'
+import { appendMessage } from '../../../utils.js';
+import { send } from '../Control.js';
 
 const { Badge, makeStyles, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardContent, CardActions, Avatar, Collapse } = MaterialUI;
 const e = React.createElement;
+
+//Function to send messages to the evaluator
+const sendMessage = (id) => {
+    const messageInput = document.getElementById(id + '_message-input');
+    const message = `<b>You</b>: ${messageInput.value}`;
+    const container = id + "_message-container";
+    appendMessage(message, container); //lato client
+    send(messageInput.value, id)
+    messageInput.value = ''
+}
 
 /* ---------------------------------------------------------------------Style-------------------------------------------------------------------------------------- */
 const useStyles_card = makeStyles((theme) => ({
     root: {
         maxWidth: "222px",
         float: "left",
-        margin: "5px"
+        margin: "5px",
+        backgroundColor: "grey"
     },
     avatar: {
         backgroundColor: "red",
@@ -44,7 +56,8 @@ const useStyles_grid = makeStyles((theme) => ({
 }));
 
 /* ------------------------------------------------------------------Component Function-------------------------------------------------------------------------------------- */
-export default function CardPlayer(props){
+export const CardPlayer = React.forwardRef((props, ref) => {
+//export default function CardPlayer(props){
     //Styles
     const classes_card = useStyles_card();
     const classes_grid = useStyles_grid();
@@ -52,23 +65,19 @@ export default function CardPlayer(props){
 
     //States
     const [expanded, setExpanded] = React.useState(false);
-    const [badge, setBadge] = React.useState(0);
-    const [arrived, setArrived] = React.useState(false);
+    const [badge, setBadge] = React.useState(0);;
 
-    //Function to send messages to the evaluator
-    const sendMessage = () => {
-        const messageInput = document.getElementById(props.id + '_message-input');
-        const message = `<b>You</b>: ${messageInput.value}`;
-        const container = props.id + "_message-container";
-        appendMessage(message, container); //lato client
-        props.socket.emit('send-to-player', {message: messageInput.value, id: props.id});
-        messageInput.value = ''
-    }
-    
+    React.useImperativeHandle(ref, () => ({
+		handleBadge() {
+            if(!expanded)
+		        setBadge(badge + 1);
+		}
+	}));
+
     //Function to send messages when you press enter
     const keyDown = (event) => {
         if (event.key == "Enter")
-            sendMessage();
+            sendMessage(props.id);
     }
 
     //Function to reset the notifications counter
@@ -76,26 +85,6 @@ export default function CardPlayer(props){
         if(expanded)
             setBadge(0);
     }, [expanded]);
-
-    //Function to set the notifications counter
-    React.useEffect(() => {
-        if(!expanded && arrived){
-            setBadge(badge+1);
-        }
-        setArrived(false);
-    }, [arrived])
-
-    //Function to wait for messages to arrive
-    React.useEffect(() => {    
-        props.socket.on('message-from-player', data => {
-            if(data.id == props.id){
-                setArrived(true); //is used to notify the arrival of messages 
-                const message = `<b>${data.name}</b>: ${data.message}`;
-                const container = data.id + '_message-container';
-                appendMessage(message , container);
-            }   
-        });
-    },[props.socket]);
 
     return(
         e(Card, {className: classes_card.root, id: props.id, raised: true, children: [
@@ -116,11 +105,11 @@ export default function CardPlayer(props){
                     e("div",{className: classes_message.messageContainer, id: props.id + "_message-container"}), //div di arrivo delle risposte da valutare
                     e("form", {id: props.id + "_send-container"}, [
                         e(TextField, {className: classes_message.messageInput, id: props.id + "_message-input", onKeyDown: keyDown, variant: "outlined", margin: "dense", InputProps: {endAdornment: 
-                            e(IconButton, {id: props.id + "_send-button", onClick: sendMessage, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
+                            e(IconButton, {id: props.id + "_send-button", onClick: () => {sendMessage(props.id)}, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
                         )
                     ])
                 ]})
             ]})
         ]})
     )
-}
+});

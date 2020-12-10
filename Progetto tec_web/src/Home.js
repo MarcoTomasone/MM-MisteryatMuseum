@@ -16,7 +16,7 @@ function Home(){
     return e("nav", {key: "mainHome", id: "mainHome"}, [
         e(HomeSelect, {key: "op1Main", id: "op1Main", url: "./?#/Create/login", title: "SEZIONE PRIVATA", description: description1, imgClass: "home_img", imgUrl: "../img/pen.png"}),
         e(HomeSelect, {key: "op2Main", id: "op2Main", url: "./?#/SelectHome", title: "SEZIONE PUBBLICA", description: description2, imgClass: "home_img", imgUrl: "../img/qrcode.png"}),
-        e(HomeSelect, {key: "op3Main", id: "op3Main", url: "./?#/ControlHome", title: "SEZIONE CONTROLLO", description: description3, imgClass: "home_img", imgUrl: "../img/lens.png"})
+        e(HomeSelect, {key: "op3Main", id: "op3Main", url: "./?#/Home", title: "SEZIONE CONTROLLO", description: description3, imgClass: "home_img", imgUrl: "../img/lens.png"})
     ])
 }
 

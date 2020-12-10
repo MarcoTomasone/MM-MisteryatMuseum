@@ -1,3 +1,5 @@
+const e = React.createElement;
+
 /**
  * Import JSON files
  * @param file : file to import
@@ -38,3 +40,5 @@ export function loadHelpMessage(props, counter){
     message = (message == null) ?  "Non ci sono aiuti per questa activity!" : message;
     appendMessage(message, "help-message-container");
 }
+
+

@@ -5,12 +5,12 @@ const e = React.createElement;
 const HashRouter  = ReactRouterDOM.HashRouter ;
 const Route = ReactRouterDOM.Route;
 
-export default function ControlHome(props){
+export default function AppControl(props){
 
     return e(React.Fragment, null, [
         e(HashRouter, {key: "hashRouterApp"}, [
-            e(Route, {exact: true, path: "/ControlHome/", component: Home}),
-            e(Route, {path: "/ControlHome/Control", component: Control})
+            e(Route, {exact: true, path: "/Home/", component: Home}),
+            e(Route, {path: "/Home/Control", component: Control})
         ])
     ])
 }

@@ -1,48 +1,78 @@
 import VerticalBar from './components/VerticalBar.js';
-import CardPlayer from './components/CardPlayer.js'
+import {CardPlayer} from './components/CardPlayer.js';
+import { getDataPlayer } from './API.js';
 
 const {Slide, Paper, IconButton, Icon, TextField, Checkbox} = MaterialUI;
 const e = React.createElement;
-
-//const all_messages = {};
 const socket = io('http://localhost:3000', {query: 'type=evaluator'});
+//const all_messages = {};
+
+
 socket.emit('new-evaluator');
 
-export default function Control(props){
-    let arrayOfPlayers = [];
+//function used for send messages from each card
+export function send(message, id){
+    socket.emit('send-to-player', {message: message, id: id});
+}
 
+//create and set cards of players
+function uploadCard(dataPlayers, setSlide, cardsRef){
+    const arrayOfCards = [];
+    for(let key in dataPlayers){
+        arrayOfCards.push( e(CardPlayer, {
+        ref:(element) => cardsRef.current[key] = element, //ref used for call the child's functions
+        key: key, 
+        id: key, 
+        name: dataPlayers[key].name, 
+        timer: dataPlayers[key].timer,
+        section: dataPlayers[key].section, 
+        points: dataPlayers[key].points,
+        setSlide: setSlide,
+        }))
+    }
+    return arrayOfCards; 
+}
+
+export default function Control(props){
     //States
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
-    const [slide, setSlide] = React.useState(false);    
+    const [slide, setSlide] = React.useState(false); 
+    const [info, setInfo] = React.useState({});  //information of players
+    const cardsRef = React.useRef({});  ////ref of the cards used for call the cards's functions
+    let arrayOfPlayers = {};   
 
-    const story = window.location.href.replace('http://127.0.0.1:5500/?#/ControlHome/Control/', '');
+    //this constant is used to know what story the evaluator is in
+    const story = window.location.href.replace('http://127.0.0.1:5500/?#/Home/Control/', '');
 
+    //wait messages from players and set notify
     React.useEffect(() => {
-        axios.get('http://localhost:8000/status', { params: { story: story } })
-            .then((response) => {
-                console.log(response);
-                response.data.forEach((element) => {
-                    const lastSection = element.sectionsArray.length - 1;
-                    arrayOfPlayers.push(e(CardPlayer, {
-                        key: element.id, 
-                        id: element.id,
-                        name: element.name, 
-                        timer: element.sectionsArray[lastSection].timer,
-                        section: element.sectionsArray[lastSection].section, 
-                        points: element.sectionsArray[lastSection].points,
-                        slide: slide,
-                        setSlide: setSlide,
-                        socket: socket
-                    }))
-                    
-                })
-                setArrayPlayers(arrayOfPlayers);
-                return arrayOfPlayers; 
-            }).catch((error) => console.log(error));
-    }, [])
+        socket.on('message-from-player', data => {
+            cardsRef.current[data.id].handleBadge();  //set notify through ref
+            const message = `<b>${data.name}</b>: ${data.message}`;
+            const container = data.id + '_message-container';
+            appendMessage(message , container);
+        });
+        return () => {
+            socket.off('message-from-player');
+        }
+    }, []);
+
+    //get data of players
+    React.useEffect(() => {
+        (async () => {
+            arrayOfPlayers = await getDataPlayer(story);
+            setInfo(arrayOfPlayers);
+        })();
+    }, []);
+
+     //create and set cards with players
+     React.useEffect(() => {
+        const cards = uploadCard(info, setSlide, cardsRef);
+        setArrayPlayers(cards);
+    }, [info])  
 
     return e(React.Fragment, null, [
-        e(VerticalBar, "null"),
+        e(VerticalBar, null),
         e("div",null, arrayPlayers),
         e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
             e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),

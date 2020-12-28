@@ -5,7 +5,7 @@ const description2 = "In questa sezione potrai trovare tutte le storie pubblicat
 const description3 = "In questa sezione potrai controllare l'andamento di una storia";
 
 function HomeSelect(props){
-    return e("a", {className: "homeBlock", href: props.url}, [
+    return e("a", {key: props.title, className: "homeBlock", href: props.url}, [
         e("h1", null, props.title),
         e("p", null, props.description),
         e("img", {className: props.imgClass, src: props.imgUrl})

@@ -9,8 +9,8 @@ export default function AppControl(props){
 
     return e(React.Fragment, null, [
         e(HashRouter, {key: "hashRouterApp"}, [
-            e(Route, {exact: true, path: "/Home/", component: Home}),
-            e(Route, {path: "/Home/Control", component: Control})
+            e(Route, {key: "controlHome", exact: true, path: "/Home/", component: Home}),
+            e(Route, {key: "Control", path: "/Home/Control", component: Control})
         ])
     ])
 }

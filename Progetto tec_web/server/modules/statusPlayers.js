@@ -42,9 +42,26 @@ module.exports = {
             res.end(stories);
         });     
 
+        //get players in a story
+        app.get('/players', (req, res) => {
+            const players = [];
+            const story = req.query.story;
+            storiesActive[story].forEach((player) => {
+                players.push(player.id);
+            })
+            const data = JSON.stringify(players);
+            res.status(200).end(data);
+        });
+
         app.get('/pdf', (req, res) => {
             const player = req.query.player;
-            const infoPlayer = JSON.parse(fs.readFileSync(`./inGame/Story1/${player}.json`, {encoding:'utf8', flag:'r'}));
+            const story = req.query.story;
+            const path = `./inGame/${story}/${player}.json`;
+
+            if(!fs.existsSync(path))
+                res.status(404).end();
+
+            const infoPlayer = JSON.parse(fs.readFileSync(path, {encoding:'utf8', flag:'r'}));
             const doc = new jsPDF();
             const col = ["Section", "Question", "Answer", "Time", "Points"];
             const rows = [];
@@ -60,8 +77,11 @@ module.exports = {
                 tableLineWidth: 0.3,
                 startY: 20
             });
-            const pdf = doc.output();
-            fs.writeFileSync(`./inGame/${player}.pdf`, pdf, 'binary');
+            const pdf = doc.output(); 
+            const pathFile = `./inGame/${player}.pdf`;
+            if(fs.existsSync(pathFile))
+                fs.unlinkSync(pathFile);
+            fs.writeFileSync(pathFile, pdf, 'binary');
         })
 
         //post status files of players

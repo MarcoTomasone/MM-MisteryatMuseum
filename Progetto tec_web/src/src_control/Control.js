@@ -1,5 +1,6 @@
 import VerticalBar from './components/VerticalBar.js';
-import {CardPlayer} from './components/CardPlayer.js';
+//import MyDialog from './components/MyDialog.js';
+import { CardPlayer } from './components/CardPlayer.js';
 import { getDataPlayer } from './API.js';
 
 const {Slide, Paper, IconButton, Icon, TextField, Checkbox} = MaterialUI;
@@ -15,31 +16,31 @@ export function send(message, id){
     socket.emit('send-to-player', {message: message, id: id});
 }
 
-//create and set cards of players
-function uploadCard(dataPlayers, setSlide, cardsRef){
-    const arrayOfCards = [];
-    for(let key in dataPlayers){
-        arrayOfCards.push( e(CardPlayer, {
-        ref:(element) => cardsRef.current[key] = element, //ref used for call the child's functions
-        key: key, 
-        id: key, 
-        name: dataPlayers[key].name, 
-        timer: dataPlayers[key].timer,
-        section: dataPlayers[key].section, 
-        points: dataPlayers[key].points,
-        setSlide: setSlide,
-        }))
-    }
-    return arrayOfCards; 
-}
-
 export default function Control(props){
     //States
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
     const [slide, setSlide] = React.useState(false); 
     const [info, setInfo] = React.useState({});  //information of players
-    const cardsRef = React.useRef({});  ////ref of the cards used for call the cards's functions
-    let arrayOfPlayers = {};   
+    const cardsRef = React.useRef({}); ////ref of the cards used for call the cards's functions
+    let arrayOfPlayers = {};
+    
+    //create and set cards of players
+    function uploadCard(){
+        const arrayOfCards = [];
+        for(let key in info){
+            arrayOfCards.push(e(CardPlayer, {
+            ref:(element) => cardsRef.current[key] = element, //ref used for call the child's functions
+            key: key, 
+            id: key, 
+            name: info[key].name, 
+            timer: info[key].timer,
+            section: info[key].section, 
+            points: info[key].points,
+            setSlide: setSlide,
+            }))
+        }
+        return arrayOfCards; 
+    }
 
     //this constant is used to know what story the evaluator is in
     const story = window.location.href.replace('http://127.0.0.1:5500/?#/Home/Control/', '');
@@ -67,18 +68,18 @@ export default function Control(props){
 
      //create and set cards with players
      React.useEffect(() => {
-        const cards = uploadCard(info, setSlide, cardsRef);
+        const cards = uploadCard();
         setArrayPlayers(cards);
     }, [info])  
 
     return e(React.Fragment, null, [
-        e(VerticalBar, null),
-        e("div",null, arrayPlayers),
-        e(Slide, {in: slide, direction: "left", id: "slide", children: e(Paper, null, [
-            e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
-            e("div",{style: {width: "80%", height: "50%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
-            e(TextField, {variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
-            e(IconButton, {children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}})
+        e(VerticalBar, {key: "verticalBar"}),
+        e("div",{key: "arrayPlayers"}, arrayPlayers),
+        e(Slide, {key: "slide", in: slide, direction: "left", id: "slide", children: e(Paper, {key: "paperOfSlide"}, [
+            e(IconButton, {key: "1", children: e(Icon, {children: "close"}), onClick: () => {setSlide(false)}}),
+            e("div",{key: "2", style: {width: "80%", height: "50%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+            e(TextField, {key: "3", variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+            e(IconButton, {key: "4", children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}})
         ])}),
     ])
 }

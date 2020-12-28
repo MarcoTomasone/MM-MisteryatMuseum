@@ -10,19 +10,19 @@ export default function Home(props){
             const stories = response.data.stories;
             const nPlayers = response.data.nPlayers;
             stories.forEach((element) => {
-                arryOfStories.push( e(CardStory, { url: `./?#/Home/Control/${element}`, title: element, nPlayers: nPlayers[element]}) );
+                arryOfStories.push( e(CardStory, { key: element, url: `./?#/Home/Control/${element}`, title: element, nPlayers: nPlayers[element]}) );
             })
             setStories(arryOfStories);
             return arryOfStories;
         })
     }, []);
 
-    return e(React.Fragment, null, [
-        e("div", null, [
-            e("h2", {style: {marginBottom: "10px"}}, [ "Quale storia vuoi seguire ?"])
+    return e(React.Fragment, {key: "control_home_root"}, [
+        e("div", {key: 1}, [
+            e("h2", {key: 2, style: {marginBottom: "10px"}}, [ "Quale storia vuoi seguire ?"])
         ]),
-        e("input", {id: "ID_evaluator", type: "text"}),
-        e("input", {type: "button"}),
-        e("div", null, stories)   
+        e("input", {key: 3, id: "ID_evaluator", type: "text"}),
+        e("input", {key: 4, type: "button"}),
+        e("div", {key: 5}, stories)   
     ])
 }

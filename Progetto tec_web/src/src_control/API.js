@@ -1,11 +1,11 @@
 
 export async function getDataPlayer(story){
-    const data = await axios.get('http://localhost:8000/status', { params: { story: story } })
+    const data = await axios.get('http://localhost:8000/status', { params: { story } })
         .then((response) => {
             const dict = {};
             response.data.forEach((element) => {
                 const lastSection = element.sectionsArray.length - 1;
-                    dict[element.id]={
+                    dict[element.id] = {
                         key: element.id, 
                         id: element.id,
                         name: element.name, 
@@ -19,9 +19,13 @@ export async function getDataPlayer(story){
     return data;
 }
 
+export async function getPlayers(story){
+    const response = await axios.get('http://localhost:8000/players', { params: { story } })
+    return response.data
+}
 
-export async function getPDF(player){
-    const data = await axios.get('http://localhost:8000/pdf', { params: { player: player } });
+export async function getPDF(player, story){
+    const data = await axios.get('http://localhost:8000/pdf', { params: { player, story } });
         /*.then((response) => {
 
         })*/

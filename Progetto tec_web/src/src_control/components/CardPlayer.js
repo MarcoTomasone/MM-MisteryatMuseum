@@ -87,24 +87,24 @@ export const CardPlayer = React.forwardRef((props, ref) => {
     }, [expanded]);
 
     return(
-        e(Card, {className: classes_card.root, id: props.id, raised: true, children: [
-            e(CardHeader, {avatar: e(Avatar, {children: props.name, className: classes_card.avatar}), title: props.id, subheader: "Time: " + props.timer}),
-            e(CardContent, {id: props.id + "_grid", className: classes_grid.root, children: [
-                e(Grid, {container: true, spacing: "2", children: [
-                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper}, [ e("p", null, "Section "), e("p", null, props.section) ])}),
-                    e(Grid, {item: true, xs: "6", children: e(Paper, {className: classes_grid.paper}, [ e("p", null, "Points "), e("p", null, props.points) ])}),
+        e(Card, {key: props.id, className: classes_card.root, id: props.id, raised: true, children: [
+            e(CardHeader, {key: "1", avatar: e(Avatar, {key: "avatar", children: props.name, className: classes_card.avatar}), title: props.id, subheader: "Time: " + props.timer}),
+            e(CardContent, {key: "2", id: props.id + "_grid", className: classes_grid.root, children: [
+                e(Grid, {key: "grid", container: true, spacing: 2, children: [
+                    e(Grid, {key: "g1", item: true, xs: 6, children: e(Paper, {className: classes_grid.paper}, [ e("p", {key: "p1"}, "Section "), e("p", {key: "p2"}, props.section) ])}),
+                    e(Grid, {key: "g2", item: true, xs: 6, children: e(Paper, {className: classes_grid.paper}, [ e("p", {key: "p3"}, "Points "), e("p", {key: "p4"}, props.points) ])}),
                 ]})
             ]}),
-            e(CardActions, {disableSpacing: true, children: [
-                e(IconButton, {children: e(Badge, {id: props.id  + "_chat", badgeContent: badge, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: () => {setExpanded(!expanded);}}),
-                e(IconButton, {children: e(Icon, {children: "help", color: "primary"})}),
-                e(IconButton, {children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
+            e(CardActions, {key: "3", disableSpacing: true, children: [
+                e(IconButton, {key: "I1", children: e(Badge, {id: props.id  + "_chat", badgeContent: badge, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: () => {setExpanded(!expanded);}}),
+                e(IconButton, {key: "I2", children: e(Icon, {children: "help", color: "primary"})}),
+                e(IconButton, {key: "I3", children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
             ]}),
-            e(Collapse, {id: props.id + "_collapse", style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
-                e(CardContent, {children: [
-                    e("div",{className: classes_message.messageContainer, id: props.id + "_message-container"}), //div di arrivo delle risposte da valutare
-                    e("form", {id: props.id + "_send-container"}, [
-                        e(TextField, {className: classes_message.messageInput, id: props.id + "_message-input", onKeyDown: keyDown, variant: "outlined", margin: "dense", InputProps: {endAdornment: 
+            e(Collapse, {key: "4", id: props.id + "_collapse", style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
+                e(CardContent, {key: "cardContent", children: [
+                    e("div",{key: "div", className: classes_message.messageContainer, id: props.id + "_message-container"}), //div di arrivo delle risposte da valutare
+                    e("form", {key: "form", id: props.id + "_send-container"}, [
+                        e(TextField, {key: "textfield", className: classes_message.messageInput, id: props.id + "_message-input", onKeyDown: keyDown, variant: "outlined", margin: "dense", InputProps: {endAdornment: 
                             e(IconButton, {id: props.id + "_send-button", onClick: () => {sendMessage(props.id)}, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
                         )
                     ])

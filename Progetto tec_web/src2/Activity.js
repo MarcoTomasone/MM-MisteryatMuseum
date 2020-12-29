@@ -17,7 +17,7 @@ function Activity(props) {
         var [img,setImg] = React.useState(0);
 
         function inc(){    
- 
+
             if(props.v[counter + 1] === undefined)
             //props.v.push(props.json.accessibility.activities[counter])
             
@@ -148,35 +148,37 @@ function getRandomInt( min, max ) {
 
 
 function checkButton(counter, answer ,json,v){
-    
-    if(answer === -2){
+    let index = 0;
+    let actual = v[counter];
+    switch(answer){
+    case -2:
         let value =document.getElementById("rangenpt").value; 
         console.log(value); 
-    }else if(answer === -1){
-
+        break;
+    case -1 :
         if(document.getElementById("textAnswer").value  === v[counter].textAnswer.value){
-            let index = getRandomInt(0,v[counter].correctAnswerGo.length);
+            index = getRandomInt(0,v[counter].correctAnswerGo.length-1);
             console.log("Risposta Corretta!");
-            v.push(json[index]);
-        
+            v.push(json[actual.correctAnswerGo[index]]);
         }else{
-            let index = getRandomInt(0,v[counter].wrongAnswerGo.length);
+            index = getRandomInt(0,v[counter].wrongAnswerGo.length -1);
             console.log("Risposta Errata!");
-            v.push(json[index]);
+            v.push(json[actual.wrongAnswerGo[index]]);
         }
-        console.log(v);
-    }else if(answer === v[counter].correct){
-        let index = getRandomInt(0,v[counter].correctAnswerGo.length);
-        document.getElementById("btn"+answer).style.backgroundColor = "green";
-        v.push(json[index]);
-        console.log("risposta corretta")
-        }else{
-            let index = getRandomInt(0,v[counter].wrongAnswerGo.length);
-            console.log("Risposta Errata");
-            document.getElementById("btn"+answer).style.backgroundColor = "red";
-            
-            v.push(json[index]);
-        }
+        break;
+    case v[counter].correct:
+        index = getRandomInt(0,v[counter].correctAnswerGo.length-1);
+        document.getElementById("btn"+answer).style.backgroundColor = "green";        
+        v.push(json[actual.correctAnswerGo[index]]);
+        console.log("risposta corretta");
+        break;
+    default :
+        index = getRandomInt(0,v[counter].wrongAnswerGo.length -1);
+        document.getElementById("btn"+answer).style.backgroundColor = "red";
+        v.push(json[actual.wrongAnswerGo[index]]);
+    
+    }
+    console.log(v);
 }
 
  

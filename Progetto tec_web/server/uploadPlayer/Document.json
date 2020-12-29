@@ -6,12 +6,27 @@
 			{
 				"heightFrame":200,
 				"question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-				"type_": "description",
-				"media": 0
+				"widgetType": "",
+				"media": 0,
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}
 			},
 			{
 				"question":"Prova video",
-				"type_":"description",
+				"widgetType":"",
 				"media":"img",
 				"source":"pikachu.png",
 				"alternativeText":"Prova video",
@@ -22,14 +37,28 @@
 					"left":1,
 					"bottom":10
 				},
-
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				},
 				"correctAnswerGo":6
 			},
 			{
 				"question" : "Quanto fa 2 + 2?",
-				"answer": ["5","6","7","4"],
+				"multipleAnswer": ["5","6","7","4"],
 				"correct": 3,
-				"type_": "button",
+				"widgetType": "Quattro opzioni",
 				"media": "img",
 				"source": "./prova.jpg",
 				"alternativeText":"Icona Piakchu",
@@ -53,13 +82,28 @@
 					"bckgrndClr":"grey",
 					"bckgrndClrC":"yellow",
 					"bckgrndClrW":"yellow"	
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
 				}
 			},
 			{
 				"question" : "Quanto fa 3 x 5?",
-				"answer": ["52","16","15","7"],
+				"multipleAnswer": ["52","16","15","7"],
 				"correct": 2,
-				"type_": "button",
+				"widgetType": "Quattro opzioni",
 				"media": 0,
 				"wrongAnswerGo":[3,4,5],
 				"correctAnswerGo":[3,4,5],
@@ -74,11 +118,26 @@
 					"bckgrndClr":"white",
 					"bckgrndClrC":"yellow",
 					"bckgrndClrW":"yellow"	
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
 				}
 			},
 			{
 				"question": "Questa é una descrizione/riassunto di quello che ce stato prima e di quello che ci sara dopo [QUESTA DESCRIZIONE NON CONTIENE DOMANDE ]",
-				"type_": "description",
+				"widgetType": "",
 				"media": "img",
 				"source": "./p.png",
 				"alternativeText":"Icona Piakchu",
@@ -88,13 +147,28 @@
 					"width":145,
 					"left":0,
 					"bottom":80
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
 				}
 			},
 			{
 				"question":"Quanto vale pi greco?",
-				"answer": ["3.14..","1.12","2.12","3"],
+				"multipleAnswer": ["3.14..","1.12","2.12","3"],
 				"correct": 0,
-				"type_": "button",
+				"widgetType": "Quattro opzioni",
 				"media": 0,
 
 				"wrongAnswerGo":[3,4],
@@ -109,12 +183,27 @@
 					"bckgrndClr":"grey",
 					"bckgrndClrC":"yellow",
 					"bckgrndClrW":"yellow"	
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
 				}
 			},
 			{
 				"question":"Converti 5 in binario",
 				"correct":"101",
-				"type_": "text",
+				"widgetType": "text",
 				"styleInput":{
 					"width":100,
                     "height":15,
@@ -123,11 +212,26 @@
 				},
 				"media": 0,
 				"wrongAnswerGo":[5,6],
-				"correctAnswerGo":[4,5]				
+				"correctAnswerGo":[4,5]	,
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"101",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}			
 			},
 			{
 				"question": "Questa é la prova per un range di possibilita. Vediamo quanto sei trash? ",
-				"type_": "range",
+				"widgetType": "range",
 				"type":"range",
 				"minRange":1,
 				"maxRange":10,
@@ -147,11 +251,26 @@
 					"left":20,
 					"bottom":20,
 					"borderRadius":10
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
 				}
 
 			},{
 				"question":"Choose a profile picture",
-				"type_":"imgUpload",
+				"widgetType":"imgUpload",
 				
 
 				"media":0,
@@ -160,12 +279,27 @@
                     "height":20,
 					"left":20,
 					"bottom":200
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
 				}
 			}
 			,
 			{
 				"question": "Fine Attivita' Complimenti Hai terminato l'attivitá ",
-				"type_": "description",
+				"widgetType": "",
 				"media": "img",
 				"source": "./pikachu.png",
 				"wrongAnswerGo":[],
@@ -176,6 +310,21 @@
 					"left":20,
 					"bottom":20,
 					"borderRadius":10
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
 				}
 
 			}

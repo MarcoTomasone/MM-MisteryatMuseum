@@ -35,8 +35,8 @@ function Activity(props) {
             
             MediaProp = [];             // Contains React Element type: Media
         
-            if(props.v[counter].type_ === "button" && counter > 0){
-                for(let i = 0; i < props.v[counter].answer.length; i++)
+            if(props.v[counter].type_ === "Quattro opzioni" && counter > 0){
+                for(let i = 0; i < props.v[counter].multipleAnswer.length; i++)
                     document.getElementById("btn"+i).style.backgroundColor=props.v[counter].btnStyle.bckgrndClr;
             } 
         }
@@ -115,7 +115,7 @@ function Activity(props) {
          
         }
            
-        if (props.v[counter].type_ === "description" ){
+        if (props.v[counter].widgetType === "" ){
    
             return e("div",{key:"divCont"},
                         e("div", {key: "activitIntro", id:"activitIntro", style: divActivity}, props.v[counter].question, MediaProp ),
@@ -126,9 +126,9 @@ function Activity(props) {
 
         } else {
             let domanda = props.v[counter].question;
-            let answer = props.v[counter].answer;
+            let answer = props.v[counter].multipleAnswer;
     
-            if(props.v[counter].type_ === "button") {
+            if(props.v[counter].widgetType === "Quattro opzioni" || props.v[counter].widgetType === "Vero Falso") {
                     // multiple answer || true\false
 
                 return e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc});
@@ -154,7 +154,7 @@ function checkButton(counter, answer ,json,v){
         console.log(value); 
     }else if(answer === -1){
 
-        if(document.getElementById("textAnswer").value  === v[counter].correct){
+        if(document.getElementById("textAnswer").value  === v[counter].textAnswer.value){
             let index = getRandomInt(0,v[counter].correctAnswerGo.length);
             console.log("Risposta Corretta!");
             v.push(json[index]);

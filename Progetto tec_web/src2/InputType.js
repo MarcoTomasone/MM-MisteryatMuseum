@@ -28,7 +28,7 @@ function inputType(props){
         position:'absolute',
       
     };
-    if(props.v[props.counter].type_ === "text" ){        
+    if(props.v[props.counter].widgetType === "text" ){        
     const styl = {
             width:`${props.v[props.counter].styleInput.width  *screen.availWidth /202}px`,
             height:`${props.v[props.counter].styleInput.height  *screen.availHeight /437}px`,
@@ -53,7 +53,7 @@ function inputType(props){
 
 
             let range = false;
-    }else if(props.v[props.counter].type_ === "range" ) {
+    }else if(props.v[props.counter].widgetType === "range" ) {
         
         const styleRange = {
             width:`${props.v[props.counter].styleInput.width  *screen.availWidth /202}px`,
@@ -80,7 +80,7 @@ function inputType(props){
                             id:"confirm",
                             onClick: () => props.checkButton(props.counter,-2,props.json.accessibility.activities,props.v)},"Check")
                 );
-        }else if(props.v[props.counter].type_ === "imgUpload" ){
+        }else if(props.v[props.counter].widgetType === "imgUpload" ){
            
             
                 const [file, setFile] = React.useState(''); // storing the uploaded file    // storing the recived file from backend

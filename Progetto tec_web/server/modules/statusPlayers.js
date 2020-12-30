@@ -5,12 +5,13 @@ require('jspdf-autotable');
 //array of active stories 
 const storiesActive = {};
 
-//examples for test-----------------------------------------------------------------------------------------
+//samples for test-----------------------------------------------------------------------------------------
 const Card0 = JSON.parse(fs.readFileSync('./inGame/Story1/Card0.json', {encoding:'utf8', flag:'r'}));
 const Card1 = JSON.parse(fs.readFileSync('./inGame/Story1/Card1.json', {encoding:'utf8', flag:'r'}));
 
 const Card3 = JSON.parse(fs.readFileSync('./inGame/Story2/Card3.json', {encoding:'utf8', flag:'r'}));
 const Card4 = JSON.parse(fs.readFileSync('./inGame/Story2/Card4.json', {encoding:'utf8', flag:'r'}));
+const Card5 = JSON.parse(fs.readFileSync('./inGame/Story2/Card5.json', {encoding:'utf8', flag:'r'}));
 
 storiesActive["Story1"] = []; //create a new story
 storiesActive["Story1"].push(Card0); //added player in a story
@@ -19,6 +20,7 @@ storiesActive["Story1"].push(Card1);
 storiesActive["Story2"] = [];
 storiesActive["Story2"].push(Card3);
 storiesActive["Story2"].push(Card4);
+storiesActive["Story2"].push(Card5);
 //----------------------------------------------------------------------------------------------------------
 
 module.exports = {
@@ -53,14 +55,12 @@ module.exports = {
             res.status(200).end(data);
         });
 
-        app.get('/pdf', (req, res) => {
+        app.get('/pdf', (req, res) => {            
             const player = req.query.player;
             const story = req.query.story;
             const path = `./inGame/${story}/${player}.json`;
-
             if(!fs.existsSync(path))
                 res.status(404).end();
-
             const infoPlayer = JSON.parse(fs.readFileSync(path, {encoding:'utf8', flag:'r'}));
             const doc = new jsPDF();
             const col = ["Section", "Question", "Answer", "Time", "Points"];
@@ -77,11 +77,9 @@ module.exports = {
                 tableLineWidth: 0.3,
                 startY: 20
             });
-            const pdf = doc.output(); 
-            const pathFile = `./inGame/${player}.pdf`;
-            if(fs.existsSync(pathFile))
-                fs.unlinkSync(pathFile);
-            fs.writeFileSync(pathFile, pdf, 'binary');
+            const pdf = doc.output();
+            res.contentType("application/pdf;charset=utf-8");
+            res.send(pdf);
         })
 
         //post status files of players

@@ -22,7 +22,7 @@ export const MyDialog = React.forwardRef((props, ref) => {
 
     React.useEffect(() => {
         (async () => {
-            let response = await getPlayers(props.story);
+            const response = await getPlayers(props.story);
             setPlayers(response);
         })();
     }, []);

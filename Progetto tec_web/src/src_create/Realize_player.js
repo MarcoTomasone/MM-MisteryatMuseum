@@ -125,7 +125,6 @@ function Realize_player(props){
     const classes = useStyles();
     
     React.useEffect(async () => {
-        console.log(immageUpload.backgroundImageCheck)
         var tmp = ""
         var path = props.story.id.split(".")[0]
         await axios.post(`http://localhost:8000/check`, {

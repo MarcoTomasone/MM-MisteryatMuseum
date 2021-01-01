@@ -172,7 +172,9 @@ function Realize(props){
                         e("button", {id: "helpButton", onClick: blinkHelpButton}, "HELP"),
                         e("div", {id: "phoneText"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.. It has survived not only five centuries... It has survived not only five centuries... It has survived not only five centuries...."),
                         e("img", {id: "mediaDiv", src: "../../img/Empty.png"}),
-                        e("div", {id: "inputDiv"}),
+                        e("div", {id: "quattroOpzioni", className: "visible"}),
+                        e("div", {id: "veroFalso", className: "notVisible"}),
+                        e("div", {id: "Range", className: "notVisible"}),
                         e("button", {id: "nextButton"}, "SUCCESSIVO")
                     ])
                 ])

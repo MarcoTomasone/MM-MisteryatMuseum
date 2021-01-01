@@ -50,17 +50,35 @@ function Realize_activity(props){
         title           :   "",
         heightFrame     :   160,
         text            :   "",
-        media           :   false,
         topImage        :   250,
         leftImage       :   15,
         heightImage     :   50,
         widthImage      :   170,
-        score           :   0,
+        media           :   "",
+        topInput        :   250,
+        leftInput       :   15,
+        heightInput     :   50,
+        widthInput      :   170,
         widgetType      :   "Quattro opzioni",
-        answer          :   [],
-        correctAnswers  :   [],
-        correctAnswerGo :   0,
-        wrongAnswerGo   :   0,
+        errorMessage    :   "",
+        multipleAnswer  :   [],
+        truefalseAnswer : {
+            trueScore   :   0,
+            falseScore  :   0
+        },
+        textAnswer      : {
+            value       :   "",
+            scoreOk     :   0,
+            scoreWrong  :   0
+        },
+        rangeAnswer     : {
+            start       :   0,
+            end         :   0,
+            scoreOk     :   0,
+            scoreWrong  :   0
+        },
+        correctAnswerGo :   [],
+        wrongAnswerGo   :   [],
     })
     const [openInfoDialog, setOpenInfoDialog] = React.useState(false);
     const [openErrorDialog, setOpenErrorDialog] = React.useState(false);
@@ -74,7 +92,6 @@ function Realize_activity(props){
     const [score, setScore] = React.useState(0)
 
     
-
 
     function addImage(e){
         e.preventDefault()
@@ -170,7 +187,7 @@ function Realize_activity(props){
             var node = document.createElement("LI");
             node.setAttribute("id", answer)
             node.style.color = "red"
-            var textnode = document.createTextNode(`${answer}   -   0pt`);
+            var textnode = document.createTextNode(`${answer}   =   0pt`);
             node.addEventListener("click", function () {
                 this.parentNode.removeChild(this);
                 var liChild = document.getElementById("answerList").children
@@ -214,6 +231,7 @@ function Realize_activity(props){
 
     function updateScore(){
         var tmp = document.getElementById(answerSelect)
+        tmp.innerHTML = `${answerSelect}   =   ${score}pt`
         tmp.style.color = "green"
     }
 
@@ -270,9 +288,6 @@ function Realize_activity(props){
             e("hr", null),
 
             e("p", null, "RISPOSTA"),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "score", className: classes.input, value: activity.score, name: "score", label: "Punteggio", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
             e("div", {className: "sx_realize_option"}, [
                 e(FormControl, {variant: "outlined", className: classes.input}, [
                     e(InputLabel, {htmlFor: "widgetType"}, "Tipo di widget"),

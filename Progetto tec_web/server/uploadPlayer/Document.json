@@ -1,0 +1,411 @@
+{
+	"accessibility":{
+		"url":"",
+		"value":"false",
+		"activities": [
+			{
+				"heightFrame":200,
+				"question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+				"widgetType": "",
+				"media": 0,
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}
+			},
+			{
+				"question":"Prova video",
+				"widgetType":"",
+				"media":"img",
+				"source":"pikachu.png",
+				"alternativeText":"Prova video",
+				"help" :"Sono l'aiuto dell'activity 1",
+				"styleM":{
+					"height":100,
+					"width":100,
+					"left":1,
+					"bottom":10
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"correctAnswerGo":6
+			},
+			{
+				"question" : "Quanto fa 2 + 2?",
+				"multipleAnswer": ["5","6","7","4"],
+				"correct": 3,
+				"widgetType": "Quattro opzioni",
+				"media": "img",
+				"source": "./prova.jpg",
+				"alternativeText":"Icona Piakchu",
+				"help" : "Sono l'aiuto dell'activity 2",
+				"styleM":{
+					"height":100,
+					"width":150,
+					"left":0,
+					"bottom":10
+				},
+				
+				"wrongAnswerGo":[5,4,6],
+				"correctAnswerGo":[4,6],
+				"btnStyle":{
+					"width":40,
+					"height":30,
+					"marginLeft":15,
+					"marginRight":10,
+					"marginTop":10,
+					"borderRadius":15,
+					"bckgrndClr":"grey",
+					"bckgrndClrC":"yellow",
+					"bckgrndClrW":"yellow"	
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}
+			},
+			{
+				"question" : "Quanto fa 3 x 5?",
+				"multipleAnswer": ["52","16","15","7"],
+				"correct": 2,
+				"widgetType": "Quattro opzioni",
+				"media": 0,
+				"wrongAnswerGo":[4,5],
+				"correctAnswerGo":[4,5],
+				"help" : "Sono l'aiuto dell'activity 3",
+				"btnStyle":{
+					"width":40,
+					"height":30,
+					"marginLeft":15,
+					"marginRight":10,
+					"marginTop":10,
+					"borderRadius":15,
+					"bckgrndClr":"white",
+					"bckgrndClrC":"yellow",
+					"bckgrndClrW":"yellow"	
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}
+			},
+			{
+				"question": "Questa é una descrizione/riassunto di quello che ce stato prima e di quello che ci sara dopo [QUESTA DESCRIZIONE NON CONTIENE DOMANDE ]",
+				"widgetType": "",
+				"media": "img",
+				"source": "./p.png",
+				"alternativeText":"Icona Piakchu",
+				"help" : "Sono l'aiuto dell'activity 4",
+				"styleM":{
+					"height":100,
+					"width":145,
+					"left":0,
+					"bottom":80
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}
+			},
+			{
+				"question":"Quanto vale pi greco?",
+				"multipleAnswer": ["3.14..","1.12","2.12","3"],
+				"correct": 0,
+				"widgetType": "Quattro opzioni",
+				"media": 0,
+
+				"wrongAnswerGo":[3,5,6],
+				"correctAnswerGo":[2,7],
+				"btnStyle":{
+					"width":40,
+					"height":30,
+					"marginLeft":15,
+					"marginRight":10,
+					"marginTop":10,
+					"borderRadius":15,
+					"bckgrndClr":"grey",
+					"bckgrndClrC":"yellow",
+					"bckgrndClrW":"yellow"	
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}
+			},
+			{
+				"question":"Converti 5 in binario",
+				"correct":"101",
+				"widgetType": "text",
+				"styleInput":{
+					"width":100,
+                    "height":15,
+					"left":20,
+					"bottom":170
+				},
+				"media": 0,
+				"wrongAnswerGo":[5,6],
+				"correctAnswerGo":[4,5]	,
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"101",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}			
+			},
+			{
+				"question": "Questa é la prova per un range di possibilita. Vediamo quanto sei trash? ",
+				"widgetType": "range",
+				"type":"range",
+				"minRange":1,
+				"maxRange":10,
+				"styleInput":{
+					"width":100,
+                    "height":15,
+					"left":20,
+					"bottom":170
+				},
+				"media": "img",
+				"source": "./pikachu.png",
+				"wrongAnswerGo":[2,3],
+				"correctAnswerGo":[2,3,9],
+				"styleM":{
+					"height":100,
+					"width":100,
+					"left":20,
+					"bottom":20,
+					"borderRadius":10
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}
+
+			},{
+				"question":"Choose a profile picture",
+				"widgetType":"imgUpload",
+				
+
+				"media":0,
+				"styleInput":{
+					"width":150,
+                    "height":20,
+					"left":20,
+					"bottom":200
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}
+			}
+			,
+			{
+				"question": "Fine Attivita' Complimenti Hai terminato l'attivitá ",
+				"widgetType": "",
+				"media": "img",
+				"source": "./pikachu.png",
+				"wrongAnswerGo":[],
+				"correctAnswerGo":[],
+				"styleM":{
+					"height":100,
+					"width":100,
+					"left":20,
+					"bottom":20,
+					"borderRadius":10
+				},
+				"truefalseanswer":{
+					"trueScore":0,
+					"falseScore":0
+				},
+				"textAnswer":{
+					"value":"",
+					"scoreOk":0,
+					"scoreWrong":0
+				},
+				"rangeAnswer":{
+					"start":0,
+					"end":0,
+					"scoreOk":0,
+					"scoreWrong":0
+				}
+
+			}
+		],
+		"activityStyle":{
+			"btnNext":{
+					"backgroundColor":"#ff0000",
+					"borderColor":"#ffffff",
+					"borderRadius": 15,
+					"left": 30,
+					"textColor": "#ff00ff",
+					"bottom": 40,
+					"width": 100,
+					"height":100
+				},
+			"divisor":{
+				"border": "solid",
+				
+				"borderColor": "black",
+			   "left":30,
+			   "top":85,
+			   "width":320,
+				"height":120,
+				"marginBottom":"20%"
+				
+			}
+
+		},
+		"ageEnd":"81",
+		"ageStart":"15",
+		"description":"Short description",
+		"gender":"Storico",
+		"id":"",
+		"Objective":"titoloProva",
+		"partecipantsNumber":"0",
+		"partecipantsType":{
+			"url":"",
+			"value":"singlePlayer"
+		},
+		"player":{
+			"background":"#0000ff",
+			"borderRadiusFrame":1,
+			
+			"chatButton":{
+				"backgroundColor":"#ff0000",
+				"borderColor":"#ffffff",
+				"borderRadius": 15,
+				"height": 30,
+				"left": 150,
+				"textColor": "#ff00ff",
+				"top": 30,
+				"width": 90
+			},
+			"colorFrame":"#ffffff",
+			"fontFamily":"Arial, sans-serif",
+			"helpButton":{
+				"backgroundColor": "#fff000",
+				"borderColor": "#ffffff",
+				"borderRadius": 15,
+				"height": 30,
+				"left": 10,
+				"textColor": "#ffffff",
+				"top": 30,
+				"width": 90
+			},
+
+			"sizeFont": 14,
+			"textColor": "#ffffff",
+			"thicknessFrame": "10",
+			"weightFont": "500",
+
+
+			"topFrame": 130,
+			"leftFrame": 15,
+			"widthFrame": 170,
+			"heightFrame": 150,
+			"frameColor": "#ffff00",
+			"weightFrame": "10px"
+		},
+		"published": "false",
+		"title": "TitoloProva",
+		"user": "Username"
+	}
+}

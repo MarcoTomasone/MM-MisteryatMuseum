@@ -1,13 +1,16 @@
+const e = React.createElement;
+
 /**
  * Import JSON files
  * @param file : file to import
  * @returns a file JSON
  */
-export function readJSON(file) {
+export function readJSON(users) {
     let request = new XMLHttpRequest();
-    request.open('GET', file, false);
+    
+    request.open('GET', `http://localhost:8000/requestJson/${users}`, false);
     request.send(null);
-
+    //console.log(request.responseText);
     if (request.status == 200)
         return request.responseText;
 }
@@ -37,3 +40,5 @@ export function loadHelpMessage(props, counter){
     message = (message == null) ?  "Non ci sono aiuti per questa activity!" : message;
     appendMessage(message, "help-message-container");
 }
+
+

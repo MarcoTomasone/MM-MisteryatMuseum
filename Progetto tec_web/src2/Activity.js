@@ -14,21 +14,29 @@ const e = React.createElement;
 function Activity(props) {
 
         const [counter,setCounter] = React.useState(0);
-        
+        var [img,setImg] = React.useState(0);
+
         function inc(){    
+
+            if(props.v[counter + 1] === undefined)
+            //props.v.push(props.json.accessibility.activities[counter])
             
+            if(counter + 1 <= props.v.length){
+                props.v.push(props.json.accessibility.activities[counter + 1 % props.json.accessibility.activities.length]);
+            } 
+              
+            if(counter >= props.json.accessibility.activities.length -2 ){
+                props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length -1])
+                document.getElementById("nextButton").style.backgroundColor="grey";
+            }
+               
             setCounter(counter+ 1);
             loadHelpMessage(props, counter +1);
             
             MediaProp = [];             // Contains React Element type: Media
         
-            if(counter === props.v.length - 2 || props.v[counter + 1] === undefined){                               //if the story ends
-
-                props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length - 1]);
-                document.getElementById("nextButton").style.backgroundColor="grey";
-            }
-            if(props.v[counter].type_ === "button" && counter > 0){
-                for(let i = 0; i < props.v[counter].answer.length; i++)
+            if(props.v[counter].type_ === "Quattro opzioni" && counter > 0){
+                for(let i = 0; i < props.v[counter].multipleAnswer.length; i++)
                     document.getElementById("btn"+i).style.backgroundColor=props.v[counter].btnStyle.bckgrndClr;
             } 
         }
@@ -43,7 +51,7 @@ function Activity(props) {
             position:'absolute',
             bottom:`${props.json.accessibility.activityStyle.btnNext.bottom * screen.availHeight/437}px`,
             left:`${props.json.accessibility.activityStyle.btnNext.left* screen.availWidth /202}px`,
-           textColor:props.json.accessibility.activityStyle.btnNext.textColor
+            textColor:props.json.accessibility.activityStyle.btnNext.textColor
     
         }
     
@@ -75,7 +83,25 @@ function Activity(props) {
         let MediaProp = [];
         let mediaStyle;
                 
-        if(props.v[counter].media !== 0){               
+        if(props.v[counter].media === "img"){     
+            // -->  richiesta al server per il media 
+            var base64data;
+
+   	axios.get(`http://localhost:8000/downloadImage/${props.v[counter].source}`, { responseType:"blob" })
+                .then(function (response) {
+                   
+                var blob1 = response.data;
+          
+                const blob = new Blob([blob1], { type: 'image/png' });
+                var reader = new window.FileReader();
+            
+                reader.readAsDataURL(blob);
+                reader.onload = function() {
+                    base64data = reader.result;                
+                    setImg(img = base64data);
+            
+                    }
+                });       
             mediaStyle = {
                 width:`${props.v[counter].styleM.width  *screen.availWidth /202}px`,
                 height:`${props.v[counter].styleM.height  *screen.availHeight /437}px`,
@@ -83,11 +109,13 @@ function Activity(props) {
                 left:`${props.v[counter].styleM.left  *screen.availWidth /202}px`,
                 position:'absolute'
             }
+        
+        if(img !== 0)
+            MediaProp.push (e("img",{style:mediaStyle,key:"media",alt:props.v[counter].alternativeText,src:img}));//controls:true,autoPlay:true}));
          
-         MediaProp.push (e(props.v[counter].media,{style:mediaStyle,key:"media",alt:props.v[counter].alternativeText,src:props.v[counter].source,controls:true,autoPlay:true}));
         }
            
-        if (props.v[counter].type_ === "description" ){
+        if (props.v[counter].widgetType === "" ){
    
             return e("div",{key:"divCont"},
                         e("div", {key: "activitIntro", id:"activitIntro", style: divActivity}, props.v[counter].question, MediaProp ),
@@ -98,9 +126,9 @@ function Activity(props) {
 
         } else {
             let domanda = props.v[counter].question;
-            let answer = props.v[counter].answer;
+            let answer = props.v[counter].multipleAnswer;
     
-            if(props.v[counter].type_ === "button") {
+            if(props.v[counter].widgetType === "Quattro opzioni" || props.v[counter].widgetType === "Vero Falso") {
                     // multiple answer || true\false
 
                 return e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc});
@@ -114,76 +142,44 @@ function Activity(props) {
 }
     
 
-
-    function checkButton(counter, answer, json, v){         //the function check the answer with the answer given from json file
-
-        if(answer === -1){      //INPUT TYPE == TEXT
-            if(document.getElementById("textAnswer").value  ===v[counter].correct ){
-
-                getActivity(1,v,counter,json);
-
-                console.log("TextInsert Correct");
-            }
-            else {
-                
-                getActivity(0,v,counter,json);
-
-                console.log("TextInsert Wrong");
-            }
-            
-        }
-        else if(answer === -2) {    //INPUT TYPE == RANGE 
-          
-            let value =document.getElementById("rangenpt").value; 
-            alert(value); 
-            if(value > 5){
-                getActivity(1,v,counter,json);
-            }
-        }
-        else if(answer === v[counter].correct){
-            console.log("Risposta Corretta");
-            document.getElementById("btn"+answer).style.backgroundColor = v[counter].btnStyle.bckgrndClrC;
-            getActivity(1,v,counter,json);
-
-
-        }
-        else {
-            getActivity(0,v,counter,json);
-            console.log("Risposta Errata");
-            document.getElementById("btn"+answer).style.backgroundColor =  v[counter].btnStyle.bckgrndClrW;
-
-        }
-  
-}
-
-function getActivity(correct,v,counter,json){                //EVERY ACTIVITY CHANGE WAY ACCORDING TO THE USER'S ANSWER
- 
-if(correct === 1){              //fare in modo che le ultime attivita accettino la risposta ma non aggiungano nuove attivita
-           let appo = v[counter + 1];
-
-           let correctWay= v[counter].correctAnswerGo;
-           let length = correctWay.length;
-           let index = getRandomInt(0,length- 1);
-           v[counter+1] = json[correctWay[index]];
-
-           v.push(appo);
-
-        }else{
-        let appo = v[counter + 1];
-     
-        //TEST
-        let errorWay= v[counter].wrongAnswerGo;
-        let length = errorWay.length;
-        let index = getRandomInt(0,length- 1);
-        
-        v[counter+1] = json[errorWay[index]];
-        v.push(appo);
-
-    }
-}
-
 function getRandomInt( min, max ) {
 	return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 }
 
+
+function checkButton(counter, answer ,json,v){
+    let index = 0;
+    let actual = v[counter];
+    switch(answer){
+    case -2:
+        let value =document.getElementById("rangenpt").value; 
+        console.log(value); 
+        break;
+    case -1 :
+        if(document.getElementById("textAnswer").value  === v[counter].textAnswer.value){
+            index = getRandomInt(0,v[counter].correctAnswerGo.length-1);
+            console.log("Risposta Corretta!");
+            v.push(json[actual.correctAnswerGo[index]]);
+        }else{
+            index = getRandomInt(0,v[counter].wrongAnswerGo.length -1);
+            console.log("Risposta Errata!");
+            v.push(json[actual.wrongAnswerGo[index]]);
+        }
+        break;
+    case v[counter].correct:
+        index = getRandomInt(0,v[counter].correctAnswerGo.length-1);
+        document.getElementById("btn"+answer).style.backgroundColor = "green";        
+        v.push(json[actual.correctAnswerGo[index]]);
+        console.log("risposta corretta");
+        break;
+    default :
+        index = getRandomInt(0,v[counter].wrongAnswerGo.length -1);
+        document.getElementById("btn"+answer).style.backgroundColor = "red";
+        v.push(json[actual.wrongAnswerGo[index]]);
+    
+    }
+    console.log(v);
+}
+
+ 
 export default Activity;

@@ -1,3 +1,4 @@
+const http = require('http');
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
@@ -29,10 +30,28 @@ app.post("/check", (req, res) => {
     res.status(200).end(pathName)
 })
 
+app.get('/downloadImage/:source',(req,res) =>{
+//uploadPlayer use by player to load resource to evaluate
+//or download file to append to DOM
+  
+    let path = './uploadPlayer/'+req.params.source;
+    let data = fs.readFileSync(path);
+    res.send(data);
+   
+})
+
+app.get(`/requestJson/:id`,(req,res)=>{
+    
+    let path = './uploadPlayer/Document.json';
+    let data = fs.readFileSync(path);
+    
+    res.send(JSON.parse(data));
+})
 /**
  * Funzione che dal player manda un immagine al valutatore
  * call by InputType.js
  */
+
 app.post('/uploadImg', (req, res) => {
 
     if (!req.files) {
@@ -259,15 +278,18 @@ app.delete("/deleteStory/:story", (req, res) => {
 //----------------------------------------------------------------CHAT-------------------------------------------------------------------------------------------------------
 
 const io = require('socket.io')(3000, {cors: {origin: '*'}});
-require('./socket')(io);
+require('./modules/socket')(io);
 
 //----------------------------------------------------------------GET STATUS PLAYER-------------------------------------------------------------------------------------------------------
 
-const statusPlayers = require('./statusPlayers');
+const statusPlayers = require('./modules/statusPlayers');
 statusPlayers.createRoutes(app);
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
+const server = http.createServer(app);
+server.listen(8000, () => console.log('Server listening behind port 8000'));
 
-app.listen(8000, function () {
-    console.log("Server listenig behind port 8000");
-});
+
+
+
+

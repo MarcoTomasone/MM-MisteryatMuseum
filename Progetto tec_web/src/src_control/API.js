@@ -21,6 +21,11 @@ export async function getPlayers(story){
     return response.data;
 }
 
+/**
+ * Download pdf of a player
+ * @param player The player whose pdf the evaluator wants
+ * @param story The story the evaluator is in
+ */
 export async function getPDF(player, story){
     const response = await axios.get('http://localhost:8000/pdf', { params: { player, story } });
     const file = response.data;

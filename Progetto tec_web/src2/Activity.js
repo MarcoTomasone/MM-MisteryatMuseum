@@ -1,7 +1,15 @@
 import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import {loadHelpMessage} from '../utils.js';
+import { sendData } from './dataHandler.js';
 const e = React.createElement;
+
+function getData(answer, json, index, section){
+    console.log("Section:" + section)
+    console.log("Domanda:" + json[index].question);
+    console.log("Answer:" + answer);
+    sendData(json[index].question, answer, section);
+}
 
 /**         Activity 
  * contains the interactive activities 
@@ -11,7 +19,7 @@ const e = React.createElement;
  * 
  * @param{json:data,  v : activityList}
  */
-function Activity(props) {
+ function Activity(props) {
 
         const [counter,setCounter] = React.useState(0);
         var [img,setImg] = React.useState(0);
@@ -147,15 +155,18 @@ function getRandomInt( min, max ) {
 }
 
 
-function checkButton(counter, answer ,json,v){
+function checkButton(counter, answer, json, v){
     let index = 0;
+    let questionIndex = json.indexOf(v[counter]);
     let actual = v[counter];
     switch(answer){
     case -2:
         let value =document.getElementById("rangenpt").value; 
         console.log(value); 
+        getData(value,json, questionIndex, counter);
         break;
     case -1 :
+        getData(document.getElementById("textAnswer").value, json, questionIndex, counter);
         if(document.getElementById("textAnswer").value  === v[counter].textAnswer.value){
             index = getRandomInt(0,v[counter].correctAnswerGo.length-1);
             console.log("Risposta Corretta!");
@@ -167,19 +178,18 @@ function checkButton(counter, answer ,json,v){
         }
         break;
     case v[counter].correct:
+        getData(v[counter].multipleAnswer[answer], json, questionIndex, counter);
         index = getRandomInt(0,v[counter].correctAnswerGo.length-1);
         document.getElementById("btn"+answer).style.backgroundColor = "green";        
         v.push(json[actual.correctAnswerGo[index]]);
         console.log("risposta corretta");
         break;
     default :
+        getData(v[counter].multipleAnswer[answer], json, questionIndex, counter);
         index = getRandomInt(0,v[counter].wrongAnswerGo.length -1);
         document.getElementById("btn"+answer).style.backgroundColor = "red";
         v.push(json[actual.wrongAnswerGo[index]]);
-    
     }
     console.log(v);
 }
-
- 
 export default Activity;

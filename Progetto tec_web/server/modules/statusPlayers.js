@@ -95,11 +95,19 @@ module.exports = {
             */
 
             const path = `./statusFiles/`;
+            const file = path + req.body.id + ".json"
             console.log(req.body);
             if (!fs.existsSync(path))
                 fs.mkdirSync(path);
             //Pubblico il file nel path
-            fs.writeFileSync( path + 'student-2.json', JSON.stringify(req.body));
+            if(!fs.existsSync(file))
+                fs.writeFileSync(file, JSON.stringify(req.body));
+            else {
+                const rawdata = fs.readFileSync(file);
+                let data = JSON.parse(rawdata);
+                data.sectionsArray.push(req.body.SectionArray);
+                fs.writeFileSync(file, JSON.stringify(data));
+            }
 
             res.status(200).end();
         });

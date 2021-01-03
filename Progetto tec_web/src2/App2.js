@@ -89,9 +89,9 @@ function App2() {
 
    function handleClose() {
         setDialog(false);
-        //const idContainer = document.getElementById("id-input");
-        //const id = idContainer.value;
-        //getID(id);
+        const idContainer = document.getElementById("id-input");
+        const id = idContainer.value;
+        getID(id);
         //si potrebbe passare al server come 
         //parametro l'id e lui restituisce il json corrispondente 
     }

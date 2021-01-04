@@ -4,13 +4,6 @@ import {loadHelpMessage} from '../utils.js';
 import { sendData } from './dataHandler.js';
 const e = React.createElement;
 
-function getData(answer, json, index, section){
-    console.log("Section:" + section)
-    console.log("Domanda:" + json[index].question);
-    console.log("Answer:" + answer);
-    sendData(json[index].question, answer, section);
-}
-
 /**         Activity 
  * contains the interactive activities 
  * state[Counter]   <-- number of activity from v[] {dinamic Array}
@@ -24,29 +17,66 @@ function getData(answer, json, index, section){
         const [counter,setCounter] = React.useState(0);
         var [img,setImg] = React.useState(0);
 
-        function inc(){    
-
+        function inc(){   
             if(props.v[counter + 1] === undefined)
             //props.v.push(props.json.accessibility.activities[counter])
-            
             if(counter + 1 <= props.v.length){
                 props.v.push(props.json.accessibility.activities[counter + 1 % props.json.accessibility.activities.length]);
             } 
-              
             if(counter >= props.json.accessibility.activities.length -2 ){
                 props.v.push(props.json.accessibility.activities[props.json.accessibility.activities.length -1])
                 document.getElementById("nextButton").style.backgroundColor="grey";
             }
-               
             setCounter(counter+ 1);
             loadHelpMessage(props, counter +1);
-            
             MediaProp = [];             // Contains React Element type: Media
-        
             if(props.v[counter].type_ === "Quattro opzioni" && counter > 0){
                 for(let i = 0; i < props.v[counter].multipleAnswer.length; i++)
                     document.getElementById("btn"+i).style.backgroundColor=props.v[counter].btnStyle.bckgrndClr;
             } 
+        }
+
+        function checkButton(answer){
+            console.log("ciao");
+            const activities = props.json.accessibility.activities;
+            let index = 0;
+            let questionIndex = activities.indexOf(props.v[counter]);
+            let actual = props.v[counter];
+            switch(answer){
+            case -2:
+                let value = document.getElementById("rangenpt").value; 
+                console.log(value); 
+                sendData(props.playerId, activities[questionIndex].question, value, counter );
+                break;
+            case -1 :
+                //getData(document.getElementById("textAnswer").value, json, questionIndex, counter);
+                sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter );
+                if(document.getElementById("textAnswer").value  === props.v[counter].textAnswer.value){
+                    index = getRandomInt(0,props.v[counter].correctAnswerGo.length-1);
+                    console.log("Risposta Corretta!");
+                    props.v.push(activities[actual.correctAnswerGo[index]]);
+                }else{
+                    index = getRandomInt(0,props.v[counter].wrongAnswerGo.length -1);
+                    console.log("Risposta Errata!");
+                    props.v.push(activities[actual.wrongAnswerGo[index]]);
+                }
+                break;
+            case props.v[counter].correct:
+                console.log("answer")
+                console.log(answer)
+                sendData(props.playerId, activities[questionIndex].question,props.v[counter].multipleAnswer[answer] , counter );
+                index = getRandomInt(0,props.v[counter].correctAnswerGo.length - 1);
+                document.getElementById("btn" + answer).style.backgroundColor = "green";        
+                props.v.push(activities[actual.correctAnswerGo[index]]);
+                console.log("risposta corretta");
+                break;
+            default :
+                console.log(answer)
+                sendData(props.playerId, activities[questionIndex].question,props.v[counter].multipleAnswer[answer] , counter );
+                index = getRandomInt(0,props.v[counter].wrongAnswerGo.length -1);
+                document.getElementById("btn"+answer).style.backgroundColor = "red";
+                props.v.push(activities[actual.wrongAnswerGo[index]]);
+            }
         }
     
         const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
@@ -153,9 +183,7 @@ function getData(answer, json, index, section){
 function getRandomInt( min, max ) {
 	return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 }
-
-
-function checkButton(counter, answer, json, v){
+/*function checkButton(counter, answer, json, v){
     let index = 0;
     let questionIndex = json.indexOf(v[counter]);
     let actual = v[counter];
@@ -191,5 +219,5 @@ function checkButton(counter, answer, json, v){
         v.push(json[actual.wrongAnswerGo[index]]);
     }
     console.log(v);
-}
+}*/
 export default Activity;

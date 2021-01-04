@@ -51,11 +51,11 @@ function ButtonType(props){
        const ListButtonAnswer = [];     //Array that contains every button
         for (let i = 0; i < props.answer.length; i++) {      
             ListButtonAnswer.push(e("button", {
-                key:"Btn"+i,
+                key:"Btn"+ i,
                 style: buttProp,
-                id:"btn"+i,
+                id:"btn"+ i,
                 alt:"bottone : "+props.answer[i], 
-                onClick: () => props.checkButton(props.counter , i, props.json.accessibility.activities , props.v)
+                onClick: () => props.checkButton(i)
             }, props.answer[i]));
         }
        

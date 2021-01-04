@@ -47,7 +47,7 @@ function inputType(props){
                                 style:stylB,
                                 key:"confirm",
                                 id:"confirm",
-                                onClick: () => props.checkButton(props.counter,-1,props.json.accessibility.activities,props.v)},
+                                onClick: () => props.checkButton(-1)},
                                 "Check")
                     );
 
@@ -78,7 +78,7 @@ function inputType(props){
                             style:stylB,
                             key:"confirm",
                             id:"confirm",
-                            onClick: () => props.checkButton(props.counter,-2,props.json.accessibility.activities,props.v)},"Check")
+                            onClick: () => props.checkButton(-2)},"Check")
                 );
         }else if(props.v[props.counter].widgetType === "imgUpload" ){
            

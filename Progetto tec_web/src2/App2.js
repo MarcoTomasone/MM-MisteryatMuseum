@@ -13,8 +13,8 @@ const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 //Chat
 const socket = io('http://localhost:3000', {query: 'type=player'})
 
-const id = "Card0";
-socket.emit('new-player', {playerID: id});
+const chatID= "Card0";
+socket.emit('new-player', {playerID: chatID});
 
 //waiting event
 socket.on('message-from-evaluator', data => {
@@ -22,7 +22,7 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON(id);
+const temp = readJSON(chatID);
 const data = JSON.parse(temp);
 
 let activityList = [];
@@ -86,12 +86,14 @@ function App2() {
     const [slideHelp, setSlideHelp] = React.useState(false);
     const [slideChat, setSlideChat] = React.useState(false);
     const [dialog, setDialog] = React.useState(true);
+    const [id, setID] = React.useState("");
 
    function handleClose() {
         setDialog(false);
         const idContainer = document.getElementById("id-input");
-        const id = idContainer.value;
-        getID(id);
+        const playerID = idContainer.value;
+        setID(playerID);
+        getID(playerID);
         //si potrebbe passare al server come 
         //parametro l'id e lui restituisce il json corrispondente 
     }
@@ -114,7 +116,7 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
                     //open : dialog
-          e(Dialog, {open: false, keepMounted: true, onClose: handleClose}, [
+          e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
                     e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),
@@ -125,7 +127,7 @@ function App2() {
                     ])
                 ]),
             ])),
-            e(Activity, { json:data,  v : activityList}),
+            e(Activity, { json:data,  v : activityList, playerId : id}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare

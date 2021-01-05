@@ -6,7 +6,7 @@ const e = React.createElement;
  * on answer type:
  *  - Multiple Answer
  *  - True/False Answer 
- * @param {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc}} props 
+ * @param {answer:answer, askNav:askNav, textStyle:textStyle,lastAnswer:lastAnswer, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc}} props 
  */
 
 function ButtonType(props){
@@ -48,17 +48,36 @@ function ButtonType(props){
                         
        };
 
-
+       const buttSelect = {
+        backgroundColor:'yellow',
+        width:`${props.v[props.counter].btnStyle.width  *screen.availWidth /202}px`,
+        height:`${props.v[props.counter].btnStyle.height  *screen.availHeight /437}px`,
+        marginLeft:`${props.v[props.counter].btnStyle.marginLeft *screen.availWidth /202}px`,
+        marginRight:`${props.v[props.counter].btnStyle.marginRight  *screen.availHeight /437}px`,
+        marginTop:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`,
+        borderRadius:`${props.v[props.counter].btnStyle.borderRadius}px`,
+                        
+       };
     
         const ListButtonAnswer = [];     //Array that contains every button
         for (let i = 0; i < props.answer.length; i++) {      
-            ListButtonAnswer.push(e("button", {
-                key:"Btn"+ i,
-                style: buttProp,
-                id:"btn"+ i,
-                alt:"bottone : "+props.answer[i], 
-                onClick: () => props.checkButton(i)
-            }, props.answer[i]));
+            if(i !== props.lastAnswer){
+                ListButtonAnswer.push(e("button", {
+                    key:"Btn"+ i,
+                    style: buttProp,
+                    id:"btn"+ i,
+                    alt:"bottone : "+props.answer[i], 
+                    onClick: () => props.checkButton(i)
+                }, props.answer[i]));
+            }else{
+                ListButtonAnswer.push(e("button", {
+                    key:"Btn"+ i,
+                    style:buttSelect,
+                    id:"btn"+ i,
+                    alt:"bottone : "+props.answer[i], 
+                    onClick: () => props.checkButton(i)
+                }, props.answer[i]));
+            }
         }
        
         return e("div",null,

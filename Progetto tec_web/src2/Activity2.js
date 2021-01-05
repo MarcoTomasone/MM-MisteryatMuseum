@@ -19,28 +19,18 @@ function Activity2(props){
     const dinamicActivities = props.v;
     const activities = props.json.accessibility.activities;
     const activityStyle =  props.json.accessibility.activityStyle;
-    const [lastAnswer,setLastAnswer] = React.useState(0);
+    const [lastAnswer,setLastAnswer] = React.useState(null);
         
-    function checkButton(answer){
-        const nAnswer = props.v[counter].multipleAnswer.lenght;
-        for(let i = 0 ; i < nAnswer ;i++){
-            document.getElementById('btn'+answer).backgroundColor = buttProp.backgroundColor; 
-        }
-        document.getElementById('btn'+answer).backgroundColor='yellow';
-        setLastAnswer(answer);
-        console.log(lastAnswer);
-    }
 
     function inc(){
 
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
-        console.log(questionIndex);
+        
         if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload'){
             switch(dinamicActivities[counter].widgetType){
                 case "Quattro opzioni" : 
-                    console.log(lastAnswer);
                     sendData(props.playerId, activities[questionIndex].question,dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
                     if(dinamicActivities[counter].correct === lastAnswer){
                        index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
@@ -93,8 +83,18 @@ function Activity2(props){
         }
         loadHelpMessage(props, counter +1);
         setCounter(counter + 1);
+        setLastAnswer(null);
         mediaProp = [];
         //Mettere controlli per cancellare colori dai Bottoni
+    }
+
+    function checkButton(answer){
+        const nAnswer = props.v[counter].multipleAnswer.lenght;
+        for(let i = 0 ; i < nAnswer ;i++){
+            document.getElementById("btn"+answer).backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
+        }
+        document.getElementById("btn"+answer).backgroundColor="yellow";
+        setLastAnswer(answer);
     }
 
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
@@ -170,7 +170,7 @@ function Activity2(props){
 
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero Falso") {
                 // multiple answer || true\false
-            return e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc});
+            return e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc});
         }else { 
                 //avaible Input type == 'range' || type=='text' || type=="file"
             return e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc});

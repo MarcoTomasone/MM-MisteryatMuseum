@@ -1,7 +1,7 @@
 import Activity from './Activity.js'
 import {readJSON, appendMessage} from '../utils.js'
 import { getID } from './dataHandler.js';
-
+import Activity2 from './Activity2.js';
 const e = React.createElement;
 const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
@@ -116,7 +116,7 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
                     //open : dialog
-          e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
+          e(Dialog, {open: false, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
                     e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),
@@ -127,7 +127,7 @@ function App2() {
                     ])
                 ]),
             ])),
-            e(Activity, { json:data,  v : activityList, playerId : id}),
+            e(Activity2, { json:data,  v : activityList, playerId : id}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare

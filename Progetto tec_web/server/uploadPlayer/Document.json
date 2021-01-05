@@ -106,7 +106,7 @@
 				"widgetType": "Quattro opzioni",
 				"media": 0,
 				"wrongAnswerGo":[4,5],
-				"correctAnswerGo":[4,5],
+				"correctAnswerGo":[8],
 				"help" : "Sono l'aiuto dell'activity 3",
 				"btnStyle":{
 					"width":40,
@@ -172,7 +172,7 @@
 				"media": 0,
 
 				"wrongAnswerGo":[3,5,6],
-				"correctAnswerGo":[2,7],
+				"correctAnswerGo":[2,8],
 				"btnStyle":{
 					"width":40,
 					"height":30,
@@ -211,8 +211,8 @@
 					"bottom":170
 				},
 				"media": 0,
-				"wrongAnswerGo":[5,6],
-				"correctAnswerGo":[4,5]	,
+				"wrongAnswerGo":[5,8],
+				"correctAnswerGo":[4,5],
 				"truefalseanswer":{
 					"trueScore":0,
 					"falseScore":0
@@ -224,7 +224,7 @@
 				},
 				"rangeAnswer":{
 					"start":0,
-					"end":0,
+					"end":10,
 					"scoreOk":0,
 					"scoreWrong":0
 				}			

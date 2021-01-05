@@ -18,6 +18,8 @@ const e = React.createElement;
         var [img,setImg] = React.useState(0);
 
         function inc(){   
+            
+
             if(props.v[counter + 1] === undefined)
             //props.v.push(props.json.accessibility.activities[counter])
             if(counter + 1 <= props.v.length){

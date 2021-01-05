@@ -48,7 +48,9 @@ function ButtonType(props){
                         
        };
 
-       const ListButtonAnswer = [];     //Array that contains every button
+
+    
+        const ListButtonAnswer = [];     //Array that contains every button
         for (let i = 0; i < props.answer.length; i++) {      
             ListButtonAnswer.push(e("button", {
                 key:"Btn"+ i,
@@ -72,5 +74,6 @@ function ButtonType(props){
                 );
 
 }
+
 
 export default ButtonType;

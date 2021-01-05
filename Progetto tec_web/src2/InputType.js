@@ -4,7 +4,7 @@ const e = React.createElement;
  *  - Text Answer with a specifically answer
  *  - Range 
  *  - File type allowed: { img/jpeg : img/ png}
- * @param { domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc} props 
+ * @param { domanda:domanda, json:props.json, counter:counter, v : props.v, btnNext:btnNext, MediaProp : MediaProp, inc:inc} props 
  */
 function inputType(props){
 
@@ -42,15 +42,7 @@ function inputType(props){
                                 id:"textAnswer",
                                 key:"input",
                                 style:styl,
-                            }),
-                        e("button",{
-                                style:stylB,
-                                key:"confirm",
-                                id:"confirm",
-                                onClick: () => props.checkButton(-1)},
-                                "Check")
-                    );
-
+                            }));
 
             let range = false;
     }else if(props.v[props.counter].widgetType === "range" ) {
@@ -63,23 +55,16 @@ function inputType(props){
             position:'absolute'
         }
      
-       
         inputElement.push(e("input",{
-                        type:"range", 
-                        key:"rangebar",
-                        min:props.v[props.counter].minRange,
-                        max:props.v[props.counter].maxRange,
-                        defaultValue:props.v[props.counter].minRange + (props.v[props.counter].maxRange - props.v[props.counter].minRange       )/2,
-                        step:1,
-                        //value:5,
-                        id:"rangenpt",style:styleRange,
-                        }),                             
-                        e("button",{
-                            style:stylB,
-                            key:"confirm",
-                            id:"confirm",
-                            onClick: () => props.checkButton(-2)},"Check")
-                );
+                                type:"number", 
+                                key:"rangebar",
+                                min:props.v[props.counter].minRange,
+                                max:props.v[props.counter].maxRange,
+                                defaultValue:props.v[props.counter].minRange + (props.v[props.counter].maxRange - props.v[props.counter].minRange       )/2,
+                                step:1,
+                                //value:5,
+                                id:"rangenpt",style:styleRange,
+                                }));
         }else if(props.v[props.counter].widgetType === "imgUpload" ){
            
             

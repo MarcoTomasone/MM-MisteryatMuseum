@@ -13,8 +13,7 @@ const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 //Chat
 const socket = io('http://localhost:3000', {query: 'type=player'})
 
-const chatID= "Card0";
-socket.emit('new-player', {playerID: chatID});
+
 
 //waiting event
 socket.on('message-from-evaluator', data => {
@@ -94,6 +93,7 @@ function App2() {
         const playerID = idContainer.value;
         setID(playerID);
         getID(playerID);
+        socket.emit('new-player', {playerID});
         //si potrebbe passare al server come 
         //parametro l'id e lui restituisce il json corrispondente 
     }
@@ -103,7 +103,7 @@ function App2() {
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
         appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
-        socket.emit('send-to-evaluator', {message: message, id: "Card0"})  //server side
+        socket.emit('send-to-evaluator', {message: message, id})  //server side
         messageInput.value = '' //clean the input text
     } 
 
@@ -128,11 +128,11 @@ function App2() {
                 ]),
             ])),
             e(Activity2, { json:data,  v : activityList, playerId : id}),
-            e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
+            e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
-                        e(TextField, {id: "message-input", variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                        e(TextField, {id: "message-input", variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
                             e(IconButton, {id:"send-button", onClick: sendMessage, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])

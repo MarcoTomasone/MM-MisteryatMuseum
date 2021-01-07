@@ -2,7 +2,7 @@ import VerticalBar from './components/VerticalBar.js';
 import BasicTable from './components/BasicTable.js';
 import { CardPlayer } from './components/CardPlayer.js';
 import { getDataPlayer } from './API.js';
-
+import {appendMessage} from '../../utils.js';
 const { Slide, Paper, IconButton, Icon, TextField, Checkbox, AppBar, Tab, Tabs } = MaterialUI;
 const e = React.createElement;
 const socket = io('http://localhost:3000', {query: 'type=evaluator'});
@@ -44,8 +44,7 @@ export default function Control(props){
     }
 
     //this constant is used to know what story the evaluator is in
-    const story = window.location.href.replace('http://localhost/MM-MisteryAtMuseum/Progetto%20tec_web/?#/Home/Control/', '');
-    console.log(story);
+    const story = window.location.href.replace('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/?#/Home/Control/', '');
     //wait messages from players and set notify
     React.useEffect(() => {
         socket.on('message-from-player', data => {

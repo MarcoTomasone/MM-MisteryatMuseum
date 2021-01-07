@@ -86,7 +86,6 @@ module.exports = {
         app.post('/postJson', (req, res) => {
             const id = req.body.id; //the json of player
             const sectionArray = req.body.sectionArray;
-            console.log(sectionArray);
             const story = req.body.story; //you also have to pass him which story he wants to play
             if(!(story in storiesActive))
                 storiesActive[story] = {}; //added new story
@@ -95,7 +94,6 @@ module.exports = {
             } else {
                 storiesActive[story][id] = {id, sectionArray : []};
             }
-            console.log(storiesActive[story][id]);
             res.status(200).end();
           
             /*

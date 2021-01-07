@@ -8,9 +8,9 @@ export async function getDataPlayer(story){
             key: player.id, 
             id: player.id,
             name: player.name, 
-            timer: player.sectionArray[lastSection].timer,
-            section: player.sectionArray[lastSection].section, 
-            points: player.sectionArray[lastSection].points,
+            timer: player.sectionArray.length > 0 ?  player.sectionArray[lastSection].timer : 0,
+            section: player.sectionArray.length > 0 ?  player.sectionArray[lastSection].section : 0, 
+            points : player.sectionArray.length > 0 ?  player.sectionArray[lastSection].points : 0,
         };
     })
     return dict;

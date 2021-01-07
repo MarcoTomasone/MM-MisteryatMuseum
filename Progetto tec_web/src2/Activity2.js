@@ -106,14 +106,11 @@ function Activity2(props){
     }
 
     function checkButton(answer){
-        console.log(answer);
         if(props.v[counter].widgetType ==="Vero Falso"){    
             if(answer === 1){
-                console.log("condition 1");
                 document.getElementById("btnFalse").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
             }else{
-                console.log("condition 0");
                 document.getElementById("btnFalse").backgroundColor = "yellow"; 
                 document.getElementById("btnTrue").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
             }

@@ -1,7 +1,7 @@
 import Activity from './Activity.js'
 import {readJSON, appendMessage} from '../utils.js'
 import { getID } from './dataHandler.js';
-import Activity2 from './Activity2.js';
+
 const e = React.createElement;
 const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
@@ -127,7 +127,7 @@ function App2() {
                     ])
                 ]),
             ])),
-            e(Activity2, { json:data,  v : activityList, playerId : id}),
+            e(Activity, { json:data,  v : activityList, playerId : id}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare

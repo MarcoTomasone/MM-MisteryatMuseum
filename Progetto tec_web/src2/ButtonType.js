@@ -45,8 +45,8 @@ function ButtonType(props){
         marginRight:`${props.v[props.counter].btnStyle.marginRight  *screen.availHeight /437}px`,
         marginTop:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`,
         borderRadius:`${props.v[props.counter].btnStyle.borderRadius}px`,
-                        
-       };
+            
+    };
 
        const buttSelect = {
         backgroundColor:'yellow',
@@ -60,36 +60,42 @@ function ButtonType(props){
        };
     
         const ListButtonAnswer = [];     //Array that contains every button
-        for (let i = 0; i < props.answer.length; i++) {      
-            if(i !== props.lastAnswer){
-                ListButtonAnswer.push(e("button", {
-                    key:"Btn"+ i,
-                    style: buttProp,
-                    id:"btn"+ i,
-                    alt:"bottone : "+props.answer[i], 
-                    onClick: () => props.checkButton(i)
-                }, props.answer[i]));
-            }else{
-                ListButtonAnswer.push(e("button", {
-                    key:"Btn"+ i,
-                    style:buttSelect,
-                    id:"btn"+ i,
-                    alt:"bottone : "+props.answer[i], 
-                    onClick: () => props.checkButton(i)
-                }, props.answer[i]));
+        if(props.v[props.counter].widgetType === "Vero Falso"){
+            ListButtonAnswer.push(e("button", {
+                key:"BtnTrue",
+                style:(props.lastAnswer===1)? buttSelect:buttProp,
+                id:"btnTrue",
+                alt:"TRUE", 
+                onClick: () =>props.checkButton(1)
+            },"TRUE"));
+            ListButtonAnswer.push(e("button", {
+                key:"BtnFalse",
+                style: (props.lastAnswer===0)? buttSelect:buttProp,
+                id:"btnFalse",
+                alt:"FALSE", 
+                onClick: () =>props.checkButton(0)
+            },"FALSE"));
+        }else{
+            for (let i = 0; i < props.answer.length; i++) {      
+                    ListButtonAnswer.push(e("button", {
+                        key:"Btn"+ i,
+                        style: (i != props.lastAnswer)? buttProp:buttSelect,
+                        id:"btn"+ i,
+                        alt:"bottone : "+props.answer[i], 
+                        onClick: () => props.checkButton(i)
+                    }, props.answer[i]));
             }
         }
        
         return e("div",null,
                     e("div", {key: "actDescription", style: divActivity},
-                    e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda),
+                    e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda), props.MediaProp,
                     e("div", {
                         key: "buttonblock",
                         style: props.askNav }, [
                         ListButtonAnswer
-                    ]),
-                    props.MediaProp)
-                    ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:props.inc}, "NEXT")
+                    ])),
+                    e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:props.inc}, "NEXT")
                 );
 
 }

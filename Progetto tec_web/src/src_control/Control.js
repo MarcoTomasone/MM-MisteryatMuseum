@@ -44,8 +44,8 @@ export default function Control(props){
     }
 
     //this constant is used to know what story the evaluator is in
-    const story = window.location.href.replace('http://127.0.0.1:5500/?#/Home/Control/', '');
-
+    const story = window.location.href.replace('http://localhost/MM-MisteryAtMuseum/Progetto%20tec_web/?#/Home/Control/', '');
+    console.log(story);
     //wait messages from players and set notify
     React.useEffect(() => {
         socket.on('message-from-player', data => {

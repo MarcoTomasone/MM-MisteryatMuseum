@@ -1,6 +1,6 @@
 import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
-import {loadHelpMessage} from '../utils.js';
+import {loadHelpMessage, getRandomInt} from '../utils.js';
 import { sendData } from './dataHandler.js';
 const e = React.createElement;
 
@@ -16,10 +16,10 @@ function Activity2(props){
     
     const [counter,setCounter] = React.useState(0);
     var [img,setImg] = React.useState(0);
+    const [lastAnswer,setLastAnswer] = React.useState(null);
     const dinamicActivities = props.v;
     const activities = props.json.accessibility.activities;
     const activityStyle =  props.json.accessibility.activityStyle;
-    const [lastAnswer,setLastAnswer] = React.useState(null);
         
 //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc(){
@@ -214,7 +214,5 @@ function Activity2(props){
 }
 }
 
-function getRandomInt( min, max ) {
-	return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
-}
+
 export default Activity2;

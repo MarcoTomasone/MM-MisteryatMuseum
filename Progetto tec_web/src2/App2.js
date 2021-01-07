@@ -116,7 +116,7 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
                     //open : dialog
-          e(Dialog, {open: false, keepMounted: true, onClose: handleClose}, [
+          e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
                     e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),

@@ -13,14 +13,14 @@ const Card3 = JSON.parse(fs.readFileSync('./inGame/Story2/Card3.json', {encoding
 const Card4 = JSON.parse(fs.readFileSync('./inGame/Story2/Card4.json', {encoding:'utf8', flag:'r'}));
 const Card5 = JSON.parse(fs.readFileSync('./inGame/Story2/Card5.json', {encoding:'utf8', flag:'r'}));
 
-storiesActive["Story1"] = []; //create a new story
-storiesActive["Story1"].push(Card0); //added player in a story
-storiesActive["Story1"].push(Card1);
+storiesActive["Story1"] = {}; //create a new story
+storiesActive["Story1"][Card0.id] = Card0; //added player in a story
+storiesActive["Story1"][Card1.id] = Card1;
 
-storiesActive["Story2"] = [];
-storiesActive["Story2"].push(Card3);
-storiesActive["Story2"].push(Card4);
-storiesActive["Story2"].push(Card5);
+storiesActive["Story2"] = {};
+storiesActive["Story2"][Card3.id] = Card3;
+storiesActive["Story2"][Card4.id] = Card4;
+storiesActive["Story2"][Card5.id] = Card5;
 //----------------------------------------------------------------------------------------------------------
 
 module.exports = {
@@ -28,29 +28,33 @@ module.exports = {
         //get current status of players
         app.get('/status', (req, res) => {
             const story = req.query.story;
-            const arrayPlayers = JSON.stringify(storiesActive[story]);
-            res.end(arrayPlayers);
+            const ids = Object.keys(storiesActive[story]);
+            const arrayPlayers = [];
+            for(id in ids){
+                arrayPlayers.push(storiesActive[story][id]);
+            }
+            const data = JSON.stringify(arrayPlayers);
+            res.end(data);
         });
 
         //get active stories
         app.get('/stories', (req, res) => {
-            const keys = Object.keys(storiesActive);
+            const keys = Object.keys(storiesActive); // array of all active stories
             const nPlayers = {};
-            for(element in keys){
-                const key = keys[element];
+           /* for(element in keys){
+                const key = keys[element]; // name of a single story 
                 nPlayers[key] = storiesActive[key].length;  //number of active players
-            }
-            const stories = JSON.stringify({stories: keys, nPlayers: nPlayers});
+            }*/
+            const stories = JSON.stringify({stories: keys, nPlayers: 3});
             res.end(stories);
         });     
 
         //get players in a story
         app.get('/players', (req, res) => {
-            const players = [];
+            console.log(storiesActive);
+            console.log(req.query.story);
             const story = req.query.story;
-            storiesActive[story].forEach((player) => {
-                players.push(player.id);
-            })
+            const players = Object.keys(storiesActive[story]);
             const data = JSON.stringify(players);
             res.status(200).end(data);
         });
@@ -84,16 +88,14 @@ module.exports = {
 
         //post status files of players
         app.post('/postJson', (req, res) => {
-
-            /*
             const player = req.body.player; //the json of player
             const story = req.body.story; //you also have to pass him which story he wants to play
             if(!(story in storiesActive))
                 storiesActive[story] = []; //added new story
-            storiesActive.push(player);  //push the player in the story
+            storiesActive[story].push(player);  //push the player in the story
             res.status(200).end();
-            */
-
+          
+            /*
             const path = `./statusFiles/`;
             const file = path + req.body.id + ".json"
             console.log(req.body);
@@ -108,8 +110,7 @@ module.exports = {
                 data.sectionsArray.push(req.body.SectionArray);
                 fs.writeFileSync(file, JSON.stringify(data));
             }
-
-            res.status(200).end();
+            res.status(200).end();*/
         });
     }
 }

@@ -24,7 +24,7 @@ export default function VerticalBar (props) {
 	const classes = useStyles();
 	let checked = false;
 	const dialogRef = React.useRef();
-	const story = window.location.href.replace('http://127.0.0.1:5500/?#/Home/Control/', '');
+	const story = window.location.href.replace('http://localhost/MM-MisteryAtMuseum/Progetto%20tec_web/?#/Home/Control/', '');
 
 	const handleMinimized = () => {
 		checked = !checked;

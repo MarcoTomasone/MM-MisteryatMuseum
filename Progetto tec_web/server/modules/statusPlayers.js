@@ -28,9 +28,8 @@ module.exports = {
         //get current status of players
         app.get('/status', (req, res) => {
             const story = req.query.story;
-            const ids = Object.keys(storiesActive[story]);
             const arrayPlayers = [];
-            for(id in ids){
+            for(id in storiesActive[story]){
                 arrayPlayers.push(storiesActive[story][id]);
             }
             const data = JSON.stringify(arrayPlayers);
@@ -41,18 +40,15 @@ module.exports = {
         app.get('/stories', (req, res) => {
             const keys = Object.keys(storiesActive); // array of all active stories
             const nPlayers = {};
-           /* for(element in keys){
-                const key = keys[element]; // name of a single story 
-                nPlayers[key] = storiesActive[key].length;  //number of active players
-            }*/
-            const stories = JSON.stringify({stories: keys, nPlayers: 3});
+            for(id in storiesActive[keys]){
+                nPlayers[id] = Object.keys(storiesActive[keys][id]).length;
+            }
+            const stories = JSON.stringify({stories: keys, nPlayers: nPlayers});
             res.end(stories);
         });     
 
         //get players in a story
         app.get('/players', (req, res) => {
-            console.log(storiesActive);
-            console.log(req.query.story);
             const story = req.query.story;
             const players = Object.keys(storiesActive[story]);
             const data = JSON.stringify(players);
@@ -72,7 +68,7 @@ module.exports = {
             doc.setFontSize(30);
             doc.setFont("calibri");
             doc.text( `${player}`, 100, 15, {align: "center"});
-            infoPlayer.sectionsArray.forEach((section, i) => {
+            infoPlayer.sectionArray.forEach((section, i) => {
                 const item = [section.section, section.question, section.answer, section.time, section.points];
                 rows.push(item);
             });
@@ -88,11 +84,18 @@ module.exports = {
 
         //post status files of players
         app.post('/postJson', (req, res) => {
-            const player = req.body.player; //the json of player
+            const id = req.body.id; //the json of player
+            const sectionArray = req.body.sectionArray;
+            console.log(sectionArray);
             const story = req.body.story; //you also have to pass him which story he wants to play
             if(!(story in storiesActive))
-                storiesActive[story] = []; //added new story
-            storiesActive[story].push(player);  //push the player in the story
+                storiesActive[story] = {}; //added new story
+            if(storiesActive[story][id]){
+                storiesActive[story][id].sectionArray.push(sectionArray);  //push the player in the story        
+            } else {
+                storiesActive[story][id] = {id, sectionArray : []};
+            }
+            console.log(storiesActive[story][id]);
             res.status(200).end();
           
             /*
@@ -107,7 +110,7 @@ module.exports = {
             else {
                 const rawdata = fs.readFileSync(file);
                 let data = JSON.parse(rawdata);
-                data.sectionsArray.push(req.body.SectionArray);
+                data.sectionArray.push(req.body.SectionArray);
                 fs.writeFileSync(file, JSON.stringify(data));
             }
             res.status(200).end();*/

@@ -3,14 +3,14 @@ export async function getDataPlayer(story){
     const dict = {};
     const players = response.data;
     players.forEach((player) => {
-        const lastSection = player.sectionsArray.length - 1;
+        const lastSection = player.sectionArray.length - 1;
         dict[player.id] = {
             key: player.id, 
             id: player.id,
             name: player.name, 
-            timer: player.sectionsArray[lastSection].timer,
-            section: player.sectionsArray[lastSection].section, 
-            points: player.sectionsArray[lastSection].points,
+            timer: player.sectionArray[lastSection].timer,
+            section: player.sectionArray[lastSection].section, 
+            points: player.sectionArray[lastSection].points,
         };
     })
     return dict;

@@ -44,7 +44,6 @@ function Activity2(props){
                 break;
                 case "Vero Falso":
                     //marco ->> Aggiungi send Data!
-                    console.log("check Answer");
                     if(dinamicActivities[counter].correct === lastAnswer){
                         index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                         console.log("Risposta Corretta!");
@@ -81,9 +80,6 @@ function Activity2(props){
                         props.v.push(activities[actual.wrongAnswerGo[index]]);
                     }
                 break;
-                //scase "Vero Falso":
-                    //set sendData()
-
             }
         }else{
             if(lastAnswer === null){
@@ -107,8 +103,6 @@ function Activity2(props){
         setCounter(counter + 1);
         setLastAnswer(null);
         mediaProp = [];
-        //Mettere controlli per cancellare colori dai Bottoni
-        console.log(lastAnswer);
     }
 
     function checkButton(answer){

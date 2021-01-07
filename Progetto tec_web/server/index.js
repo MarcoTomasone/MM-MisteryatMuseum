@@ -40,7 +40,7 @@ app.get('/downloadImage/:source',(req,res) =>{
    
 })
 
-app.get(`/requestJson/:id`,(req,res)=>{
+app.get(`/requestJson`,(req,res)=>{
     
     let path = './uploadPlayer/Document.json';
     let data = fs.readFileSync(path);

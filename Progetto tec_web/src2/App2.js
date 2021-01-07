@@ -22,7 +22,7 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON(chatID);
+const temp = readJSON();
 const data = JSON.parse(temp);
 
 let activityList = [];

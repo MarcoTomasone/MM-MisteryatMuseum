@@ -100,10 +100,9 @@
 				}
 			},
 			{
-				"question" : "Quanto fa 3 x 5?",
-				"multipleAnswer": ["52","16","15","7"],
-				"correct": 2,
-				"widgetType": "Quattro opzioni",
+				"question" : "3 x 5? Fa 15?",
+				"correct": 1,
+				"widgetType": "Vero Falso",
 				"media": 0,
 				"wrongAnswerGo":[4,5],
 				"correctAnswerGo":[8],
@@ -113,8 +112,8 @@
 					"height":30,
 					"marginLeft":15,
 					"marginRight":10,
-					"marginTop":10,
-					"borderRadius":15,
+					"marginTop":110,
+					"borderRadius":0,
 					"bckgrndClr":"white",
 					"bckgrndClrC":"yellow",
 					"bckgrndClrW":"yellow"	

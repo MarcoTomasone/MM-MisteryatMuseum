@@ -21,19 +21,32 @@ function Activity2(props){
     const activityStyle =  props.json.accessibility.activityStyle;
     const [lastAnswer,setLastAnswer] = React.useState(null);
         
-
+//lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc(){
 
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         
-        if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload'){
+        if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload' && lastAnswer != null){
             switch(dinamicActivities[counter].widgetType){
-                case "Quattro opzioni" : 
+                case "Quattro opzioni": 
                     sendData(props.playerId, activities[questionIndex].question,dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
                     if(dinamicActivities[counter].correct === lastAnswer){
                        index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
+                        console.log("Risposta Corretta!");
+                        dinamicActivities.push(activities[actual.correctAnswerGo[index]]);
+                    }else{
+                        index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
+                        console.log("Risposta Errata!");
+                        dinamicActivities.push(activities[actual.wrongAnswerGo[index]]);    
+                    }
+                break;
+                case "Vero Falso":
+                    //marco ->> Aggiungi send Data!
+                    console.log("check Answer");
+                    if(dinamicActivities[counter].correct === lastAnswer){
+                        index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                         console.log("Risposta Corretta!");
                         dinamicActivities.push(activities[actual.correctAnswerGo[index]]);
                     }else{
@@ -68,17 +81,26 @@ function Activity2(props){
                         props.v.push(activities[actual.wrongAnswerGo[index]]);
                     }
                 break;
+                //scase "Vero Falso":
+                    //set sendData()
+
             }
-        }else{   
-            const index = activities.indexOf(dinamicActivities[counter]);
-            if(index === activities.lenght - 1){
-                dinamicActivities.push(activities[activities.length -1]);
-                document.getElementById("nextButton").style.backgroundColor="grey";
-            }else if(index > -1 ){
-                dinamicActivities.push(activities[index+1]);
-            }else{ 
-                console.log('error');
-            }
+        }else{
+            if(lastAnswer === null){
+                if(counter + 1 <= props.v.length){
+                    dinamicActivities.push(activities[counter + 1 % activities.length]);
+                } 
+            }else{
+                const index = activities.indexOf(dinamicActivities[counter]);
+                if(index === activities.lenght - 1){
+                    dinamicActivities.push(activities[activities.length -1]);
+                    document.getElementById("nextButton").style.backgroundColor="grey";
+                }else if(index > -1 ){
+                    dinamicActivities.push(activities[index+1]);
+                }else{ 
+                    console.log('error');
+                }
+        }
                 
         }
         loadHelpMessage(props, counter +1);
@@ -86,15 +108,29 @@ function Activity2(props){
         setLastAnswer(null);
         mediaProp = [];
         //Mettere controlli per cancellare colori dai Bottoni
+        console.log(lastAnswer);
     }
 
     function checkButton(answer){
-        const nAnswer = props.v[counter].multipleAnswer.lenght;
-        for(let i = 0 ; i < nAnswer ;i++){
-            document.getElementById("btn"+answer).backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
+        console.log(answer);
+        if(props.v[counter].widgetType ==="Vero Falso"){    
+            if(answer === 1){
+                console.log("condition 1");
+                document.getElementById("btnFalse").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
+                document.getElementById("btnTrue").backgroundColor = "yellow"; 
+            }else{
+                console.log("condition 0");
+                document.getElementById("btnFalse").backgroundColor = "yellow"; 
+                document.getElementById("btnTrue").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
+            }
+        }else{
+            const nAnswer = props.v[counter].multipleAnswer.lenght;
+            for(let i = 0 ; i < nAnswer ;i++){
+                document.getElementById("btn"+i).backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
+            }
+            document.getElementById("btn"+answer).backgroundColor="yellow";
         }
-        document.getElementById("btn"+answer).backgroundColor="yellow";
-        setLastAnswer(answer);
+    setLastAnswer(answer);
     }
 
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON

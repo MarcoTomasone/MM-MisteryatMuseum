@@ -137,17 +137,19 @@ function Activity(props){
         textColor:activityStyle.btnNext.textColor
 
     }
-    const textStyle = {             //implementiamo uno stile di testo unico per tutte le Storie di un attivita'
-            fontSize:"20px",
-            textAlign:"center",
-            fontFamily:"Helvetica"
-    }
     const askNav = {
         border: "solid",
         borderColor: "red",
         marginTop:"20%",
     };
-    const divActivity = {     //style della div contenente le activity
+    
+    const textStyle = {             //implementiamo uno stile di testo unico per tutte le Storie di un attivita'
+            fontSize:"20px",
+            textAlign:"center",
+            fontFamily:"Helvetica"
+    }
+
+/*    const divActivity = {     //style della div contenente le activity
         border:activityStyle.divisor.border,
         overflow:"scroll",
         borderColor: activityStyle.divisor.borderColor,
@@ -158,8 +160,30 @@ function Activity(props){
         position:'absolute',
       
     };
+    */
+   const divBorder = {     //style della div contenente le activity
+    border:activityStyle.divisor.border,
+    overflow:"scroll",
+    borderColor: activityStyle.divisor.borderColor,
+    left:`${activityStyle.divisor.left* screen.availWidth /202}px`,
+    width:`${activityStyle.divisor.width *screen.availWidth /437}px`,
+    height:`${activityStyle.divisor.height * screen.availHeight /202}px`,
+    top:`${activityStyle.divisor.top * screen.availHeight /437}px`,
+    position:'absolute',
+  
+};
+   const divActivity = {     //style della div contenente le activity
+        border:"solid",
+        overflow:"scroll",
+        borderColor:'red',
+        width:`100%`,
+        height:`100%`,
+        //top:`${activityStyle.divisor.top * screen.availHeight /437}px`,
+        position:'absolute',
+
+    }
     let mediaProp = [];
-    if(dinamicActivities[counter].media === "img"){     
+        if(dinamicActivities[counter].media === "img"){     
         // -->  richiesta al server per il media 
         var base64data;
 
@@ -187,9 +211,11 @@ function Activity(props){
     }
     if (dinamicActivities[counter].widgetType === "" ){   
         return e("div",{key:"divCont"},
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divActivity}, dinamicActivities[counter].question, mediaProp ),
+                e("div",{key: "activity", id:"activy", style: divActivity},    
+                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question),
+                ),mediaProp,        
                     e("button", {key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
-                );
+        );
 
     } else {
         const domanda = dinamicActivities[counter].question;
@@ -197,10 +223,18 @@ function Activity(props){
 
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero Falso") {
                 // multiple answer || true\false
-            return e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc});
+            return e("div",{key: "activity", id:"activy", style: divActivity},    
+                    mediaProp, 
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question),
+                    e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
+            ));
         }else { 
                 //avaible Input type == 'range' || type=='text' || type=="file"
-            return e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc});
+            return e("div",{key: "activity", id:"activy", style: divActivity},    
+                    mediaProp, 
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question), 
+                    e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
+                ));
     }
 }
 }

@@ -18,8 +18,8 @@ const sendMessage = (id) => {
 const useStyles_card = makeStyles((theme) => ({
     root: {
         maxWidth: "222px",
-        float: "left",
         margin: "5px",
+        float: "left",
         backgroundColor: "grey"
     },
     avatar: {
@@ -65,7 +65,8 @@ export const CardPlayer = React.forwardRef((props, ref) => {
 
     //States
     const [expanded, setExpanded] = React.useState(false);
-    const [badge, setBadge] = React.useState(0);;
+    const [badge, setBadge] = React.useState(0);
+    const [helpBadge, setHelpBadge] = React.useState(0);
 
     React.useImperativeHandle(ref, () => ({
 		handleBadge() {
@@ -97,8 +98,9 @@ export const CardPlayer = React.forwardRef((props, ref) => {
             ]}),
             e(CardActions, {key: "3", disableSpacing: true, children: [
                 e(IconButton, {key: "I1", children: e(Badge, {id: props.id  + "_chat", badgeContent: badge, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: () => {setExpanded(!expanded);}}),
-                e(IconButton, {key: "I2", children: e(Icon, {children: "help", color: "primary"})}),
-                e(IconButton, {key: "I3", children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setSlide(true);}})
+                e(IconButton, {key: "I2", children: e(Badge, {id: props.id  + "_help", badgeContent: helpBadge, color: "secondary", children: e(Icon, {children: "help", color: "primary"})}), onClick: () => {props.setSlide(false); props.setHelp(true);}}),
+                e(IconButton, {key: "I3", children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setHelp(false); props.setSlide(true);}}),
+                e(IconButton, {key: "I4", children: e(Icon, {children: "info", color: "primary"}), onClick: () =>{}})
             ]}),
             e(Collapse, {key: "4", id: props.id + "_collapse", style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
                 e(CardContent, {key: "cardContent", children: [

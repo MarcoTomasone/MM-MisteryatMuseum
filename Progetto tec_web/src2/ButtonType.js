@@ -6,7 +6,7 @@ const e = React.createElement;
  * on answer type:
  *  - Multiple Answer
  *  - True/False Answer 
- * @param {answer:answer, askNav:askNav, textStyle:textStyle,lastAnswer:lastAnswer, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc}} props 
+ * @param {answer:answer, textStyle:textStyle,lastAnswer:lastAnswer, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc}} props 
  */
 
 function ButtonType(props){
@@ -45,9 +45,21 @@ function ButtonType(props){
         marginRight:`${props.v[props.counter].btnStyle.marginRight  *screen.availHeight /437}px`,
         marginTop:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`,
         borderRadius:`${props.v[props.counter].btnStyle.borderRadius}px`,
-            
+        marginBottom:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`
     };
 
+    const buttonGroup = {
+        border: "solid",
+        borderColor: "green",
+        position:'absolute',
+        marginTop:"450px",
+        left:`57px`,
+        width:`273px`,
+        height:`70px`,
+        left:'50px',
+        //top:`20px`,
+        marginBottom:"50%"
+    }
        const buttSelect = {
         backgroundColor:'yellow',
         width:`${props.v[props.counter].btnStyle.width  *screen.availWidth /202}px`,
@@ -88,13 +100,13 @@ function ButtonType(props){
         }
        
         return e("div",null,
-                    e("div", {key: "actDescription", style: divActivity},
-                    e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda), props.MediaProp,
+                    //e("div", {key: "actDescription", style: divActivity},
+                    //e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda), props.MediaProp,
                     e("div", {
                         key: "buttonblock",
-                        style: props.askNav }, [
+                        style:buttonGroup }, [
                         ListButtonAnswer
-                    ])),
+                    ]),
                     e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:props.inc}, "NEXT")
                 );
 

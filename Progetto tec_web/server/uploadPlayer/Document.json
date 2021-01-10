@@ -34,8 +34,8 @@
 				"styleM":{
 					"height":100,
 					"width":100,
-					"left":1,
-					"bottom":10
+					"left":90,
+					"bottom":200
 				},
 				"truefalseanswer":{
 					"trueScore":0,
@@ -66,19 +66,19 @@
 				"styleM":{
 					"height":100,
 					"width":150,
-					"left":0,
-					"bottom":10
+					"left":32,
+					"bottom":200
 				},
 				
 				"wrongAnswerGo":[5,4,6],
 				"correctAnswerGo":[4,6],
 				"btnStyle":{
-					"width":40,
+					"width":70,
 					"height":30,
-					"marginLeft":15,
-					"marginRight":10,
-					"marginTop":10,
-					"borderRadius":15,
+					"marginLeft":0,
+					"marginRight":0,
+					"marginTop":0,
+					"borderRadius":0,
 					"bckgrndClr":"grey",
 					"bckgrndClrC":"yellow",
 					"bckgrndClrW":"yellow"	
@@ -108,11 +108,11 @@
 				"correctAnswerGo":[8],
 				"help" : "Sono l'aiuto dell'activity 3",
 				"btnStyle":{
-					"width":40,
-					"height":30,
-					"marginLeft":15,
-					"marginRight":10,
-					"marginTop":110,
+					"width":72,
+					"height":40,
+					"marginLeft":0,
+					"marginRight":0,
+					"marginTop":0,
 					"borderRadius":0,
 					"bckgrndClr":"white",
 					"bckgrndClrC":"yellow",
@@ -173,15 +173,16 @@
 				"wrongAnswerGo":[3,5,6],
 				"correctAnswerGo":[2,8],
 				"btnStyle":{
-					"width":40,
+					"width":70,
 					"height":30,
-					"marginLeft":15,
-					"marginRight":10,
-					"marginTop":10,
+					"marginLeft":0,
+					"marginRight":0,
+					"marginTop":0,
 					"borderRadius":15,
 					"bckgrndClr":"grey",
 					"bckgrndClrC":"yellow",
-					"bckgrndClrW":"yellow"	
+					"bckgrndClrW":"yellow",
+					"marginBottom":40
 				},
 				"truefalseanswer":{
 					"trueScore":0,
@@ -306,8 +307,8 @@
 				"styleM":{
 					"height":100,
 					"width":100,
-					"left":20,
-					"bottom":20,
+					"left":40,
+					"bottom":100,
 					"borderRadius":10
 				},
 				"truefalseanswer":{
@@ -341,12 +342,11 @@
 				},
 			"divisor":{
 				"border": "solid",
-				
 				"borderColor": "black",
-			   "left":30,
-			   "top":85,
-			   "width":320,
-				"height":120,
+			    "left":30,
+			    "top":85,
+			    "width":320,
+				"height":70,
 				"marginBottom":"20%"
 				
 			}

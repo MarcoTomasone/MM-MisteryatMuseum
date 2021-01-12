@@ -366,7 +366,8 @@
 		"player":{
 			"background":"#0000ff",
 			"borderRadiusFrame":1,
-			
+			"backgroundImageCheck":"true",
+			"backgroundImageUrl":"./Matteo_1_activity0.jpeg",
 			"chatButton":{
 				"backgroundColor":"#ff0000",
 				"borderColor":"#ffffff",

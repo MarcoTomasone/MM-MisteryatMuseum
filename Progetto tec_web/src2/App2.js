@@ -29,7 +29,7 @@ activityList.push(data.accessibility.activities[0]);
 
 function App2() {
     
-    
+    var [backgroundImg,setBackgroundImg] = React.useState(0);
     React.useEffect(() => {
         document.getElementById("body2").style.height = `${screen.availHeight}px`;
         document.getElementById("body2").style.width = `${screen.availWidth}px`;
@@ -66,20 +66,50 @@ function App2() {
         position:'absolute'
     };
 
-   
-    const div_a = {      //style della div contenente le activity
+if(data.accessibility.player.backgroundImageCheck ==="true"){
+    var base64data;
+    
+    axios.get(`http://localhost:8000/downloadBackground/${data.accessibility.player.backgroundImageUrl}`, { responseType:"blob" })
+            .then(function (response) {
+            var blob1 = response.data;
+            const blob = new Blob([blob1], { type: 'image/png' });
+            var reader = new window.FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = function() {
+                base64data = reader.result;                
+                setBackgroundImg(backgroundImg = base64data);
+                }
+    });      
+
+    var div_a = {      //style della div contenente le activity
         border:data.accessibility.activityStyle.divisor.border,
         overflow:"scroll",
         borderColor: data.accessibility.activityStyle.divisor.borderColor,
         position:'absolute',
-        background:  data.accessibility.player.background ,
-    
+        backgroundImage : 'url('+backgroundImg+')',
+        backgroundSize: 'auto',
+        backgroundRepeat: 'repeat',
         thicknessFrame:`${data.accessibility.player.weightFont}px`,
         topFrame:`${data.accessibility.player.topFrame}px`,
         weightFont:`${data.accessibility.player.weightFont}px`,
         widthFrame: `${data.accessibility.player.widthFrame}px`
         
     };
+   
+}else{
+    var div_a = {      //style della div contenente le activity
+        border:data.accessibility.activityStyle.divisor.border,
+        overflow:"scroll",
+        borderColor: data.accessibility.activityStyle.divisor.borderColor,
+        position:'absolute',
+        background: data.accessibility.player.background,
+        thicknessFrame:`${data.accessibility.player.weightFont}px`,
+        topFrame:`${data.accessibility.player.topFrame}px`,
+        weightFont:`${data.accessibility.player.weightFont}px`,
+        widthFrame: `${data.accessibility.player.widthFrame}px`
+        
+    };
+}
 
     //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);
@@ -107,7 +137,7 @@ function App2() {
         messageInput.value = '' //clean the input text
     } 
 
-
+ 
     return e(React.Fragment, null, [
         e("div", null, [    
             e("div", {key:"player",id:"player",style:div_a}, [

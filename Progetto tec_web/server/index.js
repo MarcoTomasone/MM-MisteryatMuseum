@@ -40,6 +40,15 @@ app.get('/downloadImage/:source',(req,res) =>{
    
 })
 
+app.get('/downloadBackground/:source',(req,res) =>{
+    //downloadBackground allow the player to load the resource to evaluate
+    //on base64 and append this to DOM
+        
+        let path = "./upload/"+req.params.source;
+        let data = fs.readFileSync(path);
+        res.send(data);
+       
+    })
 app.get(`/requestJson`,(req,res)=>{
     
     let path = './uploadPlayer/Document.json';

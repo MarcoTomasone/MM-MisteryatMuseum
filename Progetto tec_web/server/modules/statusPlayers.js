@@ -21,6 +21,7 @@ storiesActive["Story2"] = {};
 storiesActive["Story2"][Card3.id] = Card3;
 storiesActive["Story2"][Card4.id] = Card4;
 storiesActive["Story2"][Card5.id] = Card5;
+
 //----------------------------------------------------------------------------------------------------------
 
 module.exports = {
@@ -29,6 +30,8 @@ module.exports = {
         app.get('/status', (req, res) => {
             const story = req.query.story;
             const arrayPlayers = [];
+            if(!storiesActive[story])
+                res.status(404)
             for(id in storiesActive[story]){
                 arrayPlayers.push(storiesActive[story][id]);
             }
@@ -38,18 +41,22 @@ module.exports = {
 
         //get active stories
         app.get('/stories', (req, res) => {
-            const keys = Object.keys(storiesActive); // array of all active stories
+            const stories = Object.keys(storiesActive); // array of all active stories
             const nPlayers = {};
-            for(id in storiesActive[keys]){
-                nPlayers[id] = Object.keys(storiesActive[keys][id]).length;
-            }
-            const stories = JSON.stringify({stories: keys, nPlayers: nPlayers});
-            res.end(stories);
+            if(stories.length <= 0)
+                res.status(404);
+            stories.forEach((story) => {
+                nPlayers[story] = Object.keys(storiesActive[story]).length;
+            })
+            const infoStories = JSON.stringify({stories: stories, nPlayers: nPlayers});
+            res.end(infoStories);
         });     
 
         //get players in a story
         app.get('/players', (req, res) => {
             const story = req.query.story;
+            if(!storiesActive[story])
+                res.status(404);
             const players = Object.keys(storiesActive[story]);
             const data = JSON.stringify(players);
             res.status(200).end(data);

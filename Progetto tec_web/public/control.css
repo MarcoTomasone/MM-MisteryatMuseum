@@ -29,9 +29,18 @@
     margin-left: 70%;
     border-bottom-left-radius: 15px;
     border-top-left-radius: 15px;
-   /* z-index: 1;*/
 }
 
+#slide_help{
+    border-radius: 0px;
+    background-color: rgba(247, 244, 244, 0.9);
+    position: fixed;
+    height: 40%;
+    width: 100%;
+    margin-bottom: 100%;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+}
 
 #myForm{
     display: none;

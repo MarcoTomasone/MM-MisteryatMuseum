@@ -27,31 +27,35 @@ function Activity(props){
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
-        
-        if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload' && lastAnswer != null){
+        let indexOfNewActivity;
+        if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload' && (lastAnswer !== null || dinamicActivities[counter].widgetType =="text" || dinamicActivities[counter].widgetType =="range")){
             switch(dinamicActivities[counter].widgetType){
-                case "Quattro opzioni": 
+                case "Quattro opzioni" : 
                     sendData(props.playerId, activities[questionIndex].question,dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
                     if(dinamicActivities[counter].correct === lastAnswer){
                        index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                         console.log("Risposta Corretta!");
-                        dinamicActivities.push(activities[actual.correctAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
+                        dinamicActivities.push(activities[indexOfNewActivity]);
                     }else{
                         index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
                         console.log("Risposta Errata!");
-                        dinamicActivities.push(activities[actual.wrongAnswerGo[index]]);    
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
+                        dinamicActivities.push(activities[indexOfNewActivity]);    
                     }
                 break;
-                case "Vero Falso":
+                case "Vero Falso" :
                     //marco ->> Aggiungi send Data!
                     if(dinamicActivities[counter].correct === lastAnswer){
                         index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                         console.log("Risposta Corretta!");
-                        dinamicActivities.push(activities[actual.correctAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
+                        dinamicActivities.push(activities[indexOfNewActivity]);
                     }else{
                         index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
                         console.log("Risposta Errata!");
-                        dinamicActivities.push(activities[actual.wrongAnswerGo[index]]);    
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
+                        dinamicActivities.push(activities[indexOfNewActivity]);    
                     }
                 break;
                 case "range":
@@ -61,23 +65,28 @@ function Activity(props){
                     if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
                         index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                         console.log("Risposta Corretta!");
-                        dinamicActivities.push(activities[actual.correctAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index])
+                       
+                        dinamicActivities.push(activities[indexOfNewActivity]);
                     }else{
                         index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
                         console.log("Risposta Errata!");
-                        dinamicActivities.push(activities[actual.wrongAnswerGo[index]]);  
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
+                        dinamicActivities.push(activities[indexOfNewActivity]);  
                     }
                 break;
                 case "text":
                     sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter );
-                    if(document.getElementById("textAnswer").value  === props.v[counter].textAnswer.value){
+                    if(document.getElementById("textAnswer").value  === props.v[counter].correct){
                         index = getRandomInt(0,props.v[counter].correctAnswerGo.length-1);
                         console.log("Risposta Corretta!");
-                        props.v.push(activities[actual.correctAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
+                        props.v.push(activities[indexOfNewActivity]);
                     }else{
                         index = getRandomInt(0,props.v[counter].wrongAnswerGo.length -1);
                         console.log("Risposta Errata!");
-                        props.v.push(activities[actual.wrongAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
+                        props.v.push(activities[indexOfNewActivity]);
                     }
                 break;
             }
@@ -114,7 +123,8 @@ function Activity(props){
                 document.getElementById("btnFalse").backgroundColor = "yellow"; 
                 document.getElementById("btnTrue").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
             }
-        }else{
+        }
+        else{
             const nAnswer = props.v[counter].multipleAnswer.lenght;
             for(let i = 0 ; i < nAnswer ;i++){
                 document.getElementById("btn"+i).backgroundColor = props.v[counter].btnStyle.bckgrndClr; 

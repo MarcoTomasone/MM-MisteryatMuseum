@@ -29,6 +29,12 @@ activityList.push(data.accessibility.activities[0]);
 
 function App2() {
     
+    var dictionaryActivity =new Map; //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)
+    for(let i = 0;i<data.accessibility.activities.length;i++){
+        dictionaryActivity.set( data.accessibility.activities[i].title , i);
+    }
+    //console.log(dictionaryActivity);
+
     var [backgroundImg,setBackgroundImg] = React.useState(0);
     React.useEffect(() => {
         document.getElementById("body2").style.height = `${screen.availHeight}px`;
@@ -157,7 +163,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                     ])
                 ]),
             ])),
-            e(Activity, { json:data,  v : activityList, playerId : id}),
+            e(Activity, { json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare

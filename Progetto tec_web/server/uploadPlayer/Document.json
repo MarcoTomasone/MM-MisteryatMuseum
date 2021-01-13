@@ -25,7 +25,7 @@
 				}
 			},
 			{
-				"question":"Prova video",
+				"question":"Prova descrizione con immagine",
 				"widgetType":"",
 				"media":"img",
 				"source":"pikachu.png",
@@ -34,8 +34,8 @@
 				"styleM":{
 					"height":100,
 					"width":100,
-					"left":90,
-					"bottom":200
+					"left":50,
+					"bottom":2
 				},
 				"truefalseanswer":{
 					"trueScore":0,
@@ -67,7 +67,7 @@
 					"height":100,
 					"width":150,
 					"left":32,
-					"bottom":200
+					"bottom":20
 				},
 				
 				"wrongAnswerGo":[5,4,6],
@@ -344,9 +344,9 @@
 				"border": "solid",
 				"borderColor": "black",
 			    "left":30,
-			    "top":85,
+			    "top":65,
 			    "width":320,
-				"height":70,
+				"height":100,
 				"marginBottom":"20%"
 				
 			}
@@ -366,7 +366,7 @@
 		"player":{
 			"background":"#0000ff",
 			"borderRadiusFrame":1,
-			"backgroundImageCheck":"true",
+			"backgroundImageCheck":"false",
 			"backgroundImageUrl":"./Matteo_1_activity0.jpeg",
 			"chatButton":{
 				"backgroundColor":"#ff0000",

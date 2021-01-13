@@ -209,12 +209,16 @@ function Activity(props){
     if(img !== 0)
         mediaProp.push (e("img",{style:mediaStyle,key:"media",alt:dinamicActivities[counter].alternativeText,src:img}));//controls:true,autoPlay:true}));    
     }
+
+    /**per inserire immagini dentro o fuori il divActivity é necessario spostare il vettore mediaProp
+     * o come figlio di activityIntro oppure come figlio di activity e impostare i cambiamenti nel json opportuno
+     */
     if (dinamicActivities[counter].widgetType === "" ){   
         return e("div",{key:"divCont"},
                 e("div",{key: "activity", id:"activy", style: divActivity},    
-                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question),
-                ),mediaProp,        
-                    e("button", {key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question , mediaProp)
+                ),      
+                e("button", {key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
         );
 
     } else {
@@ -223,16 +227,15 @@ function Activity(props){
 
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero Falso") {
                 // multiple answer || true\false
-            return e("div",{key: "activity", id:"activy", style: divActivity},    
-                    mediaProp, 
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question),
+            return e("div",{key: "activity", id:"activy", style: divActivity},     
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question ,   mediaProp),
                     e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
         }else { 
                 //avaible Input type == 'range' || type=='text' || type=="file"
             return e("div",{key: "activity", id:"activy", style: divActivity},    
-                    mediaProp, 
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question), 
+                    
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question,mediaProp),
                     e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
                 ));
     }

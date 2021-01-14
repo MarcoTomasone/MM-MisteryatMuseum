@@ -23,10 +23,13 @@ socket.on('message-from-evaluator', data => {
 
 const temp = readJSON();
 const data = JSON.parse(temp);
+data.accessibility.activities.unshift(data.accessibility.firstActivity);
+data.accessibility.activities.push(data.accessibility.lastActivity);
 
 let activityList = [];
 activityList.push(data.accessibility.activities[0]);
-
+console.log(data);
+console.log(activityList);
 function App2() {
     
     var dictionaryActivity =new Map; //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)

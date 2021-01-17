@@ -10,12 +10,12 @@
 				"source":"pikachu.png",
 				"alternativeText":"Prova video",
 				"help" :"Sono l'aiuto dell'activity 1",
-				"styleM":{
-					"height":100,
-					"width":100,
-					"left":50,
-					"bottom":2
-				},
+				
+				"heightImage":100,
+				"widthImage":100,
+				"leftImage":50,
+				"topImage":2,
+				
 				"truefalseanswer":{
 					"trueScore":0,
 					"falseScore":0
@@ -41,13 +41,12 @@
 				"media": "img",
 				"source": "./prova.jpg",
 				"alternativeText":"Icona Piakchu",
-				"help" : "Sono l'aiuto dell'activity 2",
-				"styleM":{
-					"height":100,
-					"width":150,
-					"left":32,
-					"bottom":20
-				},
+				"help" : "Sono l'aiuto dell'activity 2",	
+				
+				"heightImage":100,
+				"widthImage":150,
+				"leftImage":32,
+				"topImage":2,
 				
 				"wrongAnswerGo":["pigreco","description","conversion"],
 				"correctAnswerGo":["description","conversion"],
@@ -122,12 +121,12 @@
 				"source": "./p.png",
 				"alternativeText":"Icona Piakchu",
 				"help" : "Sono l'aiuto dell'activity 4",
-				"styleM":{
-					"height":100,
-					"width":145,
-					"left":0,
-					"bottom":80
-				},
+
+				"heightImage":100,
+				"widthImage":145,
+				"leftImage":0,
+				"topImage":80,
+				
 				"truefalseanswer":{
 					"trueScore":0,
 					"falseScore":0
@@ -195,7 +194,7 @@
 				},
 				"media": 0,
 				"wrongAnswerGo":["pigreco","loadImage"],
-				"correctAnswerGo":["description","pigreco"],
+				"correctAnswerGo":["end"],
 				"truefalseanswer":{
 					"trueScore":0,
 					"falseScore":0
@@ -229,13 +228,12 @@
 				"source": "./pikachu.png",
 				"wrongAnswerGo":["sum","product"],
 				"correctAnswerGo":["sum","product","end"],
-				"styleM":{
-					"height":100,
-					"width":100,
-					"left":20,
-					"bottom":20,
-					"borderRadius":10
-				},
+				
+				"heightImage":100,
+				"widthImage":100,
+				"leftImage":20,
+				"topImage":40,
+				
 				"truefalseanswer":{
 					"trueScore":0,
 					"falseScore":0
@@ -288,13 +286,12 @@
 				"source": "./pikachu.png",
 				"wrongAnswerGo":[],
 				"correctAnswerGo":[],
-				"styleM":{
-					"height":100,
-					"width":100,
-					"left":40,
-					"bottom":100,
-					"borderRadius":10
-				}
+
+				"heightImage":100,
+				"widthImage":100,
+				"leftImage":40,
+				"topImage":80 	
+				
 
 		},"firstActivity":{
 			"title":"start",

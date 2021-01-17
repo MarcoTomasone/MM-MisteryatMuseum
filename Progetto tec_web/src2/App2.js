@@ -29,10 +29,11 @@ data.accessibility.activities.push(data.accessibility.lastActivity);
 let activityList = [];
 activityList.push(data.accessibility.activities[0]);
 console.log(data);
-console.log(activityList);
+//console.log(activityList);
 function App2() {
-    
-    var dictionaryActivity =new Map; //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)
+ 
+    //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
+    var dictionaryActivity =new Map;
     for(let i = 0;i<data.accessibility.activities.length;i++){
         dictionaryActivity.set( data.accessibility.activities[i].title , i);
     }

@@ -4,6 +4,7 @@ import CreateHomeRealize_info from "./Realize_info.js"
 import CreateHomeRealize_player from "./Realize_player.js"
 import CreateHomeRealize_activity from "./Realize_activity.js"
 import CreateHomeRealize_firstLastActivity from "./Realize_FL_Activity.js"
+import CreateHomeRealize_grafo from "./Realize_grafo.js"
 import {DialogComponent} from "./Dialog.js"
 
 const {Button, makeStyles} = window['MaterialUI']; //to load the component from the library
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: 1,
         boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
         margin: theme.spacing(0.4),
-    },
+    }
 }));
 
 
@@ -139,42 +140,69 @@ function Realize(props){
                                 user: props.user, 
                                 story: story,
                                 setStep: setStep,
-                                setStory: setStory,
-                                lenght: story.activities.lenght
                             }))
                         /*} else {
                             setTextErrorDialog("Prima crea e salva l'attività introduttiva")
                             setOpenErrorDialog(true)   
                         }*/
-                    }}, "CREA ATTIVITA'"),
+                    }}, "CREA/MODIFICA ATTIVITA'"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         //if (step[3] == true){
-                            seFirstLast("last");
-                            setPageLoad(e(CreateHomeRealize_firstLastActivity, {
+                            setPageLoad(e(CreateHomeRealize_grafo, {
                                 id: "CreateHomeRealize_lastActivity", 
                                 className: "CreateHomeRealize_firstLastActivity", 
                                 user: props.user, 
                                 story: story, 
-                                setStory: setStory, 
                             }))
                         /*} else {
                             setTextErrorDialog("Prima crea e salva almeno un'attività diversa da quella introduttiva")
                             setOpenErrorDialog(true)   
                         }*/
-                    }}, "MODIFICA ATTIVITA'")
+                    }}, "GRAFO ATTIVITA'")
                 ])
             ]),
             e("div", {id: "dx_realize", className: "dx_realize"}, [
                 e("div", {id: "phone"}, [
                     e("div", {id: "phoneInternal"}, [
-                        e("img", {id: "phoneImage", src: "../../img/Empty.png"}),
+                        e("img", {id: "phoneImage", src: "", className: "hiddenClass"}),
                         e("button", {id: "chatButton"}, "CHAT"),
                         e("button", {id: "helpButton", onClick: blinkHelpButton}, "HELP"),
-                        e("div", {id: "phoneText"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.. It has survived not only five centuries... It has survived not only five centuries... It has survived not only five centuries...."),
-                        e("img", {id: "mediaDiv", src: "../../img/Empty.png"}),
-                        e("div", {id: "quattroOpzioni", className: "visible"}),
-                        e("div", {id: "veroFalso", className: "notVisible"}),
-                        e("div", {id: "Range", className: "notVisible"}),
+                        e("div", {id: "phoneText"}, [
+                            e("div", {id: "textDiv"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.. It has survived not only five centuries... It has survived not only five centuries... It has survived not only five centuries...."),
+                            e("img", {id: "mediaDiv", src: "../../img/prova.jpeg"}),
+                        ]),
+                        e("div", {id: "inputDiv"}, [                  
+                            e("div", {id: "Quattro opzioni div"}, [
+                                e("div", {id: "option1", className: "optionFourChoices style"}, "Risposta 1"),
+                                e("div", {id: "option2", className: "optionFourChoices style"}, "Risposta 2"),
+                                e("div", {id: "option3", className: "optionFourChoices style"}, "Risposta 3"),
+                                e("div", {id: "option4", className: "optionFourChoices style"}, "Risposta 4"),
+                            ]),
+                            e("div", {id: "Scelta multipla div", className: "hiddenClass"}, [
+                                e("select", {id: "option5", className: "multOptions style"}, [
+                                    e("option", null, "Risposta 1"),
+                                    e("option", null, "Risposta 2"),
+                                    e("option", null, "Risposta 3"),
+                                    e("option", null, "Risposta 4"),
+                                    e("option", null, "Risposta 5"),
+                                    e("option", null, "Risposta 6"),
+                                    e("option", null, "Risposta 7"),
+                                ])
+                            ]),
+                            e("div", {id: "Vero o falso div", className: "hiddenClass"}, [
+                                e("div", {id: "option6", className: "optionTrueFalse style"}, "Vero"),
+                                e("div", {id: "option7", className: "optionTrueFalse style"}, "Falso"),
+                            ]),
+                            e("div", {id: "Input testuale div", className: "hiddenClass"}, [
+                                e("input", { id:"option8", className: "style", type:"text"})
+                            ]),
+                            e("div", {id: "Range div", className: "hiddenClass"}, [
+                                e("input", { id:"option9", className: "style", type:"number"}),
+                            ]),
+                            e("div", {id: "Foto div", className: "hiddenClass"}, [
+                                e("input", { id:"option10", className: "style", type:"file"})
+                            ]),
+                        ]),
                         e("button", {id: "nextButton"}, "SUCCESSIVO")
                     ])
                 ])

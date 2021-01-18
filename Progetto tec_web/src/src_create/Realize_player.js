@@ -3,13 +3,11 @@ const {Button, Icon, IconButton, Select, MenuItem, Switch, TextField, InputLabel
 
 
 function Realize_player(props){
-
-    const [backgroundImageCheck, setBackgroundImageCheck] = React.useState(props.story.player.backgroundImageCheck)
-    const [backgroundImageUrl, setBackgroundImageUrl] = React.useState(props.story.player.backgroundImageUrl)
-    const [textBackgroundColorActived, set_textBackgroundColorActived] = React.useState(false);
-    const [font, setFont] = React.useState(props.story.player.fontFamily) 
+    const [textBackgroundColorActived, set_textBackgroundColorActived] = React.useState(props.story.player.textBackgroundColorCheck);
+    const [font, setFont] = React.useState(props.story.player.fontFamily)
     const [playerStyle, setPlayerStyle] = React.useState({
         background_color           :   props.story.player.background,
+        backgroundImageUrl         :   props.story.player.backgroundImageUrl,
         topImage                   :   props.story.player.image.top,
         leftImage                  :   props.story.player.image.left,
         heighImage                 :   props.story.player.image.height,
@@ -24,6 +22,9 @@ function Realize_player(props){
         borderRadiusFrame          :   props.story.player.borderRadiusFrame,    
         sizeFont                   :   props.story.player.sizeFont,
         weightFont                 :   props.story.player.weightFont,
+        backgroundColorInputDiv    :   props.story.player.inputDiv.backgroundColor,
+        frameColorInputDiv         :   props.story.player.inputDiv.frameColor,
+        textColorInputDiv          :   props.story.player.inputDiv.textColor,
         backgroundColorNextButton  :   props.story.player.nextButton.backgroundColor,
         frameColorNextButton       :   props.story.player.nextButton.frameColor,
         textColorNextButton        :   props.story.player.nextButton.textColor,
@@ -49,6 +50,7 @@ function Realize_player(props){
         widthHelpButton            :   props.story.player.helpButton.width,
         borderRadiusHelpButton     :   props.story.player.helpButton.borderRadius,
     })
+    const check = playerStyle.backgroundImageUrl == ""
 
     const useStyles = makeStyles((theme) => ({
         saveButton: {
@@ -94,6 +96,9 @@ function Realize_player(props){
         buttonFrameColor                :   { backgroundColor: playerStyle.frameColor },
         buttonTextColor                 :   { backgroundColor: playerStyle.textColor },
         buttonTextBackgroundColor       :   { backgroundColor: playerStyle.textBackgroundColor },
+        buttonBackgroundColorInputDiv   :   { backgroundColor: playerStyle.backgroundColorInputDiv },
+        buttonFrameColorInputDiv        :   { backgroundColor: playerStyle.frameColorInputDiv },
+        buttonTextColorInputDiv         :   { backgroundColor: playerStyle.textColorInputDiv },
         buttonBackgroundColorNextButton :   { backgroundColor: playerStyle.backgroundColorNextButton },
         buttonFrameColorNextButton      :   { backgroundColor: playerStyle.frameColorNextButton },
         buttonTextColorNextButton       :   { backgroundColor: playerStyle.textColorNextButton },
@@ -123,31 +128,29 @@ function Realize_player(props){
     })(Switch);
     
     const classes = useStyles();
+
+    React.useEffect(() => {
+        var tmp = playerStyle
+        tmp.textBackgroundColorCheck = textBackgroundColorActived
+        setPlayerStyle(tmp)
+    }, [textBackgroundColorActived])
+
+    React.useEffect(() => {
+        if (playerStyle.backgroundImageUrl == "") document.getElementById("phoneImage").classList.add("hiddenClass")
+        else {
+            document.getElementById("phoneImage").classList.remove("hiddenClass")
+            document.getElementById("phoneImage").setAttribute("src", playerStyle.backgroundImageUrl)
+        }
+    }, [playerStyle])
+
     
-    React.useEffect(async () => {
-        var tmp = ""
-        var path = props.story.id.split(".")[0]
-        await axios.post(`http://localhost:8000/check`, {
-            id: `${path}_background`
-        })
-        .then((response) => {
-            set_immageUpload(`../../server/upload/${response.data}`)
-        })
-        .catch(error => {console.log(error)})
-
-        setBackgroundImageUrl("../../server/upload/Matteo_1_background.png")
-        console.log(immageUpload.backgroundImageCheck)
-
-
+    React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea il layout al player (i valori sono tutti in pixel e la dimensione dello schermo è di 437 x 202, ovvero 6.1\")";
-        document.getElementById("phoneImage").setAttribute("src", immageUpload.backgroundImageUrl)
-
         document.getElementById("phoneInternal").style.background   =      playerStyle.background_color
         document.getElementById("phoneImage").style.top             =   `${playerStyle.topImage}px`
         document.getElementById("phoneImage").style.left            =   `${playerStyle.leftImage}px`
         document.getElementById("phoneImage").style.height          =   `${playerStyle.heighImage}px`
         document.getElementById("phoneImage").style.width           =   `${playerStyle.widthImage}px`
-        document.getElementById("phoneText").style.backgroundColor  =      playerStyle.textBackgroundColor
         document.getElementById("phoneText").style.borderColor      =      playerStyle.frameColor
         document.getElementById("phoneText").style.color            =      playerStyle.textColor
         document.getElementById("phoneText").style.top              =   `${playerStyle.topFrame}px`
@@ -182,17 +185,29 @@ function Realize_player(props){
         document.getElementById("helpButton").style.height          =   `${playerStyle.heightHelpButton}px`
         document.getElementById("helpButton").style.width           =   `${playerStyle.widthHelpButton}px`
         document.getElementById("helpButton").style.borderRadius    =   `${playerStyle.borderRadiusHelpButton}px`
-    }, [playerStyle, font, backgroundImageCheck, backgroundImageUrl])
+        if (textBackgroundColorActived) document.getElementById("phoneText").style.backgroundColor  =      playerStyle.textBackgroundColor
+        else document.getElementById("phoneText").style.backgroundColor  =      "transparent"
+        const array = ["option1", "option2", "option3", "option4", "option5", "option6", "option7", "option8", "option9", "option10", "option11"]
+        array.forEach(element => {
+            if (document.getElementById(element) != undefined){
+                document.getElementById(element).style.backgroundColor   =      playerStyle.backgroundColorInputDiv
+                document.getElementById(element).style.borderColor       =      playerStyle.frameColorInputDiv
+                document.getElementById(element).style.color             =      playerStyle.textColorInputDiv
+            }
+        })
+    }, [playerStyle, font, textBackgroundColorActived])
+
+
 
 
     function createNewJsonFile() {
         props.story.player.background                   =   playerStyle.background_color
-        props.story.player.backgroundImageCheck         =   backgroundImageCheck,
-        props.story.player.backgroundImageUrl           =   backgroundImageUrl,
+        props.story.player.backgroundImageUrl           =   playerStyle.backgroundImageUrl,
         props.story.player.image.top                    =   parseInt(playerStyle.topImage)
         props.story.player.image.left                   =   parseInt(playerStyle.leftImage)
         props.story.player.image.height                 =   parseInt(playerStyle.heighImage)
         props.story.player.image.width                  =   parseInt(playerStyle.widthImage)
+        props.story.player.textBackgroundColorCheck     =   playerStyle.textBackgroundColorCheck
         props.story.player.textBackgroundColor          =   playerStyle.textBackgroundColor
         props.story.player.frameColor                   =   playerStyle.frameColor
         props.story.player.textColor                    =   playerStyle.textColor
@@ -204,6 +219,9 @@ function Realize_player(props){
         props.story.player.fontFamily                   =   font
         props.story.player.sizeFont                     =   parseInt(playerStyle.sizeFont)
         props.story.player.weightFont                   =   parseInt(playerStyle.weightFont)
+        props.story.player.inputDiv.backgroundColor     =   playerStyle.backgroundColorInputDiv
+        props.story.player.inputDiv.frameColor          =   playerStyle.frameColorInputDiv
+        props.story.player.inputDiv.textColor           =   playerStyle.textColorInputDiv
         props.story.player.nextButton.backgroundColor   =   playerStyle.backgroundColorNextButton
         props.story.player.nextButton.frameColor        =   playerStyle.frameColorNextButton
         props.story.player.nextButton.textColor         =   playerStyle.textColorNextButton
@@ -242,8 +260,7 @@ function Realize_player(props){
             }
         })
         .then((response) => {
-            setBackgroundImageCheck(false)
-            setBackgroundImageUrl(`../../server/upload/${response.data}`)
+            playerStyle.backgroundImageUrl = `../../server/upload/${response.data}`
         })
         .catch(error => {
             if (error.response.status === 500) {
@@ -257,8 +274,7 @@ function Realize_player(props){
     function deleteImage(){
         axios.delete(`http://localhost:8000/deleteImage/${props.story.id}/bckgrnd`)
         .then((response) => {
-            setBackgroundImageCheck(true)
-            setBackgroundImageUrl(`../../server/upload/${response.data}`)
+            playerStyle.backgroundImageUrl = `../../server/upload/${response.data}`
         })
         .catch(error => console.log(error))
     }
@@ -303,16 +319,16 @@ function Realize_player(props){
             e("hr", null),
             e("p", null, "IMMAGINE COME SFONDO"),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "topImage", disabled: backgroundImageCheck, className: classes.input, value: playerStyle.topImage, name:"topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "topImage", disabled: check, className: classes.input, value: playerStyle.topImage, name:"topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "leftImage", disabled: backgroundImageCheck, className: classes.input, value: playerStyle.leftImage, name:"leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "leftImage", disabled: check, className: classes.input, value: playerStyle.leftImage, name:"leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heighImage", disabled: backgroundImageCheck, className: classes.input, value: playerStyle.heighImage, name:"heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "heighImage", disabled: check, className: classes.input, value: playerStyle.heighImage, name:"heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthImage", disabled: backgroundImageCheck, className: classes.input, value: playerStyle.widthImage, name:"widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "widthImage", disabled: check, className: classes.input, value: playerStyle.widthImage, name:"widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
 
             e("hr", null),
@@ -320,7 +336,7 @@ function Realize_player(props){
             e("div", {className: "sx_realize_option"}, [
                 e("input", {id: "frameColor", className: classes.hide, value: playerStyle.frameColor, name:"frameColor", type: "color", onChange:  (e) => updateField(e)}),
                 e("label", {htmlFor:"frameColor"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColor], component: "span"}, 
+                    e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColor], component: "span"}, 
                         e(Icon, {children: "color_lens"}),  
                     ),
                     " COLORE"
@@ -329,15 +345,13 @@ function Realize_player(props){
             e("div", {className: "sx_realize_option"}, [
                 e("input", {id: "textBackgroundColor", className: classes.hide, value: playerStyle.textBackgroundColor, name:"textBackgroundColor", type: "color", disabled: !textBackgroundColorActived, onChange:  (e) => updateField(e)}),
                 e("label", {htmlFor:"textBackgroundColor"}, [
-                    e(IconButton, {disabled: !textBackgroundColorActived, className: [classes.buttonStandard, classes.buttonTextColor], component: "span"}, 
+                    e(IconButton, {disabled: !textBackgroundColorActived, className: [classes.buttonStandard, classes.buttonTextBackgroundColor], component: "span"}, 
                         e(Icon, {children: "color_lens"}),  
                     ),
                     " COLORE SFONDO"
                 ]),
                 e(SwitchButton, {checked: textBackgroundColorActived, onChange: () => {
                     set_textBackgroundColorActived((prev) => !prev)
-                    if(textBackgroundColorActived) document.getElementById("phoneText").style.removeProperty("background")
-                    else document.getElementById("phoneText").style.setProperty("background", textBackgroundColor)
                 }}),
             ]),
             e("div", {className: "sx_realize_option"}, [
@@ -389,6 +403,36 @@ function Realize_player(props){
             e("div", {className: "sx_realize_option"}, [
                 e(TextField, {inputProps: {min: 0, max: 800}, id: "weightFont", className: classes.input, value: playerStyle.weightFont, name:"weightFont", label: "Pesantezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
+            e("hr", null),
+
+            e("p", null, "STILE RISPOSTE"),
+            e("div", {className: "sx_realize_option"}, [
+                e("input", {id: "backgroundColorInputDiv", className: classes.hide, value: playerStyle.backgroundColorInputDiv, name:"backgroundColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
+                e("label", {htmlFor:"backgroundColorInputDiv"}, [
+                    e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorInputDiv], component: "span"}, 
+                        e(Icon, {children: "color_lens"}),  
+                    ),
+                    " COLORE DELLO SFONDO"
+                ]),
+            ]),
+                        e("div", {className: "sx_realize_option"}, [
+                e("input", {id: "frameColorInputDiv", className: classes.hide, value: playerStyle.frameColorInputDiv, name:"frameColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
+                e("label", {htmlFor:"frameColorInputDiv"}, [
+                    e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorInputDiv], component: "span"}, 
+                        e(Icon, {children: "color_lens"}),  
+                    ),
+                    " COLORE DEL BORDO"
+                ]),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e("input", {id: "textColorInputDiv", className: classes.hide, value: playerStyle.textColorInputDiv, name:"textColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
+                e("label", {htmlFor:"textColorInputDiv"}, [
+                    e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorInputDiv], component: "span"}, 
+                        e(Icon, {children: "color_lens"}),  
+                    ),
+                    " COLORE DEL TESTO"
+                ]),
+            ]),       
 
             e("hr", null),
             e("p", null, "BOTTONE ATTIVITA' SUCCESSIVA"),
@@ -411,7 +455,7 @@ function Realize_player(props){
                 ]),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "textColorNextButton", className: classes.hide, value: playerStyle.textBackgroundColor, name:"textBackgroundColor", type: "color", onChange:  (e) => updateField(e)}),
+                e("input", {id: "textColorNextButton", className: classes.hide, value: playerStyle.textColorNextButton, name:"textColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
                 e("label", {htmlFor:"textColorNextButton"}, [
                     e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorNextButton], component: "span"}, 
                         e(Icon, {children: "color_lens"}),  

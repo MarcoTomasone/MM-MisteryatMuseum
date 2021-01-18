@@ -108,7 +108,7 @@ function Realize_info(props){
                     published: false, 
                     title: title.charAt(0).toUpperCase() + title.substring(1),
                     gender: gender,
-                    objective: objective.charAt(0).toUpperCase() + title.substring(1),
+                    objective: objective.charAt(0).toUpperCase() + objective.substring(1),
                     description: description.charAt(0).toUpperCase() + description.substring(1),
                     accessibility: {
                         value: accessibility,
@@ -123,8 +123,7 @@ function Realize_info(props){
                     ageEnd: age[1],
                     player: {
                         background: "#000000",
-                        backgroundImageCheck: true,
-                        backgroundImageUrl: "../../server/upload/Empty.png",
+                        backgroundImageUrl: "../../img/prova.jpeg",
                         frameColor: "#ffffff",
                         topFrame: 80,
                         leftFrame: 15,
@@ -132,7 +131,8 @@ function Realize_info(props){
                         weightFrame: 1,
                         borderRadiusFrame: 0,
                         textColor: "#ffffff",
-                        textBackgroundColor: "#000000",
+                        textBackgroundColorCheck: false,
+                        textBackgroundColor: "",
                         fontFamily: "Arial",
                         sizeFont: 14,
                         weightFont: 500,
@@ -141,6 +141,11 @@ function Realize_info(props){
                             width: 202,
                             top: 0,
                             left: 0,
+                        },
+                        inputDiv: {
+                            backgroundColor: "#000000",
+                            frameColor: "#ffffff",
+                            textColor: "#ffffff",
                         },
                         nextButton: {
                             backgroundColor: "#000000",
@@ -176,20 +181,15 @@ function Realize_info(props){
                     firstActivity: {
                         heightFrame: 160,
                         text: "",
-                        topImage: 250,
-                        leftImage: 15,
-                        heightImage: 50,
-                        widthImage: 170
+                        image: "",
                     },
                     lastActivity: {
                         heightFrame: 160,
                         text: "",
-                        topImage: 250,
-                        leftImage: 15,
-                        heightImage: 50,
-                        widthImage: 170
+                        image: "",
                     },
-                    activities: []
+                    activities: [],
+                    activitiesNotAssigned: []
                 }
                 props.setStory(file)
                 props.setStep([true, false, false, false])

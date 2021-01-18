@@ -200,6 +200,13 @@
     height: 80px;
     padding-left: 40px;
 }
+.sx_realize_option_table{
+    min-width: 700px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    padding-left: 40px;
+}
 .sx_realize_option_age{
     min-width: 700px;
     height: 80px;
@@ -328,12 +335,15 @@
     overflow: scroll;
     border: solid 1px white;
 }
+
+#textDiv{
+    width: 100%;
+    padding: 3px;
+}
 #mediaDiv{
-    position: absolute;
-    top: 250px;
-    left: 15px;
-    height: 50px;
-    width: 170px;
+    width: 90%;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 #chatButton{
     height: 30px;
@@ -538,41 +548,82 @@
     margin-left: 50px;
 }
 
-/*BOHHHHHH*/
-/*
-#screenOfStorys{
-    height: 100%;
-    width: 100%;
-    padding: 20px;
-    border: solid 2px blue
+#inputDiv{
+    position: absolute;
+    top: 320px;
+    left: 15px;
+    height: 60px;
+    width: 170px;
+    border: solid 1px red;
 }
 
-#color{
-    border: 5px solid rgb(226, 226, 226);
-    outline: none
-}*/
+.hiddenClass{
+    display: none !important;
+}
 
 
+div[id='Quattro opzioni div'], div[id='Scelta multipla div'], div[id='Vero o falso div'], div[id='Input testuale div'], div[id='Range div'], div[id='Foto div'] {
+    height: 100%;
+    width: 100%;
+}
 
+div[id='Scelta multipla div'], div[id='Vero o falso div'], div[id='Input testuale div'], div[id='Range div'], div[id='Foto div'] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+div[id='Range div']{
+    flex-direction: column;
+}
 
+.style{
+    background-color: black;
+    color: white;
+    border: solid 1px white;
+    font-size: 10px;
+}
 
+.optionFourChoices{
+    width: 50%; 
+    height: 50%; 
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.optionTrueFalse{
+    width: 50%; 
+    height: 100%; 
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.multOptions{
+    width: 80%;
+    align-self: center;
+}
 
-
-
-
-
-
-
+.spanExplain{
+    display: block;
+    text-align: center;
+    color: grey;
+    margin-bottom: 20px;
+}
 
 .cardImg{
     height: 50px;
 }
 
 
-
+.grafo{
+    height: 100%;
+    width: 100%;
+    border: solid 2px red;
+}
 
 
 

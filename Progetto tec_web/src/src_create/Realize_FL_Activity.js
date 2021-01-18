@@ -41,30 +41,24 @@ function Realize_FL_Activity(props){
     const [activity, setActivity] = React.useState({
         heightFrame     : props.activity.heightFrame,
         text            : props.activity.text,
-        topImage        : props.activity.topImage,
-        leftImage       : props.activity.leftImage,
-        heightImage     : props.activity.heightImage,
-        widthImage      : props.activity.widthImage,
+        image           : props.activity.image,
     })
 
     React.useEffect(() => {
         document.getElementById("phoneText").style.height   = `${activity.heightFrame}px`;
-        document.getElementById("phoneText").innerHTML      =    activity.text;
-        document.getElementById("mediaDiv").style.height    = `${activity.topImage}px`;
-        document.getElementById("mediaDiv").style.width     = `${activity.leftImage}px`;
-        document.getElementById("mediaDiv").style.top       = `${activity.heightImage}px`;
-        document.getElementById("mediaDiv").style.left      = `${activity.widthImage}px`;
+        document.getElementById("textDiv").innerHTML      =    activity.text;
+        document.getElementById("mediaDiv").innerHTML      =    activity.text;
     }, [activity])
+
+    React.useEffect(() => {
+        document.getElementById("inputDiv").classList.add("hiddenClass")
+    })
 
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = props.title;
         setActivity({
             heightFrame     : props.activity.heightFrame,
             text            : props.activity.text,
-            topImage        : props.activity.topImage,
-            leftImage       : props.activity.leftImage,
-            heightImage     : props.activity.heightImage,
-            widthImage      : props.activity.widthImage,
         })
     }, [props.title])
 
@@ -143,18 +137,6 @@ function Realize_FL_Activity(props){
                     ),
                     " ELIMINA IMMAGINE"
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "topImage", disabled: immageUpload, className: classes.input, value: activity.topImage, name: "topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "leftImage", disabled: immageUpload, className: classes.input, value: activity.leftImage, name: "leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heighImage", disabled: immageUpload, className: classes.input, value: activity.heighImage, name: "heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthImage", disabled: immageUpload, className: classes.input, value: activity.widthImage, name: "widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
 

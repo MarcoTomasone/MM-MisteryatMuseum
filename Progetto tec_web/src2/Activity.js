@@ -4,6 +4,7 @@ import {loadHelpMessage, getRandomInt} from '../utils.js';
 import { sendData} from './dataHandler.js';
 const e = React.createElement;
 let timer; 
+let startDate, now, seconds;
 /**         Activity 
  * contains the interactive activities 
  * state[Counter]   <-- number of activity from v[] {dinamic Array}
@@ -23,7 +24,6 @@ function Activity(props){
         
 //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc(){
-        
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
@@ -35,10 +35,12 @@ function Activity(props){
             dinamicActivities.push( props.json.accessibility.lastActivity);
         } else {
             if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload' && (lastAnswer !== null || dinamicActivities[counter].widgetType =="text" || dinamicActivities[counter].widgetType =="range")){
+                now = new Date();
+                seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
                     case "Quattro opzioni" : 
                         console.log(lastAnswer);
-                        sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
+                        sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter, seconds);
                         if(dinamicActivities[counter].correct === lastAnswer){
                             index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                             console.log("Risposta Corretta!");
@@ -53,7 +55,7 @@ function Activity(props){
                     break;
                     case "Vero Falso" :
                         let answer = lastAnswer ? "Vero" : "Falso";
-                        sendData(props.playerId, activities[questionIndex].question, answer, counter );
+                        sendData(props.playerId, activities[questionIndex].question, answer, counter, seconds);
                         if(dinamicActivities[counter].correct === lastAnswer){
                             index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                             console.log("Risposta Corretta!");
@@ -69,7 +71,7 @@ function Activity(props){
                     case "range":
                         let value = document.getElementById("rangenpt").value; 
                         console.log(value); 
-                        sendData(props.playerId, activities[questionIndex].question, value, counter );
+                        sendData(props.playerId, activities[questionIndex].question, value, counter, seconds);
                         if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
                             index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                             console.log("Risposta Corretta!");
@@ -84,7 +86,7 @@ function Activity(props){
                         }
                     break;
                     case "text":
-                        sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter );
+                        sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter, seconds);
                         if(document.getElementById("textAnswer").value  === props.v[counter].correct){
                             index = getRandomInt(0,props.v[counter].correctAnswerGo.length-1);
                             console.log("Risposta Corretta!");
@@ -120,12 +122,12 @@ function Activity(props){
         //setLastAnswer(null);
         loadHelpMessage(props, counter);
         mediaProp = [];
-        const startDate = new Date();
+        startDate = new Date();
         questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
         console.log(counter);
         timer = setInterval( () => {
-            var now = new Date();
-            var seconds = (now.getTime() - startDate.getTime()) / 1000;
+            now = new Date();
+            seconds = (now.getTime() - startDate.getTime()) / 1000;
             sendData(props.playerId, 
                 activities[questionIndex].question, 
                 "Nessuna risposta",

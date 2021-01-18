@@ -21,15 +21,15 @@ function Activity(props){
     const dinamicActivities = props.v;
     const activities = props.json.accessibility.activities;
     const activityStyle =  props.json.accessibility.activityStyle;
-        
-//lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
+    
+    //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc(){
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         let indexOfNewActivity;
-
-        //lastAnswer = null;
+        
+        
         clearInterval(timer);
         if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
             dinamicActivities.push( props.json.accessibility.lastActivity);
@@ -39,7 +39,6 @@ function Activity(props){
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
                     case "Quattro opzioni" : 
-                        console.log(lastAnswer);
                         sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter, seconds);
                         if(dinamicActivities[counter].correct === lastAnswer){
                             index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
@@ -119,7 +118,7 @@ function Activity(props){
             }
         }
         setCounter(counter + 1);
-        //setLastAnswer(null);
+        setLastAnswer(null);
         loadHelpMessage(props, counter);
         mediaProp = [];
         startDate = new Date();

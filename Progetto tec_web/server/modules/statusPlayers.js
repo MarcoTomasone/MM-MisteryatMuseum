@@ -124,12 +124,11 @@ module.exports = {
                 storiesActive[story][id] = {id, sectionArray};
             }
             res.status(200).end();
-            console.log(storiesActive["Story1"]["Marco"]);
+          
 
             /*
             const path = `./statusFiles/`;
             const file = path + req.body.id + ".json"
-            console.log(req.body);
             if (!fs.existsSync(path))
                 fs.mkdirSync(path);
             //Pubblico il file nel path

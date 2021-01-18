@@ -4,7 +4,7 @@ const e = React.createElement;
  *  - Text Answer with a specifically answer
  *  - Range 
  *  - File type allowed: { img/jpeg : img/ png}
- * @param { domanda:domanda, json:props.json, counter:counter, v : props.v, btnNext:btnNext, MediaProp : MediaProp, inc:inc} props 
+ * @param {json:props.json, counter:counter, v : props.v, btnNext:btnNext, MediaProp : MediaProp, inc:inc} props 
  */
 function inputType(props){
 
@@ -79,7 +79,7 @@ function inputType(props){
                                 id:"rangenpt",
                                 style:styleRange,
                                 }));
-        }else if(props.v[props.counter].widgetType === "imgUpload" ){
+        } else if(props.v[props.counter].widgetType === "imgUpload" ){
            
             
                 const [file, setFile] = React.useState(''); // storing the uploaded file    // storing the recived file from backend
@@ -102,8 +102,10 @@ function inputType(props){
                         getFile({ name: res.data.name,
                                  path: 'http://localhost:8000' + res.data.path
                                })
-                       alert(res.data.path)
-                    }).catch(err => console.log(err))}
+                        if(res.status == 200)       
+                            props.socket.emit("send-humanEvaluation",{question: props.v[props.counter].question, answer: res.data.path, type : "image" , id : props.playerId});       
+                        //alert(res.data.path)
+                }).catch(err => console.log(err))}
             
            
            
@@ -130,7 +132,7 @@ function inputType(props){
                     style:stylB,
                     key:"confirm",
                     id:"confirm",
-                    onClick:uploadFile
+                    onClick: uploadFile()
                     },"Check")
                 );
     

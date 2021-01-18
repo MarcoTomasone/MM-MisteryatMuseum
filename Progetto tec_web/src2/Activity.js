@@ -11,7 +11,7 @@ let startDate, now, seconds;
  * v[counter + 1 ] contains the next activity
  * every element on v[i] is a copy from props.json.accessibility
  * 
- * @param{json:data,  v : activityList , playerId : playerId}
+ * @param{json:data,  v : activityList , playerId : playerId, socket : socket}
  */
 function Activity(props){
     //var lastAnswer;
@@ -133,6 +133,7 @@ function Activity(props){
                 "Nessuna risposta",
                 counter + 1, 
                 seconds );
+                props.socket.emit("data-update", props.playerId);
         }, 5000);
     }
     
@@ -268,7 +269,7 @@ function Activity(props){
             return e("div",{key: "activity", id:"activy", style: divActivity},    
                     
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question,mediaProp),
-                    e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
+                    e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId}
                 ));
     }
 }

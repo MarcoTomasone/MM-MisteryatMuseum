@@ -167,7 +167,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                     ])
                 ]),
             ])),
-            e(Activity, { json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity}),
+            e(Activity, { json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare

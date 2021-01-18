@@ -103,12 +103,10 @@ function inputType(props){
                                  path: 'http://localhost:8000' + res.data.path
                                })
                         if(res.status == 200)       
-                            props.socket.emit("send-humanEvaluation",{question: props.v[props.counter].question, answer: res.data.path, type : "image" , id : props.playerId});       
-                        //alert(res.data.path)
+                            props.socket.emit("send-humanEvaluation",{question: props.v[props.counter].question, answer: 'http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path, type : "image" , id : props.playerId});       
+                        alert('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path)
                 }).catch(err => console.log(err))}
             
-           
-           
            
             const stylein = {
                 width:`${props.v[props.counter].styleInput.width  *screen.availWidth /202}px`,
@@ -132,7 +130,7 @@ function inputType(props){
                     style:stylB,
                     key:"confirm",
                     id:"confirm",
-                    onClick: uploadFile()
+                    onClick: uploadFile
                     },"Check")
                 );
     

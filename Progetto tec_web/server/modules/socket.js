@@ -29,13 +29,13 @@ module.exports = function(io) {
             socket.on('send-help-text', data => {
                 if(!arrayHelps[data.id])
                     arrayHelps[data.id] = []
-                arrayHelps.push({ question: data.question, id: arrayHelps[data.id].length });
+                arrayHelps[data.id].push({ question: data.question, id: arrayHelps[data.id].length });
                 //socket.broadcast.emit('help-text', {text : data.text , name :"Il fornaio: ", id: data.id});
             });
             socket.on('send-humanEvaluation', data => {
                 if(!arrayEvaluations[data.id])
                     arrayEvaluations[data.id] = [];
-                arrayEvaluations.push({ question: data.question, answer: data.answer, type: data.type, id: arrayEvaluations[data.id].length });
+                arrayEvaluations[data.id].push({ question: data.question, answer: data.answer, type: data.type, id: arrayEvaluations[data.id].length });
                 //io.to(socketEvaluator["evaluator0"]).emit('finish-player', {"Ho finito"});
             });
             socket.on('finish', data => {

@@ -150,13 +150,13 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
  
     return e(React.Fragment, null, [
         e("div", null, [    
-            e("div", {key:"player",id:"player",style:div_a}, [
-                e("nav",{style:navbar,id:"navPlayer"},
+            //e("div", {key:"player",id:"player",style:div_a}, [
+                //e("nav",{style:navbar,id:"navPlayer"},
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
-                e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
-            )],
+                e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}}),
+            //)],
                     //open : dialog
-          e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
+            e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
                     e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),
@@ -166,7 +166,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                         )
                     ])
                 ]),
-            ])),
+            ]),
             e(Activity, { json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),

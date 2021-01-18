@@ -59,7 +59,9 @@ function inputType(props){
 
             let range = false;
     }else if(props.v[props.counter].widgetType === "range" ) {
-        
+        function rewriteLabel (){
+            document.getElementById("rangeV").innerHTML = document.getElementById("rangenpt").value;
+        }
         const styleRange = {
             width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
             height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
@@ -67,7 +69,7 @@ function inputType(props){
             marginLeft:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
             position:'absolute'
         }
-     
+        inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},props.v[props.counter].minRange));
         inputElement.push(e("input",{
                                 type:"range", 
                                 key:"rangebar",
@@ -78,6 +80,7 @@ function inputType(props){
                                 //value:5,
                                 id:"rangenpt",
                                 style:styleRange,
+                                onChange:()=>{rewriteLabel()}
                                 }));
         } else if(props.v[props.counter].widgetType === "imgUpload" ){
            

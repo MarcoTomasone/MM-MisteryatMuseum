@@ -21,15 +21,15 @@ function Activity(props){
     const dinamicActivities = props.v;
     const activities = props.json.accessibility.activities;
     const activityStyle =  props.json.accessibility.activityStyle;
-    
-    //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
+        
+//lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc(){
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         let indexOfNewActivity;
-        
-        
+
+        //lastAnswer = null;
         clearInterval(timer);
         if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
             dinamicActivities.push( props.json.accessibility.lastActivity);
@@ -39,6 +39,7 @@ function Activity(props){
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
                     case "Quattro opzioni" : 
+                        console.log(lastAnswer);
                         sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter, seconds);
                         if(dinamicActivities[counter].correct === lastAnswer){
                             index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
@@ -181,18 +182,6 @@ function Activity(props){
             fontFamily:"Helvetica"
     }
 
-/*    const divActivity = {     //style della div contenente le activity
-        border:activityStyle.divisor.border,
-        overflow:"scroll",
-        borderColor: activityStyle.divisor.borderColor,
-        left:`${activityStyle.divisor.left* screen.availWidth /202}px`,
-        width:`${activityStyle.divisor.width *screen.availWidth /437}px`,
-        height:`${activityStyle.divisor.height * screen.availHeight /202}px`,
-        top:`${activityStyle.divisor.top * screen.availHeight /437}px`,
-        position:'absolute',
-      
-    };
-    */
    const divBorder = {     //style della div contenente le activity
     border:activityStyle.divisor.border,
     overflow:"scroll",
@@ -261,7 +250,7 @@ function Activity(props){
                 // multiple answer || true\false
             return e("div",{key: "activity", id:"activy", style: divActivity},     
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question ,   mediaProp),
-                    e(ButtonType, {answer:answer, btnstyle : btnNext,askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
+                    e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
         }else { 
                 //avaible Input type == 'range' || type=='text' || type=="file"

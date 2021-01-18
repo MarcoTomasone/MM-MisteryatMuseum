@@ -109,7 +109,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
 }else{
     var div_a = {      //style della div contenente le activity
         border:data.accessibility.activityStyle.divisor.border,
-        overflow:"hidden",
+        overflow:"auto",
         borderColor: data.accessibility.activityStyle.divisor.borderColor,
         position:'absolute',
         background: data.accessibility.player.background,

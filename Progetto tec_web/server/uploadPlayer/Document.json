@@ -49,7 +49,7 @@
 				"topImage":2,
 				
 				"wrongAnswerGo":["pigreco","description","conversion"],
-				"correctAnswerGo":["description","conversion"],
+				"correctAnswerGo":["range"],
 				"btnStyle":{
 					"width":70,
 					"height":30,
@@ -315,7 +315,7 @@
 				"border": "solid",
 				"borderColor": "black",
 			    "left":30,
-			    "top":65,
+			    "top":35,
 			    "width":320,
 				"height":100,
 				"marginBottom":"20%"
@@ -368,7 +368,7 @@
 			"weightFont": "500",
 
 
-			"topFrame": 130,
+			"topFrame": 50,
 			"leftFrame": 15,
 			"widthFrame": 170,
 			"heightFrame": 150,

@@ -23,7 +23,7 @@ function ButtonType(props){
        textColor:props.json.accessibility.activityStyle.btnNext.textColor
 
     }*/
-   
+   const a = props.btnNext;
     const divActivity = {      //style della div contenente le activity
         border:props.json.accessibility.activityStyle.divisor.border,
         overflow:"scroll",
@@ -52,7 +52,7 @@ function ButtonType(props){
         border: "solid",
         borderColor: "green",
         position:'absolute',
-        marginTop:"67vh",
+        marginTop:"65vh",
         left:`57px`,
         width:`273px`,
         height:`70px`,
@@ -107,7 +107,7 @@ function ButtonType(props){
                         style:buttonGroup }, [
                         ListButtonAnswer
                     ]),
-                    e("button", {key:"buttonNext",id: "nextButton1",style:props.btnstyle,onClick:props.inc}, "NEXT")
+                    e("button", {key:"buttonNext",id: "nextButton1",style:a,onClick:props.inc}, "NEXT")
                 );
 
 }

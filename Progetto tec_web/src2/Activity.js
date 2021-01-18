@@ -1,9 +1,9 @@
 import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import {loadHelpMessage, getRandomInt} from '../utils.js';
-import { sendData } from './dataHandler.js';
+import { sendData} from './dataHandler.js';
 const e = React.createElement;
-
+let timer; 
 /**         Activity 
  * contains the interactive activities 
  * state[Counter]   <-- number of activity from v[] {dinamic Array}
@@ -28,6 +28,9 @@ function Activity(props){
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         let indexOfNewActivity;
+        setLastAnswer(null);
+        
+        clearInterval(timer);
         if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload' && (lastAnswer !== null || dinamicActivities[counter].widgetType =="text" || dinamicActivities[counter].widgetType =="range")){
             switch(dinamicActivities[counter].widgetType){
                 case "Quattro opzioni" : 
@@ -45,7 +48,7 @@ function Activity(props){
                     }
                 break;
                 case "Vero Falso" :
-                    //marco ->> Aggiungi send Data!
+                    sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
                     if(dinamicActivities[counter].correct === lastAnswer){
                         index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                         console.log("Risposta Corretta!");
@@ -108,10 +111,23 @@ function Activity(props){
         }
                 
         }
-        loadHelpMessage(props, counter +1);
         setCounter(counter + 1);
+        loadHelpMessage(props, counter);
         setLastAnswer(null);
         mediaProp = [];
+        const startDate = new Date();
+        questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
+        console.log(counter);
+        timer = setInterval( () => {
+            var now = new Date();
+            var seconds = (now.getTime() - startDate.getTime()) / 1000;
+            const answer = lastAnswer ? dinamicActivities[counter].multipleAnswer[lastAnswer] : null;
+            sendData(props.playerId, 
+                activities[questionIndex].question, 
+                answer,
+                counter + 1, 
+                seconds );
+        }, 5000);
     }
 
     function checkButton(answer){

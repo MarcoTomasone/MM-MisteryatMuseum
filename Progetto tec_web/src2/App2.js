@@ -148,9 +148,8 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
     } 
 
  
-    return e(React.Fragment, null, [
-        e("div", null, [    
-            //e("div", {key:"player",id:"player",style:div_a}, [
+    return e(React.Fragment, null, [ 
+            e("div", {key:"player",id:"player",style:div_a}, [
                 //e("nav",{style:navbar,id:"navPlayer"},
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}}),

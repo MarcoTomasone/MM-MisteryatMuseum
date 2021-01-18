@@ -6,11 +6,11 @@ const e = React.createElement;
  * on answer type:
  *  - Multiple Answer
  *  - True/False Answer 
- * @param {answer:answer, textStyle:textStyle,lastAnswer:lastAnswer, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc}} props 
+ * @param {btnstyle : btnStyle,answer:answer, textStyle:textStyle,lastAnswer:lastAnswer, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc}} props 
  */
 
 function ButtonType(props){
-    const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
+    /*const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
         borderColor:props.json.accessibility.activityStyle.btnNext.borderColor,
         backgroundColor:props.json.accessibility.activityStyle.btnNext.backgroundColor,
         borderRadius:`${props.json.accessibility.activityStyle.btnNext.borderRadius}px`,
@@ -22,7 +22,7 @@ function ButtonType(props){
         left:`${props.json.accessibility.activityStyle.btnNext.left* screen.availWidth /202}px`,
        textColor:props.json.accessibility.activityStyle.btnNext.textColor
 
-    }
+    }*/
    
     const divActivity = {      //style della div contenente le activity
         border:props.json.accessibility.activityStyle.divisor.border,
@@ -52,7 +52,7 @@ function ButtonType(props){
         border: "solid",
         borderColor: "green",
         position:'absolute',
-        marginTop:"450px",
+        marginTop:"67vh",
         left:`57px`,
         width:`273px`,
         height:`70px`,
@@ -107,7 +107,7 @@ function ButtonType(props){
                         style:buttonGroup }, [
                         ListButtonAnswer
                     ]),
-                    e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:props.inc}, "NEXT")
+                    e("button", {key:"buttonNext",id: "nextButton1",style:props.btnstyle,onClick:props.inc}, "NEXT")
                 );
 
 }

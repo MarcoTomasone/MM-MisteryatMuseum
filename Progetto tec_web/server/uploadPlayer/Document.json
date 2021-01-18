@@ -186,12 +186,12 @@
 				"question":"Converti 5 in binario",
 				"correct":"101",
 				"widgetType": "text",
-				"styleInput":{
-					"width":100,
-                    "height":15,
-					"left":20,
-					"bottom":170
-				},
+		
+				"widthInput":100,
+				"heightInput":15,
+				"leftInput":20,
+				"bottomInput":170,
+			
 				"media": 0,
 				"wrongAnswerGo":["pigreco","loadImage"],
 				"correctAnswerGo":["end"],
@@ -218,12 +218,12 @@
 				"type":"range",
 				"minRange":1,
 				"maxRange":10,
-				"styleInput":{
-					"width":100,
-                    "height":15,
-					"left":20,
-					"bottom":170
-				},
+
+				"widthInput":100,
+				"heightInput":15,
+				"leftInput":20,
+				"bottomInput":170,
+				
 				"media": "img",
 				"source": "./pikachu.png",
 				"wrongAnswerGo":["sum","product"],
@@ -255,12 +255,12 @@
 				"question":"Choose a profile picture",
 				"widgetType":"imgUpload",
 				"media":0,
-				"styleInput":{
-					"width":150,
-                    "height":20,
-					"left":20,
-					"bottom":200
-				},
+				
+				"widthInput":150,
+				"heightInput":20,
+				"leftInput":20,
+				"bottomInput":200,
+			
 				"truefalseanswer":{
 					"trueScore":0,
 					"falseScore":0

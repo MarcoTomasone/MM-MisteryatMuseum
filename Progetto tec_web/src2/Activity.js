@@ -119,7 +119,7 @@ function Activity(props){
             }
         }
         setCounter(counter + 1);
-        //setLastAnswer(null);
+        setLastAnswer(null);
         loadHelpMessage(props, counter);
         mediaProp = [];
         startDate = new Date();
@@ -262,7 +262,7 @@ function Activity(props){
                 // multiple answer || true\false
             return e("div",{key: "activity", id:"activy", style: divActivity},     
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question ,   mediaProp),
-                    e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
+                    e(ButtonType, {answer:answer, btnstyle : btnNext,askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
         }else { 
                 //avaible Input type == 'range' || type=='text' || type=="file"

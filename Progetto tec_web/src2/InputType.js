@@ -10,10 +10,10 @@ function inputType(props){
 
     let inputElement = [];
     const stylB = {
-        width:`${(props.v[props.counter].styleInput.width - 70  )*screen.availWidth /202}px`,
-        height:`${props.v[props.counter].styleInput.height  *screen.availHeight /437}px`,
-        marginBottom:`${(props.v[props.counter].styleInput.bottom - 20) *screen.availHeight /437}px`,
-        marginLeft:`${(props.v[props.counter].styleInput.left +40) *screen.availWidth /202}px`,
+        width:`${(props.v[props.counter].widthInput - 70  )*screen.availWidth /202}px`,
+        height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
+        marginBottom:`${(props.v[props.counter].bottomInput - 20) *screen.availHeight /437}px`,
+        marginLeft:`${(props.v[props.counter].leftInput +40) *screen.availWidth /202}px`,
         position:'absolute'
         
     };
@@ -43,10 +43,10 @@ function inputType(props){
     };
     if(props.v[props.counter].widgetType === "text" ){        
     const styl = {
-            width:`${props.v[props.counter].styleInput.width  *screen.availWidth /202}px`,
-            height:`${props.v[props.counter].styleInput.height  *screen.availHeight /437}px`,
-            marginBottom:`${props.v[props.counter].styleInput.bottom  *screen.availHeight /437}px`,
-            marginLeft:`${props.v[props.counter].styleInput.left  *screen.availWidth /202}px`,
+            width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
+            height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
+            marginBottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
+            marginLeft:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
             position:"absolute"
     }
 
@@ -61,15 +61,15 @@ function inputType(props){
     }else if(props.v[props.counter].widgetType === "range" ) {
         
         const styleRange = {
-            width:`${props.v[props.counter].styleInput.width  *screen.availWidth /202}px`,
-            height:`${props.v[props.counter].styleInput.height  *screen.availHeight /437}px`,
-            marginBottom:`${props.v[props.counter].styleInput.bottom  *screen.availHeight /437}px`,
-            marginLeft:`${props.v[props.counter].styleInput.left  *screen.availWidth /202}px`,
+            width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
+            height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
+            marginBottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
+            marginLeft:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
             position:'absolute'
         }
      
         inputElement.push(e("input",{
-                                type:"number", 
+                                type:"range", 
                                 key:"rangebar",
                                 min:props.v[props.counter].minRange,
                                 max:props.v[props.counter].maxRange,
@@ -109,10 +109,10 @@ function inputType(props){
             
            
             const stylein = {
-                width:`${props.v[props.counter].styleInput.width  *screen.availWidth /202}px`,
-                height:`${props.v[props.counter].styleInput.height  *screen.availHeight /437}px`,
-                marginBottom:`${props.v[props.counter].styleInput.bottom  *screen.availHeight /437}px`,
-                marginLeft:`${props.v[props.counter].styleInput.left  *screen.availWidth /202}px`,
+                width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
+                height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
+                marginBottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
+                marginLeft:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
                 position:'absolute'
             }
 

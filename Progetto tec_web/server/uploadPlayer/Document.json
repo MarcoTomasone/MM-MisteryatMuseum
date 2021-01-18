@@ -80,7 +80,7 @@
 			{
 				"title":"product",
 				"question" : "3 x 5? Fa 15?",
-				"correct": 1,
+				"correct": "Vero",
 				"widgetType": "Vero Falso",
 				"media": 0,
 				"wrongAnswerGo":["description","end"],

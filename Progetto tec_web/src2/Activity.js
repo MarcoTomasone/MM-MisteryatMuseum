@@ -13,7 +13,7 @@ let timer;
  * @param{json:data,  v : activityList , playerId : playerId}
  */
 function Activity(props){
-    
+    //var lastAnswer;
     const [counter,setCounter] = React.useState(0);
     var [img,setImg] = React.useState(0);
     const [lastAnswer,setLastAnswer] = React.useState(null);
@@ -23,100 +23,102 @@ function Activity(props){
         
 //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc(){
+        
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         let indexOfNewActivity;
-        
-        setLastAnswer(null);
-        
-        clearInterval(timer);
-        if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload' && (lastAnswer !== null || dinamicActivities[counter].widgetType =="text" || dinamicActivities[counter].widgetType =="range")){
-            switch(dinamicActivities[counter].widgetType){
-                case "Quattro opzioni" : 
-                    sendData(props.playerId, activities[questionIndex].question,dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
-                    if(dinamicActivities[counter].correct === lastAnswer){
-                       index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-                        console.log("Risposta Corretta!");
-                        indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
-                        dinamicActivities.push(activities[indexOfNewActivity]);
-                    }else{
-                        index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
-                        console.log("Risposta Errata!");
-                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
-                        dinamicActivities.push(activities[indexOfNewActivity]);    
-                    }
-                break;
-                case "Vero Falso" :
-                    sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
-                    if(dinamicActivities[counter].correct === lastAnswer){
-                        index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-                        console.log("Risposta Corretta!");
-                        indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
-                        dinamicActivities.push(activities[indexOfNewActivity]);
-                    }else{
-                        index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
-                        console.log("Risposta Errata!");
-                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
-                        dinamicActivities.push(activities[indexOfNewActivity]);    
-                    }
-                break;
-                case "range":
-                    let value = document.getElementById("rangenpt").value; 
-                    console.log(value); 
-                    sendData(props.playerId, activities[questionIndex].question, value, counter );
-                    if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
-                        index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-                        console.log("Risposta Corretta!");
-                        indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index])
-                       
-                        dinamicActivities.push(activities[indexOfNewActivity]);
-                    }else{
-                        index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
-                        console.log("Risposta Errata!");
-                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
-                        dinamicActivities.push(activities[indexOfNewActivity]);  
-                    }
-                break;
-                case "text":
-                    sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter );
-                    if(document.getElementById("textAnswer").value  === props.v[counter].correct){
-                        index = getRandomInt(0,props.v[counter].correctAnswerGo.length-1);
-                        console.log("Risposta Corretta!");
-                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
-                        props.v.push(activities[indexOfNewActivity]);
-                    }else{
-                        index = getRandomInt(0,props.v[counter].wrongAnswerGo.length -1);
-                        console.log("Risposta Errata!");
-                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
-                        props.v.push(activities[indexOfNewActivity]);
-                    }
-                break;
-            }
-            //if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
-              //  dinamicActivities.push( props.json.accessibility.lastActivity);
-                }else{
-                    if(lastAnswer === null){
-                        if(counter + 1 <= props.v.length){
-                            dinamicActivities.push(activities[counter + 1 % activities.length]);
-                        } 
-                    }else{
-                        const index = activities.indexOf(dinamicActivities[counter]);
-                        if(index === activities.lenght - 1){
-                            dinamicActivities.push(activities[activities.length -1]);
-                            document.getElementById("nextButton").style.backgroundColor="grey";
-                        }else if(index > -1 ){
-                            dinamicActivities.push(activities[index+1]);
-                        }else{ 
-                            console.log('error');
-                        }
-                }
-                    
-            }
 
+        //lastAnswer = null;
+        clearInterval(timer);
+        if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
+            dinamicActivities.push( props.json.accessibility.lastActivity);
+        } else {
+            if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload' && (lastAnswer !== null || dinamicActivities[counter].widgetType =="text" || dinamicActivities[counter].widgetType =="range")){
+                switch(dinamicActivities[counter].widgetType){
+                    case "Quattro opzioni" : 
+                        console.log(lastAnswer);
+                        sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
+                        if(dinamicActivities[counter].correct === lastAnswer){
+                            index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
+                            console.log("Risposta Corretta!");
+                            indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
+                            dinamicActivities.push(activities[indexOfNewActivity]);
+                        }else{
+                            index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
+                            console.log("Risposta Errata!");
+                            indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
+                            dinamicActivities.push(activities[indexOfNewActivity]);    
+                        }
+                    break;
+                    case "Vero Falso" :
+                        let answer = lastAnswer ? "Vero" : "Falso";
+                        sendData(props.playerId, activities[questionIndex].question, answer, counter );
+                        if(dinamicActivities[counter].correct === lastAnswer){
+                            index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
+                            console.log("Risposta Corretta!");
+                            indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
+                            dinamicActivities.push(activities[indexOfNewActivity]);
+                        }else{
+                            index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
+                            console.log("Risposta Errata!");
+                            indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
+                            dinamicActivities.push(activities[indexOfNewActivity]);    
+                        }
+                    break;
+                    case "range":
+                        let value = document.getElementById("rangenpt").value; 
+                        console.log(value); 
+                        sendData(props.playerId, activities[questionIndex].question, value, counter );
+                        if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
+                            index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
+                            console.log("Risposta Corretta!");
+                            indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index])
+                        
+                            dinamicActivities.push(activities[indexOfNewActivity]);
+                        }else{
+                            index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
+                            console.log("Risposta Errata!");
+                            indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
+                            dinamicActivities.push(activities[indexOfNewActivity]);  
+                        }
+                    break;
+                    case "text":
+                        sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter );
+                        if(document.getElementById("textAnswer").value  === props.v[counter].correct){
+                            index = getRandomInt(0,props.v[counter].correctAnswerGo.length-1);
+                            console.log("Risposta Corretta!");
+                            indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
+                            props.v.push(activities[indexOfNewActivity]);
+                        }else{
+                            index = getRandomInt(0,props.v[counter].wrongAnswerGo.length -1);
+                            console.log("Risposta Errata!");
+                            indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
+                            props.v.push(activities[indexOfNewActivity]);
+                        }
+                    break;
+                }
+            } else {
+                if(lastAnswer === null){
+                    if(counter + 1 <= props.v.length){
+                        dinamicActivities.push(activities[counter + 1 % activities.length]);
+                    } 
+                }else{
+                    const index = activities.indexOf(dinamicActivities[counter]);
+                    if(index === activities.lenght - 1){
+                        dinamicActivities.push(activities[activities.length -1]);
+                        document.getElementById("nextButton").style.backgroundColor="grey";
+                    }else if(index > -1 ){
+                        dinamicActivities.push(activities[index+1]);
+                    }else{ 
+                        console.log('error');
+                    }
+                }
+            }
+        }
         setCounter(counter + 1);
+        //setLastAnswer(null);
         loadHelpMessage(props, counter);
-        setLastAnswer(null);
         mediaProp = [];
         const startDate = new Date();
         questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
@@ -124,16 +126,15 @@ function Activity(props){
         timer = setInterval( () => {
             var now = new Date();
             var seconds = (now.getTime() - startDate.getTime()) / 1000;
-            const answer = lastAnswer ? dinamicActivities[counter].multipleAnswer[lastAnswer] : null;
             sendData(props.playerId, 
                 activities[questionIndex].question, 
-                answer,
+                "Nessuna risposta",
                 counter + 1, 
                 seconds );
         }, 5000);
     }
-
-    function checkButton(answer){
+    
+    function checkButton(answer){  
         if(props.v[counter].widgetType ==="Vero Falso"){    
             if(answer === 1){
                 document.getElementById("btnFalse").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
@@ -148,9 +149,9 @@ function Activity(props){
             for(let i = 0 ; i < nAnswer ;i++){
                 document.getElementById("btn"+i).backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
             }
-            document.getElementById("btn"+answer).backgroundColor="yellow";
+            document.getElementById("btn"+answer).backgroundColor="yellow";  
         }
-    setLastAnswer(answer);
+        setLastAnswer(answer);
     }
 
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON

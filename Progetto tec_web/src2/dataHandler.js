@@ -3,7 +3,7 @@ export function getID(playerID, question){
     const player = {
         section : 0,
         question, 
-        answer: null,
+        answer: "Nessuna Risposta",
         timer : 0
     }
     axios.post(`http://localhost:8000/postJson`, {id: playerID, sectionArray: [player], story : "Story1"});

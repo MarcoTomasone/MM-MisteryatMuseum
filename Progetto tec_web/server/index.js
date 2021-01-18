@@ -30,32 +30,32 @@ app.post("/check", (req, res) => {
     res.status(200).end(pathName)
 })
 
+/**uploadPlayer use by player to load resource to evaluate
+ *or download file to append to DOM
+ */
+
 app.get('/downloadImage/:source',(req,res) =>{
-//uploadPlayer use by player to load resource to evaluate
-//or download file to append to DOM
-  
     let path = './uploadPlayer/'+req.params.source;
     let data = fs.readFileSync(path);
-    res.send(data);
-   
+    res.send(data); 
 })
 
+/**downloadBackground allow the player to load the resource to evaluate
+ * on base64 and append this to DOM
+*/
+      
 app.get('/downloadBackground/:source',(req,res) =>{
-    //downloadBackground allow the player to load the resource to evaluate
-    //on base64 and append this to DOM
-        
         let path = "./upload/"+req.params.source;
         let data = fs.readFileSync(path);
         res.send(data);
-       
-    })
+})
+
 app.get(`/requestJson`,(req,res)=>{
-    
     let path = './uploadPlayer/Document.json';
     let data = fs.readFileSync(path);
-    
     res.send(JSON.parse(data));
 })
+
 /**
  * Funzione che dal player manda un immagine al valutatore
  * call by InputType.js

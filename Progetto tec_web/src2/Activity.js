@@ -23,11 +23,11 @@ function Activity(props){
         
 //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc(){
-
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         let indexOfNewActivity;
+        
         setLastAnswer(null);
         
         clearInterval(timer);
@@ -93,24 +93,27 @@ function Activity(props){
                     }
                 break;
             }
-        }else{
-            if(lastAnswer === null){
-                if(counter + 1 <= props.v.length){
-                    dinamicActivities.push(activities[counter + 1 % activities.length]);
-                } 
-            }else{
-                const index = activities.indexOf(dinamicActivities[counter]);
-                if(index === activities.lenght - 1){
-                    dinamicActivities.push(activities[activities.length -1]);
-                    document.getElementById("nextButton").style.backgroundColor="grey";
-                }else if(index > -1 ){
-                    dinamicActivities.push(activities[index+1]);
-                }else{ 
-                    console.log('error');
+            //if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
+              //  dinamicActivities.push( props.json.accessibility.lastActivity);
+                }else{
+                    if(lastAnswer === null){
+                        if(counter + 1 <= props.v.length){
+                            dinamicActivities.push(activities[counter + 1 % activities.length]);
+                        } 
+                    }else{
+                        const index = activities.indexOf(dinamicActivities[counter]);
+                        if(index === activities.lenght - 1){
+                            dinamicActivities.push(activities[activities.length -1]);
+                            document.getElementById("nextButton").style.backgroundColor="grey";
+                        }else if(index > -1 ){
+                            dinamicActivities.push(activities[index+1]);
+                        }else{ 
+                            console.log('error');
+                        }
                 }
-        }
-                
-        }
+                    
+            }
+
         setCounter(counter + 1);
         loadHelpMessage(props, counter);
         setLastAnswer(null);
@@ -225,10 +228,10 @@ function Activity(props){
                     }
         });       
         const mediaStyle = {
-            width:`${dinamicActivities[counter].styleM.width  *screen.availWidth /202}px`,
-            height:`${dinamicActivities[counter].styleM.height  *screen.availHeight /437}px`,
-            bottom:`${dinamicActivities[counter].styleM.bottom  *screen.availHeight /437}px`,
-            left:`${dinamicActivities[counter].styleM.left  *screen.availWidth /202}px`,
+            width:`${dinamicActivities[counter].widthImage  *screen.availWidth /202}px`,
+            height:`${dinamicActivities[counter].heightImage  *screen.availHeight /437}px`,
+            bottom:`${dinamicActivities[counter].topImage  *screen.availHeight /437}px`,
+            left:`${dinamicActivities[counter].leftImage  *screen.availWidth /202}px`,
             position:'absolute'
         }
     

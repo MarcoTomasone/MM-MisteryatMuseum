@@ -7,7 +7,6 @@ const e = React.createElement;
  */
 export function readJSON() {
     let request = new XMLHttpRequest();
-    
     request.open('GET', `http://localhost:8000/requestJson`, false);
     request.send(null);
     //console.log(request.responseText);
@@ -39,6 +38,15 @@ export function loadHelpMessage(props, counter){
     var message = props.v[counter].help;
     message = (message == null) ?  "Non ci sono aiuti per questa activity!" : message;
     appendMessage(message, "help-message-container");
+}
+
+/**
+ * Check if the key pressed is enter
+ * @param event
+ * @returns true if it is enter, false otherwise
+ */
+export function isEnter(event) {
+    return event.key == "Enter" ? true : false;
 }
 
 export function getRandomInt( min, max ) {

@@ -62,6 +62,11 @@ module.exports = {
             res.status(200).end(data);
         });
 
+        app.get('/messages', (req, res) => {
+            const messages = JSON.stringify(arrayMessages);
+            res.status(200).end(messages);
+        });
+
         app.get('/pdf', (req, res) => {            
             const player = req.query.player;
             const story = req.query.story;

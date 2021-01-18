@@ -37,3 +37,8 @@ export async function getStories(){
     const response = await axios.get('http://localhost:8000/stories');
     return response.data;
 }
+
+export async function getMessages(){
+    const response = await axios.get('http://localhost:8000/messages');
+    return response.data;
+}

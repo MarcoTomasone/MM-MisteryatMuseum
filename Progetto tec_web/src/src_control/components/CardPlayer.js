@@ -1,18 +1,9 @@
-import { appendMessage } from '../../../utils.js';
-import { send } from '../Control.js';
+import { appendMessage, isEnter } from '../../../utils.js';
+//import { send } from '../Control.js';
 
 const { Badge, makeStyles, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardContent, CardActions, Avatar, Collapse } = MaterialUI;
 const e = React.createElement;
 
-//Function to send messages to the evaluator
-const sendMessage = (id) => {
-    const messageInput = document.getElementById(id + '_message-input');
-    const message = `<b>You</b>: ${messageInput.value}`;
-    const container = id + "_message-container";
-    appendMessage(message, container); //lato client
-    send(messageInput.value, id)
-    messageInput.value = ''
-}
 
 /* ---------------------------------------------------------------------Style-------------------------------------------------------------------------------------- */
 const useStyles_card = makeStyles((theme) => ({
@@ -65,26 +56,43 @@ export const CardPlayer = React.forwardRef((props, ref) => {
 
     //States
     const [expanded, setExpanded] = React.useState(false);
-    const [badge, setBadge] = React.useState(0);
-    const [helpBadge, setHelpBadge] = React.useState(0);
+    const [badge, setBadge] = React.useState(true);
+    const [helpBadge, setHelpBadge] = React.useState(true);
+    const [evaluationBadge, setEvaluationBadge] = React.useState(true);
 
-    React.useImperativeHandle(ref, () => ({
-		handleBadge() {
-            if(!expanded)
-		        setBadge(badge + 1);
-		}
-	}));
-
-    //Function to send messages when you press enter
-    const keyDown = (event) => {
-        if (event.key == "Enter")
-            sendMessage(props.id);
+    //Function to send messages to the evaluator
+    const sendMessage = (id) => {
+        const messageInput = document.getElementById(id + '_message-input');
+        const message = `<b>You</b>: ${messageInput.value}`;
+        const container = id + "_message-container";
+        appendMessage(message, container); //lato client
+        props.send(messageInput.value, id)
+        messageInput.value = ''
     }
+
+
+    React.useImperativeHandle(ref, (value) => ({
+        handleHelp(value) {
+		    setHelpBadge(value);
+        },
+        handleEvaluation(value) {
+            setEvaluationBadge(value);
+		}
+    }));
+    
+    React.useEffect(() => {
+        if(props.arrived[props.id] && !expanded)
+                setBadge(false);
+    }, [props.arrived]);
 
     //Function to reset the notifications counter
     React.useEffect(() => {
-        if(expanded)
-            setBadge(0);
+        if(expanded){
+            const tmp = _.cloneDeep(props.arrived);
+            tmp[props.id] = false;
+            props.setArrived(tmp);
+            setBadge(true);
+        }
     }, [expanded]);
 
     return(
@@ -97,16 +105,16 @@ export const CardPlayer = React.forwardRef((props, ref) => {
                 ]})
             ]}),
             e(CardActions, {key: "3", disableSpacing: true, children: [
-                e(IconButton, {key: "I1", children: e(Badge, {id: props.id  + "_chat", badgeContent: badge, color: "secondary", children: e(Icon, {children: "chat", color: "primary"})}), onClick: () => {setExpanded(!expanded);}}),
-                e(IconButton, {key: "I2", children: e(Badge, {id: props.id  + "_help", badgeContent: helpBadge, color: "secondary", children: e(Icon, {children: "help", color: "primary"})}), onClick: () => {props.setSlide(false); props.setHelp(true);}}),
-                e(IconButton, {key: "I3", children: e(Icon, {children: "insert_photo", color: "primary"}), onClick: () =>{props.setHelp(false); props.setSlide(true);}}),
-                e(IconButton, {key: "I4", children: e(Icon, {children: "info", color: "primary"}), onClick: () =>{}})
+                e(IconButton, {key: "I1", children: e(Badge, {id: props.id  + "_chat", color: "secondary", variant: "dot", invisible: badge, children: e(Icon, {children: "chat", color: "primary"})}), onClick: () => {setExpanded(!expanded);}}),
+                e(IconButton, {key: "I2", children: e(Badge, {id: props.id  + "_help", color: "secondary", variant: "dot", invisible: helpBadge, children: e(Icon, {children: "help", color: "primary"})})}),
+                e(IconButton, {key: "I3", children: e(Badge, {id: props.id + "_evaluation", color: "secondary", variant: "dot", invisible: evaluationBadge, children: e(Icon, {children: "upload_image", color: "primary"})})}),
+                e(IconButton, {key: "I4", children: e(Icon, {children: "info", color: "primary"})})
             ]}),
             e(Collapse, {key: "4", id: props.id + "_collapse", style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
                 e(CardContent, {key: "cardContent", children: [
                     e("div",{key: "div", className: classes_message.messageContainer, id: props.id + "_message-container"}), //div di arrivo delle risposte da valutare
                     e("form", {key: "form", id: props.id + "_send-container"}, [
-                        e(TextField, {key: "textfield", className: classes_message.messageInput, id: props.id + "_message-input", onKeyDown: keyDown, variant: "outlined", margin: "dense", InputProps: {endAdornment: 
+                        e(TextField, {key: "textfield", className: classes_message.messageInput, id: props.id + "_message-input", onKeyDown: () => {isEnter(event)? sendMessage(props.id) : null} , variant: "outlined", margin: "dense", InputProps: {endAdornment: 
                             e(IconButton, {id: props.id + "_send-button", onClick: () => {sendMessage(props.id)}, size: "small", children: e(Icon, {children: "send"})}), style: {fontSize: "10pt"}}}
                         )
                     ])

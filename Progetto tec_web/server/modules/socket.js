@@ -1,10 +1,9 @@
 const { Socket } = require("socket.io");
 
 module.exports = function(io) {
-    
+    global.arrayMessages = {};
     const socketPlayers = {};
     const socketEvaluator = {};
-    let counter = 0;
 
     io.on('connection', socket => {
         const type = socket.handshake.query.type;
@@ -14,6 +13,9 @@ module.exports = function(io) {
             });
             socket.on('send-to-evaluator', data => {
                 io.to(socketEvaluator["evaluator0"]).emit('message-from-player', {message : data.message , name :data.id, id: data.id});
+                if(!arrayMessages[data.id])
+                    arrayMessages[data.id] = [];
+                arrayMessages[data.id].push(`<b>${data.id}</b>: ${data.message}`);
                 //socket.broadcast.emit('message-from-player', {message : data.message , name :"Card0", id: "Card0"})
             });
             socket.on('send-help-text', data => {
@@ -29,6 +31,9 @@ module.exports = function(io) {
             });
             socket.on('send-to-player', data => {
                 io.to(socketPlayers[data.id]).emit('message-from-evaluator', {message : data.message , name :"Admin", id: data.id});
+                if(!arrayMessages[data.id])
+                    arrayMessages[data.id] = [];
+                arrayMessages[data.id].push(`<b>You</b>: ${data.message}`);
                 //socket.broadcast.emit('message-from-evaluator', {message : data.message , name :"Admin", id: data.id})
             });
         }

@@ -102,12 +102,20 @@ module.exports = {
             if(!(story in storiesActive))
                 storiesActive[story] = {}; //added new story
             if(storiesActive[story][id]){
-                storiesActive[story][id].sectionArray.push(sectionArray);  //push the player in the story        
+                const length = storiesActive[story][id].sectionArray.length - 1;
+                const lastActivity = storiesActive[story][id].sectionArray[length];
+                if(lastActivity.section != sectionArray.section){
+                    storiesActive[story][id].sectionArray.push(sectionArray); //push the player in the story  
+                } else {
+                    lastActivity.timer = sectionArray.timer;
+                    lastActivity.answer = sectionArray.answer;
+                }      
             } else {
-                storiesActive[story][id] = {id, sectionArray : []};
+                storiesActive[story][id] = {id, sectionArray};
             }
             res.status(200).end();
-          
+            console.log(storiesActive["Story1"]["Marco"]);
+
             /*
             const path = `./statusFiles/`;
             const file = path + req.body.id + ".json"
@@ -125,5 +133,6 @@ module.exports = {
             }
             res.status(200).end();*/
         });
+
     }
 }

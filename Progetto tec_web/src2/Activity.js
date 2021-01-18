@@ -1,9 +1,9 @@
 import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import {loadHelpMessage, getRandomInt} from '../utils.js';
-import { sendData } from './dataHandler.js';
+import { sendData} from './dataHandler.js';
 const e = React.createElement;
-
+let timer; 
 /**         Activity 
  * contains the interactive activities 
  * state[Counter]   <-- number of activity from v[] {dinamic Array}
@@ -23,35 +23,42 @@ function Activity(props){
         
 //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc(){
-
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
+        let indexOfNewActivity;
         
-        if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload' && lastAnswer != null){
+        setLastAnswer(null);
+        
+        clearInterval(timer);
+        if(dinamicActivities[counter].widgetType !== "" && dinamicActivities[counter].widgetType !=='imgUpload' && (lastAnswer !== null || dinamicActivities[counter].widgetType =="text" || dinamicActivities[counter].widgetType =="range")){
             switch(dinamicActivities[counter].widgetType){
-                case "Quattro opzioni": 
+                case "Quattro opzioni" : 
                     sendData(props.playerId, activities[questionIndex].question,dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
                     if(dinamicActivities[counter].correct === lastAnswer){
                        index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                         console.log("Risposta Corretta!");
-                        dinamicActivities.push(activities[actual.correctAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
+                        dinamicActivities.push(activities[indexOfNewActivity]);
                     }else{
                         index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
                         console.log("Risposta Errata!");
-                        dinamicActivities.push(activities[actual.wrongAnswerGo[index]]);    
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
+                        dinamicActivities.push(activities[indexOfNewActivity]);    
                     }
                 break;
-                case "Vero Falso":
-                    //marco ->> Aggiungi send Data!
+                case "Vero Falso" :
+                    sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter );
                     if(dinamicActivities[counter].correct === lastAnswer){
                         index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                         console.log("Risposta Corretta!");
-                        dinamicActivities.push(activities[actual.correctAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
+                        dinamicActivities.push(activities[indexOfNewActivity]);
                     }else{
                         index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
                         console.log("Risposta Errata!");
-                        dinamicActivities.push(activities[actual.wrongAnswerGo[index]]);    
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
+                        dinamicActivities.push(activities[indexOfNewActivity]);    
                     }
                 break;
                 case "range":
@@ -61,48 +68,69 @@ function Activity(props){
                     if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
                         index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
                         console.log("Risposta Corretta!");
-                        dinamicActivities.push(activities[actual.correctAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index])
+                       
+                        dinamicActivities.push(activities[indexOfNewActivity]);
                     }else{
                         index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
                         console.log("Risposta Errata!");
-                        dinamicActivities.push(activities[actual.wrongAnswerGo[index]]);  
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
+                        dinamicActivities.push(activities[indexOfNewActivity]);  
                     }
                 break;
                 case "text":
                     sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter );
-                    if(document.getElementById("textAnswer").value  === props.v[counter].textAnswer.value){
+                    if(document.getElementById("textAnswer").value  === props.v[counter].correct){
                         index = getRandomInt(0,props.v[counter].correctAnswerGo.length-1);
                         console.log("Risposta Corretta!");
-                        props.v.push(activities[actual.correctAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
+                        props.v.push(activities[indexOfNewActivity]);
                     }else{
                         index = getRandomInt(0,props.v[counter].wrongAnswerGo.length -1);
                         console.log("Risposta Errata!");
-                        props.v.push(activities[actual.wrongAnswerGo[index]]);
+                        indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
+                        props.v.push(activities[indexOfNewActivity]);
                     }
                 break;
             }
-        }else{
-            if(lastAnswer === null){
-                if(counter + 1 <= props.v.length){
-                    dinamicActivities.push(activities[counter + 1 % activities.length]);
-                } 
-            }else{
-                const index = activities.indexOf(dinamicActivities[counter]);
-                if(index === activities.lenght - 1){
-                    dinamicActivities.push(activities[activities.length -1]);
-                    document.getElementById("nextButton").style.backgroundColor="grey";
-                }else if(index > -1 ){
-                    dinamicActivities.push(activities[index+1]);
-                }else{ 
-                    console.log('error');
+            //if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
+              //  dinamicActivities.push( props.json.accessibility.lastActivity);
+                }else{
+                    if(lastAnswer === null){
+                        if(counter + 1 <= props.v.length){
+                            dinamicActivities.push(activities[counter + 1 % activities.length]);
+                        } 
+                    }else{
+                        const index = activities.indexOf(dinamicActivities[counter]);
+                        if(index === activities.lenght - 1){
+                            dinamicActivities.push(activities[activities.length -1]);
+                            document.getElementById("nextButton").style.backgroundColor="grey";
+                        }else if(index > -1 ){
+                            dinamicActivities.push(activities[index+1]);
+                        }else{ 
+                            console.log('error');
+                        }
                 }
-        }
-                
-        }
-        loadHelpMessage(props, counter +1);
+                    
+            }
+
         setCounter(counter + 1);
+        loadHelpMessage(props, counter);
         setLastAnswer(null);
         mediaProp = [];
+        const startDate = new Date();
+        questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
+        console.log(counter);
+        timer = setInterval( () => {
+            var now = new Date();
+            var seconds = (now.getTime() - startDate.getTime()) / 1000;
+            const answer = lastAnswer ? dinamicActivities[counter].multipleAnswer[lastAnswer] : null;
+            sendData(props.playerId, 
+                activities[questionIndex].question, 
+                answer,
+                counter + 1, 
+                seconds );
+        }, 5000);
     }
 
     function checkButton(answer){
@@ -114,7 +142,8 @@ function Activity(props){
                 document.getElementById("btnFalse").backgroundColor = "yellow"; 
                 document.getElementById("btnTrue").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
             }
-        }else{
+        }
+        else{
             const nAnswer = props.v[counter].multipleAnswer.lenght;
             for(let i = 0 ; i < nAnswer ;i++){
                 document.getElementById("btn"+i).backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
@@ -199,22 +228,26 @@ function Activity(props){
                     }
         });       
         const mediaStyle = {
-            width:`${dinamicActivities[counter].styleM.width  *screen.availWidth /202}px`,
-            height:`${dinamicActivities[counter].styleM.height  *screen.availHeight /437}px`,
-            bottom:`${dinamicActivities[counter].styleM.bottom  *screen.availHeight /437}px`,
-            left:`${dinamicActivities[counter].styleM.left  *screen.availWidth /202}px`,
+            width:`${dinamicActivities[counter].widthImage  *screen.availWidth /202}px`,
+            height:`${dinamicActivities[counter].heightImage  *screen.availHeight /437}px`,
+            bottom:`${dinamicActivities[counter].topImage  *screen.availHeight /437}px`,
+            left:`${dinamicActivities[counter].leftImage  *screen.availWidth /202}px`,
             position:'absolute'
         }
     
     if(img !== 0)
         mediaProp.push (e("img",{style:mediaStyle,key:"media",alt:dinamicActivities[counter].alternativeText,src:img}));//controls:true,autoPlay:true}));    
     }
+
+    /**per inserire immagini dentro o fuori il divActivity é necessario spostare il vettore mediaProp
+     * o come figlio di activityIntro oppure come figlio di activity e impostare i cambiamenti nel json opportuno
+     */
     if (dinamicActivities[counter].widgetType === "" ){   
         return e("div",{key:"divCont"},
                 e("div",{key: "activity", id:"activy", style: divActivity},    
-                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question),
-                ),mediaProp,        
-                    e("button", {key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question , mediaProp)
+                ),      
+                e("button", {key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
         );
 
     } else {
@@ -223,16 +256,15 @@ function Activity(props){
 
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero Falso") {
                 // multiple answer || true\false
-            return e("div",{key: "activity", id:"activy", style: divActivity},    
-                    mediaProp, 
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question),
+            return e("div",{key: "activity", id:"activy", style: divActivity},     
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question ,   mediaProp),
                     e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
         }else { 
                 //avaible Input type == 'range' || type=='text' || type=="file"
             return e("div",{key: "activity", id:"activy", style: divActivity},    
-                    mediaProp, 
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question), 
+                    
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question,mediaProp),
                     e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
                 ));
     }

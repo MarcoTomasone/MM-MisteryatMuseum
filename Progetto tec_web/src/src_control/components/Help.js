@@ -8,7 +8,6 @@ export default function Help(props) {
         const texfield = document.getElementById("help_" + props.id);
         const answer = texfield.value;
         texfield.value = "";
-        props.socket.emit('help-from-player', { answer });
         //something
         const tmp = _.cloneDeep(props.arrayHelps);
         const player = props.player;
@@ -18,6 +17,7 @@ export default function Help(props) {
                 tmp[player].splice(index, 1)
         })
         props.setArrayHelps(tmp);
+        props.socket.emit('help-to-player', { player: props.player, answer: answer, id: props.id});
     }
     
     return(

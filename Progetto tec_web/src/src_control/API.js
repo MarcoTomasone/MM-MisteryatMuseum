@@ -1,3 +1,8 @@
+/**
+ * Get all the data of the active players of a story
+ * @param story The story that we want to evaluate
+ * @returns A dictionary of all active players with their data
+ */
 export async function getDataPlayer(story){
     const response = await axios.get('http://localhost:8000/status', { params: { story } });
     const dict = {};
@@ -16,11 +21,6 @@ export async function getDataPlayer(story){
     return dict;
 }
 
-export async function getPlayers(story){
-    const response = await axios.get('http://localhost:8000/players', { params: { story } })
-    return response.data;
-}
-
 /**
  * Download pdf of a player
  * @param player The player whose pdf the evaluator wants
@@ -33,12 +33,49 @@ export async function getPDF(player, story){
     saveAs(blob, `${player}.pdf`);
 }
 
+
+/**
+ * Get all active players (their ids/names)
+ * @param story 
+ * @returns The ids/names of all active players
+ */
+export async function getPlayers(story){
+    const response = await axios.get('http://localhost:8000/players', { params: { story } })
+    return response.data;
+}
+
+/**
+ * Get active stories
+ * @returns all stories
+ */
 export async function getStories(){
     const response = await axios.get('http://localhost:8000/stories');
     return response.data;
 }
 
+/**
+ * Get saved messages of active players
+ * @returns all messages
+ */
 export async function getMessages(){
     const response = await axios.get('http://localhost:8000/messages');
+    return response.data;
+}
+
+/**
+ * Get pending requests for help of active players
+ * @returns all requests
+ */
+export async function getHelps(){
+    const response = await axios.get('http://localhost:8000/helps');
+    return response.data;
+}
+
+/**
+ * Get pending requests for human evaluation of active players
+ * @returns all requests
+ */
+export async function getEvaluations(){
+    const response = await axios.get('http://localhost:8000/evaluations');
     return response.data;
 }

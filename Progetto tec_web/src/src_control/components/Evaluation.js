@@ -16,6 +16,7 @@ export default function Help(props) {
                 tmp[player].splice(index, 1)
         })
         props.setArrayEvaluations(tmp);
+        props.socket.emit('read-message', { type: "evaluation", id: props.id, player: props.player })
     }
     
     return(

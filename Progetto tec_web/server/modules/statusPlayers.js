@@ -67,6 +67,16 @@ module.exports = {
             res.status(200).end(messages);
         });
 
+        app.get('/helps', (req, res) => {
+            const helps = JSON.stringify(arrayHelps);
+            res.status(200).end(helps);
+        });
+
+        app.get('/evaluations', (req, res) => {
+            const evaluations = JSON.stringify(arrayEvaluations);
+            res.status(200).end(evaluations);
+        });
+
         app.get('/pdf', (req, res) => {            
             const player = req.query.player;
             const story = req.query.story;

@@ -1,16 +1,33 @@
-import VerticalBar from './components/VerticalBar.js';
 import BasicTable from './components/BasicTable.js';
 import Help from './components/Help.js';
 import Evaluation from './components/Evaluation.js';
 import { MyDialog } from './components/MyDialog.js';
 import { CardPlayer } from './components/CardPlayer.js';
-import { getDataPlayer, getMessages } from './API.js';
+import { getDataPlayer, getEvaluations, getHelps, getMessages } from './API.js';
 import {appendMessage} from '../../utils.js';
-const { Select, MenuItem, InputLabel, Slide, Paper, Button, IconButton, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
+const { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Paper, Button, IconButton, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
 const e = React.createElement;
-
 const socket = io('http://localhost:3000', {query: 'type=evaluator'});
 socket.emit('new-evaluator');
+
+const useStyles2 = makeStyles({
+    table: {
+      minWidth: 650,
+    },
+  });
+  
+  function createData(id, name, section, question, answer, time, points) {
+    return { id, name, section, question, answer, time, points };
+  }
+  
+  const rows = [
+    createData('Frozen yoghurt', "Floccari", 3, "Che fai?", 100, 350),
+    createData('Frozen yoghurt', "Marcos", 3, "Che fai?", 100, 350),
+    createData('Frozen yoghurt', "Gimnos", 3, "Che fai?", 100, 350),
+    createData('Frozen yoghurt', "Ebreo", 3, "Che fai?", 100, 350),
+  ]
+
+//create tab panel for the tabs
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
     return (
@@ -41,18 +58,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const uploadMessages = async() => {
-    (async() => {
-        const arrayMessages = await getMessages();
-        for(const player in arrayMessages){
-            const messageContainer = document.getElementById(player + '_message-container');
-            if(arrayMessages[player] && arrayMessages[player].length > 0 && messageContainer && messageContainer.childNodes.length == 0)
-                arrayMessages[player].forEach((message) => {
-                    appendMessage(message, player + '_message-container');
-                })
-        }
-    })();
-}
 
 export default function Control(props){
     //States
@@ -63,16 +68,111 @@ export default function Control(props){
     const [ranking, setRanking] = React.useState([]);
     const [value, setValue] = React.useState(0);
     const [ID, setID] = React.useState("");
-    const cardsRef = React.useRef({}); ////ref of the cards used for call the cards's functions
+    const cardsRef = React.useRef({}); //ref of the cards used for call the cards's functions
     const dialogRef = React.useRef({});
     const classes = useStyles();
-
-    uploadMessages();
+    const classes2 = useStyles2();
+    const story = window.location.href.match(/([^\/]*)\/*$/)[1]; //this constant is used to know what story the evaluator is in
 
     const send = (message, id) => {
         socket.emit('send-to-player', {message: message, id: id});
     }
 
+    //function that returns current players 
+    const getPlayers = (value) => {
+        const type = value == "arrayEvaluations" ? arrayEvaluations : arrayHelps;
+        const players = [];
+        arrayPlayers.forEach((item) => {
+            players.push(e(MenuItem, {value: item.key, children: [ item.key, e(Icon, {fontSize: "small", children: "new_releases", color: "secondary", style: {marginLeft: 20, display: type[item.key] && type[item.key].length > 0 ? "hidden" : "none"}}) ]}));
+        })
+        return players;
+    };
+
+    //function to change tab
+    const handleChange = (event, newValue) => {
+        if(ID !== "")
+            setID("");
+        setValue(newValue);
+    };
+
+
+    //function that set helps notifications
+    const notifyHelp = () => {
+        for(const player in arrayHelps) {
+            if(cardsRef.current[player])
+                if(arrayHelps[player].length <= 0)
+                    cardsRef.current[player].handleHelp(true);
+                else{
+                    cardsRef.current[player].handleHelp(false);
+                }
+        }
+    }
+
+    //function that set evaluations notifications
+    const notifyEvaluation = () => {
+        for(const player in arrayEvaluations) {
+            if(cardsRef.current[player])
+                if(arrayEvaluations[player].length <= 0)
+                    cardsRef.current[player].handleEvaluation(true);
+                else
+                    cardsRef.current[player].handleEvaluation(false);
+        }
+    }
+
+    //upload helps in the cards
+    const uploadHelp = () => {
+        if(_.isEmpty(arrayHelps))
+        (async() => {
+            const helps = await getHelps();
+            const tmp = _.cloneDeep(arrayHelps);
+            for(const player in helps){
+                if(!tmp[player])
+                    tmp[player] = [];
+                helps[player].forEach((item) => {
+                    tmp[player].push(e(Help, {id: tmp[player].length, player: player, question: item.question, socket: socket, arrayHelps: tmp, setArrayHelps: setArrayHelps, socket: socket})); 
+                })
+            }
+            setArrayHelps(tmp); 
+        })();
+    }
+
+    //upload evaluations in the cards
+    const uploadEvaluation = () => {
+        if(_.isEmpty(arrayEvaluations))
+        (async() => {
+            const evaluations = await getEvaluations();
+            const tmp = _.cloneDeep(arrayEvaluations);
+            for(const player in evaluations){
+                if(!tmp[player])
+                    tmp[player] = [];
+                evaluations[player].forEach((item) => {
+                tmp[player].push(e(Evaluation, {id: tmp[player].length, player: player, question: item.question, answer: item.answer, type: item.type, socket: socket, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations}));            
+                })
+            }
+            setArrayEvaluations(tmp); 
+        })(); 
+    }
+
+    //upload messages in the cards
+    const uploadMessages = () => {
+        (async() => {
+            const arrayMessages = await getMessages();
+            for(const player in arrayMessages){
+                const messageContainer = document.getElementById(player + '_message-container');
+                if(arrayMessages[player] && arrayMessages[player].messages.length > 0 && messageContainer && messageContainer.childNodes.length == 0) {
+                    arrayMessages[player].messages.forEach((message) => {
+                        appendMessage(message, player + '_message-container');
+                    })
+                    if(arrayMessages[player].arrived == true) {
+                        const tmp = _.cloneDeep(arrived);
+                        tmp[player] = true;
+                        setArrived(tmp);
+                    }
+                }
+            }
+        })();
+    }
+    
     //create and set cards of players
     const uploadCard = (arrayOfPlayers) => {
         const arrayOfCards = [];
@@ -86,6 +186,7 @@ export default function Control(props){
             timer: arrayOfPlayers[key].timer,
             section: arrayOfPlayers[key].section, 
             points: arrayOfPlayers[key].points,
+            socket: socket,
             send: send,
             arrived: arrived,
             setArrived: setArrived,
@@ -97,12 +198,11 @@ export default function Control(props){
         if(!(_.isEqual(tmp, arrived)))
             setArrived(tmp);
         setArrayPlayers(arrayOfCards);
+        notifyHelp();
+        notifyEvaluation();
     }
 
-    //this constant is used to know what story the evaluator is in
-    const story = window.location.href.match(/([^\/]*)\/*$/)[1];
-
-    //wait messages from players and set notify
+    //wait the messages, the helps and the answers to evaluate from players and set their notifications
     React.useEffect(() => {
         socket.on('message-from-player', data => {
             const message = `<b>${data.name}</b>: ${data.message}`;
@@ -130,7 +230,7 @@ export default function Control(props){
             tmp[data.id].push(e(Evaluation, {id: tmp[data.id].length, player: data.id, question: question, answer: answer, type: type, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations}));            
             setArrayEvaluations(tmp);
         });
-        return () => {
+        return () => {  //componenetWillUnMount
             socket.off('message-from-player');
             socket.off('help-from-player');
             socket.off('answer-from-player');
@@ -145,48 +245,15 @@ export default function Control(props){
         })();
     }, [ , arrived]);
 
-    //set notify of help
+    //set helps and evaluations notifications when the tab is switched
     React.useEffect(() => {
-        for(const player in arrayHelps) {
-            if(cardsRef.current[player] != null)
-                if(arrayHelps[player].length <= 0)
-                    cardsRef.current[player].handleHelp(true);
-                else
-                    cardsRef.current[player].handleHelp(false);
-        }
+        notifyHelp();
+        notifyEvaluation();
     },[value]);
 
-    //set notify of evaluation
-    React.useEffect(() => {
-        for(const player in arrayEvaluations) {
-            if(cardsRef.current[player] != null)
-                if(arrayEvaluations[player].length <= 0)
-                    cardsRef.current[player].handleEvaluation(false);
-                else
-                    cardsRef.current[player].handleEvaluation(false);
-        }
-    },[value]);
-
-    /*
-    React.useEffect(() => {
-        uploadMessages();
-    }, [arrayPlayers])
-    */
-
-    const handleChange = (event, newValue) => {
-        if(ID !== "")
-            setID("");
-        setValue(newValue);
-    };
-
-    const getPlayers = (value) => {
-        const type = value === "arrayEvaluation" ? arrayEvaluations : arrayHelps;
-        const players = [];
-        arrayPlayers.forEach((item) => {
-            players.push(e(MenuItem, {value: item.key, children: [ item.key, e(Icon, {fontSize: "small", children: "new_releases", color: "secondary", style: {marginLeft: 20, display: type[item.key] && type[item.key].length > 0 ? "hidden" : "none"}}) ]}));
-        })
-        return players;
-    };
+    uploadHelp();
+    uploadEvaluation();
+    uploadMessages();
 
     return e(React.Fragment, null, [ 
         e("div", { className: classes.root }, [
@@ -196,7 +263,7 @@ export default function Control(props){
                     e(Tab, { label: "Ranking", ...a11yProps(1) }),
                     e(Tab, { label: "Help", ...a11yProps(2) }),
                     e(Tab, { label: "Evaluation", ...a11yProps(3) }),
-                    e(Tab, { disabled: true, label: "Info", ...a11yProps(4) })
+                    e(Tab, { label: "Info", ...a11yProps(4) })
                 ] })
             ] }),
             e(TabPanel, { value: value, index: 0, children: [
@@ -210,17 +277,52 @@ export default function Control(props){
                 e(Select, {labelId: "help-label", value: ID, style: {width: 200, marginBottom: 20, marginLeft: 20}, onChange: (event) => {setID(event.target.value)}, children: [ 
                     getPlayers("arrayHelps")
                 ]}),
-                (ID != "") && (arrayHelps[ID] ? arrayHelps[ID] : e("p", null, "This player doesn't need help"))
+                (ID != "") && (arrayHelps[ID] && arrayHelps[ID].length > 0 ? arrayHelps[ID] : e("p", null, "This player doesn't need help"))
             ] }),
             e(TabPanel, { value: value, index: 3, children: [
                 e("label", {id: "evaluation-label", children: "Player"}),
                 e(Select, {labelId: "evaluation-label", value: ID, style: {width: 200, marginBottom: 20, marginLeft: 20}, onChange: (event) => {setID(event.target.value)}, children: [ 
                     getPlayers("arrayEvaluations")
                 ]}),
-                (ID != "") && (arrayEvaluations[ID] ? arrayEvaluations[ID] : e("p", null, "This player have not answer to evaluate"))
+                (ID != "") && (arrayEvaluations[ID] && arrayEvaluations[ID].length > 0 ? arrayEvaluations[ID] : e("p", null, "This player have not answer to evaluate"))
             ] }),
             e(TabPanel, { value: value, index: 4, children: [
-                e("p", null, "The Info of " + ID),
+                e(Select, {labelId: "info-label", value: ID, style: {width: 200, marginBottom: 20, marginLeft: 20}, onChange: (event) => {setID(event.target.value)}, children: [ 
+                    (() => {
+                        const players = [];
+                        arrayPlayers.forEach((item) => {
+                            players.push(e(MenuItem, {value: item.key, children: [ item.key ]}));
+                        })
+                        return players;
+                    })()
+                ]}),
+                e(TableContainer, {component: Paper, children: [
+                    e(Table, {className: classes2.table, ariaLabel: "simple table", children: [
+                        e(TableHead, {children: [
+                            e(TableRow, {children: [
+                                e(TableCell, {children: "ID"}),
+                                e(TableCell, {children: "Name"}),
+                                e(TableCell, {children: "Section"}),
+                                e(TableCell, {children: "Question"}),
+                                e(TableCell, {children: "Answer"}),
+                                e(TableCell, {children: "Time"}),
+                                e(TableCell, {children: "Points"})
+                            ]}),
+                        ]}),
+                        e(TableBody, {children: [
+                            (rows.map((row) => (
+                                e(TableRow, { key: row.name, children: [
+                                    e(TableCell, {component: "th", scope: "row", children: row.id}),
+                                    e(TableCell, {component: "th", scope: "row", children: row.name}),
+                                    e(TableCell, {component: "th", scope: "row", children: row.section}),
+                                    e(TableCell, {component: "th", scope: "row", children: row.question}),
+                                    e(TableCell, {component: "th", scope: "row", children: row.answer}),
+                                    e(TableCell, {component: "th", scope: "row", children: row.time}),
+                                    e(TableCell, {component: "th", scope: "row", children: row.points}),
+                                ]})
+                            )))]})
+                    ]})
+                ]}),
                 e(Button, {size: "large", variant: "contained", onClick: () => {dialogRef.current.handleOpen()}}, "Download"),
                 e(MyDialog, {key: "dialog", story: story, ref: dialogRef}),
                 //dialogRef.current.handleOpen();
@@ -229,86 +331,6 @@ export default function Control(props){
         //e(VerticalBar, {key: "verticalBar", value: value, setValue: setValue}),
     ]);
 }
-
-/*---------------------------CHAT---------------*/
-/*
-const [messages, setMessages] = React.useState({});
-
-in uploadCards:
-    const players = tutti i giocatori;
-    const tmp = {}:
-    players.forEach((item) => {
-        if(!(item in tmp))
-            tmp[item] = {arrived: false, messages: []};
-    })
-    setMessages(tmp);
-
-in socket.on(aspetto il mex):
-    const tmp = _.cloneDeep(messages);
-    tmp[data.id].messages.push(data.message);
-    //se il collapse è chiuso mettere in true l'arrived
-    tmp[data.id].arrived = true; //e passare arrived come props
-    forceUpdate();
-*/
-
-//mi servirebbe per ricaricare i messaggi nel caso di ricaricamento della pagina
-/*const uploadMessages = function(){
-    let message_app = "";
-    if (props.id in all_messages){
-        for (let i = 0; i < all_messages[props.id].length; i++) {
-            if(all_messages[props.id].charAt(i) == "/"){
-                appendMessage(message_app, props.id + "_message-container");
-                message_app = "";
-            }
-            else
-                message_app = message_app + all_messages[props.id].charAt(i);
-            }
-        }
-}*/
-
-//save sended message in a dictionary
-    /*if (!(id in all_messages)){
-        all_messages[id] = []
-    }
-    all_messages[id]= all_messages[id] + "You:" + message + "/";
-
-    socket.emit('send-chat-message', {message: message, id: id}); //receiver: socket.id
-   
-    let dictstring = JSON.stringify(all_messages);
-    let blob = new Blob(["Welcome to Websparrow.org."], { type: "json;charset=utf-8" });
-    saveAs(blob, "static.json");*/
-
-
-    
-//save arrived message in a dictionary
-/*if (!(data.id in all_messages)){
-    all_messages[data.id] = []
-}
-all_messages[data.id]= all_messages[data.id] + data.name+":" + data.message + "/";
-
-console.log(all_messages);*/
-
-
-
-
-/*------------------------TEST------------------------*/
-/*
-const test1 = () => {
-    const tmp = _.cloneDeep(arrayHelps);
-    tmp["Card0"] = [];
-    tmp["Card0"].push(e(Help, {id: tmp["Card0"].length, player: "Card0", question: "Quanto lungo ?", socket: socket, arrayHelps: tmp, setArrayHelps: setArrayHelps}));
-    tmp["Card0"].push(e(Help, {id: tmp["Card0"].length, player: "Card0", question: "Quanto corto ?", socket: socket, arrayHelps: tmp, setArrayHelps: setArrayHelps}));
-    setArrayHelps(tmp);
-}
-
-const test2 = () => {
-    const tmp = _.cloneDeep(arrayEvaluations);
-    tmp["Card0"] = [];
-    tmp["Card0"].push(e(Evaluation, {id: tmp["Card0"].length, player: "Card0", question: "Quanto lungo ?", answer: "Il piccione di tua madre", type:"text", arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations}));
-    tmp["Card0"].push(e(Evaluation, {id: tmp["Card0"].length, player: "Card0", question: "Quanto corto ?", answer: "https://nintendoomed.it/wp-content/uploads/2017/09/pikachu_hi_pokemon.jpg", type: "image", arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations}));
-    setArrayEvaluation(tmp);
-}
-*/
 
 
 

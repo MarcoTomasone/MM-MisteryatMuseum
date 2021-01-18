@@ -100,12 +100,9 @@ function Realize_activity(props){
     })
     const [listOfActivity, setListOfActivity] = React.useState([]);
     const [activitySelect, setActivitySelect] = React.useState("");
-
     const [activityCorrectAnswer, setActivityCorrectAnswer] = React.useState("");
-    const [tableActivityCorrectAnswer, setTableActivityCorrectAnswer] = React.useState([]);
     const [menuItemActivityCorrectAnswer, setMenuItemActivityCorrectAnswer] = React.useState([])
-    
-    const [tableActivityWrongAnswer, setTableActivityWrongAnswer] = React.useState([]);
+    const [activityWrongAnswer, setActivityWrongAnswer] = React.useState("");
     const [menuItemActivityWrongAnswer, setMenuItemActivityWrongAnswer] = React.useState([])
     const [arrayOfActivity, setArrayOfActivity] = React.useState([]);
     const [errorAnswerInserted, setErrorAnswerInserted] = React.useState(false);
@@ -204,7 +201,7 @@ function Realize_activity(props){
             else document.getElementById(element).classList.add(classes.hide)
         })
         setScore(0);
-        setAnswerSelect("");
+        setAnswerSelect();
     }, [activity.widgetType])
 
 
@@ -214,19 +211,19 @@ function Realize_activity(props){
             if (element != activity.title) tmp.push(e(MenuItem, {value : element}, element))
         })
         setListOfActivity(tmp)
-    }, [activity, updateTable])
-
-
-    React.useEffect(() => {
-        var tmp = []
+        tmp = []
         activity.correctAnswerGo.forEach(element => {
             tmp.push(e(MenuItem, {value : element}, element))
         })
         setMenuItemActivityCorrectAnswer(tmp)
-    }, [activity, updateTable])
+        tmp = []
+        activity.wrongAnswerGo.forEach(element => {
+            tmp.push(e(MenuItem, {value : element}, element))
+        })
+        setMenuItemActivityWrongAnswer(tmp)
+    }, [activity.title, updateTable])
 
-
-    
+  
 
 
     const createActivity = () => {
@@ -275,15 +272,13 @@ function Realize_activity(props){
 
     function addFunction(array){
         var check = true
-        array.forEach(element => { if (element.text == answer) check = false});
+        activity[array].forEach(element => { if (element.text == answer) check = false});
         if (check){
             const newAnswer = {
                 text: answer,
                 score: 0,
             }
-            array.push(newAnswer)
-            setAnswer("")
-            setScore(0)
+            setActivity({...activity, [array]: [...activity[array],newAnswer]});
             setUpdateTable((prev) => !prev)
         } else {
             setErrorAnswerDuplicated(true)
@@ -295,13 +290,13 @@ function Realize_activity(props){
         else {
             if ((activity.widgetType == "Quattro opzioni" && activity.fourAnswers.length >= 4)){
                 setErrorLimitAnswer(true)
-                setAnswer("")
-                setScore(0)
             } else {
-                if (activity.widgetType == "Quattro opzioni") addFunction(activity.fourAnswers)
-                else if (activity.widgetType == "Scelta multipla") addFunction(activity.multipleAnswers)
+                if (activity.widgetType == "Quattro opzioni") addFunction("fourAnswers")
+                else if (activity.widgetType == "Scelta multipla") addFunction("multipleAnswers")
             }
         }
+        setAnswer("")
+        setScore(0)
     };
 
 
@@ -330,38 +325,40 @@ function Realize_activity(props){
     }
 
     function updateFunction(array){
-        array.forEach(element =>{
-            if (element.text == answerSelect) element.score = score
+        var tmp = []
+        activity[array].forEach(element =>{
+            if (element.text == answerSelect) tmp.push({text: element.text, score: score})
+            else tmp.push(element)
         })
+        activity[array] = tmp
         setUpdateTable((prev) => !prev)
     }
 
     function updateScore(){
         if (answerSelect != "" && isNumeric(score)){
-            if (activity.widgetType == "Quattro opzioni") updateFunction(activity.fourAnswers)
-            else if (activity.widgetType == "Scelta multipla") updateFunction(activity.multipleAnswers)
+            if (activity.widgetType == "Quattro opzioni") updateFunction("fourAnswers")
+            else if (activity.widgetType == "Scelta multipla") updateFunction("multipleAnswers")
         } else if (answerSelect != "") { setErrorNotNumber(true)} 
         else { setErrorAnswerSelected(true) }
-        setAnswer("")
+        setAnswerSelect()
         setScore(0)
     }
 
-    function deleteFunction(array, text){
+    function deleteFunction(array){
         var tmp = []
-        array.forEach(element =>{
+        activity[array].forEach(element =>{
             if (element.text != answerSelect) tmp.push(element)
         })
-        if (text == "fourAnswers")  activity.fourAnswers = tmp
-        else activity.multipleAnswers = tmp
+        activity[array] = tmp
         setUpdateTable((prev) => !prev)
     }
 
     function deleteAnswer(){
         if (answerSelect != ""){
-            if (activity.widgetType == "Quattro opzioni") deleteFunction(activity.fourAnswers, "fourAnswers")
-            else if (activity.widgetType == "Scelta multipla") deleteFunction(activity.multipleAnswers, "multipleAnswers")
+            if (activity.widgetType == "Quattro opzioni") deleteFunction("fourAnswers")
+            else if (activity.widgetType == "Scelta multipla") deleteFunction("multipleAnswers")
         } else {setErrorAnswerSelected(true)}
-        setAnswer("")
+        setAnswerSelect("")
         setScore(0)
     }
 
@@ -370,7 +367,7 @@ function Realize_activity(props){
         if (index > -1) {
             props.story.activitiesNotAssigned.splice(index, 1);
         }
-        activity.correctAnswerGo.push(activitySelect)
+        setActivity({...activity, ["correctAnswerGo"]: [...activity["correctAnswerGo"], activitySelect]});
         setActivitySelect("")
         setUpdateTable((prev) => !prev)
     }
@@ -380,18 +377,30 @@ function Realize_activity(props){
         if (index > -1) {
             props.story.activitiesNotAssigned.splice(index, 1);
         }
-        activity.wrongAnswerGo.push(activitySelect)
+        setActivity({...activity, ["wrongAnswerGo"]: [...activity["wrongAnswerGo"], activitySelect]});
         setActivitySelect("")
         setUpdateTable((prev) => !prev)
     }
 
     function deleteActivitiesCorrectAnswer(){
-        const index = activity.correctAnswerGo.indexOf(activityCorrectAnswer);
-        if (index > -1) {
-            activity.correctAnswerGo.splice(index, 1);
-        }
-        props.story.activitiesNotAssigned.push(activityCorrectAnswer)
+        var tmp = []
+        activity.correctAnswerGo.forEach(element => {
+            if (element != activityCorrectAnswer) tmp.push(element)
+        })
+        setActivity({...activity, ["correctAnswerGo"]: tmp});
+        setActivity({...activity, ["activitiesNotAssigned"]: activityCorrectAnswer});
         setActivityCorrectAnswer("")
+        setUpdateTable((prev) => !prev)
+    }
+
+    function deleteActivitiesWrongAnswer(){
+        var tmp = []
+        activity.wrongAnswerGo.forEach(element => {
+            if (element != activityWrongAnswer) tmp.push(element)
+        })
+        setActivity({...activity, ["wrongAnswerGo"]: tmp});
+        setActivity({...activity, ["activitiesNotAssigned"]: activityWrongAnswer});
+        setActivityWrongAnswer("")
         setUpdateTable((prev) => !prev)
     }
 
@@ -611,19 +620,14 @@ function Realize_activity(props){
                 ),  
             ]),
             e("div", {className: "sx_realize_option_table"}, [
-                e(TableContainer, {component:Paper, style:{ width: 400 }}, [
-                    e(Table, {className: classes.table}, [
-                        e(TableHead, null, [
-                            e(TableRow, null, [
-                                e(TableCell, null, "Titolo"),
-                                e(TableCell, {align: "right"}, "Testo")
-                            ])
-                        ]),
-                        e(TableBody, null, tableActivityCorrectAnswer)
-                    ])
-                ])    
+                e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
+                    e(InputLabel, {htmlFor: "activitiesWrongAnswer"}, "Selezionare risposta"),
+                    e(Select, {id: "activitiesWrongAnswer", label: "Selezionare attività", onChange: (e) => setActivityWrongAnswer(e.target.value)}, menuItemActivityWrongAnswer)
+                ]),
+                e(IconButton, {id: "deleteActivitiesWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteActivitiesWrongAnswer}, 
+                    e(Icon, {children: "delete"}),  
+                ),  
             ]),
-
 
             e(DialogComponent, {fun: setErrorFourAnswers, open: errorFourAnswers, textError: "Inserire prima esattamente 4 risposte se si vuole scegliere questo tipo di risposta"} ),
             e(DialogComponent, {fun: setErrorAnswerInserted, open: errorAnswerInserted, textError: "Inserire prima una risposta"} ),

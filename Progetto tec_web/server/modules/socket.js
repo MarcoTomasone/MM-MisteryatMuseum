@@ -6,17 +6,19 @@ module.exports = function(io) {
     global.arrayEvaluations = {};
     const socketPlayers = {};
     const socketEvaluator = {};
-    arrayHelps["Card0"] = [ {question: "Quanto sono bravo?", id: 0}, {question: "Ti piace la frutta?", id: 1}];
+    /*arrayHelps["Card0"] = [ {question: "Quanto sono bravo?", id: 0}, {question: "Ti piace la frutta?", id: 1}];
     arrayHelps["Card1"] = [ {question: "Quanto sono bravo a scuola?", id: 0}, {question: "Ti piace la frutta?", id: 1}];
 
     arrayEvaluations["Card0"] = [ {question: "Quanto sono bravo?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", answer: "poco", type: "text", id: 1}];
     arrayEvaluations["Card1"] = [ {question: "Quanto sono bravo a scuola?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", type: "text", answer: "poco", id: 1}];
-
+    */
+   
     io.on('connection', socket => {
         const type = socket.handshake.query.type;
         if(type == 'player'){
             socket.on('new-player', data => {
                 socketPlayers[data.playerID] = socket.id;
+                io.to(socketEvaluator["evaluator0"]).emit('update-status');
             });
             socket.on('send-to-evaluator', data => {
                 io.to(socketEvaluator["evaluator0"]).emit('message-from-player', {message : data.message , name :data.id, id: data.id});
@@ -24,7 +26,6 @@ module.exports = function(io) {
                     arrayMessages[data.id] = { messages: [], arrived: false };
                 arrayMessages[data.id].messages.push(`<b>${data.id}</b>: ${data.message}`);
                 arrayMessages[data.id].arrived = true;
-                //socket.broadcast.emit('message-from-player', {message : data.message , name :"Card0", id: "Card0"})
             });
             socket.on('send-help-text', data => {
                 if(!arrayHelps[data.id])
@@ -36,8 +37,11 @@ module.exports = function(io) {
                 if(!arrayEvaluations[data.id])
                     arrayEvaluations[data.id] = [];
                 arrayEvaluations[data.id].push({ question: data.question, answer: data.answer, type: data.type, id: arrayEvaluations[data.id].length });
-                //io.to(socketEvaluator["evaluator0"]).emit('finish-player', {"Ho finito"});
+                io.to(socketEvaluator["evaluator0"]).emit('answer-from-player', {question: data.question, answer: data.answer, type: data.type, id: data.id});
             });
+            socket.on('data-update', data => {
+                io.to(socketEvaluator["evaluator0"]).emit('update-status');
+            })
             socket.on('finish', data => {
                 //io.to(socketEvaluator["evaluator0"]).emit('finish-player', {"Ho finito"});
             })
@@ -70,8 +74,9 @@ module.exports = function(io) {
             socket.on('read-message', data => {
                 const id = data.id;
                 const player = data.player;
-                if(data.type == 'message' && arrayMessages[player])
-                    arrayMessages[data.id].arrived = false;
+                if(data.type == 'message' && arrayMessages[player]){
+                    arrayMessages[player].arrived = false;
+                }
                 else if(arrayEvaluations[player]) {
                     arrayEvaluations[player].forEach((item, index) => {
                         if(item.id == id)

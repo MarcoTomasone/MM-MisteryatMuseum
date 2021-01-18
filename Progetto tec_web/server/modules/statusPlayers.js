@@ -6,7 +6,7 @@ require('jspdf-autotable');
 const storiesActive = {};
 
 //samples for test-----------------------------------------------------------------------------------------
-const Card0 = JSON.parse(fs.readFileSync('./inGame/Story1/Card0.json', {encoding:'utf8', flag:'r'}));
+/*const Card0 = JSON.parse(fs.readFileSync('./inGame/Story1/Card0.json', {encoding:'utf8', flag:'r'}));
 const Card1 = JSON.parse(fs.readFileSync('./inGame/Story1/Card1.json', {encoding:'utf8', flag:'r'}));
 
 const Card3 = JSON.parse(fs.readFileSync('./inGame/Story2/Card3.json', {encoding:'utf8', flag:'r'}));
@@ -20,7 +20,7 @@ storiesActive["Story1"][Card1.id] = Card1;
 storiesActive["Story2"] = {};
 storiesActive["Story2"][Card3.id] = Card3;
 storiesActive["Story2"][Card4.id] = Card4;
-storiesActive["Story2"][Card5.id] = Card5;
+storiesActive["Story2"][Card5.id] = Card5;*/
 
 //----------------------------------------------------------------------------------------------------------
 
@@ -59,6 +59,15 @@ module.exports = {
                 res.status(404);
             const players = Object.keys(storiesActive[story]);
             const data = JSON.stringify(players);
+            res.status(200).end(data);
+        });
+
+        app.get('/history', (req, res) => {
+            const player = req.query.player;
+            const story = req.query.story;
+            if(!player in storiesActive[story])
+                res.status(404);
+            const data = JSON.stringify(storiesActive[story][player]);
             res.status(200).end(data);
         });
 
@@ -114,6 +123,8 @@ module.exports = {
             if(storiesActive[story][id]){
                 const length = storiesActive[story][id].sectionArray.length - 1;
                 const lastActivity = storiesActive[story][id].sectionArray[length];
+                if(!lastActivity)
+                    res.status(404);
                 if(lastActivity.section != sectionArray.section){
                     storiesActive[story][id].sectionArray.push(sectionArray); //push the player in the story  
                 } else {
@@ -124,7 +135,6 @@ module.exports = {
                 storiesActive[story][id] = {id, sectionArray};
             }
             res.status(200).end();
-            console.log(storiesActive["Story1"]["Marco"]);
 
             /*
             const path = `./statusFiles/`;

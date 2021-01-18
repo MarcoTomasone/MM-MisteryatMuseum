@@ -6,7 +6,7 @@ const e = React.createElement;
  * on answer type:
  *  - Multiple Answer
  *  - True/False Answer 
- * @param {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc}} props 
+ * @param {answer:answer, textStyle:textStyle,lastAnswer:lastAnswer, domanda:domanda, json:props.json, counter:counter, v : props.v, checkButton : checkButton , btnNext:btnNext, MediaProp : MediaProp, inc:inc}} props 
  */
 
 function ButtonType(props){
@@ -45,32 +45,72 @@ function ButtonType(props){
         marginRight:`${props.v[props.counter].btnStyle.marginRight  *screen.availHeight /437}px`,
         marginTop:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`,
         borderRadius:`${props.v[props.counter].btnStyle.borderRadius}px`,
+        marginBottom:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`
+    };
+
+    const buttonGroup = {
+        border: "solid",
+        borderColor: "green",
+        position:'absolute',
+        marginTop:"450px",
+        left:`57px`,
+        width:`273px`,
+        height:`70px`,
+        left:'50px',
+        //top:`20px`,
+        marginBottom:"50%"
+    }
+       const buttSelect = {
+        backgroundColor:'yellow',
+        width:`${props.v[props.counter].btnStyle.width  *screen.availWidth /202}px`,
+        height:`${props.v[props.counter].btnStyle.height  *screen.availHeight /437}px`,
+        marginLeft:`${props.v[props.counter].btnStyle.marginLeft *screen.availWidth /202}px`,
+        marginRight:`${props.v[props.counter].btnStyle.marginRight  *screen.availHeight /437}px`,
+        marginTop:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`,
+        borderRadius:`${props.v[props.counter].btnStyle.borderRadius}px`,
                         
        };
-
-       const ListButtonAnswer = [];     //Array that contains every button
-        for (let i = 0; i < props.answer.length; i++) {      
+    
+        const ListButtonAnswer = [];     //Array that contains every button
+        if(props.v[props.counter].widgetType === "Vero Falso"){
             ListButtonAnswer.push(e("button", {
-                key:"Btn"+i,
-                style: buttProp,
-                id:"btn"+i,
-                alt:"bottone : "+props.answer[i], 
-                onClick: () => props.checkButton(props.counter , i, props.json.accessibility.activities , props.v)
-            }, props.answer[i]));
+                key:"BtnTrue",
+                style:(props.lastAnswer===1)? buttSelect:buttProp,
+                id:"btnTrue",
+                alt:"TRUE", 
+                onClick: () =>props.checkButton(1)
+            },"TRUE"));
+            ListButtonAnswer.push(e("button", {
+                key:"BtnFalse",
+                style: (props.lastAnswer===0)? buttSelect:buttProp,
+                id:"btnFalse",
+                alt:"FALSE", 
+                onClick: () =>props.checkButton(0)
+            },"FALSE"));
+        }else{
+            for (let i = 0; i < props.answer.length; i++) {      
+                    ListButtonAnswer.push(e("button", {
+                        key:"Btn"+ i,
+                        style: (i != props.lastAnswer)? buttProp:buttSelect,
+                        id:"btn"+ i,
+                        alt:"bottone : "+props.answer[i], 
+                        onClick: () => props.checkButton(i)
+                    }, props.answer[i]));
+            }
         }
        
         return e("div",null,
-                    e("div", {key: "actDescription", style: divActivity},
-                    e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda),
+                    //e("div", {key: "actDescription", style: divActivity},
+                    //e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda), props.MediaProp,
                     e("div", {
                         key: "buttonblock",
-                        style: props.askNav }, [
+                        style:buttonGroup }, [
                         ListButtonAnswer
                     ]),
-                    props.MediaProp)
-                    ,e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:props.inc}, "NEXT")
+                    e("button", {key:"buttonNext",id: "nextButton1",style:btnNext,onClick:props.inc}, "NEXT")
                 );
 
 }
+
 
 export default ButtonType;

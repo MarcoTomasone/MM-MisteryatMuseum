@@ -1,7 +1,7 @@
 {	
 	"id": "Card1",
 	"name": "C1",
-	"sectionsArray" : [
+	"sectionArray" : [
 		{ "section": 1,
 		  "question": "Quanto è bella Manfredonia?",
 		  "answer" : "Troppo assai",

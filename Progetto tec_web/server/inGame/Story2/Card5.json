@@ -1,7 +1,7 @@
 {	
 	"id": "Card5",
 	"name": "C5",
-	"sectionsArray" : [
+	"sectionArray" : [
 		{ "section": 1,
 		  "question": "Quanto è bella Manfredonia?",
 		  "answer" : "Troppo assai",
@@ -11,7 +11,7 @@
 		{ "section": 2,
 			"question": "Quanto è bella Montenero?",
 			"answer" : "Troppo",
-			"points": 833,
+			"points": 750,
 			"timer": 5
 		}
 	]

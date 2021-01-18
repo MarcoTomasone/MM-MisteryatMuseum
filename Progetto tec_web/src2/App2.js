@@ -13,8 +13,7 @@ const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 //Chat
 const socket = io('http://localhost:3000', {query: 'type=player'})
 
-const id = "Card0";
-socket.emit('new-player', {playerID: id});
+
 
 //waiting event
 socket.on('message-from-evaluator', data => {
@@ -22,15 +21,25 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON(id);
+const temp = readJSON();
 const data = JSON.parse(temp);
+data.accessibility.activities.unshift(data.accessibility.firstActivity);
+data.accessibility.activities.push(data.accessibility.lastActivity);
 
 let activityList = [];
 activityList.push(data.accessibility.activities[0]);
-
+console.log(data);
+//console.log(activityList);
 function App2() {
-    
-    
+ 
+    //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
+    var dictionaryActivity =new Map;
+    for(let i = 0;i<data.accessibility.activities.length;i++){
+        dictionaryActivity.set( data.accessibility.activities[i].title , i);
+    }
+    //console.log(dictionaryActivity);
+
+    var [backgroundImg,setBackgroundImg] = React.useState(0);
     React.useEffect(() => {
         document.getElementById("body2").style.height = `${screen.availHeight}px`;
         document.getElementById("body2").style.width = `${screen.availWidth}px`;
@@ -67,31 +76,64 @@ function App2() {
         position:'absolute'
     };
 
-   
-    const div_a = {      //style della div contenente le activity
+if(data.accessibility.player.backgroundImageCheck ==="true"){
+    var base64data;
+    
+    axios.get(`http://localhost:8000/downloadBackground/${data.accessibility.player.backgroundImageUrl}`, { responseType:"blob" })
+            .then(function (response) {
+            var blob1 = response.data;
+            const blob = new Blob([blob1], { type: 'image/png' });
+            var reader = new window.FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = function() {
+                base64data = reader.result;                
+                setBackgroundImg(backgroundImg = base64data);
+                }
+    });      
+
+    var div_a = {      //style della div contenente le activity
         border:data.accessibility.activityStyle.divisor.border,
         overflow:"scroll",
         borderColor: data.accessibility.activityStyle.divisor.borderColor,
         position:'absolute',
-        background:  data.accessibility.player.background ,
-    
+        backgroundImage : 'url('+backgroundImg+')',
+        backgroundSize: 'auto',
+        backgroundRepeat: 'repeat',
         thicknessFrame:`${data.accessibility.player.weightFont}px`,
         topFrame:`${data.accessibility.player.topFrame}px`,
         weightFont:`${data.accessibility.player.weightFont}px`,
         widthFrame: `${data.accessibility.player.widthFrame}px`
         
     };
+   
+}else{
+    var div_a = {      //style della div contenente le activity
+        border:data.accessibility.activityStyle.divisor.border,
+        overflow:"scroll",
+        borderColor: data.accessibility.activityStyle.divisor.borderColor,
+        position:'absolute',
+        background: data.accessibility.player.background,
+        thicknessFrame:`${data.accessibility.player.weightFont}px`,
+        topFrame:`${data.accessibility.player.topFrame}px`,
+        weightFont:`${data.accessibility.player.weightFont}px`,
+        widthFrame: `${data.accessibility.player.widthFrame}px`
+        
+    };
+}
 
     //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);
     const [slideChat, setSlideChat] = React.useState(false);
     const [dialog, setDialog] = React.useState(true);
+    const [id, setID] = React.useState("");
 
    function handleClose() {
         setDialog(false);
-        //const idContainer = document.getElementById("id-input");
-        //const id = idContainer.value;
-        //getID(id);
+        const idContainer = document.getElementById("id-input");
+        const playerID = idContainer.value;
+        setID(playerID);
+        getID(playerID, activityList[0].question);
+        socket.emit('new-player', {playerID});
         //si potrebbe passare al server come 
         //parametro l'id e lui restituisce il json corrispondente 
     }
@@ -101,11 +143,11 @@ function App2() {
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
         appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
-        socket.emit('send-to-evaluator', {message: message, id: "Card0"})  //server side
+        socket.emit('send-to-evaluator', {message: message, id})  //server side
         messageInput.value = '' //clean the input text
     } 
 
-
+ 
     return e(React.Fragment, null, [
         e("div", null, [    
             e("div", {key:"player",id:"player",style:div_a}, [
@@ -114,7 +156,7 @@ function App2() {
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}})
             )],
                     //open : dialog
-          e(Dialog, {open: false, keepMounted: true, onClose: handleClose}, [
+          e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
                     e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),
@@ -125,12 +167,12 @@ function App2() {
                     ])
                 ]),
             ])),
-            e(Activity, { json:data,  v : activityList}),
-            e(Slide, {in: slideChat, direction: "right", id: "slide-chat", children: e(Paper, null, [
+            e(Activity, { json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity}),
+            e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
-                        e(TextField, {id: "message-input", variant: "outlined", margin: "dense", multiline: true, rows: "3", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                        e(TextField, {id: "message-input", variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
                             e(IconButton, {id:"send-button", onClick: sendMessage, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])

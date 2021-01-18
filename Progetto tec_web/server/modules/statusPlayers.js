@@ -13,14 +13,15 @@ const Card3 = JSON.parse(fs.readFileSync('./inGame/Story2/Card3.json', {encoding
 const Card4 = JSON.parse(fs.readFileSync('./inGame/Story2/Card4.json', {encoding:'utf8', flag:'r'}));
 const Card5 = JSON.parse(fs.readFileSync('./inGame/Story2/Card5.json', {encoding:'utf8', flag:'r'}));
 
-storiesActive["Story1"] = []; //create a new story
-storiesActive["Story1"].push(Card0); //added player in a story
-storiesActive["Story1"].push(Card1);
+storiesActive["Story1"] = {}; //create a new story
+storiesActive["Story1"][Card0.id] = Card0; //added player in a story
+storiesActive["Story1"][Card1.id] = Card1;
 
-storiesActive["Story2"] = [];
-storiesActive["Story2"].push(Card3);
-storiesActive["Story2"].push(Card4);
-storiesActive["Story2"].push(Card5);
+storiesActive["Story2"] = {};
+storiesActive["Story2"][Card3.id] = Card3;
+storiesActive["Story2"][Card4.id] = Card4;
+storiesActive["Story2"][Card5.id] = Card5;
+
 //----------------------------------------------------------------------------------------------------------
 
 module.exports = {
@@ -28,31 +29,42 @@ module.exports = {
         //get current status of players
         app.get('/status', (req, res) => {
             const story = req.query.story;
-            const arrayPlayers = JSON.stringify(storiesActive[story]);
-            res.end(arrayPlayers);
+            const arrayPlayers = [];
+            if(!storiesActive[story])
+                res.status(404)
+            for(id in storiesActive[story]){
+                arrayPlayers.push(storiesActive[story][id]);
+            }
+            const data = JSON.stringify(arrayPlayers);
+            res.end(data);
         });
 
         //get active stories
         app.get('/stories', (req, res) => {
-            const keys = Object.keys(storiesActive);
+            const stories = Object.keys(storiesActive); // array of all active stories
             const nPlayers = {};
-            for(element in keys){
-                const key = keys[element];
-                nPlayers[key] = storiesActive[key].length;  //number of active players
-            }
-            const stories = JSON.stringify({stories: keys, nPlayers: nPlayers});
-            res.end(stories);
+            if(stories.length <= 0)
+                res.status(404);
+            stories.forEach((story) => {
+                nPlayers[story] = Object.keys(storiesActive[story]).length;
+            })
+            const infoStories = JSON.stringify({stories: stories, nPlayers: nPlayers});
+            res.end(infoStories);
         });     
 
         //get players in a story
         app.get('/players', (req, res) => {
-            const players = [];
             const story = req.query.story;
-            storiesActive[story].forEach((player) => {
-                players.push(player.id);
-            })
+            if(!storiesActive[story])
+                res.status(404);
+            const players = Object.keys(storiesActive[story]);
             const data = JSON.stringify(players);
             res.status(200).end(data);
+        });
+
+        app.get('/messages', (req, res) => {
+            const messages = JSON.stringify(arrayMessages);
+            res.status(200).end(messages);
         });
 
         app.get('/pdf', (req, res) => {            
@@ -68,7 +80,7 @@ module.exports = {
             doc.setFontSize(30);
             doc.setFont("calibri");
             doc.text( `${player}`, 100, 15, {align: "center"});
-            infoPlayer.sectionsArray.forEach((section, i) => {
+            infoPlayer.sectionArray.forEach((section, i) => {
                 const item = [section.section, section.question, section.answer, section.time, section.points];
                 rows.push(item);
             });
@@ -84,24 +96,43 @@ module.exports = {
 
         //post status files of players
         app.post('/postJson', (req, res) => {
-
-            /*
-            const player = req.body.player; //the json of player
+            const id = req.body.id; //the json of player
+            const sectionArray = req.body.sectionArray;
             const story = req.body.story; //you also have to pass him which story he wants to play
             if(!(story in storiesActive))
-                storiesActive[story] = []; //added new story
-            storiesActive.push(player);  //push the player in the story
+                storiesActive[story] = {}; //added new story
+            if(storiesActive[story][id]){
+                const length = storiesActive[story][id].sectionArray.length - 1;
+                const lastActivity = storiesActive[story][id].sectionArray[length];
+                if(lastActivity.section != sectionArray.section){
+                    storiesActive[story][id].sectionArray.push(sectionArray); //push the player in the story  
+                } else {
+                    lastActivity.timer = sectionArray.timer;
+                    lastActivity.answer = sectionArray.answer;
+                }      
+            } else {
+                storiesActive[story][id] = {id, sectionArray};
+            }
             res.status(200).end();
-            */
+            console.log(storiesActive["Story1"]["Marco"]);
 
+            /*
             const path = `./statusFiles/`;
+            const file = path + req.body.id + ".json"
             console.log(req.body);
             if (!fs.existsSync(path))
                 fs.mkdirSync(path);
             //Pubblico il file nel path
-            fs.writeFileSync( path + 'student-2.json', JSON.stringify(req.body));
-
-            res.status(200).end();
+            if(!fs.existsSync(file))
+                fs.writeFileSync(file, JSON.stringify(req.body));
+            else {
+                const rawdata = fs.readFileSync(file);
+                let data = JSON.parse(rawdata);
+                data.sectionArray.push(req.body.SectionArray);
+                fs.writeFileSync(file, JSON.stringify(data));
+            }
+            res.status(200).end();*/
         });
+
     }
 }

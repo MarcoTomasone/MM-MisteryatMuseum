@@ -3,7 +3,7 @@ import Help from './components/Help.js';
 import Evaluation from './components/Evaluation.js';
 import { MyDialog } from './components/MyDialog.js';
 import { CardPlayer } from './components/CardPlayer.js';
-import { getDataPlayer, getEvaluations, getHelps, getMessages } from './API.js';
+import { getDataPlayer, getEvaluations, getHelps, getHistory, getMessages } from './API.js';
 import {appendMessage} from '../../utils.js';
 const { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Paper, Button, IconButton, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
 const e = React.createElement;
@@ -16,16 +16,9 @@ const useStyles2 = makeStyles({
     },
   });
   
-  function createData(id, name, section, question, answer, time, points) {
-    return { id, name, section, question, answer, time, points };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', "Floccari", 3, "Che fai?", 100, 350),
-    createData('Frozen yoghurt', "Marcos", 3, "Che fai?", 100, 350),
-    createData('Frozen yoghurt', "Gimnos", 3, "Che fai?", 100, 350),
-    createData('Frozen yoghurt', "Ebreo", 3, "Che fai?", 100, 350),
-  ]
+function createData(section, question, answer, time, points) {
+    return { section, question, answer, time, points };
+}
 
 //create tab panel for the tabs
 function TabPanel(props) {
@@ -66,6 +59,7 @@ export default function Control(props){
     const [arrayHelps, setArrayHelps] = React.useState({});
     const [arrayEvaluations, setArrayEvaluations] = React.useState({});
     const [ranking, setRanking] = React.useState([]);
+    const [rows, setRows] = React.useState([]);
     const [value, setValue] = React.useState(0);
     const [ID, setID] = React.useState("");
     const cardsRef = React.useRef({}); //ref of the cards used for call the cards's functions
@@ -76,6 +70,19 @@ export default function Control(props){
 
     const send = (message, id) => {
         socket.emit('send-to-player', {message: message, id: id});
+    }
+
+    const createRows = (player) => {
+        (async() => {
+            if(player == "")
+                return [];
+            const data = await getHistory(player, story);
+            const tmp = [];
+            data.sectionArray.forEach((item) => {
+                tmp.push(createData(item.section, item.question, item.answer, item.time, item.points));
+            })
+            setRows(tmp);
+        })();
     }
 
     //function that returns current players 
@@ -93,6 +100,7 @@ export default function Control(props){
         if(ID !== "")
             setID("");
         setValue(newValue);
+        setRows([]);
     };
 
 
@@ -209,13 +217,16 @@ export default function Control(props){
             const container = data.id + '_message-container';
             appendMessage(message , container);
             const tmp = _.cloneDeep(arrived);
-            tmp[data.id] = true;
+            if(cardsRef.current[data.id] && !cardsRef.current[data.id].getExpanded())
+                tmp[data.id] = true; //se l'expanded è aperta
+            else
+                tmp[data.id] = false;
             setArrived(tmp);
         });
         socket.on('help-from-player', data => {
             const question = data.message;
             const tmp = _.cloneDeep(arrayHelps);
-            if(arrayHelps[data.id])
+            if(!arrayHelps[data.id])
                 tmp[data.id] = [];
             tmp[data.id].push(e(Help, {id: tmp[data.id].length, player: data.id, question: question, socket: socket, arrayHelps: tmp, setArrayHelps: setArrayHelps}));
             setArrayHelps(tmp);
@@ -225,17 +236,24 @@ export default function Control(props){
             const answer = data.answer;
             const type = data.type;
             const tmp = _.cloneDeep(arrayEvaluations);
-            if(arrayEvaluations[data.id])
+            if(!arrayEvaluations[data.id])
                 tmp[data.id] = [];
             tmp[data.id].push(e(Evaluation, {id: tmp[data.id].length, player: data.id, question: question, answer: answer, type: type, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations}));            
             setArrayEvaluations(tmp);
+        });
+        socket.on('update-status', data => {
+            (async () => {
+                const arrayOfPlayers = await getDataPlayer(story);
+                uploadCard(arrayOfPlayers);
+            })();
         });
         return () => {  //componenetWillUnMount
             socket.off('message-from-player');
             socket.off('help-from-player');
             socket.off('answer-from-player');
+            socket.off('update-status');
         }       
-    }, [ , arrived]);
+    }, []);
 
     //create and set cards with players
     React.useEffect(() => {
@@ -249,11 +267,13 @@ export default function Control(props){
     React.useEffect(() => {
         notifyHelp();
         notifyEvaluation();
-    },[value]);
+    },[value, arrayHelps, arrayEvaluations]);
 
-    uploadHelp();
-    uploadEvaluation();
-    uploadMessages();
+    React.useEffect(() => {
+        uploadHelp();
+        uploadEvaluation();
+        uploadMessages();
+    }, []);
 
     return e(React.Fragment, null, [ 
         e("div", { className: classes.root }, [
@@ -287,7 +307,8 @@ export default function Control(props){
                 (ID != "") && (arrayEvaluations[ID] && arrayEvaluations[ID].length > 0 ? arrayEvaluations[ID] : e("p", null, "This player have not answer to evaluate"))
             ] }),
             e(TabPanel, { value: value, index: 4, children: [
-                e(Select, {labelId: "info-label", value: ID, style: {width: 200, marginBottom: 20, marginLeft: 20}, onChange: (event) => {setID(event.target.value)}, children: [ 
+                e("label", {id: "info-label", children: "Player"}),
+                e(Select, {labelId: "info-label", value: ID, style: {width: 200, marginBottom: 20, marginLeft: 20}, onChange: (event) => {setID(event.target.value); createRows(event.target.value)}, children: [ 
                     (() => {
                         const players = [];
                         arrayPlayers.forEach((item) => {
@@ -300,35 +321,29 @@ export default function Control(props){
                     e(Table, {className: classes2.table, ariaLabel: "simple table", children: [
                         e(TableHead, {children: [
                             e(TableRow, {children: [
-                                e(TableCell, {children: "ID"}),
-                                e(TableCell, {children: "Name"}),
-                                e(TableCell, {children: "Section"}),
-                                e(TableCell, {children: "Question"}),
-                                e(TableCell, {children: "Answer"}),
-                                e(TableCell, {children: "Time"}),
-                                e(TableCell, {children: "Points"})
+                                e(TableCell, {align: "center", children: "Section"}),
+                                e(TableCell, {align: "center", children: "Question"}),
+                                e(TableCell, {align: "center", children: "Answer"}),
+                                e(TableCell, {align: "center", children: "Time"}),
+                                e(TableCell, {align: "center", children: "Points"})
                             ]}),
                         ]}),
                         e(TableBody, {children: [
                             (rows.map((row) => (
                                 e(TableRow, { key: row.name, children: [
-                                    e(TableCell, {component: "th", scope: "row", children: row.id}),
-                                    e(TableCell, {component: "th", scope: "row", children: row.name}),
-                                    e(TableCell, {component: "th", scope: "row", children: row.section}),
-                                    e(TableCell, {component: "th", scope: "row", children: row.question}),
-                                    e(TableCell, {component: "th", scope: "row", children: row.answer}),
-                                    e(TableCell, {component: "th", scope: "row", children: row.time}),
-                                    e(TableCell, {component: "th", scope: "row", children: row.points}),
+                                    e(TableCell, {align: "center", component: "th", scope: "row", children: row.section}),
+                                    e(TableCell, {align: "center", component: "th", scope: "row", children: row.question}),
+                                    e(TableCell, {align: "center", component: "th", scope: "row", children: row.answer}),
+                                    e(TableCell, {align: "center", component: "th", scope: "row", children: row.time}),
+                                    e(TableCell, {align: "center", component: "th", scope: "row", children: row.points}),
                                 ]})
                             )))]})
                     ]})
                 ]}),
                 e(Button, {size: "large", variant: "contained", onClick: () => {dialogRef.current.handleOpen()}}, "Download"),
                 e(MyDialog, {key: "dialog", story: story, ref: dialogRef}),
-                //dialogRef.current.handleOpen();
             ] })
-        ]),
-        //e(VerticalBar, {key: "verticalBar", value: value, setValue: setValue}),
+        ])
     ]);
 }
 

@@ -1,6 +1,7 @@
-import Activity from './Activity.js'
+import { Activity } from './Activity.js'
 import {readJSON, appendMessage} from '../utils.js'
 import { getID } from './dataHandler.js';
+
 
 const e = React.createElement;
 const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
@@ -20,6 +21,10 @@ socket.on('message-from-evaluator', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
 })
 
+socket.on('message-from-evaluator', data => {
+    appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
+})
+
 
 const temp = readJSON();
 const data = JSON.parse(temp);
@@ -30,8 +35,24 @@ let activityList = [];
 activityList.push(data.accessibility.activities[0]);
 console.log(data);
 //console.log(activityList);
+
 function App2() {
- 
+    const sectionRef = React.useRef();
+    const helpArray = [];
+    
+    React.useEffect(() => {
+        socket.on('help-from-evaluator' , data => {
+            var section = null;
+            if(sectionReg.current)
+                 section = sectionRef.current.getSection();
+            if(data.section == section){    
+                const p = document.getElementById("p" + data.nElem);
+                p.innerHTML += data.answer;
+            }
+        });
+        return () => {socket.off('help-from-evaluator')}        
+    }, []);
+    
     //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
     var dictionaryActivity =new Map;
     for(let i = 0;i<data.accessibility.activities.length;i++){
@@ -147,6 +168,24 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
         messageInput.value = '' //clean the input text
     } 
 
+
+    const sendHelp = function (){
+        const container = document.getElementById("help-message-container");
+        const helpInput = document.getElementById("help-message-input");
+        const message = helpInput.value;
+        helpArray.push(message);
+        const length = helpArray.length;
+        const helpP = document.createElement("p");
+        helpP.setAttribute("name", "p" + length);
+        helpP.innerHTML = message;
+        container.append(helpP);
+        if(sectionRef.current) {
+            const section = sectionRef.current.getSection();
+            socket.emit('send-help-text', {message: message, id, nElem : length, section : section})  //server side
+            helpInput.value = '' //clean the input text
+        }
+    } 
+
  
     return e(React.Fragment, null, [ 
             e("div", {key:"player",id:"player",style:div_a}, [
@@ -166,7 +205,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                     ])
                 ]),
             ]),
-            e(Activity, { json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket}),
+            e(Activity, { ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
@@ -176,11 +215,15 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                             )
                         ])
             ])}),
-            e(Slide, {in: slideHelp, direction:"down", id: "slide-help",unmountOnExit: false, children: 
-            e(Paper, null, [   //unmountOnExit: true -> but we have a problem
+            e(Slide, {in: slideHelp, direction:"down", id: "slide-help", style : {height : "70%"} , unmountOnExit: false, children: e(Paper, null, [  
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideHelp(false)}}),
-                    e("div",{id: "help-message-container", style: {overflow:"scroll", width: "80%", height: "60%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
-            ])})
+                    e("div",{id: "help-message-container", style: {overflow:"scroll", width: "80%", height: "70%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+                    e("form", {id: "send-container"}, [
+                        e(TextField, {id: "help-message-input", variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                            e(IconButton, {id:"send-button", onClick: sendHelp, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
+                            )
+                        ])
+                ])})
         ])
     ])        
     }

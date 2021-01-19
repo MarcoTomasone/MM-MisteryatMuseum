@@ -13,7 +13,7 @@ let startDate, now, seconds;
  * 
  * @param{json:data,  v : activityList , playerId : playerId, socket : socket}
  */
-function Activity(props){
+export const Activity = React.forwardRef((props, ref) => {
     //var lastAnswer;
     const [counter,setCounter] = React.useState(0);
     var [img,setImg] = React.useState(0);
@@ -21,6 +21,12 @@ function Activity(props){
     const dinamicActivities = props.v;
     const activities = props.json.accessibility.activities;
     const activityStyle =  props.json.accessibility.activityStyle;
+
+    React.useImperativeHandle(ref, (value) => ({
+        getSection(){
+            return counter;
+        }
+    }));
     
     //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc(){
@@ -119,7 +125,7 @@ function Activity(props){
         }
         setCounter(counter + 1);
         setLastAnswer(null);
-        loadHelpMessage(props, counter);
+        document.getElementById("help-message-container").innerHTML = "";
         mediaProp = [];
         startDate = new Date();
         questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
@@ -272,7 +278,4 @@ function Activity(props){
                 ));
     }
 }
-}
-
-
-export default Activity;
+});

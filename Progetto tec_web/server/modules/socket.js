@@ -12,6 +12,8 @@ module.exports = function(io) {
     arrayEvaluations["Card0"] = [ {question: "Quanto sono bravo?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", answer: "poco", type: "text", id: 1}];
     arrayEvaluations["Card1"] = [ {question: "Quanto sono bravo a scuola?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", type: "text", answer: "poco", id: 1}];
     */
+    arrayHelps["Marco"] = [];
+    arrayHelps["Marco"].push({ question: "Tutto apposto", id: arrayHelps["Marco"].length });
    
     io.on('connection', socket => {
         const type = socket.handshake.query.type;

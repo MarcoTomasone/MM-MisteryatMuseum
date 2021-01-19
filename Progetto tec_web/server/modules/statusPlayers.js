@@ -143,6 +143,7 @@ module.exports = {
                 storiesActive[story][id] = {id, sectionArray};
             }
             res.status(200).end();
+            console.log(storiesActive["Story1"]["Marco"])
           
 
             /*

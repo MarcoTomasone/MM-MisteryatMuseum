@@ -31,8 +31,8 @@ module.exports = function(io) {
             });
             socket.on('send-help-text', data => {
                 if(!arrayHelps[data.id])
-                    arrayHelps[data.id] = []
-                arrayHelps[data.id].push({ question: data.question, id: arrayHelps[data.id].length });
+                    arrayHelps[data.id] = [];
+                arrayHelps[data.id].push({ question: data.question, id: arrayHelps[data.id].length, nElem: data.nElem, section: data.section });
                 //socket.broadcast.emit('help-text', {text : data.text , name :"Il fornaio: ", id: data.id});
             });
             socket.on('send-humanEvaluation', data => {
@@ -65,11 +65,12 @@ module.exports = function(io) {
                 const answer = data.answer;
                 const id = data.id;
                 const player = data.player;
-                //io.to(socketPlayers[player]).emit('help-from-evaluator', { answer : answer });
                 if(arrayHelps[player]) {
                     arrayHelps[player].forEach((item, index) => {
-                        if(item.id == id)
+                        if(item.id == id) {
+                            io.to(socketPlayers[player]).emit('help-from-evaluator', { answer : answer, nElem: item.nElem, section: item.section });
                             arrayHelps[player].splice(index, 1);
+                        }
                     });
                 }
             });

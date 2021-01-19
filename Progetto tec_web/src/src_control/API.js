@@ -3,7 +3,7 @@
  * @param story The story that we want to evaluate
  * @returns A dictionary of all active players with their data
  */
-export async function getDataPlayer(story){
+export async function getDataPlayer(story) {
     const response = await axios.get('http://localhost:8000/status', { params: { story } });
     const dict = {};
     const players = response.data;
@@ -19,6 +19,10 @@ export async function getDataPlayer(story){
         };
     })
     return dict;
+}
+
+export async function addAnswer(story, player, points, section) {
+    const response = await axios.post('http://localhost:8000/answer', { params: { story, player, points, section} });
 }
 
 /**

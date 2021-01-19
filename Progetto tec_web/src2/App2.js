@@ -14,8 +14,6 @@ const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 //Chat
 const socket = io('http://localhost:3000', {query: 'type=player'})
 
-
-
 //waiting event
 socket.on('message-from-evaluator', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
@@ -43,11 +41,11 @@ function App2() {
     React.useEffect(() => {
         socket.on('help-from-evaluator' , data => {
             var section = null;
-            if(sectionReg.current)
+            if(sectionRef.current)
                  section = sectionRef.current.getSection();
-            if(data.section == section){    
+            if(data.section == section){
                 const p = document.getElementById("p" + data.nElem);
-                p.innerHTML += data.answer;
+                p.innerHTML += "<br>" + "Risposta:" + data.answer;
             }
         });
         return () => {socket.off('help-from-evaluator')}        
@@ -121,16 +119,16 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
         backgroundSize: 'auto',
         backgroundRepeat: 'repeat',
         thicknessFrame:`${data.accessibility.player.weightFont}px`,
-        topFrame:`${data.accessibility.player.topFrame}px`,
+        topFrame:`${data.accessibility.player.topFrame  * screen.availHeight/437}px`,
         weightFont:`${data.accessibility.player.weightFont}px`,
-        widthFrame: `${data.accessibility.player.widthFrame}px`
+        widthFrame: `${data.accessibility.player.widthFrame * screen.availHeight/202}px`
         
     };
    
 }else{
     var div_a = {      //style della div contenente le activity
         border:data.accessibility.activityStyle.divisor.border,
-        overflow:"scroll",
+        overflow:"auto",
         borderColor: data.accessibility.activityStyle.divisor.borderColor,
         position:'absolute',
         background: data.accessibility.player.background,
@@ -176,12 +174,12 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
         helpArray.push(message);
         const length = helpArray.length;
         const helpP = document.createElement("p");
-        helpP.setAttribute("name", "p" + length);
-        helpP.innerHTML = message;
+        helpP.setAttribute("id", "p" + length);
+        helpP.innerHTML = "Domanda:" + message;
         container.append(helpP);
         if(sectionRef.current) {
             const section = sectionRef.current.getSection();
-            socket.emit('send-help-text', {message: message, id, nElem : length, section : section})  //server side
+            socket.emit('send-help-text', {question: message, id, nElem : length, section : section})  //server side
             helpInput.value = '' //clean the input text
         }
     } 

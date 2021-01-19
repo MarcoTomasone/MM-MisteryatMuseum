@@ -1,4 +1,5 @@
 import { isEnter } from '../../../utils.js';
+import {  addAnswer } from '../API.js';
 const { TextField, Icon, IconButton } = MaterialUI;
 const e = React.createElement;
 
@@ -6,7 +7,7 @@ export default function Help(props) {
     const answer = props.type == 'image' ? e("img", {src: props.answer, style: { width: "100%"}}) : props.answer;
 
     const onValued = () => {
-        const answer = document.getElementById("valuation" + props.id).value;
+        const points = document.getElementById("valuation" + props.id).value;
         //something
         const tmp = _.cloneDeep(props.arrayEvaluations);
         const player = props.player;
@@ -16,7 +17,8 @@ export default function Help(props) {
                 tmp[player].splice(index, 1)
         })
         props.setArrayEvaluations(tmp);
-        props.socket.emit('read-message', { type: "evaluation", id: props.id, player: props.player })
+        props.socket.emit('read-message', { type: "evaluation", id: props.id, player: props.player });
+        (async () => {addAnswer(props.story, player, points, props.section)})();
     }
     
     return(

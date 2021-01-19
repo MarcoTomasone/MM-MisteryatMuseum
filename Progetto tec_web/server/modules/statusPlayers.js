@@ -86,6 +86,14 @@ module.exports = {
             res.status(200).end(evaluations);
         });
 
+        app.post('answer', (req, res) => {
+            const player = req.query.player;
+            const story = req.query.story;
+            const points = req.query.points;
+            const section = req.query.section; 
+            //to do
+        })
+
         app.get('/pdf', (req, res) => {            
             const player = req.query.player;
             const story = req.query.story;

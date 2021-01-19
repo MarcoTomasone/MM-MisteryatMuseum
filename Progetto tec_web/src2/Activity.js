@@ -34,8 +34,8 @@ export const Activity = React.forwardRef((props, ref) => {
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         let indexOfNewActivity;
-        
-        
+
+        //lastAnswer = null;
         clearInterval(timer);
         if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
             dinamicActivities.push( props.json.accessibility.lastActivity);
@@ -45,6 +45,7 @@ export const Activity = React.forwardRef((props, ref) => {
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
                     case "Quattro opzioni" : 
+                        console.log(lastAnswer);
                         sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter, seconds);
                         if(dinamicActivities[counter].correct === lastAnswer){
                             index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
@@ -187,18 +188,6 @@ export const Activity = React.forwardRef((props, ref) => {
             fontFamily:"Helvetica"
     }
 
-/*    const divActivity = {     //style della div contenente le activity
-        border:activityStyle.divisor.border,
-        overflow:"scroll",
-        borderColor: activityStyle.divisor.borderColor,
-        left:`${activityStyle.divisor.left* screen.availWidth /202}px`,
-        width:`${activityStyle.divisor.width *screen.availWidth /437}px`,
-        height:`${activityStyle.divisor.height * screen.availHeight /202}px`,
-        top:`${activityStyle.divisor.top * screen.availHeight /437}px`,
-        position:'absolute',
-      
-    };
-    */
    const divBorder = {     //style della div contenente le activity
     border:activityStyle.divisor.border,
     overflow:"scroll",

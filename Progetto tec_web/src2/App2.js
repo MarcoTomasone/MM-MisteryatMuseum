@@ -100,16 +100,16 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
         backgroundSize: 'auto',
         backgroundRepeat: 'repeat',
         thicknessFrame:`${data.accessibility.player.weightFont}px`,
-        topFrame:`${data.accessibility.player.topFrame}px`,
+        topFrame:`${data.accessibility.player.topFrame  * screen.availHeight/437}px`,
         weightFont:`${data.accessibility.player.weightFont}px`,
-        widthFrame: `${data.accessibility.player.widthFrame}px`
+        widthFrame: `${data.accessibility.player.widthFrame * screen.availHeight/202}px`
         
     };
    
 }else{
     var div_a = {      //style della div contenente le activity
         border:data.accessibility.activityStyle.divisor.border,
-        overflow:"scroll",
+        overflow:"auto",
         borderColor: data.accessibility.activityStyle.divisor.borderColor,
         position:'absolute',
         background: data.accessibility.player.background,

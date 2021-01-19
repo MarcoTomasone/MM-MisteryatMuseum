@@ -12,8 +12,6 @@ module.exports = function(io) {
     arrayEvaluations["Card0"] = [ {question: "Quanto sono bravo?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", answer: "poco", type: "text", id: 1}];
     arrayEvaluations["Card1"] = [ {question: "Quanto sono bravo a scuola?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", type: "text", answer: "poco", id: 1}];
     */
-    arrayHelps["Marco"] = [];
-    arrayHelps["Marco"].push({ question: "Tutto apposto", id: arrayHelps["Marco"].length });
    
     io.on('connection', socket => {
         const type = socket.handshake.query.type;
@@ -30,16 +28,27 @@ module.exports = function(io) {
                 arrayMessages[data.id].arrived = true;
             });
             socket.on('send-help-text', data => {
-                if(!arrayHelps[data.id])
-                    arrayHelps[data.id] = [];
-                arrayHelps[data.id].push({ question: data.question, id: arrayHelps[data.id].length, nElem: data.nElem, section: data.section });
-                //socket.broadcast.emit('help-text', {text : data.text , name :"Il fornaio: ", id: data.id});
+                const player = data.id;
+                const question = data.question;
+                const section = data.section;
+                const nElem = data.nElem;
+                if(!arrayHelps[player])
+                    arrayHelps[player] = [];
+                const id = arrayHelps[player].length;
+                arrayHelps[player].push({ question, id, nElem, section });
+                io.to(socketEvaluator["evaluator0"]).emit('help-from-player', { question, id, player, section });
             });
             socket.on('send-humanEvaluation', data => {
-                if(!arrayEvaluations[data.id])
-                    arrayEvaluations[data.id] = [];
-                arrayEvaluations[data.id].push({ question: data.question, answer: data.answer, type: data.type, id: arrayEvaluations[data.id].length });
-                io.to(socketEvaluator["evaluator0"]).emit('answer-from-player', {question: data.question, answer: data.answer, type: data.type, id: data.id});
+                const player = data.id;
+                const question = data.question;
+                const answer = data.answer;
+                const type = data.type;
+                const section = data.section;
+                if(!arrayEvaluations[player])
+                    arrayEvaluations[player] = [];
+                const id = arrayEvaluations[player].length;
+                arrayEvaluations[player].push({ question, answer, type, id, section });
+                io.to(socketEvaluator["evaluator0"]).emit('answer-from-player', { question, answer, type, id, section, player });
             });
             socket.on('data-update', data => {
                 io.to(socketEvaluator["evaluator0"]).emit('update-status');
@@ -62,6 +71,7 @@ module.exports = function(io) {
                 //socket.broadcast.emit('message-from-evaluator', {message : data.message , name :"Admin", id: data.id})
             });
             socket.on('help-to-player', data => {
+                console.log(data);
                 const answer = data.answer;
                 const id = data.id;
                 const player = data.player;
@@ -73,6 +83,7 @@ module.exports = function(io) {
                         }
                     });
                 }
+                console.log(arrayHelps);
             });
             socket.on('read-message', data => {
                 const id = data.id;

@@ -137,7 +137,7 @@ export default function Control(props){
                 if(!tmp[player])
                     tmp[player] = [];
                 helps[player].forEach((item) => {
-                    tmp[player].push(e(Help, {id: tmp[player].length, player: player, question: item.question, socket: socket, arrayHelps: tmp, setArrayHelps: setArrayHelps, socket: socket})); 
+                    tmp[player].push(e(Help, {id: item.id, question: item.question, section: item.section, player: player, socket: socket, arrayHelps: tmp, setArrayHelps: setArrayHelps, socket: socket})); 
                 })
             }
             setArrayHelps(tmp); 
@@ -154,7 +154,7 @@ export default function Control(props){
                 if(!tmp[player])
                     tmp[player] = [];
                 evaluations[player].forEach((item) => {
-                    tmp[player].push(e(Evaluation, {id: tmp[player].length, player: player, question: item.question, answer: item.answer, type: item.type, socket: socket, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations, story: story}));            
+                    tmp[player].push(e(Evaluation, {id: item.id, question: item.question, answer: item.answer, type: item.type, section: item.section, player: player, socket: socket, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations, story: story}));            
                 })
             }
             setArrayEvaluations(tmp); 
@@ -225,21 +225,28 @@ export default function Control(props){
             setArrived(tmp);
         });
         socket.on('help-from-player', data => {
-            const question = data.message;
+            const question = data.question;
+            const section = data.section;
+            const player = data.player;
+            const id = data.id;
             const tmp = _.cloneDeep(arrayHelps);
-            if(!tmp[data.id])
-                tmp[data.id] = [];
-            tmp[data.id].push(e(Help, {id: tmp[data.id].length, player: data.id, question: question, socket: socket, arrayHelps: tmp, setArrayHelps: setArrayHelps}));
+            if(!tmp[player])
+                tmp[player] = [];
+            tmp[player].push(e(Help, {id, player, question, section, socket, setArrayHelps, section, arrayHelps: tmp }));
             setArrayHelps(tmp);
         });
         socket.on('answer-from-player', data => {
             const question = data.question;
             const answer = data.answer;
             const type = data.type;
+            const section = data.section;
+            const player = data.player;
+            const id = data.id;
+            console.log(section);
             const tmp = _.cloneDeep(arrayEvaluations);
-            if(!tmp[data.id])
-                tmp[data.id] = [];
-            tmp[data.id].push(e(Evaluation, {id: tmp[data.id].length, player: data.id, question: question, answer: answer, type: type, socket: socket, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations, story: story}));            
+            if(!tmp[player])
+                tmp[player] = [];
+            tmp[player].push(e(Evaluation, { id, player, question, answer, type, socket, story, section, setArrayEvaluations, arrayEvaluations: tmp }));            
             setArrayEvaluations(tmp);
         });
         socket.on('update-status', data => {

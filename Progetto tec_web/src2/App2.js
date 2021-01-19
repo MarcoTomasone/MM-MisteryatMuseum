@@ -2,14 +2,10 @@ import { Activity } from './Activity.js'
 import {readJSON, appendMessage} from '../utils.js'
 import { getID } from './dataHandler.js';
 
-
 const e = React.createElement;
 const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
-const HashRouter  = ReactRouterDOM.HashRouter ;
-const Switch = ReactRouterDOM.Switch;
-const Route = ReactRouterDOM.Route;
-const exampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
 
 //Chat
 const socket = io('http://localhost:3000', {query: 'type=player'})
@@ -31,13 +27,13 @@ data.accessibility.activities.push(data.accessibility.lastActivity);
 
 let activityList = [];
 activityList.push(data.accessibility.activities[0]);
-console.log(data);
+
 //console.log(activityList);
 
 function App2() {
     const sectionRef = React.useRef();
     const helpArray = [];
-    
+
     React.useEffect(() => {
         socket.on('help-from-evaluator' , data => {
             var section = null;
@@ -145,6 +141,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
     const [slideChat, setSlideChat] = React.useState(false);
     const [dialog, setDialog] = React.useState(true);
     const [id, setID] = React.useState("");
+    const [points, setPoints] = React.useState(0);
 
    function handleClose() {
         setDialog(false);
@@ -189,6 +186,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
             e("div", {key:"player",id:"player",style:div_a}, [
                 //e("nav",{style:navbar,id:"navPlayer"},
                 e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
+                e("p", {id: "points"}, "Points:" + points),
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}}),
             //)],
                     //open : dialog
@@ -203,7 +201,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                     ])
                 ]),
             ]),
-            e(Activity, { ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket}),
+            e(Activity, { ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
@@ -221,7 +219,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                             e(IconButton, {id:"send-button", onClick: sendHelp, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])
-                ])})
+            ])})
         ])
     ])        
     }

@@ -17,8 +17,8 @@
 				"topImage":2,
 				
 				"truefalseanswer":{
-					"trueScore":0,
-					"falseScore":0
+					"trueScore":100,
+					"falseScore":-100
 				},
 				"textAnswer":{
 					"value":"",
@@ -62,8 +62,8 @@
 					"bckgrndClrW":"yellow"	
 				},
 				"truefalseanswer":{
-					"trueScore":0,
-					"falseScore":0
+					"trueScore":100,
+					"falseScore":-100
 				},
 				"textAnswer":{
 					"value":"",
@@ -98,8 +98,8 @@
 					"bckgrndClrW":"yellow"	
 				},
 				"truefalseanswer":{
-					"trueScore":0,
-					"falseScore":0
+					"trueScore":100,
+					"falseScore":-100
 				},
 				"textAnswer":{
 					"value":"",
@@ -128,8 +128,8 @@
 				"topImage":80,
 				
 				"truefalseanswer":{
-					"trueScore":0,
-					"falseScore":0
+					"trueScore":100,
+					"falseScore":-100
 				},
 				"textAnswer":{
 					"value":"",
@@ -166,8 +166,8 @@
 					"marginBottom":40
 				},
 				"truefalseanswer":{
-					"trueScore":0,
-					"falseScore":0
+					"trueScore":100,
+					"falseScore":-100
 				},
 				"textAnswer":{
 					"value":"",
@@ -196,8 +196,8 @@
 				"wrongAnswerGo":["pigreco","loadImage"],
 				"correctAnswerGo":["end"],
 				"truefalseanswer":{
-					"trueScore":0,
-					"falseScore":0
+					"trueScore":100,
+					"falseScore":-100
 				},
 				"textAnswer":{
 					"value":"101",
@@ -233,10 +233,9 @@
 				"widthImage":100,
 				"leftImage":20,
 				"topImage":40,
-				
 				"truefalseanswer":{
-					"trueScore":0,
-					"falseScore":0
+					"trueScore":100,
+					"falseScore":-100
 				},
 				"textAnswer":{
 					"value":"",
@@ -262,8 +261,8 @@
 				"bottomInput":200,
 			
 				"truefalseanswer":{
-					"trueScore":0,
-					"falseScore":0
+					"trueScore":100,
+					"falseScore":-100
 				},
 				"textAnswer":{
 					"value":"",

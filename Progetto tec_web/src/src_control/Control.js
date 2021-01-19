@@ -154,7 +154,7 @@ export default function Control(props){
                 if(!tmp[player])
                     tmp[player] = [];
                 evaluations[player].forEach((item) => {
-                tmp[player].push(e(Evaluation, {id: tmp[player].length, player: player, question: item.question, answer: item.answer, type: item.type, socket: socket, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations}));            
+                    tmp[player].push(e(Evaluation, {id: tmp[player].length, player: player, question: item.question, answer: item.answer, type: item.type, socket: socket, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations, story: story}));            
                 })
             }
             setArrayEvaluations(tmp); 
@@ -199,7 +199,8 @@ export default function Control(props){
             arrived: arrived,
             setArrived: setArrived,
             }))
-            ranking.push({id: key, points: arrayOfPlayers[key].points});
+            if(!_.find(ranking, {id: key}))
+                ranking.push({id: key, points: arrayOfPlayers[key].points});
             if(!(key in tmp))
                 tmp[key] = false
         }
@@ -226,7 +227,7 @@ export default function Control(props){
         socket.on('help-from-player', data => {
             const question = data.message;
             const tmp = _.cloneDeep(arrayHelps);
-            if(!arrayHelps[data.id])
+            if(!tmp[data.id])
                 tmp[data.id] = [];
             tmp[data.id].push(e(Help, {id: tmp[data.id].length, player: data.id, question: question, socket: socket, arrayHelps: tmp, setArrayHelps: setArrayHelps}));
             setArrayHelps(tmp);
@@ -236,9 +237,9 @@ export default function Control(props){
             const answer = data.answer;
             const type = data.type;
             const tmp = _.cloneDeep(arrayEvaluations);
-            if(!arrayEvaluations[data.id])
+            if(!tmp[data.id])
                 tmp[data.id] = [];
-            tmp[data.id].push(e(Evaluation, {id: tmp[data.id].length, player: data.id, question: question, answer: answer, type: type, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations}));            
+            tmp[data.id].push(e(Evaluation, {id: tmp[data.id].length, player: data.id, question: question, answer: answer, type: type, socket: socket, arrayEvaluations: tmp, setArrayEvaluations: setArrayEvaluations, story: story}));            
             setArrayEvaluations(tmp);
         });
         socket.on('update-status', data => {
@@ -253,7 +254,7 @@ export default function Control(props){
             socket.off('answer-from-player');
             socket.off('update-status');
         }       
-    }, []);
+    }, [arrived, arrayEvaluations, arrayHelps]);
 
     //create and set cards with players
     React.useEffect(() => {

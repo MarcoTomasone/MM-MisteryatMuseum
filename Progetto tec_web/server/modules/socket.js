@@ -30,10 +30,10 @@ module.exports = function(io) {
         if(type == 'player'){
             socket.on('new-player', data => {
                 socketPlayers[data.playerID] = socket.id;
-                const toDo = () => {
+                //const toDo = () => {
                     io.to(socketEvaluator["evaluator0"]).emit('update-status')
-                }
-                setTimeout(toDo, 3000);
+                //}
+                //setTimeout(toDo, 3000);
             });
             socket.on('send-to-evaluator', data => {
                 const message = data.message;
@@ -78,8 +78,7 @@ module.exports = function(io) {
         else if(type == 'evaluator'){
             const evaluator = socket.handshake.query.id;
             socket.on('new-evaluator', data => {
-                const nEvaluator = evaluator + 00001;
-                socketEvaluator[nEvaluator] = socket.id;
+                socketEvaluator["evaluator0"] = socket.id;
             });
             socket.on('send-to-player', data => {
                 io.to(socketPlayers[data.id]).emit('message-from-evaluator', {message : data.message , name :"Admin", id: data.id});

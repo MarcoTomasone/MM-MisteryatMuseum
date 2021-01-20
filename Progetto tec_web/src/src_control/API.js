@@ -9,13 +9,17 @@ export async function getDataPlayer(story) {
     const players = response.data;
     players.forEach((player) => {
         const lastSection = player.sectionArray.length - 1;
+        let totalPoints = 0;
+        player.sectionArray.forEach((section) => {
+            totalPoints += section.points ? section.points : 0;
+        });
         dict[player.id] = {
             key: player.id, 
             id: player.id,
             name: player.name, 
             timer: player.sectionArray.length > 0 ?  player.sectionArray[lastSection].timer : 0,
             section: player.sectionArray.length > 0 ?  player.sectionArray[lastSection].section : 0, 
-            points : player.sectionArray.length > 0 ?  player.sectionArray[lastSection].points : 0,
+            points : player.sectionArray.length > 0 ?  totalPoints : 0,
         };
     })
     return dict;

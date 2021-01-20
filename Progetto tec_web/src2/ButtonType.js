@@ -95,11 +95,13 @@ function ButtonType(props){
                         id:"btn"+ i,
                         alt:"bottone : "+props.answer[i], 
                         onClick: () => props.checkButton(i)
-                    }, props.answer[i]));
+                    }, props.answer[i].text));
             }
         }
        
         return e("div",null,
+                    //e("div", {key: "actDescription", style: divActivity},
+                    //e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda), props.MediaProp,
                     e("div", {
                         key: "buttonblock",
                         style:buttonGroup }, [

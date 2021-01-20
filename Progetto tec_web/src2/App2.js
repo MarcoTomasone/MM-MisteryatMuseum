@@ -9,7 +9,7 @@ const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, 
 
 //Chat
 const socket = io('http://localhost:3000', {query: 'type=player'})
-
+socket.emit('new-player');
 //waiting event
 socket.on('message-from-evaluator', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
@@ -34,14 +34,20 @@ function App2() {
     //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);
     const [slideChat, setSlideChat] = React.useState(false);
-    const [dialog, setDialog] = React.useState(true);
     const [id, setID] = React.useState("");
+    const [dialog, setDialog] = React.useState(true);
     const [points, setPoints] = React.useState(0);
 
-     const sectionRef = React.useRef();
+    const sectionRef = React.useRef();
     const helpArray = [];
 
         React.useEffect(() => {
+            socket.on('set-id', data => {
+                console.log(data.id);
+                setID(data.id);
+                getID(data.id, activityList[0].question);
+            });
+            
             socket.on('help-from-evaluator' , data => {
                 var section = null;
                 if(sectionRef.current)
@@ -149,16 +155,14 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
 
    
 
-   function handleClose() {
+   /*function handleClose() {
         setDialog(false);
         const idContainer = document.getElementById("id-input");
         const playerID = idContainer.value;
         setID(playerID);
         getID(playerID, activityList[0].question);
         socket.emit('new-player', {playerID});
-        //si potrebbe passare al server come 
-        //parametro l'id e lui restituisce il json corrispondente 
-    }
+    }*/
   
 
     const sendMessage = function (){
@@ -195,8 +199,8 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                 e("p", {id: "points"}, "Points:" + points),
                 e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}}),
             //)],
-                    //open : dialog
-            e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
+                
+          /*  e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
                     e(DialogContentText, null, "Inserisci il tuo id o quello del tuo gruppo!"),
@@ -206,7 +210,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                         )
                     ])
                 ]),
-            ]),
+            ]),*/
             e(Activity, { ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),

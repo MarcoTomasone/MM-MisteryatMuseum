@@ -13,9 +13,9 @@ module.exports = function(io) {
     arrayEvaluations["Card1"] = [ {question: "Quanto sono bravo a scuola?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", type: "text", answer: "poco", id: 1}];
     */
 
-    /*
-    const nPlayer = 00000;
-    socket.on('new-player', data => {
+    
+    let nPlayer = 0;
+    /*socket.on('new-player', data => {
         nPlayer += 000001;
         const id = 'player'+nPlayer;
         socketPlayers[id] = socket.id;
@@ -28,7 +28,10 @@ module.exports = function(io) {
         const type = socket.handshake.query.type;
         if(type == 'player'){
             socket.on('new-player', data => {
-                socketPlayers[data.playerID] = socket.id;
+                nPlayer += 1;
+                const id = 'player' + nPlayer;
+                socketPlayers[id] = socket.id;
+                io.to(socketPlayers[id]).emit('set-id', { id } );
                 io.to(socketEvaluator["evaluator0"]).emit('update-status');
             });
             socket.on('send-to-evaluator', data => {

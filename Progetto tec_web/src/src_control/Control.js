@@ -255,6 +255,7 @@ export default function Control(props){
             setArrayEvaluations(tmp);
         });
         socket.on('update-status', data => {
+            console.log("in update status");
             (async () => {
                 const arrayOfPlayers = await getDataPlayer(story);
                 uploadCard(arrayOfPlayers);

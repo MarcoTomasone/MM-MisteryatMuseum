@@ -85,7 +85,8 @@ export const Activity = React.forwardRef((props, ref) => {
                         break;
                     case "range":
                         let value = document.getElementById("rangenpt").value;  
-                        if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
+                        console.log(value);
+                        if(value < dinamicActivities[counter].rangeAnswer.end && value > dinamicActivities[counter].rangeAnswer.start ){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
                             actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
@@ -117,10 +118,6 @@ export const Activity = React.forwardRef((props, ref) => {
                         }
                         console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
-                    break;
-                    case "imgUpload": 
-                        sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
-                        dinamicActivities.push(props.json.accessibility.lastActivity); //TODO : AGGIUSTARE QUESTA COSA DEVE ESSERE IMPARZIALE
                     break;
                 }
             }

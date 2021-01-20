@@ -243,8 +243,8 @@
 					"scoreWrong":0
 				},
 				"rangeAnswer":{
-					"start":0,
-					"end":0,
+					"start":3,
+					"end":7,
 					"scoreOk":0,
 					"scoreWrong":0
 				}

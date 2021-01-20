@@ -62,6 +62,7 @@ function inputType(props){
         function rewriteLabel (){
             document.getElementById("rangeV").innerHTML = document.getElementById("rangenpt").value;
         }
+        const defaultValue = props.v[props.counter].minRange + (props.v[props.counter].maxRange - props.v[props.counter].minRange)/2;
         const styleRange = {
             width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
             height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
@@ -69,15 +70,14 @@ function inputType(props){
             marginLeft:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
             position:'absolute'
         }
-        inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},props.v[props.counter].minRange));
+        inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},defaultValue));
         inputElement.push(e("input",{
                                 type:"range", 
                                 key:"rangebar",
                                 min:props.v[props.counter].minRange,
                                 max:props.v[props.counter].maxRange,
-                                defaultValue:props.v[props.counter].minRange + (props.v[props.counter].maxRange - props.v[props.counter].minRange       )/2,
+                                defaultValue:defaultValue,
                                 step:1,
-                                //value:5,
                                 id:"rangenpt",
                                 style:styleRange,
                                 onChange:()=>{rewriteLabel()}
@@ -128,7 +128,7 @@ function inputType(props){
                 style:stylein,
                 capture:"camera",
                 onChange:handleChange
-                })//e("p",null,valueR),                               
+                })                               
                 ,e("button",{
                     style:stylB,
                     key:"confirm",

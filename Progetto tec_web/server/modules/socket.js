@@ -6,6 +6,7 @@ module.exports = function(io) {
     global.arrayEvaluations = {};
     const socketPlayers = {};
     const socketEvaluator = {};
+    const evaluator = 00000;
     /*arrayHelps["Card0"] = [ {question: "Quanto sono bravo?", id: 0}, {question: "Ti piace la frutta?", id: 1}];
     arrayHelps["Card1"] = [ {question: "Quanto sono bravo a scuola?", id: 0}, {question: "Ti piace la frutta?", id: 1}];
 
@@ -13,9 +14,9 @@ module.exports = function(io) {
     arrayEvaluations["Card1"] = [ {question: "Quanto sono bravo a scuola?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", type: "text", answer: "poco", id: 1}];
     */
 
-    /*
-    const nPlayer = 00000;
-    socket.on('new-player', data => {
+    
+    let nPlayer = 0;
+    /*socket.on('new-player', data => {
         nPlayer += 000001;
         const id = 'player'+nPlayer;
         socketPlayers[id] = socket.id;
@@ -28,15 +29,21 @@ module.exports = function(io) {
         const type = socket.handshake.query.type;
         if(type == 'player'){
             socket.on('new-player', data => {
-                socketPlayers[data.playerID] = socket.id;
+                nPlayer += 1;
+                const id = 'player' + nPlayer;
+                socketPlayers[id] = socket.id;
+                io.to(socketPlayers[id]).emit('set-id', { id } );
                 io.to(socketEvaluator["evaluator0"]).emit('update-status');
             });
             socket.on('send-to-evaluator', data => {
-                io.to(socketEvaluator["evaluator0"]).emit('message-from-player', {message : data.message , name :data.id, id: data.id});
-                if(!arrayMessages[data.id])
-                    arrayMessages[data.id] = { messages: [], arrived: false };
-                arrayMessages[data.id].messages.push(`<b>${data.id}</b>: ${data.message}`);
-                arrayMessages[data.id].arrived = true;
+                const message = data.message;
+                const name = data.id;
+                const id = data.id;
+                io.to(socketEvaluator["evaluator0"]).emit('message-from-player', { message , name, id });
+                if(!arrayMessages[id])
+                    arrayMessages[id] = { messages: [], arrived: false };
+                arrayMessages[id].messages.push(`<b>${id}</b>: ${message}`);
+                arrayMessages[id].arrived = true;
             });
             socket.on('send-help-text', data => {
                 const player = data.id;

@@ -43,13 +43,13 @@ export const Activity = React.forwardRef((props, ref) => {
         if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
             dinamicActivities.push( props.json.accessibility.lastActivity);
         } else {
-            if(dinamicActivities[counter].widgetType !=='imgUpload' && (lastAnswer !== null || dinamicActivities[counter].widgetType =="text" || dinamicActivities[counter].widgetType =="range")){
+            if(dinamicActivities[counter].widgetType !=='imgUpload' && counter != 0){
                 now = new Date();
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
-                console.log(dinamicActivities[counter].widgetType)
                 switch(dinamicActivities[counter].widgetType){
                     case "":
                         sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
+                        dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Quattro opzioni" : 
                         if(dinamicActivities[counter].correct === lastAnswer){
@@ -132,22 +132,10 @@ export const Activity = React.forwardRef((props, ref) => {
                         console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
                     break;
-                }
-            } else {
-                if(lastAnswer === null){
-                    if(counter + 1 <= props.v.length){
-                        dinamicActivities.push(activities[counter + 1 % activities.length]);
-                    } 
-                }else{
-                    const index = activities.indexOf(dinamicActivities[counter]);
-                    if(index === activities.lenght - 1){
-                        dinamicActivities.push(activities[activities.length -1]);
-                        document.getElementById("nextButton").style.backgroundColor="grey";
-                    }else if(index > -1 ){
-                        dinamicActivities.push(activities[index+1]);
-                    }else{ 
-                        console.log('error');
-                    }
+                    case "imgUpload": 
+                        sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
+                        dinamicActivities.push(props.json.accessibility.lastActivity); //TODO : AGGIUSTARE QUESTA COSA DEVE ESSERE IMPARZIALE
+                    break;
                 }
             }
         }

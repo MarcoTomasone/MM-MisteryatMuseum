@@ -27,7 +27,7 @@ data.accessibility.activities.push(data.accessibility.lastActivity);
 
 let activityList = [];
 activityList.push(data.accessibility.activities[0]);
-
+activityList.push(data.accessibility.activities[1]);
 //console.log(activityList);
 
 function App2() {

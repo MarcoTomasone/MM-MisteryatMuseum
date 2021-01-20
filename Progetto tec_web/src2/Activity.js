@@ -43,7 +43,7 @@ export const Activity = React.forwardRef((props, ref) => {
         if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
             dinamicActivities.push( props.json.accessibility.lastActivity);
         } else {
-            if(dinamicActivities[counter].widgetType !=='imgUpload' && counter != 0){
+            if(counter != 0){
                 now = new Date();
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
@@ -51,19 +51,17 @@ export const Activity = React.forwardRef((props, ref) => {
                         sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
                         dinamicActivities.push(activities[questionIndex + 1]);
                     break;
+                    case "imgUpload": //modificate sendData
+                        sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
+                        dinamicActivities.push(activities[questionIndex + 1]);
+                    break;
                     case "Quattro opzioni" : 
                         if(dinamicActivities[counter].correct === lastAnswer){
-                            index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-                            console.log("Risposta Corretta!");
-                            indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
-                            dinamicActivities.push(activities[indexOfNewActivity]);
+                            correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
                             actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
                         } else {
-                            index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
-                            console.log("Risposta Errata!");
-                            indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
-                            dinamicActivities.push(activities[indexOfNewActivity]);
+                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore);
                             actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;    
                         }
@@ -73,18 +71,12 @@ export const Activity = React.forwardRef((props, ref) => {
                     case "Vero Falso" :
                         let answer = lastAnswer ? "Vero" : "Falso";
                         if(dinamicActivities[counter].correct === answer){
-                            index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-                            console.log("Risposta Corretta!");
-                            indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
-                            dinamicActivities.push(activities[indexOfNewActivity]);
+                            correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
                             actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
 
                         }else{
-                            index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
-                            console.log("Risposta Errata!");
-                            indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
-                            dinamicActivities.push(activities[indexOfNewActivity]);  
+                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore); 
                             actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;         
                         }
@@ -93,19 +85,14 @@ export const Activity = React.forwardRef((props, ref) => {
                         break;
                     case "range":
                         let value = document.getElementById("rangenpt").value;  
-                        if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
-                            index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-                            console.log("Risposta Corretta!");
-                            indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index])
-                            dinamicActivities.push(activities[indexOfNewActivity]);
+                        console.log(value);
+                        if(value < dinamicActivities[counter].rangeAnswer.end && value > dinamicActivities[counter].rangeAnswer.start ){
+                            correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
                             actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
 
                         }else{
-                            index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
-                            console.log("Risposta Errata!");
-                            indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index])
-                            dinamicActivities.push(activities[indexOfNewActivity]);  
+                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore);
                             actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;        
                         }
@@ -131,10 +118,6 @@ export const Activity = React.forwardRef((props, ref) => {
                         }
                         console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
-                    break;
-                    case "imgUpload": 
-                        sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
-                        dinamicActivities.push(props.json.accessibility.lastActivity); //TODO : AGGIUSTARE QUESTA COSA DEVE ESSERE IMPARZIALE
                     break;
                 }
             }
@@ -282,3 +265,17 @@ export const Activity = React.forwardRef((props, ref) => {
     }
 }
 });
+
+function correctAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
+    let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
+    console.log("Risposta Corretta!");
+    let indexOfNewActivity = dictionaryActivity.get(actual.correctAnswerGo[index]);
+    dinamicActivities.push(activities[indexOfNewActivity]);
+}
+
+function wrongAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
+    let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
+    console.log("Risposta Errata!");
+    let indexOfNewActivity = dictionaryActivity.get(actual.wrongAnswerGo[index])
+    dinamicActivities.push(activities[indexOfNewActivity]);  
+}

@@ -48,8 +48,8 @@
 				"leftImage":32,
 				"topImage":2,
 				
-				"wrongAnswerGo":["pigreco","description","conversion"],
-				"correctAnswerGo":["range"],
+				"wrongAnswerGo":["pigreco","description"],
+				"correctAnswerGo":["conversion"],
 				"btnStyle":{
 					"width":70,
 					"height":30,
@@ -151,8 +151,8 @@
 				"widgetType": "Quattro opzioni",
 				"media": 0,
 
-				"wrongAnswerGo":["product","pigreco","conversion"],
-				"correctAnswerGo":["sum","loadImage"],
+				"wrongAnswerGo":["product","conversion"],
+				"correctAnswerGo":["loadImage"],
 				"btnStyle":{
 					"width":70,
 					"height":30,
@@ -193,7 +193,7 @@
 				"bottomInput":170,
 			
 				"media": 0,
-				"wrongAnswerGo":["pigreco","loadImage"],
+				"wrongAnswerGo":["end","range"],
 				"correctAnswerGo":["end"],
 				"truefalseanswer":{
 					"trueScore":100,
@@ -226,8 +226,8 @@
 				
 				"media": "img",
 				"source": "./pikachu.png",
-				"wrongAnswerGo":["sum","product"],
-				"correctAnswerGo":["sum","product","end"],
+				"wrongAnswerGo":["end","loadImage"],
+				"correctAnswerGo":["end"],
 				
 				"heightImage":100,
 				"widthImage":100,
@@ -243,8 +243,8 @@
 					"scoreWrong":0
 				},
 				"rangeAnswer":{
-					"start":0,
-					"end":0,
+					"start":3,
+					"end":7,
 					"scoreOk":0,
 					"scoreWrong":0
 				}

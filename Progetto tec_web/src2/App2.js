@@ -31,21 +31,32 @@ activityList.push(data.accessibility.activities[0]);
 //console.log(activityList);
 
 function App2() {
-    const sectionRef = React.useRef();
+    //State for holding the Chat and Help button 
+    const [slideHelp, setSlideHelp] = React.useState(false);
+    const [slideChat, setSlideChat] = React.useState(false);
+    const [dialog, setDialog] = React.useState(true);
+    const [id, setID] = React.useState("");
+    const [points, setPoints] = React.useState(0);
+
+     const sectionRef = React.useRef();
     const helpArray = [];
 
-    React.useEffect(() => {
-        socket.on('help-from-evaluator' , data => {
-            var section = null;
-            if(sectionRef.current)
-                 section = sectionRef.current.getSection();
-            if(data.section == section){
-                const p = document.getElementById("p" + data.nElem);
-                p.innerHTML += "<br>" + "Risposta:" + data.answer;
-            }
+        React.useEffect(() => {
+            socket.on('help-from-evaluator' , data => {
+                var section = null;
+                if(sectionRef.current)
+                    section = sectionRef.current.getSection();
+                if(data.section == section){
+                    const p = document.getElementById("p" + data.nElem);
+                    p.innerHTML += "<br>" + "Risposta:" + data.answer;
+                }
+            });
+
+            socket.on('add-points', data => {
+                setPoints(points + parseInt(data.points));
+            });
         });
-        return () => {socket.off('help-from-evaluator')}        
-    }, []);
+
     
     //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
     var dictionaryActivity =new Map;
@@ -136,12 +147,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
     };
 }
 
-    //State for holding the Chat and Help button 
-    const [slideHelp, setSlideHelp] = React.useState(false);
-    const [slideChat, setSlideChat] = React.useState(false);
-    const [dialog, setDialog] = React.useState(true);
-    const [id, setID] = React.useState("");
-    const [points, setPoints] = React.useState(0);
+   
 
    function handleClose() {
         setDialog(false);

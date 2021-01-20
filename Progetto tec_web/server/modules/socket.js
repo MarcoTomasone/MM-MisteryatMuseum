@@ -12,6 +12,17 @@ module.exports = function(io) {
     arrayEvaluations["Card0"] = [ {question: "Quanto sono bravo?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", answer: "poco", type: "text", id: 1}];
     arrayEvaluations["Card1"] = [ {question: "Quanto sono bravo a scuola?", answer: "poco", type: "text", id: 0}, {question: "Ti piace la frutta?", type: "text", answer: "poco", id: 1}];
     */
+
+    /*
+    const nPlayer = 00000;
+    socket.on('new-player', data => {
+        nPlayer += 000001;
+        const id = 'player'+nPlayer;
+        socketPlayers[id] = socket.id;
+        io.to(socketPlayers[id]).emit('set-id', { id } );
+        io.to(socketEvaluator["evaluator0"]).emit('update-status');
+    });
+    */
    
     io.on('connection', socket => {
         const type = socket.handshake.query.type;
@@ -96,6 +107,7 @@ module.exports = function(io) {
                         if(item.id == id)
                             arrayEvaluations[player].splice(index, 1);
                     });
+                    io.to(socketPlayers[player]).emit('add-points', { points: data.points });
                 }
             });
             socket.on('delete-player', data => {

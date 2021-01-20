@@ -103,7 +103,6 @@ export default function Control(props){
         setRows([]);
     };
 
-
     //function that set helps notifications
     const notifyHelp = () => {
         for(const player in arrayHelps) {
@@ -203,6 +202,12 @@ export default function Control(props){
                 ranking.push({id: key, points: arrayOfPlayers[key].points});
             if(!(key in tmp))
                 tmp[key] = false
+            if(cardsRef.current[key]) {
+                if(arrayOfPlayers[key].timer > 60)
+                    cardsRef.current[key].handleTimer("primary");
+                else
+                    cardsRef.current[key].handleTimer("secondary");
+            }
         }
         if(!(_.isEqual(tmp, arrived)))
             setArrived(tmp);

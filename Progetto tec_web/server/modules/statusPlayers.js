@@ -31,7 +31,7 @@ module.exports = {
             const story = req.query.story;
             const arrayPlayers = [];
             if(!storiesActive[story])
-                res.status(404)
+                res.status(404).end();
             for(id in storiesActive[story]){
                 arrayPlayers.push(storiesActive[story][id]);
             }
@@ -44,7 +44,7 @@ module.exports = {
             const stories = Object.keys(storiesActive); // array of all active stories
             const nPlayers = {};
             if(stories.length <= 0)
-                res.status(404);
+                res.status(404).end();
             stories.forEach((story) => {
                 nPlayers[story] = Object.keys(storiesActive[story]).length;
             })
@@ -56,7 +56,7 @@ module.exports = {
         app.get('/players', (req, res) => {
             const story = req.query.story;
             if(!storiesActive[story])
-                res.status(404);
+                res.status(404).end();
             const players = Object.keys(storiesActive[story]);
             const data = JSON.stringify(players);
             res.status(200).end(data);
@@ -66,7 +66,7 @@ module.exports = {
             const player = req.query.player;
             const story = req.query.story;
             if(!player in storiesActive[story])
-                res.status(404);
+                res.status(404).end();
             const data = JSON.stringify(storiesActive[story][player]);
             res.status(200).end(data);
         });
@@ -86,12 +86,15 @@ module.exports = {
             res.status(200).end(evaluations);
         });
 
-        app.post('answer', (req, res) => {
-            const player = req.query.player;
-            const story = req.query.story;
-            const points = req.query.points;
-            const section = req.query.section; 
-            //to do
+        app.post('/answer', (req, res) => {
+            const player = req.body.params.player;
+            const story = req.body.params.story;
+            const points = req.body.params.points;
+            const section = req.body.params.section;
+            if(storiesActive[story][player].sectionArray[section])
+                storiesActive[story][player].sectionArray[section].points = parseInt(points);
+            else
+                res.status(404).end();
         })
 
         app.get('/pdf', (req, res) => {            
@@ -132,12 +135,14 @@ module.exports = {
                 const length = storiesActive[story][id].sectionArray.length - 1;
                 const lastActivity = storiesActive[story][id].sectionArray[length];
                 if(!lastActivity)
-                    res.status(404);
+                    res.status(404).end();
                 if(lastActivity.section != sectionArray.section){
                     storiesActive[story][id].sectionArray.push(sectionArray); //push the player in the story  
                 } else {
                     lastActivity.timer = sectionArray.timer;
                     lastActivity.answer = sectionArray.answer;
+                    if(sectionArray.points)
+                        lastActivity.points = sectionArray.points;
                 }      
             } else {
                 storiesActive[story][id] = {id, sectionArray};

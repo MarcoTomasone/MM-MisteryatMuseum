@@ -59,6 +59,7 @@ export const CardPlayer = React.forwardRef((props, ref) => {
     const [badge, setBadge] = React.useState(true);
     const [helpBadge, setHelpBadge] = React.useState(true);
     const [evaluationBadge, setEvaluationBadge] = React.useState(true);
+    const [colorTimer, setColorTimer] = ("secondary");
 
     //Function to send messages to the evaluator
     const sendMessage = (id) => {
@@ -80,7 +81,10 @@ export const CardPlayer = React.forwardRef((props, ref) => {
         },
         handleEvaluation(value) {
             setEvaluationBadge(value);
-		}
+        },
+        handleTimer(value){
+            setColorTimer(value);
+        }
     }));
     
     React.useEffect(() => {
@@ -110,9 +114,9 @@ export const CardPlayer = React.forwardRef((props, ref) => {
             ]}),
             e(CardActions, {key: "3", disableSpacing: true, children: [
                 e(IconButton, {key: "I1", children: e(Badge, {id: props.id  + "_chat", color: "secondary", variant: "dot", invisible: badge, children: e(Icon, {children: "chat", color: "primary"})}), onClick: () => {setExpanded(!expanded);}}),
-                e(IconButton, {key: "I2", children: e(Badge, {id: props.id  + "_help", color: "secondary", variant: "dot", invisible: helpBadge, children: e(Icon, {children: "help", color: "primary"})})}),
-                e(IconButton, {key: "I3", children: e(Badge, {id: props.id + "_evaluation", color: "secondary", variant: "dot", invisible: evaluationBadge, children: e(Icon, {children: "upload_image", color: "primary"})})}),
-                e(IconButton, {key: "I4", children: e(Icon, {children: "info", color: "primary"})})
+                e(Badge, {key: "I2", id: props.id  + "_help", color: "secondary", variant: "dot", invisible: helpBadge, children: e(Icon, {children: "help", color: "primary"})}),
+                e(Badge, {key: "I3", id: props.id + "_evaluation", color: "secondary", variant: "dot", invisible: evaluationBadge, children: e(Icon, {children: "upload_image", color: "primary"})}),
+                e(Icon, {key: "I4", children: "timer", color: colorTimer})
             ]}),
             e(Collapse, {key: "4", id: props.id + "_collapse", style: {widht: "300px"}, in: expanded, timeout: "auto", unmountOnExit: false, children: [
                 e(CardContent, {key: "cardContent", children: [

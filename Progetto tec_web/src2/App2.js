@@ -147,15 +147,13 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
     };
 }
 
-   
-
    function handleClose() {
         setDialog(false);
         const idContainer = document.getElementById("id-input");
         const playerID = idContainer.value;
         setID(playerID);
         getID(playerID, activityList[0].question);
-        socket.emit('new-player', {playerID});
+        socket.emit('new-player', { playerID });
         //si potrebbe passare al server come 
         //parametro l'id e lui restituisce il json corrispondente 
     }

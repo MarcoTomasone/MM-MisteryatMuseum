@@ -26,7 +26,7 @@ export default function Help(props) {
     return(
         e(React.Fragment, null, [
             e("div", {style: {backgroundColor: "#3f51b5", minHeight: 60, width: "80%", border: "1px solid grey"}}, [ e("b", null, `Section ${props.section}`), e("br"), e("b", null, `Question: `), props.question ]),
-            e("div", {style: {height: "auto", width: "80%", border: "1px solid grey"}}, [ e("b", null, `Answer: `), answer ]),
+            e("div", {style: {height: "auto", width: "80%", border: "1px solid grey"}}, [ e("b", null, `Answer: `), e("br"), answer ]),
             e(TextField, {onKeyDown: () => {isEnter(event)? onValued() : null}, type: "number", id: "valuation" + props.id, variant: "outlined", style: {width: "80%", marginBottom: 20}, InputProps: {endAdornment:
                 e(IconButton, {onClick: onValued, key: "4", children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
             )

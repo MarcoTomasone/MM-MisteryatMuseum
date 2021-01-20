@@ -72,6 +72,7 @@ export default function Control(props){
         socket.emit('send-to-player', {message: message, id: id});
     }
 
+    //function that create rows of the table used for get info of a player
     const createRows = (player) => {
         (async() => {
             if(player == "")
@@ -79,7 +80,10 @@ export default function Control(props){
             const data = await getHistory(player, story);
             const tmp = [];
             data.sectionArray.forEach((item) => {
-                tmp.push(createData(item.section, item.question, item.answer, item.time, item.points));
+                let answer = item.answer;
+                //if(item.answer.startsWith('localhost'));
+                //    answer = e('img', {src: item.answer});
+                tmp.push(createData(item.section, item.question, answer, item.timer, item.points));
             })
             setRows(tmp);
         })();
@@ -102,6 +106,20 @@ export default function Control(props){
         setValue(newValue);
         setRows([]);
     };
+
+    //function that set timer notifications
+    const notifyTimer = () => {
+        arrayPlayers.forEach((player) => {
+            const id = player.props.id;
+            const timer = player.props.timer;
+            if(cardsRef.current[id]) {
+                if(timer > 60)
+                    cardsRef.current[id].handleTimer("secondary");
+                else
+                    cardsRef.current[id].handleTimer("primary");
+            }
+        })
+    }
 
     //function that set helps notifications
     const notifyHelp = () => {
@@ -198,19 +216,16 @@ export default function Control(props){
             arrived: arrived,
             setArrived: setArrived,
             }))
-            if(!_.find(ranking, {id: key}))
-                ranking.push({id: key, points: arrayOfPlayers[key].points});
-            if(!(key in tmp))
-                tmp[key] = false
+            !(_.find(ranking, {id: key})) ? ranking.push({id: key, points: arrayOfPlayers[key].points}) : null;
+            !(key in tmp) ? tmp[key] = false : null;
             if(cardsRef.current[key]) {
                 if(arrayOfPlayers[key].timer > 60)
-                    cardsRef.current[key].handleTimer("primary");
-                else
                     cardsRef.current[key].handleTimer("secondary");
+                else
+                    cardsRef.current[key].handleTimer("primary");
             }
         }
-        if(!(_.isEqual(tmp, arrived)))
-            setArrived(tmp);
+        !(_.isEqual(tmp, arrived)) ? setArrived(tmp) : null;
         setArrayPlayers(arrayOfCards);
         notifyHelp();
         notifyEvaluation();
@@ -256,8 +271,8 @@ export default function Control(props){
         });
         socket.on('update-status', data => {
             (async () => {
-                const arrayOfPlayers = await getDataPlayer(story);
-                uploadCard(arrayOfPlayers);
+                const players = await getDataPlayer(story);
+                uploadCard(players);
             })();
         });
         return () => {  //componenetWillUnMount
@@ -271,8 +286,8 @@ export default function Control(props){
     //create and set cards with players
     React.useEffect(() => {
         (async () => {
-            const arrayOfPlayers = await getDataPlayer(story);
-            uploadCard(arrayOfPlayers);
+            const players = await getDataPlayer(story);
+            uploadCard(players);
         })();
     }, [ , arrived]);
 
@@ -280,6 +295,7 @@ export default function Control(props){
     React.useEffect(() => {
         notifyHelp();
         notifyEvaluation();
+        notifyTimer();
     },[value, arrayHelps, arrayEvaluations]);
 
     React.useEffect(() => {
@@ -330,7 +346,7 @@ export default function Control(props){
                         return players;
                     })()
                 ]}),
-                e(TableContainer, {component: Paper, children: [
+                e(TableContainer, {style: {marginBottom: 15}, component: Paper, children: [
                     e(Table, {className: classes2.table, ariaLabel: "simple table", children: [
                         e(TableHead, {children: [
                             e(TableRow, {children: [

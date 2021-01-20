@@ -30,7 +30,7 @@ module.exports = {
         app.get('/status', (req, res) => {
             const story = req.query.story;
             const arrayPlayers = [];
-            if(!storiesActive[story])
+            if(!storiesActive[story]) //or is empty
                 res.status(404).end();
             for(id in storiesActive[story]){
                 arrayPlayers.push(storiesActive[story][id]);
@@ -101,9 +101,9 @@ module.exports = {
             const player = req.query.player;
             const story = req.query.story;
             const path = `./inGame/${story}/${player}.json`;
-            if(!fs.existsSync(path))
+            if(!storiesActive[story][player])
                 res.status(404).end();
-            const infoPlayer = JSON.parse(fs.readFileSync(path, {encoding:'utf8', flag:'r'}));
+            const infoPlayer = storiesActive[story][player];
             const doc = new jsPDF();
             const col = ["Section", "Question", "Answer", "Time", "Points"];
             const rows = [];
@@ -111,7 +111,7 @@ module.exports = {
             doc.setFont("calibri");
             doc.text( `${player}`, 100, 15, {align: "center"});
             infoPlayer.sectionArray.forEach((section, i) => {
-                const item = [section.section, section.question, section.answer, section.time, section.points];
+                const item = [section.section, section.question, section.answer, section.timer, section.points];
                 rows.push(item);
             });
             doc.autoTable(col, rows,  {
@@ -134,7 +134,7 @@ module.exports = {
             if(storiesActive[story][id]){
                 const length = storiesActive[story][id].sectionArray.length - 1;
                 const lastActivity = storiesActive[story][id].sectionArray[length];
-                if(!lastActivity)
+                if(!lastActivity || !sectionArray)
                     res.status(404).end();
                 if(lastActivity.section != sectionArray.section){
                     storiesActive[story][id].sectionArray.push(sectionArray); //push the player in the story  
@@ -148,7 +148,7 @@ module.exports = {
                 storiesActive[story][id] = {id, sectionArray};
             }
             res.status(200).end();
-            console.log(storiesActive["Story1"]["Marco"])
+            //console.log(storiesActive["Story1"]["Marco"])
           
 
             /*

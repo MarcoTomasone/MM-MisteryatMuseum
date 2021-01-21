@@ -37,7 +37,7 @@ export const Activity = React.forwardRef((props, ref) => {
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         let indexOfNewActivity;
-        
+        console.log(actual);
 
         clearInterval(timer);
         if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
@@ -56,17 +56,15 @@ export const Activity = React.forwardRef((props, ref) => {
                         dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Quattro opzioni" : 
-                        if(dinamicActivities[counter].correct === lastAnswer){
+                        if(dinamicActivities[counter].fourAnswers[lastAnswer].score > 0){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
-                            actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
                         } else {
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore);
-                            actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;    
                         }
+                        props.setPoints(props.points + dinamicActivities[counter].fourAnswers[lastAnswer].score);
+                        actualPoints = dinamicActivities[counter].fourAnswers[lastAnswer].score;    
                         console.log(actualPoints);
-                        sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].multipleAnswer[lastAnswer], counter, seconds, actualPoints);
+                        sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
                     break;
                     case "Vero Falso" :
                         let answer = lastAnswer ? "Vero" : "Falso";
@@ -85,8 +83,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         break;
                     case "range":
                         let value = document.getElementById("rangenpt").value;  
-                        console.log(value);
-                        if(value < dinamicActivities[counter].rangeAnswer.end && value > dinamicActivities[counter].rangeAnswer.start ){
+                        if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
                             actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
@@ -118,6 +115,10 @@ export const Activity = React.forwardRef((props, ref) => {
                         }
                         console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
+                    break;
+                    case "imgUpload": 
+                        sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
+                        dinamicActivities.push(props.json.accessibility.lastActivity); //TODO : AGGIUSTARE QUESTA COSA DEVE ESSERE IMPARZIALE
                     break;
                 }
             }
@@ -151,7 +152,7 @@ export const Activity = React.forwardRef((props, ref) => {
             }
         }
         else{
-            const nAnswer = props.v[counter].multipleAnswer.lenght;
+            const nAnswer = props.v[counter].fourAnswers.lenght;
             for(let i = 0 ; i < nAnswer ;i++){
                 document.getElementById("btn"+i).backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
             }
@@ -247,7 +248,7 @@ export const Activity = React.forwardRef((props, ref) => {
 
     } else {
         const domanda = dinamicActivities[counter].question;
-        const answer = dinamicActivities[counter].multipleAnswer;
+        const answer = dinamicActivities[counter].fourAnswers;
 
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero Falso") {
                 // multiple answer || true\false

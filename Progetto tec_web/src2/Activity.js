@@ -37,8 +37,7 @@ export const Activity = React.forwardRef((props, ref) => {
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         let indexOfNewActivity;
-        console.log(actual);
-
+    
         clearInterval(timer);
         if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
             dinamicActivities.push( props.json.accessibility.lastActivity);
@@ -116,9 +115,14 @@ export const Activity = React.forwardRef((props, ref) => {
                         console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
                     break;
+                    case "humanText":
+                        props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].question, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
+                        sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter, seconds, 0);
+                        dinamicActivities.push(props.json.accessibility.lastActivity);
+                    break;
                     case "imgUpload": 
                         sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
-                        dinamicActivities.push(props.json.accessibility.lastActivity); //TODO : AGGIUSTARE QUESTA COSA DEVE ESSERE IMPARZIALE
+                        dinamicActivities.push(props.json.accessibility.lastActivity);
                     break;
                 }
             }

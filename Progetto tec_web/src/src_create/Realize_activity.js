@@ -133,7 +133,7 @@ function Realize_activity(props){
     const [errorFourAnswers, setErrorFourAnswers] = React.useState(false);
     const [check, setCheck] = React.useState(true);
     const [checkSwitch, setCheckSwitch] = React.useState(false);
-
+    const [error, setError] = React.useState(false);
 
     
     
@@ -190,12 +190,13 @@ function Realize_activity(props){
     }, [activity.widthInput])
 
 
-    React.useEffect(async () => {
-        activity.correctAnswerGo = []
-        activity.wrongAnswerGo = []
-    }, [activity.title])
-
-    React.useEffect(async () => {
+    React.useEffect(() => {
+        if (!(props.story.activities.some(element => element.title == activity.title))){
+            activity.correctAnswerGo = []
+            activity.wrongAnswerGo = []
+            activity.activityIsUsed = false
+            activity.firstActivity = false
+        }
         var tmp = []
         props.story.activities.forEach(element => {
             if (element.title != activity.title && element.firstActivity == false && element.activityIsUsed == false && !(activity.correctAnswerGo.includes(element.title)) && !(activity.wrongAnswerGo.includes(element.title))) tmp.push(e(MenuItem, {value : element.title}, element.title))
@@ -277,16 +278,9 @@ function Realize_activity(props){
 
     React.useEffect(() => {
         if (activity.firstActivity == true || activity.activityIsUsed == true) setCheck(false)
-        else {
-            setCheck(true)
-            activity.correctAnswerGo = []
-            activity.wrongAnswerGo = []
-            setUpdateTable((prev) => !prev)
-        }
+        else setCheck(true)
         if (activity.activityIsUsed == true) setCheckSwitch(true)
-        else {
-            setCheckSwitch(false)
-        }
+        else setCheckSwitch(false)
     }, [activity.firstActivity, activity.title])
 
     React.useEffect(() => {
@@ -298,25 +292,18 @@ function Realize_activity(props){
     }, [])    
 
     function ricorsiveDelete(string){
-        var tmp = []
-        props.story.activities.forEach(element => {
-            if (element.title == string) {
-                element.activityIsUsed = false
-                element.correctAnswerGo.forEach(element => {
-                    tmp.push(element) 
-                })
-                element.correctAnswerGo = []
-                element.wrongAnswerGo.forEach(element => {
-                    tmp.push(element) 
-                })
-                element.wrongAnswerGo = []
-            } else {
-                
-            }
-        })
-        tmp.forEach(element => {
-            ricorsiveDelete(element)
-        })
+        var index = props.story.activities.findIndex(element => element.title == string)
+        if (index >= 0){
+            props.story.activities[index].activityIsUsed = false
+            props.story.activities[index].correctAnswerGo.forEach(element => {
+                ricorsiveDelete(element)
+            })
+            props.story.activities[index].correctAnswerGo = []
+            props.story.activities[index].wrongAnswerGo.forEach(element => {
+                ricorsiveDelete(element)
+            })
+            props.story.activities[index].wrongAnswerGo = []
+        }
     }
  
 
@@ -363,22 +350,11 @@ function Realize_activity(props){
                 array.push(e(MenuItem, {value : element.title}, element.title))
             })
             setArrayOfActivity(array)
-            var activityUsed = []   
             props.story.activities.forEach(element => {
-                element.correctAnswerGo.forEach(element => {
-                    activityUsed.push(element)
-                })
-                element.wrongAnswerGo.forEach(element => {
-                    activityUsed.push(element)
-                })
-            })
-            props.story.activities.forEach(element => {
-                if (activityUsed.includes(element.title)) element.activityIsUsed = true
-                else element.activityIsUsed = false
                 if (element.activityIsUsed == false && element.firstActivity == false){
                     ricorsiveDelete(element.title)
-                    setActivity({...activity, ["correctAnswerGo"]: []});
-                    setActivity({...activity, ["wrongAnswerGo"]: []});
+                    activity.correctAnswerGo = []
+                    activity.wrongAnswerGo = []
                     setActivityCorrectAnswer("")
                     setActivityWrongAnswer("")
                     setUpdateTable((prev) => !prev)
@@ -471,15 +447,27 @@ function Realize_activity(props){
     }
 
     function addActivityOkAnswer(){
-        setActivity({...activity, ["correctAnswerGo"]: [...activity["correctAnswerGo"], activitySelect]});
-        setActivitySelect("")
-        setUpdateTable((prev) => !prev)
+        if (activitySelect == "") setError(true)
+        else {
+            setActivity({...activity, ["correctAnswerGo"]: [...activity["correctAnswerGo"], activitySelect]});
+            props.story.activities.forEach(element => {
+                if (element.title == activitySelect) element.activityIsUsed = true
+            })
+            setActivitySelect("")
+            setUpdateTable((prev) => !prev)
+        }
     }
 
     function addActivityWrongAnswer(){
-        setActivity({...activity, ["wrongAnswerGo"]: [...activity["wrongAnswerGo"], activitySelect]});
-        setActivitySelect("")
-        setUpdateTable((prev) => !prev)
+        if (activitySelect == "") setError(true)
+        else {
+            setActivity({...activity, ["wrongAnswerGo"]: [...activity["wrongAnswerGo"], activitySelect]});
+            props.story.activities.forEach(element => {
+                if (element.title == activitySelect) element.activityIsUsed = true
+            })
+            setActivitySelect("")
+            setUpdateTable((prev) => !prev)
+        }
     }
 
     function deleteActivitiesCorrectAnswer(){
@@ -738,6 +726,7 @@ function Realize_activity(props){
             e(DialogComponent, {fun: setErrorAnswerSelected, open: errorAnswerSelected, textError: "Selezionare prima una risposta"} ),
             e(DialogComponent, {fun: setErrorLimitAnswer, open: errorLimitAnswer, textError: "Raggiunto limite risposte per questo tipo di widget"} ),
             e(DialogComponent, {fun: setErrorAnswerDuplicated, open: errorAnswerDuplicated, textError: "Risposta già presente"} ),
+            e(DialogComponent, {fun: setError, open: error, textError: "Selezionare prima una risposta"} ),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    
     )

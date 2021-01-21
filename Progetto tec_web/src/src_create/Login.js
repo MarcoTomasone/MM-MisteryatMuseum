@@ -3,7 +3,6 @@ const e = React.createElement;
 function Login(props){
     const {TextField, Button } = window['MaterialUI']; //to load the component from the library
     var username = ""
-    var password = ""
 
     //to press enter
     const handleKeyDown = (event) => {
@@ -40,55 +39,8 @@ function Login(props){
             onChange: (e) => username = (e.target.value),
             onKeyDown: handleKeyDown
         }),
-        /*e(TextField, {
-            id:"password_TextField",
-            className: "login",
-            label:"Password",
-            type:"password",
-            variant:"outlined",
-            required: true,
-            onChange: (e) => password = (e.target.value),
-            onKeyDown: handleKeyDown
-        }),*/
         e(Button, {id: "loginDiv_button", variant: "outlined", onClick: loginFunction},"ENTRA" ),
     ])
 }
 
 export default Login;
-
-
-
-
-
-/*
-    function loginFunction(){      
-        props.userUpdate(tmp)
-        const url = "http://127.0.0.1:8000/";
-        axios.get(url) 
-            .then(response => {
-                console.log(response.data.ciao); 
-                props.storyUpdate(response.data.ciao)})
-        location.href = "/public/#/Create/select"
-    }
-
-
-     var input = document.getElementById("loginDiv_TextField");
-    input.addEventListener("keyup", (event) => {
-        if (event.keycode === 13) {
-            console.log(event.target.value);
-        }
-    });
-*/ 
-
-
-
-  
-/*axios.post('http://localhost:8000/login', {
-    usrnm: username,
-    psswd: password
-})
-.then(() => {
-    props.userUpdate(username.charAt(0).toUpperCase() + username.substring(1).toLowerCase())
-    location.href = "./#/Create/select"
-})
-.catch(() => alert("Username o password errati. Riprovare."))*/

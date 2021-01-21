@@ -1,5 +1,7 @@
 const e = React.createElement;
 const {Button, makeStyles, Icon, Tooltip} = MaterialUI;
+import Card from "./Card.js"
+
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -28,88 +30,67 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-var storySelected = "";
-
-
-const toCreate = function(){
-    location.href = "./?#/Create/realize"
-}
-
-const toDuply = function(){
-    if (storySelected == "") alert("Selezionare prima una storia");
-    else {
-        axios.get(`http://localhost:8000/duplyStory/${storySelected}`)
-        .then((response) => alert(`Storia \"${storySelected}\" dupicata correttamente`))
-        .catch((error) => console.log(error));  
-    }
-}
-
-const toModify = function(){
-    if (storySelected == "") alert("Selezionare prima una storia")
-}
-
-const toPublish = function(){
-    if (storySelected == "") alert("Selezionare prima una storia")
-    else {
-        axios.post('http://localhost:8000/publishStory', {story: storySelected})
-        .then((response) => alert(`Storia \"${storySelected}\" pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`))
-        .catch((error) => console.log(error));
-    }
-}
-
-const toRetire = function(){
-    if (storySelected == "") alert("Selezionare prima una storia")
-    else {
-        axios.delete(`http://localhost:8000/retireStory/${storySelected}`)
-        .then((response) => alert(`Storia \"${storySelected}\" ritirata correttamente`))
-        .then(() => document.getElementById(storySelected).classList.remove("story_published"))
-        .catch((error) => console.log(error));  
-    }
-}
-
-const toDelete = function(){
-    if (storySelected == "") alert("Selezionare prima una storia")
-    else {
-        axios.delete(`http://localhost:8000/deleteStory/${storySelected}`)
-        .then((response) => alert(`Storia \"${storySelected}\" eliminata correttamente`))
-        .catch((error) => console.log(error));
-    }
-}
-
-
-function Card(props){
-
-    const press = () =>{
-        storySelected = props.id
-        props.other.forEach((element) => {
-            if(storySelected != element.id){
-                document.getElementById(element.id).classList.remove("card_selected");
-            }
-        })
-        document.getElementById(props.id).classList.add("card_selected");
-    }
-    
-    return e("div", {id: props.id, className: "card", onClick: press}, [
-        e("div", {className: "card_title"}, props.title),
-        e("div", {className: "card_gender"}, props.gender),
-        e("div", {className: "card_objective"}, props.objective),
-        e("div", {className: "card_info"}, [
-            e("div", {className: "card_participant"}, [
-                e("img", {className: "cardImg", src: props.participantsType})
-            ]),
-            e("div", {className: "card_accessibility"}, [
-                e("img", {className: "cardImg", src: props.accessibility})
-            ]),
-        ]),
-        e("div", {className: "card_description"}, props.description)
-    ])
-}
 
 
 function Select(props){
     const classes = useStyles();
-
     const [arrayPrivateStories, setArrayPrivateStories] =  React.useState([]);
+    const [storySelected, setStorySelected] =  React.useState("");
+
+
+    const toCreate = function(){
+        props.setStoryToModify()
+        location.href = "./?#/Create/realize"
+    }
+    
+    const toDuply = function(){
+        if (storySelected == "") alert("Selezionare prima una storia");
+        else {
+            axios.get(`http://localhost:8000/duplyStory/${storySelected}`)
+            .then((response) => alert(`Storia \"${storySelected}\" dupicata correttamente`))
+            .catch((error) => console.log(error));  
+        }
+    }
+    
+    const toModify = function(){
+        if (storySelected == "") alert("Selezionare prima una storia")
+        else {
+            axios.get(`http://localhost:8000/modifyStory/${storySelected}`)
+            .then((response) => {console.log(response.data), props.setStoryToModify(response.data)})
+            .catch((error) => console.log(error));
+            location.href = "./?#/Create/realize"
+        }
+    }
+    
+    const toPublish = function(){
+        if (storySelected == "") alert("Selezionare prima una storia")
+        else {
+            axios.post('http://localhost:8000/publishStory', {story: storySelected})
+            .then((response) => alert(`Storia \"${storySelected}\" pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`))
+            .catch((error) => console.log(error));
+        }
+    }
+    
+    const toRetire = function(){
+        if (storySelected == "") alert("Selezionare prima una storia")
+        else {
+            axios.delete(`http://localhost:8000/retireStory/${storySelected}`)
+            .then((response) => alert(`Storia \"${storySelected}\" ritirata correttamente`))
+            .then(() => document.getElementById(storySelected).classList.remove("story_published"))
+            .catch((error) => console.log(error));  
+        }
+    }
+    
+    const toDelete = function(){
+        if (storySelected == "") alert("Selezionare prima una storia")
+        else {
+            axios.delete(`http://localhost:8000/deleteStory/${storySelected}`)
+            .then((response) => alert(`Storia \"${storySelected}\" eliminata correttamente`))
+            .catch((error) => console.log(error));
+        }
+    }
+
+
     var arrayOfStories = []
 
     if (props.user == "") props.setUser(localStorage.getItem(`user0`));    
@@ -125,6 +106,8 @@ function Select(props){
             response.data.forEach((element) => {
                 arrayOfStories.push(
                     e(Card, {
+                        storySelected: storySelected,
+                        setStorySelected: setStorySelected,
                         id: element.id,
                         title: element.title, 
                         gender: element.gender,

@@ -26,6 +26,19 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: 1,
         boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
         margin: theme.spacing(0.4),
+    },
+    redButton: {
+        backgroundColor: "red",
+        minWidth: 110,
+        color: "white",
+        fontSize: 13,
+        lineHeight: 1,
+        boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
+        margin: theme.spacing(0.4),
+        "&:hover": {
+            backgroundColor: 'orange',
+            color: "black",
+        }
     }
 }));
 
@@ -44,7 +57,7 @@ function Realize(props){
         props.setUser(localStorage.getItem(`user0`));    
     }
 
-    const [story, setStory] =  React.useState({});
+    const [story, setStory] =  React.useState(props.storyToModify);
     const [step, setStep] =  React.useState([false, false, false, false]);
     const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}));
     const [x, setX] =  React.useState(true);
@@ -159,7 +172,17 @@ function Realize(props){
                             setTextErrorDialog("Prima crea e salva almeno un'attività diversa da quella introduttiva")
                             setOpenErrorDialog(true)   
                         }*/
-                    }}, "GRAFO ATTIVITA'")
+                    }}, "GRAFO ATTIVITA'"),
+                   e(Button, {variant: "contained", size: "large", className: classes.redButton, onClick: () => {
+                        //if (step[3] == true){
+                            axios.post(`http://localhost:8000/createStory/id`, {user: props.user, story: story})
+                            .then((response) => alert(`Storia pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`))
+                            .catch((error) => console.log(error)); 
+                        /*} else {
+                            setTextErrorDialog("Prima crea e salva almeno un'attività diversa da quella introduttiva")
+                            setOpenErrorDialog(true)   
+                        }*/
+                    }}, "INVIA")
                 ])
             ]),
             

@@ -1,5 +1,5 @@
 const e = React.createElement;
-const {TextField, IconButton, makeStyles, Button, Icon, FormControl, InputLabel, Select, MenuItem, Tooltip, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } = window['MaterialUI']; //to load the component from the library
+const {TextField, IconButton, makeStyles, Button, Icon, FormControl, InputLabel, Select, MenuItem, Tooltip, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Switch, FormControlLabel, withStyles } = window['MaterialUI']; //to load the component from the library
 import {DialogComponent, DialogComponent2} from "./Dialog.js"
 
 
@@ -56,6 +56,23 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const SwitchButton = withStyles({
+    switchBase: {
+      color: "red",
+      '&$track': {
+        color: "red",
+      },
+      '&$checked': {
+        color: "green",
+      },
+      '&$checked + $track': {
+        backgroundColor: "green",
+      }
+    },
+    checked: {},
+    track: {},
+})(Switch);
+
 function Realize_activity(props){
     const classes = useStyles();
     const [immageUpload, set_immageUpload] = React.useState(true)
@@ -76,7 +93,7 @@ function Realize_activity(props){
         leftInput               :   15,
         heightInput             :   60,
         widthInput              :   170,
-        widgetType              :   "Quattro opzioni",
+        widgetType              :   "Nessuno",
         errorMessage            :   "",
         fourAnswers             :   [],
         multipleAnswers         :   [],
@@ -97,6 +114,8 @@ function Realize_activity(props){
         },
         correctAnswerGo         :   [],
         wrongAnswerGo           :   [],
+        activityIsUsed          :   false,
+        firstActivity           :   false,
     })
     const [listOfActivity, setListOfActivity] = React.useState([]);
     const [activitySelect, setActivitySelect] = React.useState("");
@@ -112,7 +131,11 @@ function Realize_activity(props){
     const [errorLimitAnswer, setErrorLimitAnswer] = React.useState(false);
     const [errorAnswerDuplicated, setErrorAnswerDuplicated] = React.useState(false);
     const [errorFourAnswers, setErrorFourAnswers] = React.useState(false);
+    const [check, setCheck] = React.useState(true);
+    const [checkSwitch, setCheckSwitch] = React.useState(false);
 
+
+    
     
     function addImage(e){
         e.preventDefault()
@@ -137,78 +160,45 @@ function Realize_activity(props){
         axios.delete(`http://localhost:8000/deleteImage/${props.story.id}/act${props.firstLast}`)
         set_immageUpload(true)
     }
-    
-
-    React.useEffect(() => {
-        var tmp = activity.widgetType
-        const type = ["Quattro opzioni", "Scelta multipla", "Vero o falso", "Input testuale", "Range", "Foto"];
-        type.forEach(element =>{
-            if (element == tmp) document.getElementById(element + " div").classList.remove("hiddenClass")
-            else document.getElementById(element + " div").classList.add("hiddenClass")
-        })
-        document.getElementById("inputDiv").classList.remove("hiddenClass")
-    })
 
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea una nuova attività";
+    }, [])
+
+    React.useEffect(() => {
         document.getElementById("phoneText").style.height   = `${activity.heightFrame}px`;
+    }, [activity.heightFrame])
+
+    React.useEffect(() => {
         document.getElementById("phoneText").innerHTML      =    activity.activityText;
+    }, [activity.activityText])
+
+    React.useEffect(() => {
         document.getElementById("inputDiv").style.top       = `${activity.topInput}px`;
+    }, [activity.topInput])
+
+    React.useEffect(() => {
         document.getElementById("inputDiv").style.left      = `${activity.leftInput}px`;
+    }, [activity.leftInput])
+
+    React.useEffect(() => {
         document.getElementById("inputDiv").style.height    = `${activity.heightInput}px`;
+    }, [activity.heightInput])
+
+    React.useEffect(() => {
         document.getElementById("inputDiv").style.width     = `${activity.widthInput}px`;
-    }, [activity])
+    }, [activity.widthInput])
 
-    
-    React.useEffect(() => {
+
+    React.useEffect(async () => {
+        activity.correctAnswerGo = []
+        activity.wrongAnswerGo = []
+    }, [activity.title])
+
+    React.useEffect(async () => {
         var tmp = []
-        var tmp2 = []
-        var tmp3 = []
-        for (var i = 0; i < activity.fourAnswers.length; i++){
-            tmp.push(e(MenuItem, {value: activity.fourAnswers[i].text}, activity.fourAnswers[i].text))
-        }
-        setMenuItemFourChoices(tmp)
-        activity.fourAnswers.forEach(element => {
-            tmp2.push(
-                e(TableRow, {key: element.text}, [
-                    e(TableCell, {component:"th", scope:"row"}, element.text),
-                    e(TableCell, null, element.score),
-                ])
-            )
-        })
-        setTableFourChoices(tmp2)
-        tmp = []
-        for (var i = 0; i < activity.multipleAnswers.length; i++){
-            tmp.push(e(MenuItem, {value: activity.multipleAnswers[i].text}, activity.multipleAnswers[i].text))
-        }
-        setMenuItemMultipleAnswers(tmp)
-        activity.multipleAnswers.forEach(element => {
-            tmp3.push(
-                e(TableRow, {key: element.text}, [
-                    e(TableCell, {component:"th", scope:"row"}, element.text),
-                    e(TableCell, null, element.score),
-                ])
-            )
-        })
-        setTableMultipleAnswers(tmp3)
-    }, [updateTable])
-
-
-    React.useEffect(() => {
-        const tmp = ["Quattro opzioni", "Scelta multipla", "Vero o falso", "Input testuale", "Range"];
-        tmp.forEach(element => {
-            if (activity.widgetType == element) document.getElementById(element).classList.remove(classes.hide)
-            else document.getElementById(element).classList.add(classes.hide)
-        })
-        setScore(0);
-        setAnswerSelect();
-    }, [activity.widgetType])
-
-
-    React.useEffect(() => {
-        var tmp = []
-        props.story.activitiesNotAssigned.forEach(element => {
-            if (element != activity.title) tmp.push(e(MenuItem, {value : element}, element))
+        props.story.activities.forEach(element => {
+            if (element.title != activity.title && element.firstActivity == false && element.activityIsUsed == false && !(activity.correctAnswerGo.includes(element.title)) && !(activity.wrongAnswerGo.includes(element.title))) tmp.push(e(MenuItem, {value : element.title}, element.title))
         })
         setListOfActivity(tmp)
         tmp = []
@@ -223,14 +213,119 @@ function Realize_activity(props){
         setMenuItemActivityWrongAnswer(tmp)
     }, [activity.title, updateTable])
 
-  
+    
+    React.useEffect(() => {
+        var tmp = []
+        var tmp2 = []
+        for (var i = 0; i < activity.fourAnswers.length; i++){
+            tmp.push(e(MenuItem, {value: activity.fourAnswers[i].text}, activity.fourAnswers[i].text))
+        }
+        setMenuItemFourChoices(tmp)
+        activity.fourAnswers.forEach(element => {
+            tmp2.push(
+                e(TableRow, {key: element.text}, [
+                    e(TableCell, {component:"th", scope:"row"}, element.text),
+                    e(TableCell, null, element.score),
+                ])
+            )
+        })
+        setTableFourChoices(tmp2)
+    }, [activity.fourAnswers])
 
+
+    React.useEffect(() => {
+        var tmp = []
+        var tmp2 = []
+        for (var i = 0; i < activity.multipleAnswers.length; i++){
+            tmp.push(e(MenuItem, {value: activity.multipleAnswers[i].text}, activity.multipleAnswers[i].text))
+        }
+        setMenuItemMultipleAnswers(tmp)
+        activity.multipleAnswers.forEach(element => {
+            tmp2.push(
+                e(TableRow, {key: element.text}, [
+                    e(TableCell, {component:"th", scope:"row"}, element.text),
+                    e(TableCell, null, element.score),
+                ])
+            )
+        })
+        setTableMultipleAnswers(tmp2)
+    }, [activity.multipleAnswers])
+
+
+    React.useEffect(() => {
+        const type = ["Quattro opzioni", "Scelta multipla", "Vero o falso", "Input testuale automatico", "Input testuale valutatore", "Range", "Foto"];
+        if (activity.widgetType == "Nessuno"){
+            document.getElementById("inputDiv").classList.add("hiddenClass")
+            type.forEach(element =>{
+                if (element != "Input testuale valutatore" && element != "Foto") document.getElementById(element).classList.add(classes.hide)
+            })
+        } else {
+            type.forEach(element =>{
+                if (element == activity.widgetType){
+                    if (element != "Input testuale valutatore" && element != "Foto") document.getElementById(element).classList.remove(classes.hide)
+                    document.getElementById(element + " div").classList.remove("hiddenClass")
+                } else {
+                    if (element != "Input testuale valutatore" && element != "Foto")  document.getElementById(element).classList.add(classes.hide)
+                    document.getElementById(element + " div").classList.add("hiddenClass")
+                } 
+            })
+            document.getElementById("inputDiv").classList.remove("hiddenClass")
+        }
+        setScore(0);
+        setAnswerSelect();
+    }, [activity.widgetType])
+
+    React.useEffect(() => {
+        if (activity.firstActivity == true || activity.activityIsUsed == true) setCheck(false)
+        else {
+            setCheck(true)
+            activity.correctAnswerGo = []
+            activity.wrongAnswerGo = []
+            setUpdateTable((prev) => !prev)
+        }
+        if (activity.activityIsUsed == true) setCheckSwitch(true)
+        else {
+            setCheckSwitch(false)
+        }
+    }, [activity.firstActivity, activity.title])
+
+    React.useEffect(() => {
+        var array = []
+        props.story.activities.forEach(element => {
+            array.push(e(MenuItem, {value : element.title}, element.title))
+        })
+        setArrayOfActivity(array)
+    }, [])    
+
+    function ricorsiveDelete(string){
+        var tmp = []
+        props.story.activities.forEach(element => {
+            if (element.title == string) {
+                element.activityIsUsed = false
+                element.correctAnswerGo.forEach(element => {
+                    tmp.push(element) 
+                })
+                element.correctAnswerGo = []
+                element.wrongAnswerGo.forEach(element => {
+                    tmp.push(element) 
+                })
+                element.wrongAnswerGo = []
+            } else {
+                
+            }
+        })
+        tmp.forEach(element => {
+            ricorsiveDelete(element)
+        })
+    }
+ 
 
     const createActivity = () => {
         if (activity.widgetType == "Quattro opzioni" && activity.fourAnswers.length < 4) {setErrorFourAnswers(true)}
         else {
+            var title = activity.title.charAt(0).toUpperCase() + activity.title.slice(1).toLowerCase()
             var tmp = {
-                title                   :   activity.title,
+                title                   :   title,
                 heightFrame             :   activity.heightFrame,
                 activityText            :   activity.activityText,
                 //media                   :   activity.media,
@@ -246,27 +341,49 @@ function Realize_activity(props){
                 textAnswer              :   activity.textAnswer,
                 rangeAnswer             :   activity.rangeAnswer,
                 correctAnswerGo         :   activity.correctAnswerGo,
-                wrongAnswerGo           :   activity.wrongAnswerGo
+                wrongAnswerGo           :   activity.wrongAnswerGo,
+                activityIsUsed          :   activity.activityIsUsed,
+                firstActivity           :   activity.firstActivity,
             };
             props.setStep([true, true, true, true])
             var check = false
             var indexActivityUpdate = 0
             props.story.activities.forEach((element, index) => {
-                if (element.title == activity.title) {
+                if (element.title == title) {
                     check = true
                     indexActivityUpdate = index
                 }
             })
             if (check) { props.story.activities.splice(indexActivityUpdate, 1, tmp)} 
-            else { 
+            else {
                 props.story.activities.push(tmp)
-                props.story.activitiesNotAssigned.push(tmp.title)
             }
             var array = []
             props.story.activities.forEach(element => {
                 array.push(e(MenuItem, {value : element.title}, element.title))
             })
             setArrayOfActivity(array)
+            var activityUsed = []   
+            props.story.activities.forEach(element => {
+                element.correctAnswerGo.forEach(element => {
+                    activityUsed.push(element)
+                })
+                element.wrongAnswerGo.forEach(element => {
+                    activityUsed.push(element)
+                })
+            })
+            props.story.activities.forEach(element => {
+                if (activityUsed.includes(element.title)) element.activityIsUsed = true
+                else element.activityIsUsed = false
+                if (element.activityIsUsed == false && element.firstActivity == false){
+                    ricorsiveDelete(element.title)
+                    setActivity({...activity, ["correctAnswerGo"]: []});
+                    setActivity({...activity, ["wrongAnswerGo"]: []});
+                    setActivityCorrectAnswer("")
+                    setActivityWrongAnswer("")
+                    setUpdateTable((prev) => !prev)
+                }
+            })
         }
     }
 
@@ -304,20 +421,11 @@ function Realize_activity(props){
         e.preventDefault();
         const [section, key] = e.target.name.split(".");      
         if (key) {
-            setActivity({
-            ...activity,
-            [section]: {
-              ...activity[section],
-              [key]: e.target.value
-            }
-          });
+            setActivity({...activity, [section]: {...activity[section], [key]: e.target.value}});
         } else {
-          setActivity({
-            ...activity,
-            [section]: e.target.value
-          });
+            setActivity({...activity, [section]: e.target.value});
         }
-      };
+    };
 
     function isNumeric(str) {
         if (typeof str != "string") return false 
@@ -363,20 +471,12 @@ function Realize_activity(props){
     }
 
     function addActivityOkAnswer(){
-        const index = props.story.activitiesNotAssigned.indexOf(activitySelect);
-        if (index > -1) {
-            props.story.activitiesNotAssigned.splice(index, 1);
-        }
         setActivity({...activity, ["correctAnswerGo"]: [...activity["correctAnswerGo"], activitySelect]});
         setActivitySelect("")
         setUpdateTable((prev) => !prev)
     }
 
     function addActivityWrongAnswer(){
-        const index = props.story.activitiesNotAssigned.indexOf(activitySelect);
-        if (index > -1) {
-            props.story.activitiesNotAssigned.splice(index, 1);
-        }
         setActivity({...activity, ["wrongAnswerGo"]: [...activity["wrongAnswerGo"], activitySelect]});
         setActivitySelect("")
         setUpdateTable((prev) => !prev)
@@ -386,9 +486,9 @@ function Realize_activity(props){
         var tmp = []
         activity.correctAnswerGo.forEach(element => {
             if (element != activityCorrectAnswer) tmp.push(element)
+            else ricorsiveDelete(activityCorrectAnswer)
         })
         setActivity({...activity, ["correctAnswerGo"]: tmp});
-        setActivity({...activity, ["activitiesNotAssigned"]: activityCorrectAnswer});
         setActivityCorrectAnswer("")
         setUpdateTable((prev) => !prev)
     }
@@ -397,14 +497,12 @@ function Realize_activity(props){
         var tmp = []
         activity.wrongAnswerGo.forEach(element => {
             if (element != activityWrongAnswer) tmp.push(element)
+            else ricorsiveDelete(activityCorrectAnswer)
         })
         setActivity({...activity, ["wrongAnswerGo"]: tmp});
-        setActivity({...activity, ["activitiesNotAssigned"]: activityWrongAnswer});
         setActivityWrongAnswer("")
         setUpdateTable((prev) => !prev)
     }
-
-
 
     async function selectActivity(e){
         var indexActivitySelected = 0
@@ -412,6 +510,7 @@ function Realize_activity(props){
             if (e.target.value == element.title) indexActivitySelected = index
         })
         await setActivity(props.story.activities[indexActivitySelected])
+        setActivitySelect("")
         setUpdateTable((prev) => !prev)
     }
 
@@ -421,8 +520,8 @@ function Realize_activity(props){
             e("div", {className: "sx_realize_option"}, [
                 e(TextField, {id: "title", className: classes.input, value: activity.title, name: "title", label: "Titolo", variant:"outlined", onChange:  (e) => updateField(e)}),
                 e(FormControl, {variant: "outlined", className: classes.input}, [
-                    e(InputLabel, {htmlFor: "selectAtvity"}, "Seleziona attività"),
-                    e(Select, {id: "selectAtvity", label: "Seleziona attività", onChange:  (e) => {selectActivity(e)}}, arrayOfActivity)
+                    e(InputLabel, {htmlFor: "selectActivity"}, "Seleziona attività"),
+                    e(Select, {id: "selectActivity", label: "Seleziona attività", onChange:  (e) => {selectActivity(e)}}, arrayOfActivity)
                 ]),
             ]),
             e("hr", null),
@@ -480,10 +579,12 @@ function Realize_activity(props){
                 e(FormControl, {variant: "outlined", className: classes.input}, [
                     e(InputLabel, {htmlFor: "widgetType"}, "Tipo di widget"),
                     e(Select, {id: "widgetType", label: "Tipo di widget", value: activity.widgetType, name:"widgetType", onChange:  (e) => updateField(e)}, [
-                        e(MenuItem, {value: "Quattro opzioni", selected: true}, "Quattro opzioni"),
+                        e(MenuItem, {value: "Nessuno", selected: true}, "Nessuno"),
+                        e(MenuItem, {value: "Quattro opzioni"}, "Quattro opzioni"),
                         e(MenuItem, {value: "Scelta multipla"}, "Scelta multipla"),
                         e(MenuItem, {value: "Vero o falso"}, "Vero o falso"),
-                        e(MenuItem, {value: "Input testuale"}, "Input testuale"),
+                        e(MenuItem, {value: "Input testuale automatico"}, "Input testuale automatico"),
+                        e(MenuItem, {value: "Input testuale valutatore"}, "Input testuale valutatore"),
                         e(MenuItem, {value: "Range"}, "Range"),
                         e(MenuItem, {value: "Foto"}, "Foto"),
                     ])
@@ -505,7 +606,7 @@ function Realize_activity(props){
                 e("div", {className: "sx_realize_option"}, [
                     e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
                         e(InputLabel, {htmlFor: "correctAnswer"}, "Selezionare risposta"),
-                        e(Select, {id: "correctAnswer", label: "Selezionare risposta", name:"correctAnswer", onChange: (e) => setAnswerSelect(e.target.value)}, menuItemFourChoices)
+                        e(Select, {id: "correctAnswer", label: "Selezionare risposta", name:"correctAnswer", value: answerSelect, onChange: (e) => setAnswerSelect(e.target.value)}, menuItemFourChoices)
                     ]),
                     e(TextField, {id: "score", className: [classes.input, classes.score], value: score, name: "score", label: "Score", type:"number", variant:"outlined", onChange:  (e) => setScore(e.target.value)}),
                     e(IconButton, {id: "changeScore", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: updateScore}, 
@@ -540,7 +641,7 @@ function Realize_activity(props){
                 e("div", {className: "sx_realize_option"}, [
                     e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
                         e(InputLabel, {htmlFor: "correctAnswer"}, "Selezionare risposta"),
-                        e(Select, {id: "correctAnswer", label: "Selezionare risposta", name:"correctAnswer", onChange: (e) => setAnswerSelect(e.target.value)}, menuItemMultipleAnswers)
+                        e(Select, {id: "correctAnswer", label: "Selezionare risposta", name:"correctAnswer", value: answerSelect, onChange: (e) => setAnswerSelect(e.target.value)}, menuItemMultipleAnswers)
                     ]),
                     e(TextField, {id: "score", className: [classes.input, classes.score], value: score, name: "score", label: "Score", type:"number", variant:"outlined", onChange:  (e) => setScore(e.target.value)}),
                     e(IconButton, {id: "changeScore", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: updateScore}, 
@@ -565,7 +666,6 @@ function Realize_activity(props){
                 ]),
             ]),
 
-
             e("div", {id: "Vero o falso", className: classes.hide}, [
                 e("div", {className: "sx_realize_option"}, [
                     e(TextField, {id: "scoreTrue", className: [classes.input, classes.score], value: activity.trueFalseAnswer.trueScore, name: "trueFalseAnswer.trueScore", label: "Vero", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
@@ -573,7 +673,7 @@ function Realize_activity(props){
                 ]), 
             ]),
 
-            e("div", {id: "Input testuale", className: classes.hide}, [
+            e("div", {id: "Input testuale automatico", className: classes.hide}, [
                 e("div", {className: "sx_realize_option"}, [
                     e(TextField, {id: "inputText", className: [classes.input, classes.score], value: activity.textAnswer.value, name: "textAnswer.value", label: "Risposta", variant:"outlined", onChange:  (e) => updateField(e)}),
                     e(TextField, {id: "inputTextScoreOk", className: [classes.input, classes.score], value: activity.textAnswer.scoreOk, name: "textAnswer.scoreOk", label: "Score risposta esatta", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
@@ -601,30 +701,33 @@ function Realize_activity(props){
             e("div", {className: "sx_realize_option"}, [
                 e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
                     e(InputLabel, {htmlFor: "listOfActivities"}, "Selezionare risposta"),
-                    e(Select, {id: "listOfActivities", label: "Selezionare attività", onChange: (e) => setActivitySelect(e.target.value)}, listOfActivity)
+                    e(Select, {id: "listOfActivities", label: "Selezionare attività", disabled: check, value: activitySelect,  onChange: (e) => setActivitySelect(e.target.value)}, listOfActivity)
                 ]),
-                e(IconButton, {id: "buttonActivityOkAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityOkAnswer], component: "span", onClick: addActivityOkAnswer}, 
+                e(IconButton, {id: "buttonActivityOkAnswer", disabled: check, className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityOkAnswer], component: "span", onClick: addActivityOkAnswer}, 
                     e(Icon, {children: "sentiment_very_satisfied_outlined_icon"}),  
                 ),
-                e(IconButton, {id: "buttonActivityWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityWrongAnswer], component: "span", onClick: addActivityWrongAnswer}, 
+                e(IconButton, {id: "buttonActivityWrongAnswer", disabled: check, className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityWrongAnswer], component: "span", onClick: addActivityWrongAnswer}, 
                     e(Icon, {children: "sentiment_very_dissatisfied_outlined_icon"}),  
                 ),
+                e(FormControl, {id: "buttonFirstActivity", variant: "outlined", className: classes.leggendButton}, [
+                    e(FormControlLabel, {className: classes.formControl, control: e(SwitchButton, {disabled: checkSwitch, checked: activity.firstActivity, onChange: () => setActivity({...activity, ["firstActivity"]: !(activity.firstActivity)})}),  label: "Attività iniziale"})
+                ])        
             ]),
             e("div", {className: "sx_realize_option_table"}, [
                 e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
                     e(InputLabel, {htmlFor: "activitiesCorrectAnswer"}, "Selezionare risposta"),
-                    e(Select, {id: "activitiesCorrectAnswer", label: "Selezionare attività", onChange: (e) => setActivityCorrectAnswer(e.target.value)}, menuItemActivityCorrectAnswer)
+                    e(Select, {id: "activitiesCorrectAnswer", label: "Selezionare attività", disabled: check, value: activityCorrectAnswer, onChange: (e) => setActivityCorrectAnswer(e.target.value)}, menuItemActivityCorrectAnswer)
                 ]),
-                e(IconButton, {id: "deleteActivitiesCorrectAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteActivitiesCorrectAnswer}, 
+                e(IconButton, {id: "deleteActivitiesCorrectAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], disabled: check, component: "span", onClick: deleteActivitiesCorrectAnswer}, 
                     e(Icon, {children: "delete"}),  
                 ),  
             ]),
             e("div", {className: "sx_realize_option_table"}, [
                 e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
                     e(InputLabel, {htmlFor: "activitiesWrongAnswer"}, "Selezionare risposta"),
-                    e(Select, {id: "activitiesWrongAnswer", label: "Selezionare attività", onChange: (e) => setActivityWrongAnswer(e.target.value)}, menuItemActivityWrongAnswer)
+                    e(Select, {id: "activitiesWrongAnswer", label: "Selezionare attività", disabled: check, value: activityWrongAnswer, onChange: (e) => setActivityWrongAnswer(e.target.value)}, menuItemActivityWrongAnswer)
                 ]),
-                e(IconButton, {id: "deleteActivitiesWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteActivitiesWrongAnswer}, 
+                e(IconButton, {id: "deleteActivitiesWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], disabled: check, component: "span", onClick: deleteActivitiesWrongAnswer}, 
                     e(Icon, {children: "delete"}),  
                 ),  
             ]),

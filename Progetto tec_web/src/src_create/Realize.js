@@ -139,6 +139,7 @@ function Realize(props){
                                 className: "CreateHomeRealize_activity", 
                                 user: props.user, 
                                 story: story,
+                                setStory: setStory,
                                 setStep: setStep,
                             }))
                         /*} else {
@@ -150,7 +151,7 @@ function Realize(props){
                         //if (step[3] == true){
                             setPageLoad(e(CreateHomeRealize_grafo, {
                                 id: "CreateHomeRealize_lastActivity", 
-                                className: "CreateHomeRealize_firstLastActivity", 
+                                className: "CreateHomeRealize_firstLastActivity CreateHomeRealize_graph", 
                                 user: props.user, 
                                 story: story, 
                             }))
@@ -161,15 +162,17 @@ function Realize(props){
                     }}, "GRAFO ATTIVITA'")
                 ])
             ]),
+            
             e("div", {id: "dx_realize", className: "dx_realize"}, [
                 e("div", {id: "phone"}, [
                     e("div", {id: "phoneInternal"}, [
                         e("img", {id: "phoneImage", src: "", className: "hiddenClass"}),
+                        e("div", {id: "scoreDiv"}, "Points: 520"),
                         e("button", {id: "chatButton"}, "CHAT"),
                         e("button", {id: "helpButton", onClick: blinkHelpButton}, "HELP"),
                         e("div", {id: "phoneText"}, [
                             e("div", {id: "textDiv"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.. It has survived not only five centuries... It has survived not only five centuries... It has survived not only five centuries...."),
-                            e("img", {id: "mediaDiv", src: "../../img/prova.jpeg"}),
+                            e("img", {id: "mediaDiv", src: "", className: "hiddenClass"}),
                         ]),
                         e("div", {id: "inputDiv"}, [                  
                             e("div", {id: "Quattro opzioni div"}, [
@@ -193,7 +196,10 @@ function Realize(props){
                                 e("div", {id: "option6", className: "optionTrueFalse style"}, "Vero"),
                                 e("div", {id: "option7", className: "optionTrueFalse style"}, "Falso"),
                             ]),
-                            e("div", {id: "Input testuale div", className: "hiddenClass"}, [
+                            e("div", {id: "Input testuale automatico div", className: "hiddenClass"}, [
+                                e("input", { id:"option8", className: "style", type:"text"})
+                            ]),
+                            e("div", {id: "Input testuale valutatore div", className: "hiddenClass"}, [
                                 e("input", { id:"option8", className: "style", type:"text"})
                             ]),
                             e("div", {id: "Range div", className: "hiddenClass"}, [

@@ -25,6 +25,13 @@ function Realize_player(props){
         backgroundColorInputDiv    :   props.story.player.inputDiv.backgroundColor,
         frameColorInputDiv         :   props.story.player.inputDiv.frameColor,
         textColorInputDiv          :   props.story.player.inputDiv.textColor,
+        backgroundColorScoreDiv    :   props.story.player.scoreDiv.backgroundColor,
+        frameColorScoreDiv         :   props.story.player.scoreDiv.frameColor,
+        textColorScoreDiv          :   props.story.player.scoreDiv.textColor,
+        topScoreDiv                :   props.story.player.scoreDiv.top,
+        leftScoreDiv               :   props.story.player.scoreDiv.left,
+        heightScoreDiv             :   props.story.player.scoreDiv.height,
+        widthScoreDiv              :   props.story.player.scoreDiv.width,
         backgroundColorNextButton  :   props.story.player.nextButton.backgroundColor,
         frameColorNextButton       :   props.story.player.nextButton.frameColor,
         textColorNextButton        :   props.story.player.nextButton.textColor,
@@ -99,6 +106,9 @@ function Realize_player(props){
         buttonBackgroundColorInputDiv   :   { backgroundColor: playerStyle.backgroundColorInputDiv },
         buttonFrameColorInputDiv        :   { backgroundColor: playerStyle.frameColorInputDiv },
         buttonTextColorInputDiv         :   { backgroundColor: playerStyle.textColorInputDiv },
+        buttonBackgroundColorScoreDiv :   { backgroundColor: playerStyle.backgroundColorScoreDiv },
+        buttonFrameColorScoreDiv      :   { backgroundColor: playerStyle.frameColorScoreDiv },
+        buttonTextColorScoreDiv       :   { backgroundColor: playerStyle.textColorScoreDiv },
         buttonBackgroundColorNextButton :   { backgroundColor: playerStyle.backgroundColorNextButton },
         buttonFrameColorNextButton      :   { backgroundColor: playerStyle.frameColorNextButton },
         buttonTextColorNextButton       :   { backgroundColor: playerStyle.textColorNextButton },
@@ -161,6 +171,15 @@ function Realize_player(props){
         document.getElementById("phoneText").style.fontFamily       =      font
         document.getElementById("phoneText").style.fontSize         =   `${playerStyle.sizeFont}px`
         document.getElementById("phoneText").style.fontWeight       =      playerStyle.weightFont
+
+        document.getElementById("scoreDiv").style.backgroundColor   =      playerStyle.backgroundColorScoreDiv
+        document.getElementById("scoreDiv").style.borderColor       =      playerStyle.frameColorScoreDiv
+        document.getElementById("scoreDiv").style.color             =      playerStyle.textColorScoreDiv
+        document.getElementById("scoreDiv").style.top               =   `${playerStyle.topScoreDiv}px`
+        document.getElementById("scoreDiv").style.left              =   `${playerStyle.leftScoreDiv}px`
+        document.getElementById("scoreDiv").style.height            =   `${playerStyle.heightScoreDiv}px`
+        document.getElementById("scoreDiv").style.width             =   `${playerStyle.widthScoreDiv}px`
+
         document.getElementById("nextButton").style.backgroundColor =      playerStyle.backgroundColorNextButton
         document.getElementById("nextButton").style.borderColor     =      playerStyle.frameColorNextButton
         document.getElementById("nextButton").style.color           =      playerStyle.textColorNextButton
@@ -169,6 +188,7 @@ function Realize_player(props){
         document.getElementById("nextButton").style.height          =   `${playerStyle.heightNextButton}px`
         document.getElementById("nextButton").style.width           =   `${playerStyle.widthNextButton}px`
         document.getElementById("nextButton").style.borderRadius    =   `${playerStyle.borderRadiusNextButton}px`
+
         document.getElementById("chatButton").style.backgroundColor =      playerStyle.backgroundColorChatButton
         document.getElementById("chatButton").style.borderColor     =      playerStyle.frameColorChatButton
         document.getElementById("chatButton").style.color           =      playerStyle.textColorChatButton
@@ -222,6 +242,13 @@ function Realize_player(props){
         props.story.player.inputDiv.backgroundColor     =   playerStyle.backgroundColorInputDiv
         props.story.player.inputDiv.frameColor          =   playerStyle.frameColorInputDiv
         props.story.player.inputDiv.textColor           =   playerStyle.textColorInputDiv
+        props.story.player.scoreDiv.backgroundColor     =   playerStyle.backgroundColorScoreDiv
+        props.story.player.scoreDiv.frameColor          =   playerStyle.frameColorScoreDiv
+        props.story.player.scoreDiv.textColor           =   playerStyle.textColorScoreDiv
+        props.story.player.scoreDiv.top                 =   parseInt(playerStyle.topScoreDiv)
+        props.story.player.scoreDiv.left                =   parseInt(playerStyle.leftScoreDiv)
+        props.story.player.scoreDiv.height              =   parseInt(playerStyle.heightScoreDiv)
+        props.story.player.scoreDiv.width               =   parseInt(playerStyle.widthScoreDiv)
         props.story.player.nextButton.backgroundColor   =   playerStyle.backgroundColorNextButton
         props.story.player.nextButton.frameColor        =   playerStyle.frameColorNextButton
         props.story.player.nextButton.textColor         =   playerStyle.textColorNextButton
@@ -433,8 +460,50 @@ function Realize_player(props){
                     " COLORE DEL TESTO"
                 ]),
             ]),       
-
             e("hr", null),
+
+            e("p", null, "SEZIONE PUNTEGGIO"),
+            e("div", {className: "sx_realize_option"}, [
+                e("input", {id: "backgroundColorScoreDiv", className: classes.hide, value: playerStyle.backgroundColorScoreDiv, name:"backgroundColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
+                e("label", {htmlFor:"backgroundColorScoreDiv"}, [
+                    e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorScoreDiv], component: "span"}, 
+                        e(Icon, {children: "color_lens"}),  
+                    ),
+                    " COLORE DELLO SFONDO"
+                ]),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e("input", {id: "frameColorScoreDiv", className: classes.hide, value: playerStyle.frameColorScoreDiv, name:"frameColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
+                e("label", {htmlFor:"frameColorScoreDiv"}, [
+                    e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorScoreDiv], component: "span"}, 
+                        e(Icon, {children: "color_lens"}),  
+                    ),
+                    " COLORE DEL BORDO"
+                ]),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e("input", {id: "textColorScoreDiv", className: classes.hide, value: playerStyle.textColorScoreDiv, name:"textColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
+                e("label", {htmlFor:"textColorScoreDiv"}, [
+                    e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorScoreDiv], component: "span"}, 
+                        e(Icon, {children: "color_lens"}),  
+                    ),
+                    " COLORE DEL TESTO"
+                ]),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {inputProps: {min: 5}, id: "topScoreDiv", className: classes.input, value: playerStyle.topScoreDiv, name:"topScoreDiv", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {inputProps: {min: 5}, id: "leftScoreDiv", className: classes.input, value: playerStyle.leftScoreDiv, name:"leftScoreDiv", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "heightScoreDiv", className: classes.input, value: playerStyle.heightScoreDiv, name:"heightScoreDiv", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "widthScoreDiv", className: classes.input, value: playerStyle.widthScoreDiv, name:"widthScoreDiv", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("hr", null),
+
             e("p", null, "BOTTONE ATTIVITA' SUCCESSIVA"),
             e("div", {className: "sx_realize_option"}, [
                 e("input", {id: "backgroundColorNextButton", className: classes.hide, value: playerStyle.backgroundColorNextButton, name:"backgroundColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
@@ -478,8 +547,8 @@ function Realize_player(props){
             e("div", {className: "sx_realize_option"}, [
                 e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusNextButton", className: classes.input, value: playerStyle.borderRadiusNextButton, name:"borderRadiusNextButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
-
             e("hr", null),
+            
             e("p", null, "BOTTONE PER APRIRE LA CHAT"),
             e("div", {className: "sx_realize_option"}, [
                 e("input", {id: "backgroundColorChatButton", className: classes.hide, value: playerStyle.backgroundColorChatButton, name:"backgroundColorChatButton", type: "color", onChange:  (e) => updateField(e)}),

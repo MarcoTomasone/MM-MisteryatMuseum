@@ -336,6 +336,20 @@
     border: solid 1px white;
 }
 
+#scoreDiv{
+    color: white;
+    position: absolute;
+    background-color: black;
+    border: solid 1px white;
+    height: 20px;
+    width: 100px;
+    top: 15px;
+    left: 50px;
+    text-align: center;
+    border-radius: 20px;
+    font-size: 15px;
+}
+
 #textDiv{
     width: 100%;
     padding: 3px;
@@ -348,13 +362,13 @@
 #chatButton{
     height: 30px;
     width: 60px;
-    top: 30px;
+    top: 40px;
     left: 125px;
 }
 #helpButton{
     height: 30px;
     width: 60px;
-    top: 30px;
+    top: 40px;
     left: 15px;
 }
 
@@ -624,8 +638,6 @@ div[id='Range div']{
     width: 100%;
     border: solid 2px red;
 }
-
-
 
 
 

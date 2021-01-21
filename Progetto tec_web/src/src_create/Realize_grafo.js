@@ -11,97 +11,106 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+function son(string){
+  var res = string.replace(/à/gi, "a");
+  res = res.replace(/è/gi, "e");
+  res = res.replace(/é/gi, "e");
+  res = res.replace(/ì/gi, "i");
+  res = res.replace(/ò/gi, "o");
+  res = res.replace(/ù/gi, "u");
+  return res
+}
+
+function father(string){
+  var res = son(string)
+  res = res.replace(/\s/g, '')
+  res = res.toLowerCase()
+  return res
+}
+
 
 function Realize_grafo(props){
     const classes = useStyles();
-    const [layout, setLayout] = React.useState("tree-right")
-    const [connection, setConnection] = React.useState("arc")
-    const [shape, setShape] = React.useState("circle")
+    const [graph, setGraph] = React.useState([{parent: '', name: 'Attivita introduttiva', cls: "bgrey"}])
+    var count = 0
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
 
     React.useEffect(() => {
-        props.story
-
-        let chartData = [{
-          parent: '',
-          name: 'The World',
-        },
-        {
-          parent: 'theworld',
-          name: 'Asia',
-        },
-        {
-          parent: 'theworld',
-          name: 'Africa',
-        },
-        {
-          parent: 'theworld',
-          name: 'America',
-        },
-        {
-          parent: 'theworld',
-          name: 'Europe',
-        },
-        {
-          parent: 'america',
-          name: 'California',
-        },
-        {
-          parent: 'america',
-          name: 'New York',
-        },
-        {
-          parent: 'america',
-          name: 'Texas',
-          cls: "bgreen"
-        },
-        {
-          parent: 'california',
-          name: 'Pollo',
-          cls: "bred"
+      var bool = false
+      props.story.activities.forEach(element => {
+        if (element.firstActivity == true) {
+          graph.push({parent: 'attivitaintroduttiva', name: son(element.title), cls: "bgrey"})
+          bool = true
         }
-      ];
-
-      let chartConfig = {
-        type: 'tree',
-        options: {
-          link: {
-            aspect: 'arc'
-          },
-          'node[cls-bgreen]': {
-            type: 'circle',
-            size: 15,
-            backgroundColor: 'green',
-            label: {
-              fontSize: 15,
-              fontWeight: 'bold'
-            }
-          },
-          'node[cls-bred]': {
-            type: 'circle',
-            size: 15,
-            backgroundColor: 'red',
-            label: {
-              fontSize: 15,
-              fontWeight: 'bold'
-            }
-          },
-        },
-        
-        series: chartData
-      };
-
-      zingchart.render({
-        id: 'myChart',
-        data: chartConfig,
-        height: '95%',
-        width: '100%',
-        output: 'canvas'
       });
-    })
+      if (bool == false ) {
+        graph.push({parent: 'attivitaintroduttiva', name: `Attivita conclusiva${count}`, cls: "bgrey"})
+        count = count + 1
+      }
 
-    return(e("div", {id:"myChart", className:"chart--container"}))
+      props.story.activities.forEach(element => {
+        var title = element.title
+        if (element.correctAnswerGo.length == 0 && element.wrongAnswerGo.length == 0 && (element.firstActivity == true || element.activityIsUsed)){
+          graph.push({parent: father(title), name: `Attivita conclusiva${count}`, cls: "bgrey"})
+          count = count + 1
+        } else {
+          element.correctAnswerGo.forEach(element => {
+            graph.push({parent: father(title), name: son(element), cls: "bgreen"})
+          })
+          element.wrongAnswerGo.forEach(element => {
+            graph.push({parent: father(title), name: son(element), cls: "bred"})
+          })
+        }
+      });
 
+    let chartConfig = {
+      type: 'tree',
+      options: {
+        link: {
+          aspect: 'arc'
+        },
+        'node[cls-bgreen]': {
+          type: 'circle',
+          size: 8,
+          backgroundColor: 'green',
+          label: {
+            fontSize: 10,
+            fontWeight: 'bold'
+          }
+        },
+        'node[cls-bred]': {
+          type: 'circle',
+          size: 8,
+          backgroundColor: 'red',
+          label: {
+            fontSize: 10,
+            fontWeight: 'bold'
+          }
+        },
+        'node[cls-bgrey]': {
+          type: 'circle',
+          size: 8,
+          backgroundColor: 'grey',
+          label: {
+            fontSize: 10,
+            fontWeight: 'bold'
+          }
+        },
+      },
+      series: graph
+    };
+
+    zingchart.render({
+      id: 'myChart',
+      data: chartConfig,
+      height: '95%',
+      width: '100%',
+      output: 'canvas'
+    });
+    console.log(graph)
+  }, [])
+
+  return(e("div", {id:"myChart", className:"chart--container"}))
 }
 
 export default Realize_grafo;

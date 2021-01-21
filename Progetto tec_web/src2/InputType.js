@@ -41,7 +41,7 @@ function inputType(props){
         position:'absolute',
       
     };
-    if(props.v[props.counter].widgetType === "text" ){        
+    if(props.v[props.counter].widgetType === "text" || props.v[props.counter].widgetType === "humanText"){        
     const styl = {
             width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
             height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,

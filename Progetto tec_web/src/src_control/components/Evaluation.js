@@ -1,6 +1,6 @@
 import { isEnter } from '../../../utils.js';
 import {  addAnswer } from '../API.js';
-const { TextField, Icon, IconButton } = MaterialUI;
+const { Card, CardContent, TextField, Icon, IconButton } = MaterialUI;
 const e = React.createElement;
 
 export default function Help(props) {
@@ -24,12 +24,15 @@ export default function Help(props) {
     }
     
     return(
-        e(React.Fragment, null, [
-            e("div", {style: {backgroundColor: "#3f51b5", minHeight: 60, width: "80%", border: "1px solid grey"}}, [ e("b", null, `Section ${props.section}`), e("br"), e("b", null, `Question: `), props.question ]),
-            e("div", {style: {height: "auto", width: "80%", border: "1px solid grey"}}, [ e("b", null, `Answer: `), e("br"), answer ]),
-            e(TextField, {onKeyDown: () => {isEnter(event)? onValued() : null}, type: "number", id: "valuation" + props.id, variant: "outlined", style: {width: "80%", marginBottom: 20}, InputProps: {endAdornment:
-                e(IconButton, {onClick: onValued, key: "4", children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
-            )
+        e(Card, {style: {backgroundColor: "#a1aba4"}}, [
+            (CardContent, null, [
+                e("b", null, `Section ${props.section}`), e("br"), e("b", null, `Question: `), props.question,
+                e("div", {style: {height: "auto", width: "80%"}}, [ e("b", null, `Answer: `), e("br"), answer ]),
+                e(TextField, {onKeyDown: () => {isEnter(event)? onValued() : null}, type: "number", id: "valuation" + props.id, variant: "outlined", style: {width: "80%", marginBottom: 20, marginLeft: 18}, InputProps: {endAdornment:
+                    e(IconButton, {onClick: onValued, key: "4", children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
+                )
+            ])
         ])
     );
 }
+//e("div", {style: {backgroundColor: "#3f51b5", minHeight: 60, width: "80%", border: "1px solid grey"}}, [

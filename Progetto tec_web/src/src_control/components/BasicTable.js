@@ -19,8 +19,8 @@ export default function BasicTable(props) {
     const rows = [];
     const classes = useStyles();
 
-    const createData = (position, player, points) => {
-        return { position, player, points };
+    const createData = (position, player, name, points) => {
+        return { position, player, name, points };
     }
 
     const sort = () => {
@@ -38,7 +38,7 @@ export default function BasicTable(props) {
         players = props.players;
         sort();
         players.forEach((player, index) => {
-            rows.push(createData((index + 1) + '°', player.id, player.points));
+            rows.push(createData((index + 1) + '°', player.id, player.name, player.points));
         });
         getRows();
     }, [props.players]);
@@ -58,6 +58,7 @@ export default function BasicTable(props) {
                 e(TableRow, {key: row.position, children: [
                     e(TableCell, {align: "center", className: classes.cell, component: "th", scope: "row", style: {backgroundColor: background}}, row.position),
                     e(TableCell, {align: "center", className: classes.cell, style: {backgroundColor: background}}, row.player),
+                    e(TableCell, {align: "center", className: classes.cell, style: {backgroundColor: background}}, row.name),
                     e(TableCell, {align: "center", className: classes.cell, style: {backgroundColor: background}}, row.points),
                 ]})
             )
@@ -72,6 +73,7 @@ export default function BasicTable(props) {
                     e(TableRow, {children: [
                         e(TableCell, {align: "center", className: classes.cell}, "Position"),
                         e(TableCell, {align: "center", className: classes.cell}, "Player"),
+                        e(TableCell, {align: "center", className: classes.cell}, "Name"),
                         e(TableCell, {align: "center", className: classes.cell}, "Points"),
                     ]})
                 ]}),

@@ -43,7 +43,7 @@ export const MyDialog = React.forwardRef((props, ref) => {
                 players.map((player) => (
                     e(ListItem, {key: player, button: true, onClick: () => { handleListItemClick(player) }, children: [
                         e(ListItemAvatar, null ,
-                            e(Avatar, {key: "cardAvatar", className: classes.avatar, children: player.replace("Card", "C")})
+                            e(Avatar, {key: "cardAvatar", className: classes.avatar, children: player.replace("player", "P")})
                         ),
                         e(ListItemText, {primary: player})
                     ]})

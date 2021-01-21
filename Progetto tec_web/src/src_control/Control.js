@@ -164,6 +164,7 @@ export default function Control(props){
 
     //upload evaluations in the cards
     const uploadEvaluation = () => {
+        console.log("in upload");
         if(_.isEmpty(arrayEvaluations))
         (async() => {
             const evaluations = await getEvaluations();
@@ -202,6 +203,7 @@ export default function Control(props){
     //create and set cards of players
     const uploadCard = (arrayOfPlayers) => {
         const arrayOfCards = [];
+        const newRanking = [];
         const tmp = _.cloneDeep(arrived);
         for(let key in arrayOfPlayers){
             arrayOfCards.push(e(CardPlayer, {
@@ -217,7 +219,7 @@ export default function Control(props){
             arrived: arrived,
             setArrived: setArrived,
             }))
-            !(_.find(ranking, {id: key})) ? ranking.push({id: key, points: arrayOfPlayers[key].points}) : null;
+            newRanking.push({id: key, name: arrayOfPlayers[key].name, points: arrayOfPlayers[key].points});
             !(key in tmp) ? tmp[key] = false : null;
             if(cardsRef.current[key]) {
                 if(arrayOfPlayers[key].timer > 60)
@@ -230,6 +232,7 @@ export default function Control(props){
         setArrayPlayers(arrayOfCards);
         notifyHelp();
         notifyEvaluation();
+        setRanking(newRanking);
     }
 
     //wait the messages, the helps and the answers to evaluate from players and set their notifications
@@ -257,6 +260,7 @@ export default function Control(props){
             setArrayHelps(tmp);
         });
         socket.on('answer-from-player', data => {
+            console.log(data);
             const question = data.question;
             const answer = data.answer;
             const type = data.type;

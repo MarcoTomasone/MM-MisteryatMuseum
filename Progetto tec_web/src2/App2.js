@@ -43,12 +43,12 @@ function App2() {
 
         React.useEffect(() => {
             socket.on('set-id', data => {
-                console.log(data.id);
                 setID(data.id);
                 getID(data.id, activityList[0].question);
             });
             
             socket.on('help-from-evaluator' , data => {
+                console.log(data);
                 var section = null;
                 if(sectionRef.current)
                     section = sectionRef.current.getSection();
@@ -57,11 +57,14 @@ function App2() {
                     p.innerHTML += "<br>" + "Risposta:" + data.answer;
                 }
             });
-
+        }, []);
+        
+        React.useEffect(()=> {
             socket.on('add-points', data => {
                 setPoints(points + parseInt(data.points));
             });
         });
+
 
     
     //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       

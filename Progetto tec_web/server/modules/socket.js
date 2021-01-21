@@ -33,7 +33,9 @@ module.exports = function(io) {
                 const id = 'player' + nPlayer;
                 socketPlayers[id] = socket.id;
                 io.to(socketPlayers[id]).emit('set-id', { id } );
-                io.to(socketEvaluator["evaluator0"]).emit('update-status');
+                const toDo = () => {io.to(socketEvaluator["evaluator0"]).emit('update-status')};
+                setTimeout(toDo, 2500);
+                
             });
             socket.on('send-to-evaluator', data => {
                 const message = data.message;
@@ -89,7 +91,6 @@ module.exports = function(io) {
                 //socket.broadcast.emit('message-from-evaluator', {message : data.message , name :"Admin", id: data.id})
             });
             socket.on('help-to-player', data => {
-                console.log(data);
                 const answer = data.answer;
                 const id = data.id;
                 const player = data.player;
@@ -101,7 +102,6 @@ module.exports = function(io) {
                         }
                     });
                 }
-                console.log(arrayHelps);
             });
             socket.on('read-message', data => {
                 const id = data.id;

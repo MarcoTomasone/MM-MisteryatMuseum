@@ -5,25 +5,6 @@ require('jspdf-autotable');
 //array of active stories 
 const storiesActive = {};
 
-//samples for test-----------------------------------------------------------------------------------------
-/*const Card0 = JSON.parse(fs.readFileSync('./inGame/Story1/Card0.json', {encoding:'utf8', flag:'r'}));
-const Card1 = JSON.parse(fs.readFileSync('./inGame/Story1/Card1.json', {encoding:'utf8', flag:'r'}));
-
-const Card3 = JSON.parse(fs.readFileSync('./inGame/Story2/Card3.json', {encoding:'utf8', flag:'r'}));
-const Card4 = JSON.parse(fs.readFileSync('./inGame/Story2/Card4.json', {encoding:'utf8', flag:'r'}));
-const Card5 = JSON.parse(fs.readFileSync('./inGame/Story2/Card5.json', {encoding:'utf8', flag:'r'}));
-
-storiesActive["Story1"] = {}; //create a new story
-storiesActive["Story1"][Card0.id] = Card0; //added player in a story
-storiesActive["Story1"][Card1.id] = Card1;
-
-storiesActive["Story2"] = {};
-storiesActive["Story2"][Card3.id] = Card3;
-storiesActive["Story2"][Card4.id] = Card4;
-storiesActive["Story2"][Card5.id] = Card5;*/
-
-//----------------------------------------------------------------------------------------------------------
-
 module.exports = {
     createRoutes: (app) => {
         //get current status of players
@@ -31,7 +12,7 @@ module.exports = {
             const story = req.query.story;
             const arrayPlayers = [];
             if(!storiesActive[story]) //or is empty
-                res.status(404).end();
+                res.sendStatus(404).end();
             for(id in storiesActive[story]){
                 arrayPlayers.push(storiesActive[story][id]);
             }
@@ -44,7 +25,7 @@ module.exports = {
             const stories = Object.keys(storiesActive); // array of all active stories
             const nPlayers = {};
             if(stories.length <= 0)
-                res.status(404).end();
+                res.sendStatus(404).end();
             stories.forEach((story) => {
                 nPlayers[story] = Object.keys(storiesActive[story]).length;
             })
@@ -56,7 +37,7 @@ module.exports = {
         app.get('/players', (req, res) => {
             const story = req.query.story;
             if(!storiesActive[story])
-                res.status(404).end();
+                res.sendStatus(404).end();
             const players = Object.keys(storiesActive[story]);
             const data = JSON.stringify(players);
             res.status(200).end(data);
@@ -66,7 +47,7 @@ module.exports = {
             const player = req.query.player;
             const story = req.query.story;
             if(!player in storiesActive[story])
-                res.status(404).end();
+                res.sendStatus(404).end();
             const data = JSON.stringify(storiesActive[story][player]);
             res.status(200).end(data);
         });
@@ -94,15 +75,25 @@ module.exports = {
             if(storiesActive[story][player].sectionArray[section])
                 storiesActive[story][player].sectionArray[section].points = parseInt(points);
             else
-                res.status(404).end();
+                res.sendStatus(404).end();
         })
+
+        app.post('/setName', (req, res) => {
+            const player = req.body.params.player;
+            const story = req.body.params.story;
+            const name = req.body.params.name;
+            if(name === "")
+                res.sendStatus(400).end();
+            storiesActive[story][player].name = name;
+            res.status(200).end();            
+        });
 
         app.get('/pdf', (req, res) => {            
             const player = req.query.player;
             const story = req.query.story;
             const path = `./inGame/${story}/${player}.json`;
             if(!storiesActive[story][player])
-                res.status(404).end();
+                res.sendStatus(404).end();
             const infoPlayer = storiesActive[story][player];
             const doc = new jsPDF();
             const col = ["Section", "Question", "Answer", "Time", "Points"];
@@ -129,13 +120,14 @@ module.exports = {
             const id = req.body.id; //the json of player
             const sectionArray = req.body.sectionArray;
             const story = req.body.story; //you also have to pass him which story he wants to play
+            const name = req.body.name;
             if(!(story in storiesActive))
                 storiesActive[story] = {}; //added new story
             if(storiesActive[story][id]){
                 const length = storiesActive[story][id].sectionArray.length - 1;
                 const lastActivity = storiesActive[story][id].sectionArray[length];
                 if(!lastActivity || !sectionArray)
-                    res.status(404).end();
+                    res.sendStatus(404).end();
                 if(lastActivity.section != sectionArray.section){
                     storiesActive[story][id].sectionArray.push(sectionArray); //push the player in the story  
                 } else {
@@ -145,7 +137,7 @@ module.exports = {
                         lastActivity.points = sectionArray.points;
                 }      
             } else {
-                storiesActive[story][id] = {id, sectionArray};
+                storiesActive[story][id] = {id, name, sectionArray};
             }
             res.status(200).end();
             

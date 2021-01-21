@@ -91,3 +91,7 @@ export async function getEvaluations() {
     const response = await axios.get('http://localhost:8000/evaluations');
     return response.data;
 }
+
+export async function setName(player, story, name) {
+    await axios.post('http://localhost:8000/setName', { params: { player, story, name } });
+}

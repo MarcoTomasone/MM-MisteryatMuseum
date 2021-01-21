@@ -1,5 +1,5 @@
 import { appendMessage, isEnter } from '../../../utils.js';
-//import { send } from '../Control.js';
+import { setName } from '../API.js';
 
 const { Badge, makeStyles, Paper, Grid, IconButton, Icon, TextField, Card, CardHeader, CardContent, CardActions, Avatar, Collapse } = MaterialUI;
 const e = React.createElement;
@@ -95,6 +95,7 @@ export const CardPlayer = React.forwardRef((props, ref) => {
     //Function to reset the notifications counter
     React.useEffect(() => {
         if(expanded){
+            console.log(props);
             props.socket.emit('read-message', { player: props.id, type: 'message' })
             const tmp = _.cloneDeep(props.arrived);
             tmp[props.id] = false;
@@ -103,9 +104,21 @@ export const CardPlayer = React.forwardRef((props, ref) => {
         }
     }, [expanded]);
 
+    const handleName = () => {
+        const player = props.id;
+        const story = window.location.href.match(/([^\/]*)\/*$/)[1];
+        const name = prompt("Enter the name", props.id);
+        if (name != null) {
+            (async () => {
+                await setName(player, story, name);
+                props.socket.emit('data-update');
+            })();
+        }
+    }
+
     return(
         e(Card, {key: props.id, className: classes_card.root, id: props.id, raised: true, children: [
-            e(CardHeader, {key: "1", avatar: e(Avatar, {key: "avatar", children: props.name, className: classes_card.avatar}), title: props.id, subheader: "Time: " + props.timer}),
+            e(CardHeader, {key: "1", avatar: e(Avatar, {key: "avatar", children: props.name ? props.name.charAt(0) : props.id.charAt(0), className: classes_card.avatar}), title: props.name ? props.name : props.id, subheader: "Time: " + props.timer, action:  e(IconButton, {key: "I1", children: e(Icon, {children: "create", color: "primary"})}), onClick: handleName}),
             e(CardContent, {key: "2", id: props.id + "_grid", className: classes_grid.root, children: [
                 e(Grid, {key: "grid", container: true, spacing: 2, children: [
                     e(Grid, {key: "g1", item: true, xs: 6, children: e(Paper, {className: classes_grid.paper}, [ e("p", {key: "p1"}, "Section "), e("p", {key: "p2"}, props.section) ])}),

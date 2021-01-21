@@ -27,6 +27,9 @@ module.exports = function(io) {
    
     io.on('connection', socket => {
         const type = socket.handshake.query.type;
+        socket.on('data-update', data => {
+            io.to(socketEvaluator["evaluator0"]).emit('update-status');
+        });
         if(type == 'player'){
             socket.on('new-player', data => {
                 nPlayer += 1;
@@ -70,12 +73,9 @@ module.exports = function(io) {
                 arrayEvaluations[player].push({ question, answer, type, id, section });
                 io.to(socketEvaluator["evaluator0"]).emit('answer-from-player', { question, answer, type, id, section, player });
             });
-            socket.on('data-update', data => {
-                io.to(socketEvaluator["evaluator0"]).emit('update-status');
-            })
             socket.on('finish', data => {
                 //io.to(socketEvaluator["evaluator0"]).emit('finish-player', {"Ho finito"});
-            })
+            });
         }
         else if(type == 'evaluator'){
             const evaluator = socket.handshake.query.id;

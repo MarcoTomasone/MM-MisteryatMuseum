@@ -4,8 +4,8 @@ import Evaluation from './components/Evaluation.js';
 import { MyDialog } from './components/MyDialog.js';
 import { CardPlayer } from './components/CardPlayer.js';
 import { getDataPlayer, getEvaluations, getHelps, getHistory, getMessages } from './API.js';
-import {appendMessage} from '../../utils.js';
-const { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Paper, Button, IconButton, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
+import {appendMessage, isEnter} from '../../utils.js';
+const { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Paper, Button, Dialog, DialogContent, DialogTitle, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
 const e = React.createElement;
 const socket = io('http://localhost:3000', {query: 'type=evaluator'});
 socket.emit('new-evaluator');
@@ -61,6 +61,7 @@ export default function Control(props){
     const [ranking, setRanking] = React.useState([]);
     const [rows, setRows] = React.useState([]);
     const [value, setValue] = React.useState(0);
+    const [update, setUpdate] = React.useState(0);
     const [ID, setID] = React.useState("");
     const cardsRef = React.useRef({}); //ref of the cards used for call the cards's functions
     const dialogRef = React.useRef({});
@@ -262,7 +263,6 @@ export default function Control(props){
             const section = data.section;
             const player = data.player;
             const id = data.id;
-            console.log(section);
             const tmp = _.cloneDeep(arrayEvaluations);
             if(!tmp[player])
                 tmp[player] = [];
@@ -270,7 +270,6 @@ export default function Control(props){
             setArrayEvaluations(tmp);
         });
         socket.on('update-status', data => {
-            console.log("in update status");
             (async () => {
                 const players = await getDataPlayer(story);
                 uploadCard(players);
@@ -304,7 +303,7 @@ export default function Control(props){
         uploadEvaluation();
         uploadMessages();
     }, []);
-
+    
     return e(React.Fragment, null, [ 
         e("div", { className: classes.root }, [
             e(AppBar, { style: {border: "none"}, position: "static", children: [

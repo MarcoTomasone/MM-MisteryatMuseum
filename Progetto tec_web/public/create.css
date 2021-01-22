@@ -466,10 +466,10 @@
         height: 50px;
     }
 }
-#dx_publicSelect_qrcodeSection{
+#qr-code{
     margin: 10px;
-    width: 210px;
-    height: 210px;
+    width: 180px;
+    height: 180px;
     border: solid 2px black;
 }
 

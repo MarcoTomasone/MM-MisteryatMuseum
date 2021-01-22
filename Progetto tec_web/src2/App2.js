@@ -5,7 +5,8 @@ import { getID } from './dataHandler.js';
 const e = React.createElement;
 const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
-
+//const url = window.location.href;
+//const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
 
 //Chat
 const socket = io('http://localhost:3000', {query: 'type=player'})
@@ -20,7 +21,7 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON();
+const temp = readJSON("Document");
 const data = JSON.parse(temp);
 data.accessibility.activities.unshift(data.accessibility.firstActivity);
 data.accessibility.activities.push(data.accessibility.lastActivity);

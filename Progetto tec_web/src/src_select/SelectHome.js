@@ -6,6 +6,22 @@ function SelectHome(){
     const [arrayPrivateStories, setArrayPrivateStories] =  React.useState([]);
     const [storySelected, setStorySelected] =  React.useState("");
     var arrayOfStories = []
+    
+    function generateQRCode() {
+        var qr;
+        var story = storySelected.split(".")[0]
+            qr = new QRious({
+            element: document.getElementById('qr-code'),
+            size: 200,
+            value: `http://127.0.0.1:5500/src2/index2.html?story=${story}`
+        });
+        var qrtext = document.getElementById("qr-text").value;
+        qr.set({
+            foreground: 'black',
+            size: 200,
+            value: qrtext
+        });
+    }
 
     React.useEffect(() => {
         axios.get(`http://localhost:8000/storiesFolder`)
@@ -40,8 +56,8 @@ function SelectHome(){
         e("div", {className: "containerHome_publicSelect"}, [
             e("div", {className: "sx_publicSelect"}, arrayPrivateStories),
             e("div", {className: "dx_publicSelect"}, [
-                e(Button, {key: "bb0", id: "dx_publicSelect_button", variant: "contained"}, "SCANSIONA"),
-                e("div", {key: "bb1", id: "dx_publicSelect_qrcodeSection"})
+                e(Button, {key: "bb0", id: "qr-btn", variant: "contained", onClick:generateQRCode}, "SCANSIONA"),
+                e("canvas", {key: "bb1", id: "qr-code"})
             ])
         ])  
     ])

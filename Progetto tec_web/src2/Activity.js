@@ -163,7 +163,7 @@ export const Activity = React.forwardRef((props, ref) => {
 
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
         borderColor:activityStyle.btnNext.borderColor,
-        backgroundColor:activityStyle.btnNext.backgroundColor,
+        backgroundColor:(dinamicActivities[counter] !== props.json.accessibility.lastActivity) ? activityStyle.btnNext.backgroundColor : 'gray',
         borderRadius:`${activityStyle.btnNext.borderRadius}px`,
         //width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
         width:"70%",

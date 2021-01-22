@@ -5,9 +5,10 @@ const e = React.createElement;
  * @param file : file to import
  * @returns a file JSON
  */
-export function readJSON() {
+export function readJSON(story) {
+    let title = story + ".json";
     let request = new XMLHttpRequest();
-    request.open('GET', `http://localhost:8000/requestJson`, false);
+    request.open('GET', `http://localhost:8000/requestJson/${title}`, false);
     request.send(null);
     //console.log(request.responseText);
     if (request.status == 200)

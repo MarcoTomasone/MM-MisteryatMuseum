@@ -50,8 +50,8 @@ app.get('/downloadBackground/:source',(req,res) =>{
         res.send(data);
 })
 
-app.get(`/requestJson`,(req,res)=>{
-    let path = './uploadPlayer/Document.json';
+app.get(`/requestJson/:title`,(req,res)=>{
+    let path = `./storiesFolder/${req.params.title}`;
     let data = fs.readFileSync(path);
     res.send(JSON.parse(data));
 })

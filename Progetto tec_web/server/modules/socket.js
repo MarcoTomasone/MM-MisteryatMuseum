@@ -1,4 +1,5 @@
 const { Socket } = require("socket.io");
+const fs = require("fs");
 
 module.exports = function(io) {
     global.arrayMessages = {};
@@ -22,6 +23,11 @@ module.exports = function(io) {
                 const toDo = () => {io.to(socketEvaluator["evaluator0"]).emit('update-status')};
                 setTimeout(toDo, 2500);
                 
+            });
+            socket.on('disconnect', (req, res) => {
+                for(const player in socketPlayers)
+                    if(socketPlayers[player] == socket.id)
+                        delete socketPlayers[player];
             });
             socket.on('send-to-evaluator', data => {
                 const message = data.message;

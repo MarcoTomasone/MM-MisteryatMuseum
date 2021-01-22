@@ -95,7 +95,6 @@ export const CardPlayer = React.forwardRef((props, ref) => {
     //Function to reset the notifications counter
     React.useEffect(() => {
         if(expanded){
-            console.log(props);
             props.socket.emit('read-message', { player: props.id, type: 'message' })
             const tmp = _.cloneDeep(props.arrived);
             tmp[props.id] = false;

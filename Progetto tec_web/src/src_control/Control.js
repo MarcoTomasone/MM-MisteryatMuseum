@@ -164,7 +164,6 @@ export default function Control(props){
 
     //upload evaluations in the cards
     const uploadEvaluation = () => {
-        console.log("in upload");
         if(_.isEmpty(arrayEvaluations))
         (async() => {
             const evaluations = await getEvaluations();
@@ -238,14 +237,21 @@ export default function Control(props){
     //wait the messages, the helps and the answers to evaluate from players and set their notifications
     React.useEffect(() => {
         socket.on('message-from-player', data => {
-            const message = `<b>${data.name}</b>: ${data.message}`;
+            const id = data.id;
+            const name = data.name;
+            const message = data.message;
+            const messageHTML = `<b>${name}</b>: ${message}`;
             const container = data.id + '_message-container';
-            appendMessage(message , container);
+            if(document.getElementById(container)){
+                appendMessage(messageHTML , container);
+            }
             const tmp = _.cloneDeep(arrived);
-            if(cardsRef.current[data.id] && !cardsRef.current[data.id].getExpanded())
-                tmp[data.id] = true; //se l'expanded è aperta
+            if(!id in tmp)
+                tmp[id] = [];
+            if(cardsRef.current[id] && !cardsRef.current[id].getExpanded())
+                tmp[id] = true; //se l'expanded è aperta
             else
-                tmp[data.id] = false;
+                tmp[id] = false;
             setArrived(tmp);
         });
         socket.on('help-from-player', data => {
@@ -260,7 +266,6 @@ export default function Control(props){
             setArrayHelps(tmp);
         });
         socket.on('answer-from-player', data => {
-            console.log(data);
             const question = data.question;
             const answer = data.answer;
             const type = data.type;
@@ -300,6 +305,8 @@ export default function Control(props){
         notifyHelp();
         notifyEvaluation();
         notifyTimer();
+        if(value == 0)
+            uploadMessages();
     },[value, arrayHelps, arrayEvaluations]);
 
     React.useEffect(() => {
@@ -380,6 +387,25 @@ export default function Control(props){
     ]);
 }
 
-
+/*
+socket.on('message-from-player', data => {
+            const id = data.id;
+            const name = data.name;
+            const message = data.message;
+            const messageHTML = `<b>${name}</b>: ${message}`;
+            const container = id + '_message-container';
+            const tmp = _.cloneDeep(arrived);
+            if(document.getElementById(container))
+                appendMessage(messageHTML , container);
+            if(!id in tmp)
+                tmp[id] = {messages: [], arrived: false};
+            tmp[id].messages.push(message);
+            if(cardsRef.current[id] && !cardsRef.current[id].getExpanded())
+                tmp[id].arrived = true; //se l'expanded è aperta
+            else
+                tmp[id].arrived = false;
+            setArrived(tmp);
+        });
+*/
 
 

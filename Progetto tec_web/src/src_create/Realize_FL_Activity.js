@@ -47,7 +47,7 @@ function Realize_FL_Activity(props){
     React.useEffect(() => {
         document.getElementById("phoneText").style.height   = `${activity.heightFrame}px`;
         document.getElementById("textDiv").innerHTML      =    activity.text;
-        document.getElementById("mediaDiv").innerHTML      =    activity.text;
+        document.getElementById("mediaDiv").setAttribute("src", ``)
     }, [activity])
 
     React.useEffect(() => {
@@ -96,10 +96,15 @@ function Realize_FL_Activity(props){
             heightImage :    parseInt(activity.heightImage),
             widthImage  :    parseInt(activity.widthImage),
         };
-        if (props.indexActivity == "firstActivity") oldStory.firstActivity = tmp
+        if (props.indexActivity == "firstActivity") {
+            oldStory.firstActivity = tmp
+            props.step[2] = true
+            props.setStep(props.step)
+        }
         else {
             oldStory.lastActivity = tmp
-            props.setStep([true, true, true, false])
+            props.step[3] = true
+            props.setStep(props.step)
         }
         props.setStory(oldStory);
     }

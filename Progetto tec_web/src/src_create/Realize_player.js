@@ -149,14 +149,15 @@ function Realize_player(props){
         if (playerStyle.backgroundImageUrl == "") document.getElementById("phoneImage").classList.add("hiddenClass")
         else {
             document.getElementById("phoneImage").classList.remove("hiddenClass")
-            document.getElementById("phoneImage").setAttribute("src", playerStyle.backgroundImageUrl)
         }
     }, [playerStyle])
 
     
     React.useEffect(() => {
+        playerStyle.backgroundImageUrl = `Matteo_2_background.jpg`
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea il layout al player (i valori sono tutti in pixel e la dimensione dello schermo è di 437 x 202, ovvero 6.1\")";
         document.getElementById("phoneInternal").style.background   =      playerStyle.background_color
+        document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${playerStyle.backgroundImageUrl}`)
         document.getElementById("phoneImage").style.top             =   `${playerStyle.topImage}px`
         document.getElementById("phoneImage").style.left            =   `${playerStyle.leftImage}px`
         document.getElementById("phoneImage").style.height          =   `${playerStyle.heighImage}px`
@@ -219,7 +220,6 @@ function Realize_player(props){
 
 
 
-
     function createNewJsonFile() {
         props.story.player.background                   =   playerStyle.background_color
         props.story.player.backgroundImageUrl           =   playerStyle.backgroundImageUrl,
@@ -274,7 +274,8 @@ function Realize_player(props){
         props.story.player.helpButton.width             =   parseInt(playerStyle.widthHelpButton)
         props.story.player.helpButton.borderRadius      =   parseInt(playerStyle.borderRadiusHelpButton)
 
-        props.setStep([true, true, false, false])
+        props.step[1] = true
+        props.setStep(props.step)
     }
 
     function addImage(e){

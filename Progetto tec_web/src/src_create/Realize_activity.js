@@ -170,7 +170,7 @@ function Realize_activity(props){
     }, [activity.heightFrame])
 
     React.useEffect(() => {
-        document.getElementById("phoneText").innerHTML      =    activity.activityText;
+        document.getElementById("textDiv").innerHTML      =    activity.activityText;
     }, [activity.activityText])
 
     React.useEffect(() => {

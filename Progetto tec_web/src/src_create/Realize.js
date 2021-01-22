@@ -99,7 +99,8 @@ function Realize(props){
                                 className: "CreateHomeRealize_player", 
                                 user: props.user, 
                                 story: story, 
-                                setStory: setStory, 
+                                setStory: setStory,
+                                step: step, 
                                 setStep: setStep
                             }))
                         } else {
@@ -115,6 +116,7 @@ function Realize(props){
                                 user: props.user, 
                                 story: story, 
                                 setStory: setStory, 
+                                step: step, 
                                 setStep: setStep, 
                                 activity: story.firstActivity,
                                 indexActivity: "firstActivity",
@@ -133,7 +135,8 @@ function Realize(props){
                                 className: "CreateHomeRealize_firstLastActivity", 
                                 user: props.user, 
                                 story: story, 
-                                setStory: setStory, 
+                                setStory: setStory,
+                                step: step, 
                                 setStep: setStep, 
                                 activity: story.lastActivity,
                                 indexActivity: "lastActivity",
@@ -153,6 +156,7 @@ function Realize(props){
                                 user: props.user, 
                                 story: story,
                                 setStory: setStory,
+                                step: step, 
                                 setStep: setStep,
                             }))
                         /*} else {

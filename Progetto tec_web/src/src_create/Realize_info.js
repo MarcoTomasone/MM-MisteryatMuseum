@@ -94,6 +94,7 @@ function Realize_info(props){
             setaccessibility(props.story.accessibility.value);
             setParticipantsType(props.story.participantsType.value);
             setAge([props.story.ageStart, props.story.ageEnd]);
+            props.setStep([true, true, true, true])
         }
     }, [])
     
@@ -109,7 +110,6 @@ function Realize_info(props){
         } else {
             var file = {}
             if (props.story) {
-                console.log("vecchio")
                 file = props.story
                 file.title = title.charAt(0).toUpperCase() + title.substring(1)
                 file.gender = gender
@@ -121,7 +121,6 @@ function Realize_info(props){
                 file.ageEnd = age[1]
             }
             else {
-                console.log("nuovo")
                 file = {
                     id: "",
                     user: props.user,
@@ -224,7 +223,8 @@ function Realize_info(props){
                 }
             }
             props.setStory(file)
-            props.setStep([true, false, false, false])
+            props.step[0] = true
+            props.setStep(props.step)
         }
     }
 

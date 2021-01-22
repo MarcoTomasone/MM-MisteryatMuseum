@@ -1,3 +1,5 @@
+import { sendData} from './dataHandler.js';
+
 const e = React.createElement;
 /**
  * function thath contains the properties of Input type
@@ -86,30 +88,24 @@ function inputType(props){
            
             
                 const [file, setFile] = React.useState(''); // storing the uploaded file    // storing the recived file from backend
-                const [data, getFile] = React.useState({ name: "", path: "" });    
                 const [progress, setProgess] = React.useState(0); // progess bar
                 const el = React.useRef(); // accesing input element
+                
                 const handleChange = (e) => {
                     setProgess(0)
                     const file = e.target.files[0]; // accesing file
                     console.log(file);
                     setFile(file); // storing file
                 }
-
                 //send to server an image to evaluation
                 const uploadFile = () => {
                     const formData = new FormData();        
                     formData.append('file', file); // appending file
-                    //console.log(formData)
                     axios.post('http://localhost:8000/uploadImg', formData).then(res => {
-                        getFile({ name: res.data.name,
-                                 path: 'http://localhost:8000' + res.data.path
-                               })
-                        if(res.status == 200)       
-                            props.socket.emit("send-humanEvaluation",{question: props.v[props.counter].question, answer: 'http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path, type : "image" , id : props.playerId, section : props.counter});       
-                        alert('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path)
-                }).catch(err => console.log(err))}
-            
+                            if(res.status == 200)   
+                                props.socket.emit("send-humanEvaluation",{question: props.v[props.counter].question, answer: 'http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path, type : "image" , id : props.playerId, section : props.counter});       
+                                props.inc('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path);
+                            }).catch(err => alert("Devi caricare un'immagine!"))}
            
             const stylein = {
                 width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
@@ -119,7 +115,6 @@ function inputType(props){
                 position:'absolute'
             }
 
-
             inputElement.push(e("input",{
                 type:"file", 
                 key:"fileUplodad",
@@ -128,28 +123,20 @@ function inputType(props){
                 style:stylein,
                 capture:"camera",
                 onChange:handleChange
-                })                               
-                ,e("button",{
-                    style:stylB,
-                    key:"confirm",
-                    id:"confirm",
-                    onClick: uploadFile
-                    },"Check")
-                );
-    
+                }));
+             
+                return  e("div", null,
+                            e("div",{key: "inputElement", style : inputGroup },inputElement),
+                            e("button",{key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: uploadFile }, "NEXT")
+                        );
+                
         }
 
-      
-
         return e("div",null, 
-                    e("div", {key:"inputElement" , style:inputGroup}, 
-                        inputElement
-                    ),
+                    e("div", {key:"inputElement" , style:inputGroup}, inputElement),
                     //     range ? e("p",null,document.getElementById("rangept").value : null),
-        e("button", {key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "NEXT"));
-   
-   
-
+                    e("button", {key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "NEXT")
+                );
 }
 
 export default inputType;

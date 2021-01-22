@@ -32,7 +32,7 @@ export const Activity = React.forwardRef((props, ref) => {
     }));
     
     //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
-    function inc(){
+    function inc( path ){
         let actual = dinamicActivities[counter];
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
@@ -51,7 +51,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "imgUpload": //modificate sendData
-                        sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
+                        sendData(props.playerId, activities[questionIndex].question, path, counter, seconds, 0);
                         dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Quattro opzioni" : 
@@ -118,11 +118,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     case "humanText":
                         props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].question, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter, seconds, 0);
-                        dinamicActivities.push(props.json.accessibility.lastActivity);
-                    break;
-                    case "imgUpload": 
-                        sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
-                        dinamicActivities.push(props.json.accessibility.lastActivity);
+                        //dinamicActivities.push(props.json.accessibility.lastActivity);
                     break;
                 }
             }

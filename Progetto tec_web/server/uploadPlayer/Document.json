@@ -33,30 +33,17 @@
 				},
 				"correctAnswerGo":["sum"]
 			},
-			{	"title":"sum",
-				"question" : "Elencami 3 linguaggi di programmazione",
-				"widgetType": "humanText",
-				"alternativeText":"Icona Piakchu",
-				"help" : "Sono l'aiuto dell'activity 2",	
+			{
+				"title":"loadImage",
+				"question":"Choose a profile picture",
+				"widgetType":"imgUpload",
+				"media":0,
 				
-				"heightImage":100,
-				"widthImage":150,
-				"leftImage":32,
-				"topImage":2,
-				
-				"wrongAnswerGo":["pigreco","description"],
-				"correctAnswerGo":["product"],
-				"btnStyle":{
-					"width":70,
-					"height":30,
-					"marginLeft":0,
-					"marginRight":0,
-					"marginTop":0,
-					"borderRadius":0,
-					"bckgrndClr":"grey",
-					"bckgrndClrC":"yellow",
-					"bckgrndClrW":"yellow"	
-				},
+				"widthInput":150,
+				"heightInput":20,
+				"leftInput":20,
+				"bottomInput":200,
+			
 				"truefalseanswer":{
 					"trueScore":100,
 					"falseScore":-100

@@ -127,7 +127,7 @@ function inputType(props){
              
                 return  e("div", null,
                             e("div",{key: "inputElement", style : inputGroup },inputElement),
-                            e("button",{key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: uploadFile }, "NEXT")
+                            e("button",{role: "button", key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: uploadFile }, "NEXT")
                         );
                 
         }
@@ -135,7 +135,7 @@ function inputType(props){
         return e("div",null, 
                     e("div", {key:"inputElement" , style:inputGroup}, inputElement),
                     //     range ? e("p",null,document.getElementById("rangept").value : null),
-                    e("button", {key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "NEXT")
+                    e("button", {role: "button", key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "NEXT")
                 );
 }
 

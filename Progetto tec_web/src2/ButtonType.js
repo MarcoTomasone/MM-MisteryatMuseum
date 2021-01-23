@@ -90,6 +90,7 @@ function ButtonType(props){
         }else{
             for (let i = 0; i < props.answer.length; i++) {      
                     ListButtonAnswer.push(e("button", {
+                        role: "button", 
                         key:"Btn"+ i,
                         style: (i != props.lastAnswer)? buttProp:buttSelect,
                         id:"btn"+ i,
@@ -107,7 +108,7 @@ function ButtonType(props){
                         style:buttonGroup }, [
                         ListButtonAnswer
                     ]),
-                    e("button", {key:"buttonNext",id: "nextButton1",style:a,onClick:props.inc}, "NEXT")
+                    e("button", {role: "button", key:"buttonNext",id: "nextButton1",style:a,onClick:props.inc}, "NEXT")
                 );
 
 }

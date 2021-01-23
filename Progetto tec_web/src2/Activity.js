@@ -243,7 +243,7 @@ export const Activity = React.forwardRef((props, ref) => {
                 e("div",{key: "activity", id:"activy", style: divActivity},    
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question , mediaProp)
                 ),      
-                e("button", {key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
+                e("button", {role: "button", key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
         );
 
     } else {

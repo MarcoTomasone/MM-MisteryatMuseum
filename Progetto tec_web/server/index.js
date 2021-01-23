@@ -89,29 +89,14 @@ app.post("/addImage/:id/:type", (req, res) => {
 
     var files = fs.readdirSync("./upload")
     
-    if (req.params.type == "bckgrnd"){
-        files.forEach((element) =>{
-            var tmp = element.split('.')[0]
-            var tmp2 = req.params.id.split('.')[0] + "_background"
-            if (tmp == tmp2) {
-                fs.unlink(`./upload/${element}`, (err) => {if (err) throw err});
-                console.log(`Delete image \"${element}\"`)
-            }
-        })
-        newImage = `${name}_background${extension}`
-        
-    } else {
-        var indexActivity = req.params.type.split("t")[1]
-        files.forEach((element) =>{
-            var tmp = element.split('.')[0]
-            var tmp2 = `${req.params.id.split('.')[0]}_activity${indexActivity}`
-            if (tmp == tmp2) {
-                fs.unlink(`./upload/${element}`, (err) => {if (err) throw err})
-                console.log(`Delete image \"${element}\"`)
-            }
-        })
-        newImage = `${name}_activity${indexActivity}${extension}`
-    }
+    if (req.params.type == "bckgrnd") newImage = `${name}_background${extension}`
+    else newImage = `${name}_${req.params.type}${extension}`
+    files.forEach((element) =>{
+        if (element.split(".")[0] == newImage.split(".")[0]) {
+            fs.unlink(`./upload/${element}`, (err) => {if (err) throw err});
+            console.log(`Delete image \"${element}\"`)
+        }
+    })
     file.mv(`${__dirname}/upload/${newImage}`, (err) => {if (err) throw err})
     console.log(`Add image \"${newImage}\"`)
     res.end(newImage)

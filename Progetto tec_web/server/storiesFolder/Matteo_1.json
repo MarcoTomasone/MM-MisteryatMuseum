@@ -3,24 +3,24 @@
   "user": "Matteo",
   "toCopy": true,
   "published": false,
-  "title": "Ewfwefwe",
+  "title": "Prova",
   "gender": "Horror",
-  "objective": "13fr23",
-  "description": "Qefqe2",
+  "objective": "Asd",
+  "description": "As",
   "accessibility": {
     "value": false,
     "url": "../img/no_accessibility_1.png"
   },
   "participantsType": {
-    "value": "singlePlayer",
-    "url": "../img/single.png"
+    "value": "differentGroup",
+    "url": "../img/more_group.png"
   },
   "participantsNumber": 0,
-  "ageStart": 0,
-  "ageEnd": 100,
+  "ageStart": 29,
+  "ageEnd": 75,
   "player": {
     "background": "#000000",
-    "backgroundImageUrl": "",
+    "backgroundImage": "Matteo_1_background.jpg",
     "frameColor": "#ffffff",
     "topFrame": 80,
     "leftFrame": 15,
@@ -28,8 +28,8 @@
     "weightFrame": 1,
     "borderRadiusFrame": 0,
     "textColor": "#ffffff",
-    "textBackgroundColorCheck": false,
-    "textBackgroundColor": "",
+    "textBackgroundColorActived": false,
+    "textBackgroundColor": "#000000",
     "fontFamily": "Arial",
     "sizeFont": 14,
     "weightFont": 500,
@@ -87,13 +87,17 @@
   },
   "firstActivity": {
     "heightFrame": 160,
-    "text": "",
-    "image": ""
+    "text": "Sto facendo una prova un po strana",
+    "backgroundImage": "Matteo_1_firstActivity_background.jpeg",
+    "activityImage": "Matteo_1_firstActivity_activity.png",
+    "correctAnswerGo": []
   },
   "lastActivity": {
     "heightFrame": 160,
-    "text": "",
-    "image": ""
+    "text": "Sto facendo una prova un po gustosa",
+    "backgroundImage": "",
+    "activityImage": "Matteo_1_lastActivity_activity.png",
+    "correctAnswerGo": []
   },
   "activities": [],
   "activitiesNotAssigned": []

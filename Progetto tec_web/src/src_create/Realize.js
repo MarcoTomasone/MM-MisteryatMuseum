@@ -141,7 +141,7 @@ function Realize(props){
                                 activity: story.lastActivity,
                                 indexActivity: "lastActivity",
                                 title: "Crea l'attività conclusiva alla tua storia",
-                                text: "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore ed eventualmente lasciargli un ultimo messaggio"
+                                text: "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore"
                             }))
                         /*} else {
                             setTextErrorDialog("Prima crea e salva l'attività introduttiva")

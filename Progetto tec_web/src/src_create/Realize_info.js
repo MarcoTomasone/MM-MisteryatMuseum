@@ -143,7 +143,7 @@ function Realize_info(props){
                     ageEnd: age[1],
                     player: {
                         background: "#000000",
-                        backgroundImageUrl: "",
+                        backgroundImage: "",
                         frameColor: "#ffffff",
                         topFrame: 80,
                         leftFrame: 15,
@@ -151,8 +151,8 @@ function Realize_info(props){
                         weightFrame: 1,
                         borderRadiusFrame: 0,
                         textColor: "#ffffff",
-                        textBackgroundColorCheck: false,
-                        textBackgroundColor: "",
+                        textBackgroundColorActived: false,
+                        textBackgroundColor: "#000000",
                         fontFamily: "Arial",
                         sizeFont: 14,
                         weightFont: 500,
@@ -211,12 +211,16 @@ function Realize_info(props){
                     firstActivity: {
                         heightFrame: 160,
                         text: "",
-                        image: "",
+                        backgroundImage: "",
+                        activityImage: "",
+                        correctAnswerGo: []
                     },
                     lastActivity: {
                         heightFrame: 160,
                         text: "",
-                        image: "",
+                        backgroundImage: "",
+                        activityImage: "",
+                        correctAnswerGo: []
                     },
                     activities: [],
                     activitiesNotAssigned: []

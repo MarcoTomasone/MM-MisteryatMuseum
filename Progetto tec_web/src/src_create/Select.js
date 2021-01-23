@@ -124,7 +124,7 @@ function Select(props){
             return response; 
         }).then((response) => {
             response.data.forEach((element) => {
-                if (element.published == true) document.getElementById(element.id).classList.add("story_published");
+                if (document.getElementById(element.id) && element.published == true) document.getElementById(element.id).classList.add("story_published");
             })
         })
     }, [])

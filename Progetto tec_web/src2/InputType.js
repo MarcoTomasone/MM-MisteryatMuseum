@@ -53,6 +53,7 @@ function inputType(props){
     }
 
     inputElement.push(e("input",{
+                                'aria-describedby' : "activitIntro",
                                 type:"text",
                                 id:"textAnswer",
                                 key:"input",
@@ -74,6 +75,7 @@ function inputType(props){
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},defaultValue));
         inputElement.push(e("input",{
+                                'aria-describedby' : "activitIntro",
                                 type:"range", 
                                 key:"rangebar",
                                 min:props.v[props.counter].minRange,
@@ -116,6 +118,7 @@ function inputType(props){
             }
 
             inputElement.push(e("input",{
+                'aria-describedby' : "activitIntro",
                 type:"file", 
                 key:"fileUplodad",
                 id:"flUpld",

@@ -144,19 +144,26 @@ export const Activity = React.forwardRef((props, ref) => {
     function checkButton(answer){  
         if(props.v[counter].widgetType ==="Vero Falso"){    
             if(answer === 1){
-                document.getElementById("btnFalse").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
+                document.getElementById("btnTrue").setAttribute("aria-selected", true);
+                document.getElementById("btnFalse").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
+                document.getElementById("btnFalse").removeAttribute("aria-selected");
+                
             }else{
                 document.getElementById("btnFalse").backgroundColor = "yellow"; 
-                document.getElementById("btnTrue").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
+                document.getElementById("btnFalse").setAttribute("aria-selected", true); 
+                document.getElementById("btnTrue").backgroundColor = props.v[counter].btnStyle.bckgrndClr;
+                document.getElementById("btnTrue").removeAttribute("aria-selected"); 
             }
         }
         else{
             const nAnswer = props.v[counter].fourAnswers.lenght;
             for(let i = 0 ; i < nAnswer ;i++){
-                document.getElementById("btn"+i).backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
+                document.getElementById("btn"+i).backgroundColor = props.v[counter].btnStyle.bckgrndClr;
+                document.getElementById("btn"+i).removeAttribute("aria-selected");
             }
             document.getElementById("btn"+answer).backgroundColor="yellow";  
+            document.getElementById("btn"+answer).setAttribute("aria-selected", true);
         }
         setLastAnswer(answer);
     }

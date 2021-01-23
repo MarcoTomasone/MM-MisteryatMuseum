@@ -1,5 +1,5 @@
 import { Activity } from './Activity.js'
-import {readJSON, appendMessage} from '../utils.js'
+import {readJSON, appendMessage, isEnter} from '../utils.js'
 import { getID } from './dataHandler.js';
 
 const e = React.createElement;
@@ -172,8 +172,11 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
     const sendMessage = function (){
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
-        appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
-        socket.emit('send-to-evaluator', {message: message, id})  //server side
+        console.log(message)
+        if(message != ""){
+            appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
+            socket.emit('send-to-evaluator', {message: message, id})  //server side
+        } 
         messageInput.value = '' //clean the input text
     } 
 
@@ -182,17 +185,18 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
         const container = document.getElementById("help-message-container");
         const helpInput = document.getElementById("help-message-input");
         const message = helpInput.value;
-        helpArray.push(message);
-        const length = helpArray.length;
-        const helpP = document.createElement("p");
-        helpP.setAttribute("id", "p" + length);
-        helpP.innerHTML = "Domanda:" + message;
-        container.append(helpP);
-        if(sectionRef.current) {
-            const section = sectionRef.current.getSection();
-            socket.emit('send-help-text', {question: message, id, nElem : length, section : section})  //server side
-            helpInput.value = '' //clean the input text
-        }
+        if(message != ""){
+            helpArray.push(message);
+            const length = helpArray.length;
+            const helpP = document.createElement("p");
+            helpP.setAttribute("id", "p" + length);
+            helpP.innerHTML = "Domanda:" + message;
+            container.append(helpP);
+            if(sectionRef.current) {
+                const section = sectionRef.current.getSection();
+                socket.emit('send-help-text', {question: message, id, nElem : length, section : section})  //server side
+                helpInput.value = ''}//clean the input text
+            }
     } 
 
  
@@ -220,8 +224,8 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
-                        e(TextField, {id: "message-input", variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
-                            e(IconButton, {id:"send-button", onClick: sendMessage, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
+                        e(TextField, {id: "message-input", onKeyDown: () => {isEnter(event)? sendMessage() : null},variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                            e(IconButton, {id:"send-button", onClick: sendMessage,  children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])
             ])}),
@@ -229,7 +233,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideHelp(false)}}),
                     e("div",{id: "help-message-container", style: {overflow:"scroll", width: "80%", height: "70%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
-                        e(TextField, {id: "help-message-input", variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                        e(TextField, {id: "help-message-input",onKeyDown: () => {isEnter(event)? sendHelp() : null}, variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
                             e(IconButton, {id:"send-button", onClick: sendHelp, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])

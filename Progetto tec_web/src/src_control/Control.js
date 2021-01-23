@@ -3,7 +3,7 @@ import Help from './components/Help.js';
 import Evaluation from './components/Evaluation.js';
 import { MyDialog } from './components/MyDialog.js';
 import { CardPlayer } from './components/CardPlayer.js';
-import { getDataPlayer, getEvaluations, getHelps, getHistory, getMessages } from './API.js';
+import { getDataPlayer, getEvaluations, getHelps, getHistory, getMessages, getPDF } from './API.js';
 import {appendMessage, isEnter} from '../../utils.js';
 const { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Paper, Button, Dialog, DialogContent, DialogTitle, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
 const e = React.createElement;
@@ -82,8 +82,8 @@ export default function Control(props){
             const tmp = [];
             data.sectionArray.forEach((item) => {
                 let answer = item.answer;
-                //if(item.answer.startsWith('localhost'));
-                //    answer = e('img', {src: item.answer});
+                if(answer.startsWith('http'))
+                    answer = e('img', {src: item.answer, style: {maxWidth: 200, maxHeight: 150}});
                 tmp.push(createData(item.section, item.question, answer, item.timer, item.points));
             })
             setRows(tmp);
@@ -380,32 +380,12 @@ export default function Control(props){
                             )))]})
                     ]})
                 ]}),
-                e(Button, {size: "large", variant: "contained", onClick: () => {dialogRef.current.handleOpen()}}, "Download"),
-                e(MyDialog, {key: "dialog", story: story, ref: dialogRef}),
+                ID !== "" && e(Button, {size: "large", variant: "contained", onClick: async() => {await getPDF(ID, story)}}, "Download"),
+                //e(MyDialog, {key: "dialog", story: story, ref: dialogRef}),
             ] })
         ])
     ]);
 }
 
-/*
-socket.on('message-from-player', data => {
-            const id = data.id;
-            const name = data.name;
-            const message = data.message;
-            const messageHTML = `<b>${name}</b>: ${message}`;
-            const container = id + '_message-container';
-            const tmp = _.cloneDeep(arrived);
-            if(document.getElementById(container))
-                appendMessage(messageHTML , container);
-            if(!id in tmp)
-                tmp[id] = {messages: [], arrived: false};
-            tmp[id].messages.push(message);
-            if(cardsRef.current[id] && !cardsRef.current[id].getExpanded())
-                tmp[id].arrived = true; //se l'expanded è aperta
-            else
-                tmp[id].arrived = false;
-            setArrived(tmp);
-        });
-*/
 
 

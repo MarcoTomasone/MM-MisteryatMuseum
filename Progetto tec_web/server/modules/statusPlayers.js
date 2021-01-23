@@ -91,7 +91,7 @@ module.exports = {
         app.get('/pdf', (req, res) => {            
             const player = req.query.player;
             const story = req.query.story;
-            const path = `./inGame/${story}/${player}.json`;
+            //const path = `./inGame/${story}/${player}.json`;
             if(!storiesActive[story][player])
                 res.sendStatus(404).end();
             const infoPlayer = storiesActive[story][player];
@@ -101,19 +101,44 @@ module.exports = {
             doc.setFontSize(30);
             doc.setFont("calibri");
             doc.text( `${player}`, 100, 15, {align: "center"});
+            const answer = []
             infoPlayer.sectionArray.forEach((section, i) => {
+                answer.push(section.answer)
                 const item = [section.section, section.question, section.answer, section.timer, section.points];
                 rows.push(item);
             });
             doc.autoTable(col, rows,  {
                 tableLineColor: [189, 195, 199],
                 tableLineWidth: 0.3,
-                startY: 20
+                startY: 20,
+                columnStyles: {
+                    2: {columnWidth: 30},
+                }
             });
             const pdf = doc.output();
             res.contentType("application/pdf;charset=utf-8");
             res.send(pdf);
         })
+
+        function generate() {
+            var doc = new jsPDF();
+      
+        doc.autoTable({
+          html: '#mytable',
+          bodyStyles: {minCellHeight: 15},
+          didDrawCell: function(data) {
+            if (data.column.index === 5 && data.cell.section === 'body') {
+               var td = data.cell.raw;
+               var img = td.getElementsByTagName('img')[0];
+               var dim = data.cell.height - data.cell.padding('vertical');
+               var textPos = data.cell.textPos;
+               doc.addImage(img.src, textPos.x,  textPos.y, dim, dim);
+            }
+          }
+        });
+      
+            doc.save("table.pdf");
+          }
 
         //post status files of players
         app.post('/postJson', (req, res) => {

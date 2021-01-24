@@ -1,7 +1,7 @@
 import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import { getRandomInt} from '../utils.js';
-import { sendData} from './dataHandler.js';
+import { sendData, postOnServer} from './dataHandler.js';
 
 const e = React.createElement;
 let timer; 
@@ -37,10 +37,12 @@ export const Activity = React.forwardRef((props, ref) => {
         let index = 0;
         let questionIndex = activities.indexOf(dinamicActivities[counter]);
         let indexOfNewActivity;
-    
+        
+
         clearInterval(timer);
         if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
             dinamicActivities.push( props.json.accessibility.lastActivity);
+            postOnServer(props.playerId);
         } else {
             if(counter != 0){
                 now = new Date();

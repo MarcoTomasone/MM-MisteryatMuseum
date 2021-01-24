@@ -141,7 +141,7 @@ module.exports = {
           }
 
         //post status files of players
-        app.post('/postJson', (req, res) => {
+        app.post('/updateData', (req, res) => {
             const id = req.body.id; //the json of player
             const sectionArray = req.body.sectionArray;
             const story = req.body.story; //you also have to pass him which story he wants to play
@@ -164,25 +164,19 @@ module.exports = {
             } else {
                 storiesActive[story][id] = {id, name, sectionArray};
             }
-            res.status(200).end();
-            
-
-            /*
+            res.status(200).end(); 
+        });
+        
+        app.post('/postJson', (req, res) => {
+            const id = req.body.id;
+            const story = req.body.story;
             const path = `./statusFiles/`;
             const file = path + req.body.id + ".json"
             if (!fs.existsSync(path))
                 fs.mkdirSync(path);
             //Pubblico il file nel path
-            if(!fs.existsSync(file))
-                fs.writeFileSync(file, JSON.stringify(req.body));
-            else {
-                const rawdata = fs.readFileSync(file);
-                let data = JSON.parse(rawdata);
-                data.sectionArray.push(req.body.SectionArray);
-                fs.writeFileSync(file, JSON.stringify(data));
-            }
-            res.status(200).end();*/
+            fs.writeFileSync(file, JSON.stringify(storiesActive[story][id]));
+            res.status(200).end();
         });
-
     }
 }

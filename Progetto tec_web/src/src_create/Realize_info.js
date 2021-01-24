@@ -94,7 +94,7 @@ function Realize_info(props){
             setaccessibility(props.story.accessibility.value);
             setParticipantsType(props.story.participantsType.value);
             setAge([props.story.ageStart, props.story.ageEnd]);
-            props.setStep([true, true, true, true])
+            props.setStep([true, false, true, true])
         }
     }, [])
     

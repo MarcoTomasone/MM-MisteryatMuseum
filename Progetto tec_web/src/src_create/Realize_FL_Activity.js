@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 function Realize_FL_Activity(props){
 
     const classes = useStyles();
-    const [immageUpload, set_immageUpload] = React.useState(true)
     const [activity, setActivity] = React.useState({
         heightFrame     : props.activity.heightFrame,
         text            : props.activity.text,
@@ -61,7 +60,6 @@ function Realize_FL_Activity(props){
 
     function deleteImage(){
         axios.delete(`http://localhost:8000/deleteImage/${props.story.id}/act${props.firstLast}`)
-        set_immageUpload(true)
     }
 
     function updateField(e){
@@ -77,20 +75,19 @@ function Realize_FL_Activity(props){
                 document.getElementById("phoneImage").classList.remove("hiddenClass")
                 document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.story.player.backgroundImage}`)
             }    
-        }
-        else {
+        } else {
             document.getElementById("phoneImage").classList.remove("hiddenClass")
             document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${activity.backgroundImage}`)
         }
         if (activity.activityImage == ""){
             document.getElementById("mediaDiv").classList.add("hiddenClass")
             document.getElementById("mediaDiv").setAttribute("src", ``)       
-        }
-        else {
+        } else {
             document.getElementById("mediaDiv").classList.remove("hiddenClass")
             document.getElementById("mediaDiv").setAttribute("src", `../../server/upload/${activity.activityImage}`)
         }
     }
+
     React.useEffect(() => {
         document.getElementById("inputDiv").classList.add("hiddenClass")
     }, [])

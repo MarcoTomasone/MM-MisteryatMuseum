@@ -75,7 +75,6 @@ const SwitchButton = withStyles({
 
 function Realize_activity(props){
     const classes = useStyles();
-    const [immageUpload, set_immageUpload] = React.useState(true)
     const [updateTable, setUpdateTable] = React.useState(false)
     const [tableFourChoices, setTableFourChoices] = React.useState([])
     const [menuItemFourChoices, setMenuItemFourChoices] = React.useState([])
@@ -88,7 +87,8 @@ function Realize_activity(props){
         title                   :   "",
         heightFrame             :   160,
         activityText            :   "",
-        media                   :   "",
+        backgroundImage         :   "",
+        activityImage           :   "",
         topInput                :   320,
         leftInput               :   15,
         heightInput             :   60,
@@ -141,24 +141,17 @@ function Realize_activity(props){
         e.preventDefault()
         const formData = new FormData();
         formData.append("file", e.target.files[0])
-        axios.post(`http://localhost:8000/addImage/${props.story.id}/act${props.firstLast}`, formData, {
-            headers:{
-                "Content-Type": "multipart/form-data"
-            }
+        axios.post(`http://localhost:8000/addImage/${props.story.id}/${e.target.name}`, formData, {
+            headers:{ "Content-Type": "multipart/form-data" }
         })
-        .then((response) => {})
         .catch(error => {
-            if (error.response.status === 500) {
-                console.log("Errore con il server")
-            } else {
-                console.log(error)
-            }
+            if (error.response.status === 500) console.log("Errore con il server")
+            else console.log(error)
         })  
     }
 
     function deleteImage(){
         axios.delete(`http://localhost:8000/deleteImage/${props.story.id}/act${props.firstLast}`)
-        set_immageUpload(true)
     }
 
     React.useEffect(() => {
@@ -189,6 +182,30 @@ function Realize_activity(props){
         document.getElementById("inputDiv").style.width     = `${activity.widthInput}px`;
     }, [activity.widthInput])
 
+    React.useEffect(() => {
+        if (activity.backgroundImage == ""){
+            if (props.story.player.backgroundImage == ""){
+                document.getElementById("phoneImage").classList.add("hiddenClass")
+                document.getElementById("phoneImage").setAttribute("src", ``)        }
+            else {
+                document.getElementById("phoneImage").classList.remove("hiddenClass")
+                document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.story.player.backgroundImage}`)
+            }    
+        } else {
+            document.getElementById("phoneImage").classList.remove("hiddenClass")
+            document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${activity.backgroundImage}`)
+        }
+    }, [activity.backgroundImage])
+
+    React.useEffect(() => {
+        if (activity.activityImage == ""){
+            document.getElementById("mediaDiv").classList.add("hiddenClass")
+            document.getElementById("mediaDiv").setAttribute("src", ``)       
+        } else {
+            document.getElementById("mediaDiv").classList.remove("hiddenClass")
+            document.getElementById("mediaDiv").setAttribute("src", `../../server/upload/${activity.activityImage}`)
+        }
+    }, [activity.activityImage])
 
     React.useEffect(() => {
         if (!(props.story.activities.some(element => element.title == activity.title))){
@@ -315,7 +332,8 @@ function Realize_activity(props){
                 title                   :   title,
                 heightFrame             :   activity.heightFrame,
                 activityText            :   activity.activityText,
-                //media                   :   activity.media,
+                backgroundImage         :   activity.backgroundImage,
+                activityImage           :   activity.activityImage,
                 widgetType              :   activity.widgetType,
                 topInput                :   activity.topInput,
                 leftInput               :   activity.leftInput,
@@ -514,9 +532,9 @@ function Realize_activity(props){
             ]),
             e("hr", null),
 
-            e("p", null, "MEDIA"),
+            e("p", null, "IMMAGINE SFONDO"),
             e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "background_image", className: classes.hide, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addImage}),
+                e("input", {id: "background_image", className: classes.hide, name: `${activity.title}_background`, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addImage}),
                 e("label", {htmlFor:"background_image"}, [
                     e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
                         e(Icon, {children: "image"}),  
@@ -527,6 +545,26 @@ function Realize_activity(props){
             e("div", {className: "sx_realize_option"}, [
                 e("label", {htmlFor:"delete_background_image"}, [
                     e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteImage}, 
+                        e(Icon, {children: "cancel"}),  
+                    ),
+                    " ELIMINA IMMAGINE"
+                ]),
+            ]),
+            e("hr", null),
+
+            e("p", null, "IMMAGINE ATTIVITA'"),
+            e("div", {className: "sx_realize_option"}, [
+                e("input", {id: "activity_image", className: classes.hide, name: `${activity.title}_activity`, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addImage}),
+                e("label", {htmlFor:"activity_image"}, [
+                    e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
+                        e(Icon, {children: "image"}),  
+                    ),
+                    " AGGIUNGI IMMAGINE"
+                ]),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e("label", {htmlFor:"delete_activity_image"}, [
+                    e(IconButton, {id: "delete_activity_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteImage}, 
                         e(Icon, {children: "cancel"}),  
                     ),
                     " ELIMINA IMMAGINE"

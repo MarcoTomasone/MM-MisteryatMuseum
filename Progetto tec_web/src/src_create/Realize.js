@@ -94,13 +94,14 @@ function Realize(props){
                     }}, "INFO"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if(step[0] == true){
+                            var newStep = step
+                            newStep[1] = true
+                            setStep(newStep)
                             setPageLoad(e(CreateHomeRealize_player, {
                                 id: "CreateHomeRealize_player", 
                                 className: "CreateHomeRealize_player", 
                                 user: props.user, 
                                 story: story, 
-                                setStory: setStory,
-                                step: step, 
                                 setStep: setStep
                             }))
                         } else {
@@ -109,7 +110,7 @@ function Realize(props){
                         }
                     }},"PLAYER"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        //if (step[1] == true){
+                        if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {
                                 id: "CreateHomeRealize_firstActivity", 
                                 className: "CreateHomeRealize_firstLastActivity", 
@@ -123,10 +124,10 @@ function Realize(props){
                                 title: "Crea l'attività introduttiva alla tua storia",
                                 text: "Inserisci un testo introduttivo alla tua storia, per far immergere al meglio il giocatore"
                             }))
-                        /*} else {
-                            setTextErrorDialog("Prima compila e salva i campi sullo stile del player")
+                        } else {
+                            setTextErrorDialog("Prima controlla lo stile del player")
                             setOpenErrorDialog(true)
-                        }*/
+                        }
                     }}, "ATTIVITA' INTRODUTTIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         //if (step[2] == true){

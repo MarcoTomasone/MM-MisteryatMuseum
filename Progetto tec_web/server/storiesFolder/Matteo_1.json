@@ -28,8 +28,8 @@
     "weightFrame": 1,
     "borderRadiusFrame": 0,
     "textColor": "#ffffff",
-    "textBackgroundColorActived": false,
-    "textBackgroundColor": "#000000",
+    "textBackgroundColorActived": true,
+    "textBackgroundColor": "#808000",
     "fontFamily": "Arial",
     "sizeFont": 14,
     "weightFont": 500,
@@ -45,7 +45,7 @@
       "textColor": "#ffffff"
     },
     "scoreDiv": {
-      "backgroundColor": "#000000",
+      "backgroundColor": "#00ff80",
       "frameColor": "#ffffff",
       "textColor": "#ffffff",
       "height": 20,
@@ -55,7 +55,7 @@
       "borderRadius": 20
     },
     "nextButton": {
-      "backgroundColor": "#000000",
+      "backgroundColor": "#00ff80",
       "frameColor": "#ffffff",
       "textColor": "#ffffff",
       "height": 30,
@@ -65,7 +65,7 @@
       "borderRadius": 20
     },
     "chatButton": {
-      "backgroundColor": "#000000",
+      "backgroundColor": "#00ff80",
       "frameColor": "#ffffff",
       "textColor": "#ffffff",
       "height": 30,
@@ -75,7 +75,7 @@
       "borderRadius": 20
     },
     "helpButton": {
-      "backgroundColor": "#000000",
+      "backgroundColor": "#00ff80",
       "frameColor": "#ffffff",
       "textColor": "#ffffff",
       "height": 30,
@@ -99,6 +99,75 @@
     "activityImage": "Matteo_1_lastActivity_activity.png",
     "correctAnswerGo": []
   },
-  "activities": [],
+  "activities": [
+    {
+      "title": "Prova_1",
+      "heightFrame": 160,
+      "activityText": "Faccio una prova di testo",
+      "backgroundImage": "",
+      "activityImage": "Matteo_1_Prova_1_activity.jpg",
+      "widgetType": "Nessuno",
+      "topInput": 320,
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [],
+      "wrongAnswerGo": [],
+      "activityIsUsed": false,
+      "firstActivity": true
+    },
+    {
+      "title": "Prova_2",
+      "heightFrame": 160,
+      "activityText": "Faccio una seconda prova golosa",
+      "backgroundImage": "",
+      "activityImage": "Matteo_1_Prova_2_activity.jpg",
+      "widgetType": "Nessuno",
+      "topInput": 320,
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [],
+      "wrongAnswerGo": [],
+      "activityIsUsed": false,
+      "firstActivity": true
+    }
+  ],
   "activitiesNotAssigned": []
 }

@@ -7,7 +7,7 @@ import { getDataPlayer, getEvaluations, getHelps, getHistory, getMessages, getPD
 import {appendMessage, isEnter} from '../../utils.js';
 const { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Paper, Button, Dialog, DialogContent, DialogTitle, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
 const e = React.createElement;
-const socket = io('http://localhost:3000', {query: 'type=evaluator'});
+const socket = io('http://localhost:8000', {query: 'type=evaluator'});
 socket.emit('new-evaluator');
 
 const useStyles2 = makeStyles({

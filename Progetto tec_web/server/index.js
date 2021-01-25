@@ -53,7 +53,7 @@ app.get('/downloadBackground/:source',(req,res) =>{
 app.get(`/requestJson/:title`,(req,res)=>{
     let path = `./storiesFolder/${req.params.title}`;
     let data = fs.readFileSync(path);
-    res.send(JSON.parse(data));
+    res.send(data);
 })
 
 /**
@@ -285,10 +285,6 @@ app.delete("/deleteStory/:story", (req, res) => {
     res.end();
 })
 
-//----------------------------------------------------------------CHAT-------------------------------------------------------------------------------------------------------
-const ciao = "Ciao";
-const io = require('socket.io')(3000, {cors: {origin: '*'}});
-require('./modules/socket')(io);
 
 //----------------------------------------------------------------GET STATUS PLAYER-------------------------------------------------------------------------------------------------------
 
@@ -298,6 +294,12 @@ statusPlayers.createRoutes(app);
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 const server = http.createServer(app);
 server.listen(8000, () => console.log('Server listening behind port 8000'));
+const io = require('socket.io')(server, {cors: {origin: '*'}});
+require('./modules/socket')(io);
+
+app.start = app.listen = function(){
+  return server.listen.apply(server, arguments)
+}
 
 
 

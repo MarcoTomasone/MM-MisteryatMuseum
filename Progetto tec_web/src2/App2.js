@@ -9,7 +9,7 @@ const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, 
 //const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
 
 //Chat
-const socket = io('http://localhost:3000', {query: 'type=player'})
+const socket = io('http://localhost:8000', {query: 'type=player'})
 socket.emit('new-player');
 //waiting event
 socket.on('message-from-evaluator', data => {

@@ -21,7 +21,7 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON("Document");
+const temp = readJSON("Document_0");
 const data = JSON.parse(temp);
 data.accessibility.activities.unshift(data.accessibility.firstActivity);
 data.accessibility.activities.push(data.accessibility.lastActivity);
@@ -83,9 +83,9 @@ function App2() {
 
    
     const navbar ={
-        //padding:'5px',
-       // height:'90%',
+        height: "15%"
     };
+
     const btnChat={
         backgroundColor:data.accessibility.player.chatButton.backgroundColor,
         borderRadius:`${data.accessibility.player.chatButton.borderRadius}px`,
@@ -98,6 +98,10 @@ function App2() {
         position:'absolute'
         /*textColor: ''+data.accessibility.player.chatButton.textColor+'',
         position:'relative' */
+    };
+    const pointStyle= {
+        textAlign: "center",
+        fontSize: "40px"
     };
 
     const btnHelp={
@@ -202,11 +206,11 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
  
     return e(React.Fragment, null, [ 
             e("div", {key:"player",id:"player",style:div_a}, [
-                //e("nav",{style:navbar,id:"navPlayer"},
-                e(IconButton, {children: e(Icon, {children: "chat", color: "primary"}), onClick: ()=> {setSlideChat(!slideChat);}}), 
-                e("p", {id: "points"}, "Points:" + points),
-                e(IconButton, {children: e(Icon, {children: "help", color: "primary"}), onClick: ()=> {setSlideHelp(!slideHelp);}}),
-            //)],
+                e("div",{style:navbar,id:"navPlayer"},
+                e("button", {id:"chat-button", style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "Chat" ), 
+                e("p", {id: "points", style: pointStyle}, "Points:" + points),
+                e("button", {id:"help-button", style: btnHelp, onClick: ()=> {if(!slideChat) setSlideHelp(!slideHelp)}}, "Help"),
+            )],
                 
           /*  e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
@@ -238,7 +242,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
                             )
                         ])
             ])})
-        ])
+        )
     ])        
     }
         

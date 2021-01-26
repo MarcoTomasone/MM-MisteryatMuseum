@@ -41,8 +41,9 @@ export const Activity = React.forwardRef((props, ref) => {
         
 
         clearInterval(timer);
-        if(dinamicActivities[counter] === props.json.lastActivity){
-            dinamicActivities.push( props.json.lastActivity);
+        if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
+            dinamicActivities.push( props.json.accessibility.lastActivity);
+            socket.emit('finish', props.playerID);
             postOnServer(props.playerId);
         } else {
             if(counter != 0){
@@ -197,23 +198,6 @@ export const Activity = React.forwardRef((props, ref) => {
             fontFamily:"Helvetica"
     }
 
-   const divBorder = {     //style della div contenente le activity
-    border:'solid',
-    borderColor:'black',
-    
-    fontSize:props.json.player.sizeFont* 2,
-    fontFamily:props.json.player.fontFamily,
-    heightFrame:props.json.activities.heightFrame,
-    
-    //overflow:"scroll",
-    //borderColor: activityStyle.divisor.borderColor,
-    left:`${props.json.player.leftFrame* screen.availWidth /202}px`,
-    width:`${props.json.player.widthFrame* screen.availWidth /202}px`,
-    height:`${props.json.player.heightFrame* screen.availHeight /437}px`,
-    top:`${props.json.player.topFrame* screen.availHeight /437}px`,
-    position:'absolute'
-  
-};
 var divBorderLF;
 //console.log(props.json.player);
 if(dinamicActivities[counter].backgroundImage !== "" ){

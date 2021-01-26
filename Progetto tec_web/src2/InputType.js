@@ -34,7 +34,7 @@ function inputType(props){
     }
 
     inputElement.push(e("input",{
-                                'aria-describedby' : "activitIntro",
+                                'aria-labelledby' : "activitIntro",
                                 type:"text",
                                 id:"textAnswer",
                                 key:"input",
@@ -99,7 +99,7 @@ function inputType(props){
             }
 
             inputElement.push(e("input",{
-                'aria-describedby' : "activitIntro",
+                'aria-labelledby' : "activitIntro",
                 type:"file", 
                 key:"fileUplodad",
                 id:"flUpld",

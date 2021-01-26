@@ -36,8 +36,8 @@ function App2() {
     const [slideHelp, setSlideHelp] = React.useState(false);
     const [slideChat, setSlideChat] = React.useState(false);
     const [id, setID] = React.useState("");
-    const [dialog, setDialog] = React.useState(true);
     const [points, setPoints] = React.useState(0);
+    //const [dialog, setDialog] = React.useState(true);
 
     const sectionRef = React.useRef();
     const helpArray = [];
@@ -206,8 +206,9 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
  
     return e(React.Fragment, null, [ 
             e("div", {key:"player",id:"player",style:div_a}, [
+                e("label", {id: "label-chat", htmlFor: "chat-button"}, "Questa è una descriozione della chat"),
                 e("div",{style:navbar,id:"navPlayer"},
-                e("button", {id:"chat-button", style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "Chat" ), 
+                e("button", {id:"chat-button", 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "Chat" ), 
                 e("p", {id: "points", style: pointStyle}, "Points:" + points),
                 e("button", {id:"help-button", style: btnHelp, onClick: ()=> {if(!slideChat) setSlideHelp(!slideHelp)}}, "Help"),
             )],

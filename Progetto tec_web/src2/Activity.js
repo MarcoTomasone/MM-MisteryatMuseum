@@ -42,6 +42,7 @@ export const Activity = React.forwardRef((props, ref) => {
         clearInterval(timer);
         if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
             dinamicActivities.push( props.json.accessibility.lastActivity);
+            socket.emit('finish', props.playerID);
             postOnServer(props.playerId);
         } else {
             if(counter != 0){
@@ -204,6 +205,7 @@ export const Activity = React.forwardRef((props, ref) => {
     height:`${activityStyle.divisor.height * screen.availHeight /202}px`,
     top:`${activityStyle.divisor.top * screen.availHeight /437}px`,
     position:'absolute',
+    outlined: 0
   
 };
    const divActivity = {     //style della div contenente le activity
@@ -262,7 +264,7 @@ export const Activity = React.forwardRef((props, ref) => {
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero Falso") {
                 // multiple answer || true\false
             return e("div",{key: "activity", id:"activy", style: divActivity},     
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question ,   mediaProp),
+                    dinamicActivities[counter].question ,   mediaProp,
                     e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
         }else { 

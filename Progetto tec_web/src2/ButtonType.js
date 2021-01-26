@@ -10,19 +10,6 @@ const e = React.createElement;
  */
 
 function ButtonType(props){
-    /*const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
-        borderColor:props.json.accessibility.activityStyle.btnNext.borderColor,
-        backgroundColor:props.json.accessibility.activityStyle.btnNext.backgroundColor,
-        borderRadius:`${props.json.accessibility.activityStyle.btnNext.borderRadius}px`,
-        //width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
-        width:"70%",
-        height:`${props.json.accessibility.activityStyle.btnNext.borderRadius * screen.availHeight /202}px`,
-        position:'absolute',
-        bottom:`${props.json.accessibility.activityStyle.btnNext.bottom * screen.availHeight/437}px`,
-        left:`${props.json.accessibility.activityStyle.btnNext.left* screen.availWidth /202}px`,
-       textColor:props.json.accessibility.activityStyle.btnNext.textColor
-
-    }*/
    const a = props.btnNext;
 
     //style's prop of single button [but it 's the same forall]

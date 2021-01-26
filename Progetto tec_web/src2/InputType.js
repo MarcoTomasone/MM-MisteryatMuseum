@@ -77,7 +77,7 @@ function inputType(props){
                 const handleChange = (e) => {
                     setProgess(0)
                     const file = e.target.files[0]; // accesing file
-                    console.log(file);
+                    //console.log(file);
                     setFile(file); // storing file
                 }
                 //send to server an image to evaluation

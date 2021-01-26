@@ -66,7 +66,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         }
                         props.setPoints(props.points + dinamicActivities[counter].fourAnswers[lastAnswer].score);
                         actualPoints = dinamicActivities[counter].fourAnswers[lastAnswer].score;    
-                        console.log(actualPoints);
+                        //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
                     break;
                     case "Vero Falso" :
@@ -81,7 +81,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore); 
                             actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;         
                         }
-                        console.log(actualPoints);
+                        //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, answer, counter, seconds, actualPoints);
                         break;
                     case "range":
@@ -96,7 +96,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore);
                             actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;        
                         }
-                        console.log(actualPoints);
+                       // console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, value, counter, seconds, actualPoints);
                     break;
                     case "text":
@@ -116,7 +116,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore);
                             actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;        
                         }
-                        console.log(actualPoints);
+                        //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
                     break;
                     case "humanText":

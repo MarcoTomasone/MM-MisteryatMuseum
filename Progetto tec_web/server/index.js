@@ -39,7 +39,7 @@ app.post("/check", (req, res) => {
  */
 
 app.get('/downloadImage/:source',(req,res) =>{
-    const mypath = path.join(__dirname, `uploadPlayer/${req.params.source}`);
+    const mypath = path.join(__dirname, `upload/${req.params.source}`);
     const data = fs.readFileSync(mypath);
     res.send(data); 
 })

@@ -16,14 +16,15 @@ let startDate, now, seconds;
  * @param{json:data,  v : activityList , playerId : playerId, socket : socket}
  */
 export const Activity = React.forwardRef((props, ref) => {
-    
+    //console.log(props.json);
     let actualPoints = 0;
     const [counter,setCounter] = React.useState(0);
     var   [img,setImg] = React.useState(0);
+    var [backgroundImg,setBackgroundImg] = React.useState(0);
     const [lastAnswer,setLastAnswer] = React.useState(null);
     const dinamicActivities = props.v;
-    const activities = props.json.accessibility.activities;
-    const activityStyle =  props.json.accessibility.activityStyle;
+    const activities = props.json.activities;
+    const activityStyle =  props.json.activityStyle;
 
     React.useImperativeHandle(ref, (value) => ({
         getSection(){
@@ -40,15 +41,15 @@ export const Activity = React.forwardRef((props, ref) => {
         
 
         clearInterval(timer);
-        if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
-            dinamicActivities.push( props.json.accessibility.lastActivity);
+        if(dinamicActivities[counter] === props.json.lastActivity){
+            dinamicActivities.push( props.json.lastActivity);
             postOnServer(props.playerId);
         } else {
             if(counter != 0){
                 now = new Date();
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
-                    case "":
+                    case "" || "Nessuno":
                         sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
                         dinamicActivities.push(activities[questionIndex + 1]);
                     break;
@@ -120,7 +121,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     case "humanText":
                         props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].question, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter, seconds, 0);
-                        //dinamicActivities.push(props.json.accessibility.lastActivity);
+                        //dinamicActivities.push(props.json.lastActivity);
                     break;
                 }
             }
@@ -148,20 +149,20 @@ export const Activity = React.forwardRef((props, ref) => {
             if(answer === 1){
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
                 document.getElementById("btnTrue").setAttribute("aria-selected", true);
-                document.getElementById("btnFalse").backgroundColor = props.v[counter].btnStyle.bckgrndClr; 
+                document.getElementById("btnFalse").backgroundColor ='white'; 
                 document.getElementById("btnFalse").removeAttribute("aria-selected");
                 
             }else{
                 document.getElementById("btnFalse").backgroundColor = "yellow"; 
                 document.getElementById("btnFalse").setAttribute("aria-selected", true); 
-                document.getElementById("btnTrue").backgroundColor = props.v[counter].btnStyle.bckgrndClr;
+                document.getElementById("btnTrue").backgroundColor = 'white';
                 document.getElementById("btnTrue").removeAttribute("aria-selected"); 
             }
         }
         else{
             const nAnswer = props.v[counter].fourAnswers.lenght;
             for(let i = 0 ; i < nAnswer ;i++){
-                document.getElementById("btn"+i).backgroundColor = props.v[counter].btnStyle.bckgrndClr;
+                document.getElementById("btn"+i).backgroundColor = 'white';
                 document.getElementById("btn"+i).removeAttribute("aria-selected");
             }
             document.getElementById("btn"+answer).backgroundColor="yellow";  
@@ -171,16 +172,17 @@ export const Activity = React.forwardRef((props, ref) => {
     }
 
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
-        borderColor:activityStyle.btnNext.borderColor,
-        backgroundColor:(dinamicActivities[counter] !== props.json.accessibility.lastActivity) ? activityStyle.btnNext.backgroundColor : 'gray',
-        borderRadius:`${activityStyle.btnNext.borderRadius}px`,
-        //width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
-        width:"70%",
-        height:`${activityStyle.btnNext.borderRadius * screen.availHeight /202}px`,
+        //borderColor:props.json.nextButton.borderColor,
+        backgroundColor:(dinamicActivities[counter] !== props.json.lastActivity) ? props.json.player.nextButton.backgroundColor : 'gray',
+        borderRadius:`${props.json.player.nextButton.borderRadius}px`,
+        frameColor:props.json.player.nextButton.frameColor,
+        //width:`${data.player.chatButton.width *screen.availWidth /437}px`,
+        width:`${props.json.player.nextButton.width *screen.availWidth /202}px`,
+        height:`${props.json.player.nextButton.height * screen.availHeight /437}px`,
+        top:`${props.json.player.nextButton.top * screen.availHeight/437}px`,
+        left:`${props.json.player.nextButton.left* screen.availWidth /202}px`,
+        textColor:props.json.player.nextButton.textColor,
         position:'absolute',
-        bottom:`${activityStyle.btnNext.bottom * screen.availHeight/437}px`,
-        left:`${activityStyle.btnNext.left* screen.availWidth /202}px`,
-        textColor:activityStyle.btnNext.textColor
 
     }
     const askNav = {
@@ -196,17 +198,74 @@ export const Activity = React.forwardRef((props, ref) => {
     }
 
    const divBorder = {     //style della div contenente le activity
-    border:activityStyle.divisor.border,
-    overflow:"scroll",
-    borderColor: activityStyle.divisor.borderColor,
-    left:`${activityStyle.divisor.left* screen.availWidth /202}px`,
-    width:`${activityStyle.divisor.width *screen.availWidth /437}px`,
-    height:`${activityStyle.divisor.height * screen.availHeight /202}px`,
-    top:`${activityStyle.divisor.top * screen.availHeight /437}px`,
-    position:'absolute',
+    border:'solid',
+    borderColor:'black',
+    
+    fontSize:props.json.player.sizeFont* 2,
+    fontFamily:props.json.player.fontFamily,
+    heightFrame:props.json.activities.heightFrame,
+    
+    //overflow:"scroll",
+    //borderColor: activityStyle.divisor.borderColor,
+    left:`${props.json.player.leftFrame* screen.availWidth /202}px`,
+    width:`${props.json.player.widthFrame* screen.availWidth /202}px`,
+    height:`${props.json.player.heightFrame* screen.availHeight /437}px`,
+    top:`${props.json.player.topFrame* screen.availHeight /437}px`,
+    position:'absolute'
   
 };
-   const divActivity = {     //style della div contenente le activity
+var divBorderLF;
+//console.log(props.json.player);
+if(dinamicActivities[counter].backgroundImage !== "" ){
+    var base64data;
+   // console.log(dinamicActivities[counter].backgroundImage);
+    axios.get(`http://localhost:8000/downloadBackground/${dinamicActivities[counter].backgroundImage}`, { responseType:"blob" })
+            .then(function (response) {
+            var blob1 = response.data;
+            const blob = new Blob([blob1], { type: 'image/png' });
+            var reader = new window.FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = function() {
+                base64data = reader.result;                
+                setBackgroundImg(backgroundImg = base64data);
+                }
+    });   
+
+    divBorderLF = {
+        overflow:'scroll',
+        border:'solid',
+        borderColor:'black',
+        height : `${dinamicActivities[counter].heightFrame* screen.availHeight / 437}px`,
+        left:`${props.json.player.leftFrame* screen.availWidth /202}px`,
+        width:`${props.json.player.widthFrame* screen.availWidth /202}px`,
+        top:`${props.json.player.topFrame* screen.availHeight /437}px`,
+        backgroundImage: 'url('+backgroundImg+')',
+        overflowX:'hidden',
+        fontSize:props.json.player.sizeFont* 2,
+        fontFamily:props.json.player.fontFamily,
+        borderColor:props.json.player.frameColor
+    }
+
+    
+}else{
+    
+        divBorderLF = {
+            border:'solid',
+            overflow:'scroll',
+            borderColor:'black',
+            backgroundColor:(props.json.player.textBackgroundColorActived)? props.json.player.textBackgroundColor : 'red', 
+            height : `${dinamicActivities[counter].heightFrame* screen.availHeight / 437}px`,
+            left:`${props.json.player.leftFrame* screen.availWidth /202}px`,
+            width:`${props.json.player.widthFrame* screen.availWidth /202}px`,
+            top:`${props.json.player.topFrame* screen.availHeight /437}px`,
+            fontSize:props.json.player.sizeFont* 2,
+            overflowX:'hidden',
+            borderColor:props.json.player.frameColor
+        }
+
+}
+
+const divActivity = {     //style della div contenente le activity
         border:"solid",
         overflow:"scroll",
         borderColor:'red',
@@ -214,14 +273,15 @@ export const Activity = React.forwardRef((props, ref) => {
         height:`100%`,
         //top:`${activityStyle.divisor.top * screen.availHeight /437}px`,
         position:'absolute',
-
     }
+
+    
     let mediaProp = [];
-        if(dinamicActivities[counter].media === "img"){     
+        if(dinamicActivities[counter].activityImage !== ""){     
         // -->  richiesta al server per il media 
         var base64data;
-
-        axios.get(`http://localhost:8000/downloadImage/${dinamicActivities[counter].source}`, { responseType:"blob" })
+            //console.log(dinamicActivities[counter].activityImage);
+        axios.get(`http://localhost:8000/downloadImage/${dinamicActivities[counter].activityImage}`, { responseType:"blob" })
                 .then(function (response) {
                 var blob1 = response.data;
                 const blob = new Blob([blob1], { type: 'image/png' });
@@ -233,11 +293,13 @@ export const Activity = React.forwardRef((props, ref) => {
                     }
         });       
         const mediaStyle = {
-            width:`${dinamicActivities[counter].widthImage  *screen.availWidth /202}px`,
-            height:`${dinamicActivities[counter].heightImage  *screen.availHeight /437}px`,
-            bottom:`${dinamicActivities[counter].topImage  *screen.availHeight /437}px`,
-            left:`${dinamicActivities[counter].leftImage  *screen.availWidth /202}px`,
-            position:'absolute'
+          /*  width:`${props.json.player.image.width  *screen.availWidth /202}px`,
+            height:`${props.json.player.image.height  *screen.availHeight /437}px`,
+            top:`${props.json.player.image.top  *screen.availHeight /437}px`,
+            left:`${props.json.player.image.left  *screen.availWidth /202}px`,
+            */
+           
+           // position:'absolute'
         }
     
     if(img !== 0)
@@ -247,29 +309,27 @@ export const Activity = React.forwardRef((props, ref) => {
     /**per inserire immagini dentro o fuori il divActivity é necessario spostare il vettore mediaProp
      * o come figlio di activityIntro oppure come figlio di activity e impostare i cambiamenti nel json opportuno
      */
-    if (dinamicActivities[counter].widgetType === "" ){   
-        return e("div",{key:"divCont"},
-                e("div",{key: "activity", id:"activy", style: divActivity},    
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question , mediaProp)
-                ),      
-                e("button", {role: "button", key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
-        );
+    if (dinamicActivities[counter].widgetType === "Nessuno" ){   
+        return e("div",null,
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, dinamicActivities[counter].activityText , mediaProp),
+                    e("button", {role: "button", key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
+                );
 
-    } else {
-        const domanda = dinamicActivities[counter].question;
+    }else {
+        //console.log(dinamicActivities[counter]);
+        const domanda = dinamicActivities[counter].activityText;
         const answer = dinamicActivities[counter].fourAnswers;
 
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero Falso") {
-                // multiple answer || true\false
-            return e("div",{key: "activity", id:"activy", style: divActivity},     
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question ,   mediaProp),
+                // fuorAnswers || true\false
+            return e("div",null,     
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,   mediaProp),
                     e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
         }else { 
                 //avaible Input type == 'range' || type=='text' || type=="file"
-            return e("div",{key: "activity", id:"activy", style: divActivity},    
-                    
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].question,mediaProp),
+            return e("div",null ,             
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,mediaProp),
                     e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId}
                 ));
     }

@@ -19,7 +19,7 @@
   "ageStart": 0,
   "ageEnd": 100,
   "player": {
-    "background": "#000000",
+    "background": "#fff000",
     "backgroundImageUrl": "",
     "frameColor": "#ffffff",
     "topFrame": 80,

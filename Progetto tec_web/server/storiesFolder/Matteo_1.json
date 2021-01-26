@@ -29,7 +29,7 @@
     "borderRadiusFrame": 0,
     "textColor": "#ffffff",
     "textBackgroundColorActived": true,
-    "textBackgroundColor": "#808000",
+    "textBackgroundColor": "#f0f0f0",
     "fontFamily": "Arial",
     "sizeFont": 14,
     "weightFont": 500,
@@ -87,17 +87,19 @@
   },
   "firstActivity": {
     "heightFrame": 160,
-    "text": "Sto facendo una prova un po strana",
-    "backgroundImage": "Matteo_1_firstActivity_background.jpeg",
-    "activityImage": "Matteo_1_firstActivity_activity.png",
-    "correctAnswerGo": []
+    "activityText": "Sto facendo una prova un po strana",
+    "backgroundImage": "",
+    "activityImage": "",
+    "correctAnswerGo": [],
+    "widgetType":"Nessuno"
   },
   "lastActivity": {
     "heightFrame": 160,
-    "text": "Sto facendo una prova un po gustosa",
+    "activityText": "Sto facendo una prova un po gustosa",
     "backgroundImage": "",
     "activityImage": "Matteo_1_lastActivity_activity.png",
-    "correctAnswerGo": []
+    "correctAnswerGo": [],
+    "widgetType":"Nessuno"
   },
   "activities": [
     {
@@ -105,14 +107,14 @@
       "heightFrame": 160,
       "activityText": "Faccio una prova di testo",
       "backgroundImage": "",
-      "activityImage": "Matteo_1_Prova_1_activity.jpg",
-      "widgetType": "Nessuno",
-      "topInput": 320,
+      "activityImage": "pikachu.png",
+      "widgetType": "Quattro opzioni",
+      "topInput": 270,
       "leftInput": 15,
-      "heightInput": 60,
+      "heightInput": 55,
       "widthInput": 170,
       "errorMessage": "",
-      "fourAnswers": [],
+      "fourAnswers": [{"text":"test1","score":3},{"text":"test2","score":0},{"text":"test3","score":1},{"text":"test4","score":-1}],
       "multipleAnswers": [],
       "trueFalseAnswer": {
         "trueScore": 0,

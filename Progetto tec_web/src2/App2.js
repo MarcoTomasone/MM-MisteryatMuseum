@@ -21,14 +21,14 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON("Document_0");
+const temp = readJSON("Matteo_1");
 const data = JSON.parse(temp);
-data.accessibility.activities.unshift(data.accessibility.firstActivity);
-data.accessibility.activities.push(data.accessibility.lastActivity);
-
+data.activities.unshift(data.firstActivity);
+data.activities.push(data.lastActivity);
+console.log(data);
 let activityList = [];
-activityList.push(data.accessibility.activities[0]);
-activityList.push(data.accessibility.activities[1]);
+activityList.push(data.activities[0]);
+activityList.push(data.activities[1]);
 //console.log(activityList);
 
 function App2() {
@@ -70,8 +70,8 @@ function App2() {
     
     //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
     var dictionaryActivity =new Map;
-    for(let i = 0;i<data.accessibility.activities.length;i++){
-        dictionaryActivity.set( data.accessibility.activities[i].title , i);
+    for(let i = 0;i<data.activities.length;i++){
+        dictionaryActivity.set( data.activities[i].title , i);
     }
     //console.log(dictionaryActivity);
 
@@ -87,39 +87,51 @@ function App2() {
     };
 
     const btnChat={
-        backgroundColor:data.accessibility.player.chatButton.backgroundColor,
-        borderRadius:`${data.accessibility.player.chatButton.borderRadius}px`,
+        backgroundColor:data. player.chatButton.backgroundColor,
+        borderRadius:`${data.player.chatButton.borderRadius}px`,
+        frameColor:data.player.chatButton.frameColor,
         textAlign:'center',
-        width:`${data.accessibility.player.chatButton.width *screen.availWidth /437}px`,
-        height:`${data.accessibility.player.chatButton.borderRadius * screen.availHeight /202}px`,
-        top:`${data.accessibility.player.chatButton.top * screen.availHeight/437}px`,
-        left:`${data.accessibility.player.chatButton.left * screen.availWidth /202}px`,
-        //borderColor:data.accessibility.player.chatButton.borderColor,
+        width:`${data.player.chatButton.width *screen.availWidth /202}px`,
+        height:`${data.player.chatButton.height* screen.availHeight /437}px`,
+        top:`${data.player.chatButton.top * screen.availHeight/437}px`,
+        left:`${data.player.chatButton.left * screen.availWidth /202}px`,
+        //borderColor:data.player.chatButton.borderColor,
         position:'absolute'
-        /*textColor: ''+data.accessibility.player.chatButton.textColor+'',
+        /*textColor: ''+data.player.chatButton.textColor+'',
         position:'relative' */
     };
     const pointStyle= {
+        position:'absolute',
         textAlign: "center",
-        fontSize: "40px"
+        fontSize: "40px",
+        backgroundColor:data.player.scoreDiv.backgroundColor,
+        frameColor:data.player.frameColor,
+        borderRadius:data.player.borderRadius,
+        textColor:data.player.scoreDiv.textColor,
+        height:`${data.player.scoreDiv.height * screen.availHeight/437}px`,
+        width:`${data.player.scoreDiv.width * screen.availWidth/202}px`,
+        top:`${data.player.scoreDiv.top * screen.availHeight/437}px`,
+        left:`${data.player.scoreDiv.left * screen.availWidth/202}px`
     };
 
     const btnHelp={
-        backgroundColor:data.accessibility.player.helpButton.backgroundColor,
-        //borderColor:data.accessibility.player.borderColor,
-        borderRadius:`${data.accessibility.player.helpButton.borderRadius}px`,
+        backgroundColor:data.player.helpButton.backgroundColor,
+        borderRadius:`${data.player.helpButton.borderRadius}px`,
+        frameColor:data.player.helpButton.frameColor,
+        textColor:data.player.helpButton.textColor,
         textAlign:'center',
-        width:`${data.accessibility.player.helpButton.width *screen.availWidth /437}px`,
-        height:`${data.accessibility.player.helpButton.borderRadius * screen.availHeight /202}px`,
-        top:`${data.accessibility.player.helpButton.top * screen.availHeight /437}px`,
-        left:`${data.accessibility.player.helpButton.left * screen.availWidth /202}px`,
+        width:`${data.player.helpButton.width *screen.availWidth /202}px`,
+        height:`${data.player.helpButton.height* screen.availHeight /437}px`,
+        top:`${data.player.helpButton.top * screen.availHeight/437}px`,
+        left:`${data.player.helpButton.left * screen.availWidth /202}px`,
+        //borderColor:data.player.chatButton.borderColor,
         position:'absolute'
-    };
+};
 
-if(data.accessibility.player.backgroundImageCheck ==="true"){
+if(data.player.backgroundImageUrl !== ""){
     var base64data;
     
-    axios.get(`http://localhost:8000/downloadBackground/${data.accessibility.player.backgroundImageUrl}`, { responseType:"blob" })
+    axios.get(`http://localhost:8000/downloadBackground/${data.player.backgroundImage}`, { responseType:"blob" })
             .then(function (response) {
             var blob1 = response.data;
             const blob = new Blob([blob1], { type: 'image/png' });
@@ -132,32 +144,49 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
     });      
 
     var div_a = {      //style della div contenente le activity
-        border:data.accessibility.activityStyle.divisor.border,
+        // border:data.activityStyle.divisor.border,
+        //overflow:"auto",
+         //borderColor: data.activityStyle.divisor.borderColor,
+         //position:'absolute',
+        backgroundImage: 'url('+backgroundImg+')',
+        //thicknessFrame:`${data.player.weightFont}px`,
+        topFrame:`${data.player.topFrame * screen.availHeight/437}vh`,
+        frameColor : data.player.frameColor,
+        leftFrame:`${data.player.leftFrame* screen.availHeight/202}`,
+        widthFrame: `${data.player.widthFrame * screen.availWidth/202}vh`,
+        weightFrame:`${data.player.weightFrame* screen.availHeight/437}vh`,
+        weightFont:`${data.player.weightFont}vh`,
+     };
+    /*
+    var div_a = {      //style della div contenente le activity
+        border:data.activityStyle.divisor.border,
         overflow:"scroll",
-        borderColor: data.accessibility.activityStyle.divisor.borderColor,
+        borderColor: data.activityStyle.divisor.borderColor,
         position:'absolute',
         backgroundImage : 'url('+backgroundImg+')',
         backgroundSize: 'auto',
         backgroundRepeat: 'repeat',
-        thicknessFrame:`${data.accessibility.player.weightFont}px`,
-        topFrame:`${data.accessibility.player.topFrame  * screen.availHeight/437}px`,
-        weightFont:`${data.accessibility.player.weightFont}px`,
-        widthFrame: `${data.accessibility.player.widthFrame * screen.availHeight/202}px`
+        thicknessFrame:`${data.player.weightFont}vh`,
+        topFrame:`${data.player.topFrame  * screen.availHeight/437}vh`,
+        weightFont:`${data.player.weightFont}vh`,
+        widthFrame: `${data.player.widthFrame * screen.availHeight/202}vh`
         
     };
-   
+    */
 }else{
     var div_a = {      //style della div contenente le activity
-        border:data.accessibility.activityStyle.divisor.border,
-        overflow:"auto",
-        borderColor: data.accessibility.activityStyle.divisor.borderColor,
-        position:'absolute',
-        background: data.accessibility.player.background,
-        thicknessFrame:`${data.accessibility.player.weightFont}px`,
-        topFrame:`${data.accessibility.player.topFrame}px`,
-        weightFont:`${data.accessibility.player.weightFont}px`,
-        widthFrame: `${data.accessibility.player.widthFrame}px`
-        
+       // border:data.activityStyle.divisor.border,
+        //overflow:"auto",
+        //borderColor: data.activityStyle.divisor.borderColor,
+        //position:'absolute',
+        background: data.player.background,
+        //thicknessFrame:`${data.player.weightFont}vh`,
+        topFrame:`${data.player.topFrame* screen.availHeight/437}vh`,
+        frameColor : data.player.frameColor,
+        leftFrame:`${data.player.leftFrame* screen.availWidth/202}vh`,
+        widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
+        //weightFrame:`${data.player.weightFrame * screen.availHeight/437}vh`,
+        weightFont:`${data.player.weightFont}vh`,
     };
 }
 
@@ -208,7 +237,7 @@ if(data.accessibility.player.backgroundImageCheck ==="true"){
             e("div", {key:"player",id:"player",style:div_a}, [
                 e("div",{style:navbar,id:"navPlayer"},
                 e("button", {id:"chat-button", style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "Chat" ), 
-                e("p", {id: "points", style: pointStyle}, "Points:" + points),
+                e("div", {id: "points", style: pointStyle}, "Points:" + points),
                 e("button", {id:"help-button", style: btnHelp, onClick: ()=> {if(!slideChat) setSlideHelp(!slideHelp)}}, "Help"),
             )],
                 

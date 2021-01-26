@@ -11,38 +11,19 @@ const e = React.createElement;
 function inputType(props){
 
     let inputElement = [];
-    const stylB = {
-        width:`${(props.v[props.counter].widthInput - 70  )*screen.availWidth /202}px`,
-        height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-        marginBottom:`${(props.v[props.counter].bottomInput - 20) *screen.availHeight /437}px`,
-        marginLeft:`${(props.v[props.counter].leftInput +40) *screen.availWidth /202}px`,
-        position:'absolute'
-        
-    };
+
     const inputGroup = {
         border: "solid",
         borderColor: "green",
         position:'absolute',
-        marginTop:"450px",
-        left:`57px`,
-        width:`273px`,
-        height:`70px`,
-        left:'50px',
-        //top:`20px`,
-        marginBottom:"50%"
+        width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
+        height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
+        marginLeft:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
+        marginRight:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
+        marginTop:`${props.v[props.counter].topInput  *screen.availHeight /437}px`,
+        marginBottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
     }
 
-    const divActivity = {      //style della div contenente le activity
-        border:props.json.accessibility.activityStyle.divisor.border,
-        overflow:"scroll",
-        borderColor: props.json.accessibility.activityStyle.divisor.borderColor,
-        left:`${props.json.accessibility.activityStyle.divisor.left* screen.availWidth /202}px`,
-        width:`${props.json.accessibility.activityStyle.divisor.width *screen.availWidth /437}px`,
-        height:`${props.json.accessibility.activityStyle.divisor.height * screen.availHeight /202}px`,
-        top:`${props.json.accessibility.activityStyle.divisor.top * screen.availHeight /437}px`,
-        position:'absolute',
-      
-    };
     if(props.v[props.counter].widgetType === "text" || props.v[props.counter].widgetType === "humanText"){        
     const styl = {
             width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,

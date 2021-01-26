@@ -24,51 +24,31 @@ function ButtonType(props){
 
     }*/
    const a = props.btnNext;
-    const divActivity = {      //style della div contenente le activity
-        border:props.json.accessibility.activityStyle.divisor.border,
-        overflow:"scroll",
-        borderColor: props.json.accessibility.activityStyle.divisor.borderColor,
-        left:`${props.json.accessibility.activityStyle.divisor.left* screen.availWidth /202}px`,
-        width:`${props.json.accessibility.activityStyle.divisor.width *screen.availWidth /437}px`,
-        height:`${props.json.accessibility.activityStyle.divisor.height * screen.availHeight /202}px`,
-        top:`${props.json.accessibility.activityStyle.divisor.top * screen.availHeight /437}px`,
-        position:'absolute',
-      
-    };
 
     //style's prop of single button [but it 's the same forall]
     const buttProp = {
-        backgroundColor:props.v[props.counter].btnStyle.bckgrndClr,
-        width:`${props.v[props.counter].btnStyle.width  *screen.availWidth /202}px`,
-        height:`${props.v[props.counter].btnStyle.height  *screen.availHeight /437}px`,
-        marginLeft:`${props.v[props.counter].btnStyle.marginLeft *screen.availWidth /202}px`,
-        marginRight:`${props.v[props.counter].btnStyle.marginRight  *screen.availHeight /437}px`,
-        marginTop:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`,
-        borderRadius:`${props.v[props.counter].btnStyle.borderRadius}px`,
-        marginBottom:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`
+        backgroundColor:'white',
+        textColor:'black',
+        height:'50%',
+        width:'50%'
     };
 
     const buttonGroup = {
         border: "solid",
         borderColor: "green",
         position:'absolute',
-        marginTop:"65vh",
-        left:`57px`,
-        width:`273px`,
-        height:`70px`,
-        left:'50px',
-        //top:`20px`,
-        marginBottom:"50%"
+        width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
+        height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
+        marginLeft:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
+        marginRight:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
+        marginTop:`${props.v[props.counter].topInput  *screen.availHeight /437}px`,
+        marginBottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
     }
        const buttSelect = {
         backgroundColor:'yellow',
-        width:`${props.v[props.counter].btnStyle.width  *screen.availWidth /202}px`,
-        height:`${props.v[props.counter].btnStyle.height  *screen.availHeight /437}px`,
-        marginLeft:`${props.v[props.counter].btnStyle.marginLeft *screen.availWidth /202}px`,
-        marginRight:`${props.v[props.counter].btnStyle.marginRight  *screen.availHeight /437}px`,
-        marginTop:`${props.v[props.counter].btnStyle.marginTop  *screen.availHeight /437}px`,
-        borderRadius:`${props.v[props.counter].btnStyle.borderRadius}px`,
-                        
+        textColor:'white',
+        height:'50%',
+        width:'50%'                
        };
     
         const ListButtonAnswer = [];     //Array that contains every button
@@ -88,13 +68,14 @@ function ButtonType(props){
                 onClick: () =>props.checkButton(0)
             },"FALSE"));
         }else{
+            //console.log(props.answer)
             for (let i = 0; i < props.answer.length; i++) {      
                     ListButtonAnswer.push(e("button", {
                         role: "button", 
                         key:"Btn"+ i,
                         style: (i != props.lastAnswer)? buttProp:buttSelect,
                         id:"btn"+ i,
-                        alt:"bottone : "+props.answer[i], 
+                        alt:"bottone : "+props.answer[i].text, 
                         onClick: () => props.checkButton(i)
                     }, props.answer[i].text));
             }

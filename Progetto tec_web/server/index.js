@@ -12,11 +12,15 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(upload());
+app.use (express.static(path.join(__dirname,'../')));
 
 let directory = "storiesFolder";
 let dirBuf = Buffer.from(directory);
 var array = []
 
+app.get('/', (_, res) => {
+    res.sendFile(path.join(__dirname, '../', 'index.html'));
+});
 
 app.post("/check", (req, res) => {
     var pathName = "Empty.png"
@@ -35,8 +39,8 @@ app.post("/check", (req, res) => {
  */
 
 app.get('/downloadImage/:source',(req,res) =>{
-    let path = './uploadPlayer/'+req.params.source;
-    let data = fs.readFileSync(path);
+    const mypath = path.join(__dirname, `uploadPlayer/${req.params.source}`);
+    const data = fs.readFileSync(mypath);
     res.send(data); 
 })
 
@@ -45,16 +49,17 @@ app.get('/downloadImage/:source',(req,res) =>{
 */
       
 app.get('/downloadBackground/:source',(req,res) =>{
-        let path = "./upload/"+req.params.source;
-        let data = fs.readFileSync(path);
+        const mypath = path.join(__dirname, `upload/${req.params.source}`);
+        const data = fs.readFileSync(mypath);
         res.send(data);
 })
 
 app.get(`/requestJson/:title`,(req,res)=>{
-    let path = `./storiesFolder/${req.params.title}`;
-    let data = fs.readFileSync(path);
-    res.send(data);
+    const mypath = path.join(__dirname, `storiesFolder/${req.params.title}`);
+    const data = fs.readFileSync(mypath);
+    res.send(JSON.parse(data));
 })
+
 
 /**
  * Funzione che dal player manda un immagine al valutatore
@@ -62,13 +67,13 @@ app.get(`/requestJson/:title`,(req,res)=>{
  */
 
 app.post('/uploadImg', (req, res) => {
-
     if (!req.files) {
         return res.status(500).send({ msg: "file is not found" })
     }
     const myFile = req.files.file;
     //  mv() method places the file inside public directory
-    myFile.mv(`${__dirname}/uploadPlayer/${myFile.name}`, function (err) {
+    const mypath = path.join(__dirname, `uploadPlayer/${myFile.name}`);
+    myFile.mv(mypath, function (err) {
         if (err) {
             console.log(err)
             return res.status(500).send({ msg: "Error occured" });
@@ -293,13 +298,10 @@ statusPlayers.createRoutes(app);
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 const server = http.createServer(app);
-server.listen(8000, () => console.log('Server listening behind port 8000'));
 const io = require('socket.io')(server, {cors: {origin: '*'}});
 require('./modules/socket')(io);
 
-app.start = app.listen = function(){
-  return server.listen.apply(server, arguments)
-}
+server.listen(8000, () => console.log('Server listening behind port 8000'));
 
 
 

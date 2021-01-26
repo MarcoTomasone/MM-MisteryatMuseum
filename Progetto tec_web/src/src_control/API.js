@@ -41,6 +41,11 @@ export async function getPDF(player, story) {
     saveAs(blob, `${player}.pdf`);
 }
 
+/**
+ * 
+ * @param {*} player 
+ * @param {*} story 
+ */
 export async function getHistory(player, story) {
     const response = await axios.get('http://localhost:8000/history', { params: { player, story} });
     return response.data;
@@ -94,4 +99,8 @@ export async function getEvaluations() {
 
 export async function setName(player, story, name) {
     await axios.post('http://localhost:8000/setName', { params: { player, story, name } });
+}
+
+export async function deletePlayer(player, story) {
+    await axios.post('http://localhost:8000/deletePlayer', { data: { player, story } });
 }

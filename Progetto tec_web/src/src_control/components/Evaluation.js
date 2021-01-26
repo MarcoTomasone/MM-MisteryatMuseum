@@ -4,7 +4,7 @@ const { Card, CardContent, TextField, Icon, IconButton } = MaterialUI;
 const e = React.createElement;
 
 export default function Help(props) {
-    const answer = props.type == 'image' ? e("img", {src: props.answer, style: { maxHeight: "50%", maxWidth: "50%"}}) : props.answer;
+    const answer = props.type == 'image' ? e("img", {src: props.answer, style: { maxHeight: "50%", maxWidth: "50%", marginLeft: "25%", marginRight: "25%"}}) : props.answer;
 
     const onValued = () => {
         const points = document.getElementById("valuation" + props.id).value;
@@ -24,7 +24,7 @@ export default function Help(props) {
     }
     
     return(
-        e(Card, {style: {backgroundColor: "#a1aba4"}}, [
+        e(Card, {style: {backgroundColor: "#a1aba4", marginBottom: 20}}, [
             (CardContent, null, [
                 e("b", null, `Section ${props.section}`), e("br"), e("b", null, `Question: `), props.question,
                 e("div", {style: {height: "auto", width: "80%"}}, [ e("b", null, `Answer: `), e("br"), answer ]),

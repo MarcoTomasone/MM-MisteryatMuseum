@@ -3,7 +3,7 @@ import Help from './components/Help.js';
 import Evaluation from './components/Evaluation.js';
 import { MyDialog } from './components/MyDialog.js';
 import { CardPlayer } from './components/CardPlayer.js';
-import { getDataPlayer, getEvaluations, getHelps, getHistory, getMessages, getPDF } from './API.js';
+import { deletePlayer, getDataPlayer, getEvaluations, getHelps, getHistory, getMessages, getPDF } from './API.js';
 import {appendMessage, isEnter} from '../../utils.js';
 const { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Paper, Button, Dialog, DialogContent, DialogTitle, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
 const e = React.createElement;
@@ -55,13 +55,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Control(props){
     //States
     const [arrayPlayers, setArrayPlayers] =  React.useState([]);
+    const [allPlayers, setAllPlayers] = React.useState({});
     const [arrived, setArrived] = React.useState({}); //con anche un array di messaggi
     const [arrayHelps, setArrayHelps] = React.useState({});
     const [arrayEvaluations, setArrayEvaluations] = React.useState({});
     const [ranking, setRanking] = React.useState([]);
     const [rows, setRows] = React.useState([]);
     const [value, setValue] = React.useState(0);
-    const [update, setUpdate] = React.useState(0);
     const [ID, setID] = React.useState("");
     const cardsRef = React.useRef({}); //ref of the cards used for call the cards's functions
     const dialogRef = React.useRef({});
@@ -203,6 +203,7 @@ export default function Control(props){
     const uploadCard = (arrayOfPlayers) => {
         const arrayOfCards = [];
         const newRanking = [];
+        const players = _.cloneDeep(allPlayers);
         const tmp = _.cloneDeep(arrived);
         for(let key in arrayOfPlayers){
             arrayOfCards.push(e(CardPlayer, {
@@ -220,14 +221,17 @@ export default function Control(props){
             }))
             newRanking.push({id: key, name: arrayOfPlayers[key].name, points: arrayOfPlayers[key].points});
             !(key in tmp) ? tmp[key] = false : null;
+            !(key in players) ? players[key] = { id: key, finished: false } : null;
             if(cardsRef.current[key]) {
                 if(arrayOfPlayers[key].timer > 60)
                     cardsRef.current[key].handleTimer("secondary");
                 else
                     cardsRef.current[key].handleTimer("primary");
             }
+  
         }
         !(_.isEqual(tmp, arrived)) ? setArrived(tmp) : null;
+        !(_.isEqual(players, allPlayers)) ? setAllPlayers(players) : null;
         setArrayPlayers(arrayOfCards);
         notifyHelp();
         notifyEvaluation();
@@ -278,6 +282,14 @@ export default function Control(props){
             tmp[player].push(e(Evaluation, { id, player, question, answer, type, socket, story, section, setArrayEvaluations, arrayEvaluations: tmp }));            
             setArrayEvaluations(tmp);
         });
+        socket.on('finish-player', data => {
+            const player = data.player;
+            if(arrayEvaluations[player].length == 0) {
+                const players = _.cloneDeep(allPlayers);
+                players[player].finished = true;
+                (async() => { await deletePlayer(player, story) })();
+            }
+        })
         socket.on('update-status', data => {
             (async () => {
                 const players = await getDataPlayer(story);
@@ -288,6 +300,7 @@ export default function Control(props){
             socket.off('message-from-player');
             socket.off('help-from-player');
             socket.off('answer-from-player');
+            socket.off('finish-player');
             socket.off('update-status');
         }       
     }, [arrived, arrayEvaluations, arrayHelps]);
@@ -351,9 +364,9 @@ export default function Control(props){
                 e(Select, {labelId: "info-label", value: ID, style: {width: 200, marginBottom: 20, marginLeft: 20}, onChange: (event) => {setID(event.target.value); createRows(event.target.value)}, children: [ 
                     (() => {
                         const players = [];
-                        arrayPlayers.forEach((item) => {
-                            players.push(e(MenuItem, {value: item.key, children: [ item.key ]}));
-                        })
+                        for(const player in allPlayers) {
+                            players.push(e(MenuItem, {value: player, children: [ player, allPlayers[player].finished ? "Finished" : null ]}));
+                        }
                         return players;
                     })()
                 ]}),
@@ -380,7 +393,7 @@ export default function Control(props){
                             )))]})
                     ]})
                 ]}),
-                ID !== "" && e(Button, {size: "large", variant: "contained", onClick: async() => {await getPDF(ID, story)}}, "Download"),
+                ID !== "" && e(Button, {size: "large", variant: "contained", onClick: async() => { await getPDF(ID, story)}}, "Download" ),
                 //e(MyDialog, {key: "dialog", story: story, ref: dialogRef}),
             ] })
         ])

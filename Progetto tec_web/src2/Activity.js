@@ -41,8 +41,8 @@ export const Activity = React.forwardRef((props, ref) => {
         
 
         clearInterval(timer);
-        if(dinamicActivities[counter] === props.json.accessibility.lastActivity){
-            dinamicActivities.push( props.json.accessibility.lastActivity);
+        if(dinamicActivities[counter] === props.json.lastActivity){
+            dinamicActivities.push( props.json.lastActivity);
             socket.emit('finish', props.playerID);
             postOnServer(props.playerId);
         } else {
@@ -82,7 +82,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;         
                         }
                         console.log(actualPoints);
-                        sendData(props.playerId, activities[questionIndex].question, answer, counter, seconds, actualPoints);
+                        sendData(props.playerId, activities[questionIndex].activityText, answer, counter, seconds, actualPoints);
                         break;
                     case "range":
                         let value = document.getElementById("rangenpt").value;  
@@ -216,7 +216,7 @@ if(dinamicActivities[counter].backgroundImage !== "" ){
     });   
 
     divBorderLF = {
-        overflow:'scroll',
+        overflowY:'scroll',
         border:'solid',
         borderColor:'black',
         height : `${dinamicActivities[counter].heightFrame* screen.availHeight / 437}px`,

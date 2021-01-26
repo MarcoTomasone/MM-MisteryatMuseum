@@ -152,10 +152,10 @@ if(data.player.backgroundImageUrl !== ""){
         //thicknessFrame:`${data.player.weightFont}px`,
         topFrame:`${data.player.topFrame * screen.availHeight/437}vh`,
         frameColor : data.player.frameColor,
-        leftFrame:`${data.player.leftFrame* screen.availHeight/202}`,
+        leftFrame:`${data.player.leftFrame* screen.availHeight/202}vh`,
         widthFrame: `${data.player.widthFrame * screen.availWidth/202}vh`,
         weightFrame:`${data.player.weightFrame* screen.availHeight/437}vh`,
-        weightFont:`${data.player.weightFont}vh`,
+        weightFont:`${data.player.weightFont}px`,
      };
     /*
     var div_a = {      //style della div contenente le activity
@@ -186,7 +186,7 @@ if(data.player.backgroundImageUrl !== ""){
         leftFrame:`${data.player.leftFrame* screen.availWidth/202}vh`,
         widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
         //weightFrame:`${data.player.weightFrame * screen.availHeight/437}vh`,
-        weightFont:`${data.player.weightFont}vh`,
+        weightFont:`${data.player.weightFont}px`,
     };
 }
 

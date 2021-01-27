@@ -216,6 +216,7 @@ module.exports = {
             const id = req.body.id;
             const story = req.body.story;
             const path = `./statusFiles/`;
+            storiesActive[story][id].finished = true;
             const file = path + req.body.id + ".json"
             if (!fs.existsSync(path))
                 fs.mkdirSync(path);

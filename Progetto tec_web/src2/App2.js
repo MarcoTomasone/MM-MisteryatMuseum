@@ -25,7 +25,7 @@ const temp = readJSON("Matteo_6");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
-console.log(data);
+
 let activityList = [];
 activityList.push(data.activities[0]);
 activityList.push(data.activities[1]);

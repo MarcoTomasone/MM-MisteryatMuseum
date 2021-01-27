@@ -1,8 +1,8 @@
 const e = React.createElement;
+const {Button} = MaterialUI;  
 import Card from "../src_create/Card.js"
 
 function SelectHome(){
-    const {Button} = MaterialUI;  
     const [arrayPrivateStories, setArrayPrivateStories] =  React.useState([]);
     const [storySelected, setStorySelected] =  React.useState("");
     var arrayOfStories = []
@@ -10,16 +10,10 @@ function SelectHome(){
     function generateQRCode() {
         var qr;
         var story = storySelected.split(".")[0]
-            qr = new QRious({
+        qr = new QRious({
             element: document.getElementById('qr-code'),
             size: 200,
             value: `http://127.0.0.1:5500/src2/index2.html?story=${story}`
-        });
-        var qrtext = document.getElementById("qr-text").value;
-        qr.set({
-            foreground: 'black',
-            size: 200,
-            value: qrtext
         });
     }
 
@@ -29,8 +23,8 @@ function SelectHome(){
             response.data.forEach((element) => {
                 arrayOfStories.push(
                     e(Card, {
-                        storySelected: storySelected,
                         setStorySelected: setStorySelected,
+                        background: element.background,
                         id: element.id,
                         title: element.title, 
                         gender: element.gender,
@@ -44,9 +38,10 @@ function SelectHome(){
                 )
                 setArrayPrivateStories(arrayOfStories)
             })
-        })
+        }).then(console.log())
         .catch((error) => console.log(error));
     }, [])
+    
 
 
     return e("div", {className: "containerHome"}, [

@@ -73,7 +73,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
                     break;
-                    case "Vero falso" :
+                    case "Vero o falso" :
                         let answer = lastAnswer ? "Vero" : "Falso";
                         if(dinamicActivities[counter].correct === answer){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
@@ -150,7 +150,7 @@ export const Activity = React.forwardRef((props, ref) => {
     }
     
     function checkButton(answer){  
-        if(props.v[counter].widgetType ==="Vero falso"){    
+        if(props.v[counter].widgetType ==="Vero o falso"){    
             if(answer === 1){
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
                 document.getElementById("btnTrue").setAttribute("aria-selected", true);
@@ -179,6 +179,8 @@ export const Activity = React.forwardRef((props, ref) => {
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
         //borderColor:props.json.nextButton.borderColor,
         display:(dinamicActivities[counter] === props.json.lastActivity)? 'None' : 'block',
+        fontSize:`1.2em`,
+        fontFamily:props.json.player.fontFamily,
         backgroundColor:(dinamicActivities[counter] !== props.json.lastActivity) ? props.json.player.nextButton.backgroundColor : 'gray',
         borderRadius:`${props.json.player.nextButton.borderRadius}px`,
         borderColor:props.json.player.nextButton.frameColor,
@@ -209,6 +211,7 @@ export const Activity = React.forwardRef((props, ref) => {
     const divBorderLF = {
             border:'solid',
             overflowY:'scroll',
+            fontFamily: props.json.player.fontFamily,
             borderColor:props.json.player.frameColor,
             background:(props.json.player.textBackgroundColorActived)? props.json.player.textBackgroundColor : 'repeat', 
             //sbackground:'repeat',
@@ -240,6 +243,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     }
         });       
         const mediaStyle = {
+            width:'100%'
           /*  width:`${props.json.player.image.width  *screen.availWidth /202}px`,
             height:`${props.json.player.image.height  *screen.availHeight /437}px`,
             top:`${props.json.player.image.top  *screen.availHeight /437}px`,
@@ -268,7 +272,7 @@ export const Activity = React.forwardRef((props, ref) => {
         const domanda = dinamicActivities[counter].activityText;
         const answer = dinamicActivities[counter].fourAnswers;
 
-        if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero falso") {
+        if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero o falso") {
                 // fuorAnswers || true\false
             return e("div",null,     
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,   mediaProp),

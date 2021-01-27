@@ -93,6 +93,8 @@ function App2() {
         backgroundColor:data. player.chatButton.backgroundColor,
         borderRadius:`${data.player.chatButton.borderRadius}px`,
         frameColor:data.player.chatButton.frameColor,
+        fontSize:`1.2em`,
+        fontFamily:data.player.fontFamily,
         textAlign:'center',
         width:`${data.player.chatButton.width *screen.availWidth /202}px`,
         height:`${data.player.chatButton.height* screen.availHeight /437}px`,
@@ -104,9 +106,10 @@ function App2() {
     };
     
     const pointStyle= {
+        fontSize:`1.2em`,
+        fontFamily:data.player.fontFamily,
         position:'absolute',
         textAlign: "center",
-        fontSize:data.player.sizeFont * 2,
         color:data.player.scoreDiv.textColor,
         backgroundColor:data.player.scoreDiv.backgroundColor,
         border:'solid',
@@ -119,6 +122,8 @@ function App2() {
     };
 
     const btnHelp={
+        fontSize:`1.2em`,
+        fontFamily:data.player.fontFamily,
         color:data.player.helpButton.backgroundColor,
         borderRadius:`${data.player.helpButton.borderRadius}px`,
         frameColor:data.player.helpButton.frameColor,
@@ -170,6 +175,7 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         widthFrame: `${data.player.widthFrame * screen.availWidth/202}vh`,
         weightFrame:`${data.player.weightFrame* screen.availHeight/437}vh`,
         weightFont:`${data.player.weightFont}px`,
+        textAlign:'center'
      };
 
 }else{

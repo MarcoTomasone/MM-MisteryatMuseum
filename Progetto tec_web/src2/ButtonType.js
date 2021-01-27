@@ -39,7 +39,7 @@ function ButtonType(props){
        };
     
         const ListButtonAnswer = [];     //Array that contains every button
-        if(props.v[props.counter].widgetType === "Vero Falso"){
+        if(props.v[props.counter].widgetType === "Vero o falso"){
             ListButtonAnswer.push(e("button", {
                 key:"BtnTrue",
                 style:(props.lastAnswer===1)? buttSelect:buttProp,
@@ -76,7 +76,7 @@ function ButtonType(props){
                         style:buttonGroup }, [
                         ListButtonAnswer
                     ]),
-                    e("button", {role: "button", key:"buttonNext",id: "nextButton1",style:a,onClick:props.inc}, "NEXT")
+                    e("button", {role: "button", key:"buttonNext",id: "nextButton1",style:a,onClick:props.inc}, "SUCCESSIVO")
                 );
 
 }

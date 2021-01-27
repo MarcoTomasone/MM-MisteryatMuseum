@@ -1,4 +1,5 @@
 import { sendData} from './dataHandler.js';
+const {Button, makeStyles, IconButton, Icon} = window['MaterialUI']; //to load the component from the library
 
 const e = React.createElement;
 /**
@@ -98,7 +99,7 @@ function inputType(props){
                 position:'absolute'
             }
 
-            inputElement.push(e("input",{
+ /*           inputElement.push(e("input",{
                 'aria-labelledby' : "activitIntro",
                 type:"file", 
                 key:"fileUplodad",
@@ -107,11 +108,21 @@ function inputType(props){
                 style:stylein,
                 capture:"camera",
                 onChange:handleChange
-                }));
-             
+                },  
+            ));
+   */
+  
+   inputElement.push(
+    e("input", {id: "background_color",type:'file',style:{display:'none'}, onChange:  handleChange}),
+    e("label", {htmlFor:"background_color"}, [
+        e(IconButton, { component: "span"}, 
+            e(Icon, {children: "photo_camera"}),  
+        ),
+    ]),)
+
                 return  e("div", null,
                             e("div",{key: "inputElement", style : inputGroup },inputElement),
-                            e("button",{role: "button", key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: uploadFile }, "NEXT")
+                            e("button",{role: "button", key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: uploadFile }, "SUCCESSIVO")
                         );
                 
         }
@@ -119,7 +130,7 @@ function inputType(props){
         return e("div",null, 
                     e("div", {key:"inputElement" , style:inputGroup}, inputElement),
                     //     range ? e("p",null,document.getElementById("rangept").value : null),
-                    e("button", {role: "button", key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "NEXT")
+                    e("button", {role: "button", key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "SUCCESSIVO")
                 );
 }
 

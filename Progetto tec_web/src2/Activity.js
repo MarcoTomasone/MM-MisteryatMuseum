@@ -60,7 +60,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     case "Foto": //modificate sendData
                         sendData(props.playerId, activities[questionIndex].question, path, counter, seconds, 0);
                         correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                        dinamicActivities.push(activities[questionIndex + 1]);
+                        //dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Quattro opzioni" : 
                         if(dinamicActivities[counter].fourAnswers[lastAnswer].score > 0){

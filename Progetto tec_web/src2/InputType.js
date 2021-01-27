@@ -113,10 +113,10 @@ function inputType(props){
    */
   
    inputElement.push(
-    e("input", {id: "background_color",type:'file',style:{display:'none'}, onChange:  handleChange}),
-    e("label", {htmlFor:"background_color"}, [
-        e(IconButton, { component: "span"}, 
-            e(Icon, {children: "photo_camera"}),  
+    e("input", {id: "background_color",type:'file',size:'large',style:{display:'none'}, onChange:  handleChange}),
+    e("label", {htmlFor:"background_color",size:'large'}, [
+        e(IconButton,{component: "span",fontSize:'large', style:{color:'gray'}}, 
+            e(Icon, {children: "photo_camera",fontSize:'large'}),  
         ),
     ]),)
 

@@ -47,7 +47,7 @@ function App2() {
         React.useEffect(() => {
             socket.on('set-id', data => {
                 setID(data.id);
-                getID(data.id, activityList[0].question);
+                getID(data.id, activityList[0].activityText);
             });
             
             socket.on('help-from-evaluator' , data => {

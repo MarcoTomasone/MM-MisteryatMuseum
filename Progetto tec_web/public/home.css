@@ -29,7 +29,7 @@ a {
     border: solid 2px blue;
 }
 
-header{
+.myheader{
     height: 15%;
     min-height: 50px;
     width: 100%;

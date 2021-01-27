@@ -65,7 +65,6 @@ app.get(`/requestJson/:title`,(req,res)=>{
  * Funzione che dal player manda un immagine al valutatore
  * call by InputType.js
  */
-
 app.post('/uploadImg', (req, res) => {
     if (!req.files) {
         return res.status(500).send({ msg: "file is not found" })
@@ -73,7 +72,7 @@ app.post('/uploadImg', (req, res) => {
     const myFile = req.files.file;
     //  mv() method places the file inside public directory
     const mypath = path.join(__dirname, `uploadPlayer/${myFile.name}`);
-    myFile.mv(mypath, function (err) {
+    /*myFile.mv(mypath, function (err) {
         if (err) {
             console.log(err)
             return res.status(500).send({ msg: "Error occured" });
@@ -81,6 +80,8 @@ app.post('/uploadImg', (req, res) => {
         // returing the response with file path and name
         return res.send({name: myFile.name, path: `uploadPlayer/${myFile.name}`});
     });
+    */
+   fs.writeFileSync(mypath, myFile);
 })
 
 app.post("/addImage/:id/:type", (req, res) => {

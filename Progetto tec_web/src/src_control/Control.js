@@ -5,10 +5,12 @@ import { MyDialog } from './components/MyDialog.js';
 import { CardPlayer } from './components/CardPlayer.js';
 import { deletePlayer, getDataPlayer, getEvaluations, getHelps, getHistory, getMessages, getPDF } from './API.js';
 import {appendMessage, isEnter} from '../../utils.js';
-const { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Paper, Button, Dialog, DialogContent, DialogTitle, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
+const { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableRow, TableHead, Paper, Button, DialogContent, DialogTitle, Icon, TextField, Box, Typography, Tabs, Tab, makeStyles, AppBar } = MaterialUI;
 const e = React.createElement;
 const socket = io('http://localhost:8000', {query: 'type=evaluator'});
 socket.emit('new-evaluator');
+
+
 
 const useStyles2 = makeStyles({
     table: {
@@ -19,14 +21,13 @@ const useStyles2 = makeStyles({
 function createData(section, question, answer, time, points) {
     return { section, question, answer, time, points };
 }
-
 //create tab panel for the tabs
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
     return (
-        e("div", { role: "tabpanel", hidden: value !== index, id: `simple-tabpanel-${index}`, ariaLabelledby: `simple-tab-${index}`, ...other }, [
+        e("div", { role: "tabpanel", hidden: value !== index, id: `scrollable-force-tabpanel-${index}`, ariaLabelledby: `scrollable-force-tab-${index}`, ...other }, [
             (value === index) && e(Box, { p: 3 }, [
-                e("div", null, [children])
+                e(Typography, null, [children])
             ])
         ])
     );
@@ -40,13 +41,15 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
     return {
-        id: `simple-tab-${index}`,'aria-controls': `simple-tabpanel-${index}`,
+        id: `scrollable-force-tab-${index}`,
+        'aria-controls': `scrollable-force-tabpanel-${index}`,
     };
 }
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        width: '100%',
         backgroundColor: theme.palette.background.paper,
     },
 }));
@@ -327,16 +330,15 @@ export default function Control(props){
         uploadEvaluation();
         uploadMessages();
     }, []);
-    
     return e(React.Fragment, null, [ 
         e("div", { className: classes.root }, [
-            e(AppBar, { style: {border: "none"}, position: "static", children: [
-                e(Tabs, { value: value, onChange: handleChange, ariaLabel: "simple-tabs", children: [
-                    e(Tab, { label: "Players", ...a11yProps(0) }),
+            e(AppBar, { style: {border: "none", fontSize: 10}, position: "static", children: [
+                e(Tabs, { style: {width: "auto"}, scrollButtons: "on", variant: "scrollable", value: value, onChange: handleChange, ariaLabel: "scrollable force tabs example", children: [
+                    e(Tab, { label: "Players" , ...a11yProps(0) }),
                     e(Tab, { label: "Ranking", ...a11yProps(1) }),
                     e(Tab, { label: "Help", ...a11yProps(2) }),
                     e(Tab, { label: "Evaluation", ...a11yProps(3) }),
-                    e(Tab, { label: "Info", ...a11yProps(4) })
+                    e(Tab, { label: "Info", ...a11yProps(4) }),                
                 ] })
             ] }),
             e(TabPanel, { value: value, index: 0, children: [

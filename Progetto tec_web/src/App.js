@@ -10,7 +10,7 @@ const Route = ReactRouterDOM.Route;
 function App(){
     
     return e(React.Fragment, null, [
-        e("header", {key: "headerHome", id: "headerHome"}, "Benvenuti in xxxxx"),
+        e("header", {className: "myheader", key: "headerHome", id: "headerHome"}, "Benvenuti in xxxxx"),
         e("main", {key: "main"}, [
             e(HashRouter, {key: "hashRouterApp"}, [
                 e(Route, {key: "Home", exact: true, path: "/", component: Home}),

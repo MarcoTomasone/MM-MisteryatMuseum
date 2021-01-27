@@ -85,7 +85,9 @@ module.exports = function(io) {
                     io.to(socketEvaluator[evaluator]).emit('answer-from-player', { question, answer, type, id, section, player });
             });
             socket.on('finish', data => {
-                //io.to(socketEvaluator[evaluator]).emit('finish-player', {"Ho finito"});
+                const player = data.id;
+                for(const evaluator in socketEvaluator)
+                    io.to(socketEvaluator[evaluator]).emit('finish-player', { player });
             });
         }
         else if(type == 'evaluator'){

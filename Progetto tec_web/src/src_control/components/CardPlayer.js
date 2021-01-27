@@ -10,7 +10,7 @@ const useStyles_card = makeStyles((theme) => ({
     root: {
         maxWidth: "222px",
         margin: "5px",
-        float: "left",
+        float: screen.width >= 800 ? "left" : "none",
         backgroundColor: "#a1aba4"
     },
     avatar: {

@@ -18,7 +18,9 @@ let startDate, now, seconds;
 export const Activity = React.forwardRef((props, ref) => {
     //console.log(props.json);
     let actualPoints = 0;
-    const [counter,setCounter] = React.useState(0);
+    const counter = props.counter;
+    const setCounter = props.setCounter;
+
     var   [img,setImg] = React.useState(0);
     var [backgroundImg,setBackgroundImg] = React.useState(0);
     const [lastAnswer,setLastAnswer] = React.useState(null);
@@ -174,6 +176,7 @@ export const Activity = React.forwardRef((props, ref) => {
 
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
         //borderColor:props.json.nextButton.borderColor,
+        display:(dinamicActivities[counter] === props.json.lastActivity)? 'None' : 'block',
         backgroundColor:(dinamicActivities[counter] !== props.json.lastActivity) ? props.json.player.nextButton.backgroundColor : 'gray',
         borderRadius:`${props.json.player.nextButton.borderRadius}px`,
         frameColor:props.json.player.nextButton.frameColor,
@@ -182,26 +185,28 @@ export const Activity = React.forwardRef((props, ref) => {
         height:`${props.json.player.nextButton.height * screen.availHeight /437}px`,
         top:`${props.json.player.nextButton.top * screen.availHeight/437}px`,
         left:`${props.json.player.nextButton.left* screen.availWidth /202}px`,
-        textColor:props.json.player.nextButton.textColor,
+        color:props.json.player.nextButton.textColor,
         position:'absolute',
 
     }
     const askNav = {
         border: "solid",
-        borderColor: "red",
+        borderColor: props.json.player.frameColor,
         marginTop:"20%",
     };
     
     const textStyle = {             //implementiamo uno stile di testo unico per tutte le Storie di un attivita'
-            fontSize:"20px",
+            fontSize:props.json.player.sizeFont,
             textAlign:"center",
-            fontFamily:"Helvetica"
+            fontFamily:props.json.player.fontFamily
     }
 
 var divBorderLF;
 //console.log(props.json.player);
-if(dinamicActivities[counter].backgroundImage !== "" ){
+//non si conosce il campo che contiene lo sfondo del riquadro dentro all'activity
+if(false && dinamicActivities[counter].backgroundImage !== "" && dinamicActivities[counter].hasOwnProperty('backgroundImage')){
     var base64data;
+
    // console.log(dinamicActivities[counter].backgroundImage);
     axios.get(`http://localhost:8000/downloadBackground/${dinamicActivities[counter].backgroundImage}`, { responseType:"blob" })
             .then(function (response) {
@@ -232,12 +237,13 @@ if(dinamicActivities[counter].backgroundImage !== "" ){
 
     
 }else{
-    
-        divBorderLF = {
+
+    divBorderLF = {
             border:'solid',
             overflow:'scroll',
             borderColor:'black',
-            backgroundColor:(props.json.player.textBackgroundColorActived)? props.json.player.textBackgroundColor : 'red', 
+            background:(props.json.player.textBackgroundColorActived)? props.json.player.textBackgroundColor : 'repeat', 
+            //sbackground:'repeat',
             height : `${dinamicActivities[counter].heightFrame* screen.availHeight / 437}px`,
             left:`${props.json.player.leftFrame* screen.availWidth /202}px`,
             width:`${props.json.player.widthFrame* screen.availWidth /202}px`,
@@ -246,18 +252,7 @@ if(dinamicActivities[counter].backgroundImage !== "" ){
             overflowX:'hidden',
             borderColor:props.json.player.frameColor
         }
-
 }
-
-const divActivity = {     //style della div contenente le activity
-        border:"solid",
-        overflow:"scroll",
-        borderColor:'red',
-        width:`100%`,
-        height:`100%`,
-        //top:`${activityStyle.divisor.top * screen.availHeight /437}px`,
-        position:'absolute',
-    }
 
     
     let mediaProp = [];

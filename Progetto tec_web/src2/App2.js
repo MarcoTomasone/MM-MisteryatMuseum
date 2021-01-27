@@ -31,7 +31,9 @@ activityList.push(data.activities[0]);
 activityList.push(data.activities[1]);
 //console.log(activityList);
 
+
 function App2() {
+    const [counter,setCounter] = React.useState(0);
     //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);
     const [slideChat, setSlideChat] = React.useState(false);
@@ -87,6 +89,8 @@ function App2() {
     };
 
     const btnChat={
+        
+        color: data.player.chatButton.textColor,
         backgroundColor:data. player.chatButton.backgroundColor,
         borderRadius:`${data.player.chatButton.borderRadius}px`,
         frameColor:data.player.chatButton.frameColor,
@@ -96,18 +100,17 @@ function App2() {
         top:`${data.player.chatButton.top * screen.availHeight/437}px`,
         left:`${data.player.chatButton.left * screen.availWidth /202}px`,
         //borderColor:data.player.chatButton.borderColor,
-        position:'absolute'
-        /*textColor: ''+data.player.chatButton.textColor+'',
-        position:'relative' */
+        position:'absolute',
+        //position:'relative' */
     };
     const pointStyle= {
         position:'absolute',
         textAlign: "center",
         fontSize: "40px",
+        color:data.player.scoreDiv.textColor,
         backgroundColor:data.player.scoreDiv.backgroundColor,
         frameColor:data.player.frameColor,
         borderRadius:data.player.borderRadius,
-        textColor:data.player.scoreDiv.textColor,
         height:`${data.player.scoreDiv.height * screen.availHeight/437}px`,
         width:`${data.player.scoreDiv.width * screen.availWidth/202}px`,
         top:`${data.player.scoreDiv.top * screen.availHeight/437}px`,
@@ -115,10 +118,11 @@ function App2() {
     };
 
     const btnHelp={
-        backgroundColor:data.player.helpButton.backgroundColor,
+        color:data.player.helpButton.backgroundColor,
         borderRadius:`${data.player.helpButton.borderRadius}px`,
         frameColor:data.player.helpButton.frameColor,
-        textColor:data.player.helpButton.textColor,
+        color:data.player.helpButton.textColor,
+        backgroundColor:data.player.helpButton.backgroundColor,
         textAlign:'center',
         width:`${data.player.helpButton.width *screen.availWidth /202}px`,
         height:`${data.player.helpButton.height* screen.availHeight /437}px`,
@@ -128,10 +132,11 @@ function App2() {
         position:'absolute'
 };
 
-if(data.player.backgroundImageUrl !== ""){
+if((data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))
+    || (data.player.backgroundImage !== "" && data.player.hasOwnProperty('backgroundImage'))){
+    const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
     var base64data;
-    
-    axios.get(`http://localhost:8000/downloadBackground/${data.player.backgroundImage}`, { responseType:"blob" })
+    axios.get(`http://localhost:8000/downloadBackground/${path}`, { responseType:"blob" })
             .then(function (response) {
             var blob1 = response.data;
             const blob = new Blob([blob1], { type: 'image/png' });
@@ -157,23 +162,9 @@ if(data.player.backgroundImageUrl !== ""){
         weightFrame:`${data.player.weightFrame* screen.availHeight/437}vh`,
         weightFont:`${data.player.weightFont}px`,
      };
-    /*
-    var div_a = {      //style della div contenente le activity
-        border:data.activityStyle.divisor.border,
-        overflow:"scroll",
-        borderColor: data.activityStyle.divisor.borderColor,
-        position:'absolute',
-        backgroundImage : 'url('+backgroundImg+')',
-        backgroundSize: 'auto',
-        backgroundRepeat: 'repeat',
-        thicknessFrame:`${data.player.weightFont}vh`,
-        topFrame:`${data.player.topFrame  * screen.availHeight/437}vh`,
-        weightFont:`${data.player.weightFont}vh`,
-        widthFrame: `${data.player.widthFrame * screen.availHeight/202}vh`
-        
-    };
-    */
+
 }else{
+
     var div_a = {      //style della div contenente le activity
        // border:data.activityStyle.divisor.border,
         //overflow:"auto",
@@ -253,7 +244,7 @@ if(data.player.backgroundImageUrl !== ""){
                     ])
                 ]),
             ]),*/
-            e(Activity, { ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints}),
+            e(Activity, {counter:counter,setCounter:setCounter, ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints}),
             e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare

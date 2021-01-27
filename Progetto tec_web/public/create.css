@@ -644,13 +644,8 @@ div[id='Range div']{
     border: solid 2px red;
 }
 
-
-
-
-
-
-
-
-
-
-
+#option8, div[id='Input testuale valutatore div'], #option9, div[id='Input testuale automatico div']{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}

@@ -140,6 +140,7 @@ app.get("/storiesFolder/:username", (req, res) => {
             const file = fs.readFileSync(`./storiesFolder/${element}`, {encoding:'utf8', flag:'r'});
             const tmp = JSON.parse(file);
             const story = {
+                background: tmp.player.backgroundImage,
                 id: tmp.id,
                 title: tmp.title,
                 gender: tmp.gender,
@@ -164,6 +165,7 @@ app.get("/storiesFolder", (req, res) => {
         const tmp = JSON.parse(file);
         if (tmp.published == true){
             const story = {
+                background: tmp.player.backgroundImage,
                 id: tmp.id,
                 title: tmp.title,
                 gender: tmp.gender,
@@ -197,8 +199,8 @@ app.get("/duplyStory/:username", (req, res) => {
                 arrayIndex.push(parseInt(index))
             })
             arrayIndex.sort(function(a, b) {return a - b});
-            for(var index = 1; index < arrayIndex.length; index++) {
-                if(arrayIndex[index] - arrayIndex[index-1] != 1) i = arrayIndex[index] - 1
+            for(var index = 0; index <= arrayIndex.length; index++) {
+                if (!(arrayIndex.includes(index))) i = index
             }
             fs.readFile(`./storiesFolder/${req.params.username}`, {encoding:'utf8', flag:'r'}, (err, data) => {
                 if (err) throw err;

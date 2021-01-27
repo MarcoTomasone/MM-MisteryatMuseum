@@ -5,26 +5,28 @@ function Card(props){
     const press = () =>{
         props.setStorySelected(props.id)
         props.other.forEach((element) => {
-            if(props.storySelected != element.id){
-                document.getElementById(element.id).classList.remove("card_selected");
-            }
+            var c = document.getElementById(element.id).children;
+            if(props.id == element.id) c[0].style.opacity = 1
+            else c[0].style.opacity = 0.7
         })
-        document.getElementById(props.id).classList.add("card_selected");
     }
     
     return e("div", {id: props.id, className: "card", onClick: press}, [
-        e("div", {className: "card_title"}, props.title),
-        e("div", {className: "card_gender"}, props.gender),
-        e("div", {className: "card_objective"}, props.objective),
-        e("div", {className: "card_info"}, [
-            e("div", {className: "card_participant"}, [
-                e("img", {className: "cardImg", src: props.participantsType})
+        e("img", {className: "card_backrgound", src:`../../server/upload/${props.background}`}),
+        e("div", {className: "card_content"}, [
+            e("div", {className: "card_title"}, props.title),
+            e("div", {className: "card_gender"}, props.gender),
+            e("div", {className: "card_objective"}, props.objective),
+            e("div", {className: "card_info"}, [
+                e("div", {className: "card_participant"}, [
+                    e("img", {className: "cardImg", src: props.participantsType})
+                ]),
+                e("div", {className: "card_accessibility"}, [
+                    e("img", {className: "cardImg", src: props.accessibility})
+                ]),
             ]),
-            e("div", {className: "card_accessibility"}, [
-                e("img", {className: "cardImg", src: props.accessibility})
-            ]),
-        ]),
-        e("div", {className: "card_description"}, props.description)
+            e("div", {className: "card_description"}, props.description)
+        ])
     ])
 }
 

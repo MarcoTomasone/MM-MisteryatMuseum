@@ -106,8 +106,8 @@ function Select(props){
             response.data.forEach((element) => {
                 arrayOfStories.push(
                     e(Card, {
-                        storySelected: storySelected,
                         setStorySelected: setStorySelected,
+                        background: element.background,
                         id: element.id,
                         title: element.title, 
                         gender: element.gender,
@@ -135,7 +135,7 @@ function Select(props){
             e("p", {id: "containerHome_userSelected_explanation"}, `(Qui puoi creare una nuova storia o selezionarne una gia esistente per modificarla / eliminarla / pubblicarla / ritirare)`),
         ]),
         e("div", {className: "containerHome_privateSelect"}, [
-            e("div", {className: "sx_privateSelect"}, arrayPrivateStories),
+            e("div", {id: "cardContainer", className: "sx_privateSelect"}, arrayPrivateStories),
             e("div", {className: "dx_privateSelect"}, [
                 e(Tooltip, {title: "CREA STORIA"}, e(Button, {key: "bb0", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "fiber_new", className: classes.icon}), onClick: toCreate},"CREA STORIA")),
                 e(Tooltip, {title: "DUPLICA STORIA"}, e(Button, {key: "bb1", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "file_copy", className: classes.icon}), onClick: toDuply},"DUPLICA STORIA")),

@@ -60,16 +60,9 @@ function Realize(props){
     const [story, setStory] =  React.useState(props.storyToModify);
     const [step, setStep] =  React.useState([false, false, false, false]);
     const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}));
-    const [x, setX] =  React.useState(true);
     const [openErrorDialog, setOpenErrorDialog] = React.useState(false);
     const [textErrorDialog, setTextErrorDialog] = React.useState("");
 
-
-    function blinkHelpButton(){
-            if (x==true) document.getElementById("helpButton").classList.add("blinkHelpButton")
-            else document.getElementById("helpButton").classList.remove("blinkHelpButton")
-            setX((prev) => !prev)
-    }
 
     return e("div", {className: "containerHome"}, [
         e("div", {className:"containerHome_userSelected"}, [
@@ -196,8 +189,8 @@ function Realize(props){
                     e("div", {id: "phoneInternal"}, [
                         e("img", {id: "phoneImage", src: "", className: "hiddenClass"}),
                         e("div", {id: "scoreDiv"}, "Points: 520"),
-                        e("button", {id: "chatButton"}, "CHAT"),
-                        e("button", {id: "helpButton", onClick: blinkHelpButton}, "HELP"),
+                        e("div", {id: "chatButton"}, "CHAT"),
+                        e("div", {id: "helpButton"}, "HELP"),
                         e("div", {id: "phoneText"}, [
                             e("div", {id: "textDiv"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.. It has survived not only five centuries... It has survived not only five centuries... It has survived not only five centuries...."),
                             e("img", {id: "mediaDiv", src: "", className: "hiddenClass"}),
@@ -237,7 +230,7 @@ function Realize(props){
                                 e("input", { id:"option10", className: "style", type:"file"})
                             ]),
                         ]),
-                        e("button", {id: "nextButton"}, "SUCCESSIVO")
+                        e("div", {id: "nextButton"}, "SUCCESSIVO")
                     ])
                 ])
             ])

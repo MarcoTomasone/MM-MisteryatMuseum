@@ -138,7 +138,6 @@ function Realize_info(props){
                         value: participantsType,
                         url: ""
                     }, 
-                    participantsNumber: 0,
                     ageStart: age[0],
                     ageEnd: age[1],
                     player: {
@@ -210,20 +209,21 @@ function Realize_info(props){
                     },
                     firstActivity: {
                         heightFrame: 160,
-                        text: "",
+                        activityText: "",
                         backgroundImage: "",
                         activityImage: "",
+                        altActivityImage: "",
                         correctAnswerGo: []
                     },
                     lastActivity: {
                         heightFrame: 160,
-                        text: "",
+                        activityText: "",
                         backgroundImage: "",
                         activityImage: "",
+                        altActivityImage: "",
                         correctAnswerGo: []
                     },
                     activities: [],
-                    activitiesNotAssigned: []
                 }
             }
             props.setStory(file)

@@ -387,6 +387,7 @@
     position: absolute;
     border-radius: 20px;
     text-align: center;
+    font-size: 0.65em;
 }
 
 
@@ -484,69 +485,64 @@
     background-color: rgb(79, 239, 135);
 }
 .story_published{
-    border: solid 8px green !important;
+    border: solid 6px green !important;
 }
 .card{
     height: 400px;
     width: 200px;
     margin: 20px;
-    padding: 5px;
-    border: solid 8px grey;
+    border: solid 6px black;
     border-radius: 10px;
+    position: relative;
+    overflow: hidden;
 }
 .card:hover{
     cursor: pointer;
-    background: cadetblue;
 }
-.card *{
+.card_content *{
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
+.card_content > *{
+    border: solid 2px rgb(92, 92, 92);
+}
+.card_backrgound{
+    opacity: 0.6;
+}
+.card_backrgound, .card_content{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
 .card_title{
     height: 10%;
     width: 100%;
-    border: solid 1px yellow;
 }
 .card_gender{
     height: 10%;
     width: 100%;
-    border: solid 1px orange;
 }
 .card_objective{
     height: 10%;
     width: 100%;
-    border: solid 1px orange;
 }
 .card_info{
     height: 18%;
     width: 100%;
-    border: solid 1px red;
 }
 .card_participant{
     height: 100%;
     width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid 1px red;
 }
 .card_accessibility{
     height: 100%;
     width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid 1px red;
 }
 .card_description{
     height: 52%;
     width: 100%;
-    padding-top: 5px;
-    align-self: center;
-    border: solid 1px purple;
-    word-break: break-all
 }
 
 #p_answerList {

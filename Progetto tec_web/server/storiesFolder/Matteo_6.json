@@ -1,12 +1,12 @@
 {
-  "id": "Matteo_1.json",
+  "id": "Matteo_6.json",
   "user": "Matteo",
   "toCopy": true,
-  "published": false,
-  "title": "Sdf",
-  "gender": "Fantasy",
-  "objective": "Sdf",
-  "description": "Sdf",
+  "published": true,
+  "title": "Odissea nello spazio",
+  "gender": "Fantascienza",
+  "objective": "Studio dei pianeti",
+  "description": "Attraverso questa storia, il ragazzo verrà stimolato nella conoscenza e nello studio di quello che c'è oltre il pianeta Terra",
   "accessibility": {
     "value": false,
     "url": "../img/no_accessibility_1.png"
@@ -15,17 +15,17 @@
     "value": "singlePlayer",
     "url": "../img/single.png"
   },
-  "ageStart": 0,
-  "ageEnd": 100,
+  "ageStart": 8,
+  "ageEnd": 16,
   "player": {
     "background": "#000000",
-    "backgroundImage": "Matteo_1_background.jpg",
+    "backgroundImage": "Matteo_6_background.jpg",
     "frameColor": "#ffffff",
-    "topFrame": 80,
-    "leftFrame": 15,
-    "widthFrame": 170,
-    "weightFrame": 1,
-    "borderRadiusFrame": 0,
+    "topFrame": 265,
+    "leftFrame": 10,
+    "widthFrame": 180,
+    "weightFrame": 3,
+    "borderRadiusFrame": 13,
     "textColor": "#ffffff",
     "textBackgroundColorActived": false,
     "textBackgroundColor": "#000000",
@@ -57,31 +57,31 @@
       "backgroundColor": "#000000",
       "frameColor": "#ffffff",
       "textColor": "#ffffff",
-      "height": 30,
-      "width": 170,
-      "top": 390,
-      "left": 15,
-      "borderRadius": 20
+      "height": 80,
+      "width": 90,
+      "top": 40,
+      "left": 100,
+      "borderRadius": 10
     },
     "chatButton": {
       "backgroundColor": "#000000",
       "frameColor": "#ffffff",
       "textColor": "#ffffff",
-      "height": 30,
-      "width": 60,
-      "top": 40,
-      "left": 125,
-      "borderRadius": 20
+      "height": 40,
+      "width": 90,
+      "top": 80,
+      "left": 10,
+      "borderRadius": 10
     },
     "helpButton": {
       "backgroundColor": "#000000",
       "frameColor": "#ffffff",
       "textColor": "#ffffff",
-      "height": 30,
-      "width": 60,
+      "height": 40,
+      "width": 90,
       "top": 40,
-      "left": 15,
-      "borderRadius": 20
+      "left": 10,
+      "borderRadius": 10
     }
   },
   "firstActivity": {

@@ -89,6 +89,7 @@ function Realize_activity(props){
         activityText            :   "",
         backgroundImage         :   "",
         activityImage           :   "",
+        altActivityImage        :   "",
         topInput                :   320,
         leftInput               :   15,
         heightInput             :   60,
@@ -334,6 +335,7 @@ function Realize_activity(props){
                 activityText            :   activity.activityText,
                 backgroundImage         :   activity.backgroundImage,
                 activityImage           :   activity.activityImage,
+                altActivityImage        :   activity.altActivityImage,
                 widgetType              :   activity.widgetType,
                 topInput                :   activity.topInput,
                 leftInput               :   activity.leftInput,
@@ -569,6 +571,9 @@ function Realize_activity(props){
                     ),
                     " ELIMINA IMMAGINE"
                 ]),
+            ]),
+            e("div", {className: "sx_realize_option_description"}, [
+                e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilità", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
 

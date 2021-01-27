@@ -39,9 +39,10 @@ function Realize_FL_Activity(props){
     const classes = useStyles();
     const [activity, setActivity] = React.useState({
         heightFrame     : props.activity.heightFrame,
-        text            : props.activity.text,
+        activityText    : props.activity.activityText,
         backgroundImage : props.activity.backgroundImage,
         activityImage   : props.activity.activityImage,
+        altActivityImage: props.activity.altActivityImage,
         correctAnswerGo : props.activity.correctAnswerGo,
     })
 
@@ -94,7 +95,7 @@ function Realize_FL_Activity(props){
     
     React.useEffect(() => {
         document.getElementById("phoneText").style.height             = `${activity.heightFrame}px`;
-        document.getElementById("textDiv").innerHTML                  =    activity.text;
+        document.getElementById("textDiv").innerHTML                  =    activity.activityText;
         updateImage()
     }, [activity])
 
@@ -108,10 +109,11 @@ function Realize_FL_Activity(props){
         var oldStory = props.story;
         var tmp = {
             heightFrame     : parseInt(activity.heightFrame),
-            text            : activity.text,
+            activityText    : activity.activityText,
             backgroundImage : activity.backgroundImage,
             activityImage   : activity.activityImage,
-            correctAnswerGo : props.activity.correctAnswerGo,
+            altActivityImage: activity.altActivityImage,
+            correctAnswerGo : activity.correctAnswerGo,
         };
         if (props.indexActivity == "firstActivity") {
             oldStory.firstActivity = tmp
@@ -172,11 +174,14 @@ function Realize_FL_Activity(props){
                     " ELIMINA IMMAGINE"
                 ]),
             ]),
+            e("div", {className: "sx_realize_option_description"}, [
+                e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilità", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
             e("hr", null),
 
             e("p", null, "TESTO"),
             e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.text, name: "text", label: "Testo", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.activityText, name: "activityText", label: "Testo", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    

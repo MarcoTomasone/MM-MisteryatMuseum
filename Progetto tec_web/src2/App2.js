@@ -134,8 +134,9 @@ function App2() {
 
 if((data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))
     || (data.player.backgroundImage !== "" && data.player.hasOwnProperty('backgroundImage'))){
-    const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
-    var base64data;
+     const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
+    
+     var base64data;
     axios.get(`http://localhost:8000/downloadBackground/${path}`, { responseType:"blob" })
             .then(function (response) {
             var blob1 = response.data;

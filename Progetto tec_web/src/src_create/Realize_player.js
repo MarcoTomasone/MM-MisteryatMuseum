@@ -1,6 +1,5 @@
 const e = React.createElement;
 const {Button, Icon, IconButton, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, withStyles} = window['MaterialUI']; //to load the component from the library
-import { addImage, deleteImage } from "./Image.js"
 
 function Realize_player(props){
     const [check, setCheck] = React.useState(true)
@@ -140,7 +139,7 @@ function Realize_player(props){
     const classes = useStyles();
 
     React.useEffect(() => {
-        document.getElementById("inputDiv").classList.remove("hiddenClass")
+        document.getElementById("inputDiv").classList.add("hiddenClass")
     }, [])
 
     React.useEffect(() => {
@@ -180,6 +179,7 @@ function Realize_player(props){
         document.getElementById("scoreDiv").style.left              =   `${playerStyle.leftScoreDiv}px`
         document.getElementById("scoreDiv").style.height            =   `${playerStyle.heightScoreDiv}px`
         document.getElementById("scoreDiv").style.width             =   `${playerStyle.widthScoreDiv}px`
+        document.getElementById("scoreDiv").style.fontFamily        =      playerStyle.fontFamily
 
         document.getElementById("nextButton").style.backgroundColor =      playerStyle.backgroundColorNextButton
         document.getElementById("nextButton").style.borderColor     =      playerStyle.frameColorNextButton
@@ -189,6 +189,7 @@ function Realize_player(props){
         document.getElementById("nextButton").style.height          =   `${playerStyle.heightNextButton}px`
         document.getElementById("nextButton").style.width           =   `${playerStyle.widthNextButton}px`
         document.getElementById("nextButton").style.borderRadius    =   `${playerStyle.borderRadiusNextButton}px`
+        document.getElementById("nextButton").style.fontFamily        =      playerStyle.fontFamily
 
         document.getElementById("chatButton").style.backgroundColor =      playerStyle.backgroundColorChatButton
         document.getElementById("chatButton").style.borderColor     =      playerStyle.frameColorChatButton
@@ -198,6 +199,8 @@ function Realize_player(props){
         document.getElementById("chatButton").style.height          =   `${playerStyle.heightChatButton}px`
         document.getElementById("chatButton").style.width           =   `${playerStyle.widthChatButton}px`
         document.getElementById("chatButton").style.borderRadius    =   `${playerStyle.borderRadiusChatButton}px`
+        document.getElementById("chatButton").style.fontFamily        =      playerStyle.fontFamily
+
         document.getElementById("helpButton").style.backgroundColor =      playerStyle.backgroundColorHelpButton
         document.getElementById("helpButton").style.borderColor     =      playerStyle.frameColorHelpButton
         document.getElementById("helpButton").style.color           =      playerStyle.textColorHelpButton
@@ -206,6 +209,7 @@ function Realize_player(props){
         document.getElementById("helpButton").style.height          =   `${playerStyle.heightHelpButton}px`
         document.getElementById("helpButton").style.width           =   `${playerStyle.widthHelpButton}px`
         document.getElementById("helpButton").style.borderRadius    =   `${playerStyle.borderRadiusHelpButton}px`
+        document.getElementById("helpButton").style.fontFamily        =      playerStyle.fontFamily
         if (playerStyle.textBackgroundColorActived) document.getElementById("phoneText").style.backgroundColor  =      playerStyle.textBackgroundColor
         else document.getElementById("phoneText").style.backgroundColor  =      "transparent"
         const array = ["option1", "option2", "option3", "option4", "option5", "option6", "option7", "option8", "option9", "option10", "option11"]
@@ -403,6 +407,7 @@ function Realize_player(props){
                         e(MenuItem, {value: "Times New Roman"}, "Times New Roman"),
                         e(MenuItem, {value: "Courier"}, "Courier"),
                         e(MenuItem, {value: "Tahoma"}, "Tahoma"),
+                        e(MenuItem, {value: "Yanone Kaffeesatz"}, "Yanone Kaffeesatz"),
                     ])
                 ])
             ]),

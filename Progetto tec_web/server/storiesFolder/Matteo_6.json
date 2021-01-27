@@ -106,7 +106,7 @@
       "heightFrame": 160,
       "activityText": "E' passato un mese ed è tempo di raggiungere la base di lancio.\nSei super carico, non hai paura\nCosi saluti genitori e amici, prepari il tuo zaino e in un paio d'ore sei già arrivato alla base.\nSali sul razzo, manca poco...\nEcco ci siamo\n3\n2\n1\n...\nPartito!\nOra il pianeta Terra è nelle tue mani, solo te puoi salvarlo.. Buona fortuna!",
       "backgroundImage": "",
-      "activityImage": "Matteo_6_firstActivity_activity.png",
+      "activityImage": "Matteo_6_Partenza_activity.png",
       "altActivityImage": "Razzo",
       "widgetType": "Nessuno",
       "topInput": 320,
@@ -135,7 +135,7 @@
         "lancio"
       ],
       "wrongAnswerGo": [],
-      "activityIsUsed": false,
+      "activityIsUsed": true,
       "firstActivity": true
     },{
       "title": "Lancio",
@@ -177,7 +177,7 @@
     {
       "title": "Esistenzapianeti",
       "heightFrame": "160",
-      "activityText": "Stai navigando da un po ma non vedi ancora nulla. Rimani però tranquillo perchè oltre alla Terra ci sono sicuramente altri pianeti da esplrare e prima o poi ne incontrerai uno.",
+      "activityText": "Stai navigando da un po ma non vedi ancora nulla. Rimani però tranquillo perchè oltre alla Terra ci sono sicuramente altri pianeti da esplrare (e in quel caso prima o poi ne incontrerai qualcuno).",
       "backgroundImage": "",
       "activityImage": "",
       "altActivityImage": "",
@@ -191,6 +191,43 @@
       "multipleAnswers": [],
       "trueFalseAnswer": {
         "trueScore": "100",
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [
+        "Tuttipianeti"
+      ],
+      "wrongAnswerGo": [],
+      "activityIsUsed": true,
+      "firstActivity": false
+    },
+    {
+      "title": "Tuttipianeti",
+      "heightFrame": 160,
+      "activityText": "Attenzione: ti arriva un messaggio dalla base spaziale.\nTi mandano una foto ottenuta da ricerche completate in passato. In questa foto trovi tutti i pianti che in teoria dovrai incontrare nel tuo viaggio nello spazio.\nNoti che sono 8, uno sai gia che è la Terra.. gli altri pianeti come si chiamano?",
+      "backgroundImage": "",
+      "activityImage": "Matteo_6_Tuttipianeti_activity.png",
+      "altActivityImage": "Foto con tutti i pianeti del sistema solare",
+      "widgetType": "Input testuale valutatore",
+      "topInput": "140",
+      "leftInput": 15,
+      "heightInput": "100",
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": 0,
         "falseScore": 0
       },
       "textAnswer": {

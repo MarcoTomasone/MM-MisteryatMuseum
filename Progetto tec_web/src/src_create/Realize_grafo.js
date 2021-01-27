@@ -30,15 +30,29 @@ function father(string){
 
 
 function Realize_grafo(props){
-    const classes = useStyles();
-    const [graph, setGraph] = React.useState([{parent: '', name: 'Attivita introduttiva', cls: "bgrey"}])
+    var graph = [{parent: '', name: 'Attivita introduttiva', cls: "bgrey"}]
+    var arrayElement = []
+    var duplicate = []
+    var arrayWithNoDuplicated = []
     var count = 0
     ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
+
+    const findDuplicates = (arr) => {
+      let sorted_arr = arr.slice().sort();
+      let results = [];
+      for (let i = 0; i < sorted_arr.length - 1; i++) {
+        if (sorted_arr[i + 1] == sorted_arr[i]) {
+          results.push(sorted_arr[i]);
+        }
+      }
+      return results;
+    }
 
     React.useEffect(() => {
       var bool = false
       props.story.activities.forEach(element => {
         if (element.firstActivity == true) {
+          arrayElement.push(son(element.title))
           graph.push({parent: 'attivitaintroduttiva', name: son(element.title), cls: "bgrey"})
           bool = true
         }
@@ -55,59 +69,82 @@ function Realize_grafo(props){
           count = count + 1
         } else {
           element.correctAnswerGo.forEach(element => {
+            arrayElement.push(son(element))
             graph.push({parent: father(title), name: son(element), cls: "bgreen"})
           })
           element.wrongAnswerGo.forEach(element => {
+            arrayElement.push(son(element))
             graph.push({parent: father(title), name: son(element), cls: "bred"})
           })
         }
       });
 
-    let chartConfig = {
-      type: 'tree',
-      options: {
-        link: {
-          aspect: 'arc'
-        },
-        'node[cls-bgreen]': {
-          type: 'circle',
-          size: 8,
-          backgroundColor: 'green',
-          label: {
-            fontSize: 10,
-            fontWeight: 'bold'
+      duplicate = findDuplicates(arrayElement)
+      console.log(duplicate)
+      var check = true
+      var tmp = []
+      graph.forEach(element => {
+        console.log(element.name)
+        if (duplicate.includes(element.name)){
+          if (check){
+            console.log("primo")
+            tmp.push({parent: element.parent, name: element.name, cls: "bgrey"})
+            check = false
+          } else {
+            console.log("secondo")
+            check = true
           }
-        },
-        'node[cls-bred]': {
-          type: 'circle',
-          size: 8,
-          backgroundColor: 'red',
-          label: {
-            fontSize: 10,
-            fontWeight: 'bold'
-          }
-        },
-        'node[cls-bgrey]': {
-          type: 'circle',
-          size: 8,
-          backgroundColor: 'grey',
-          label: {
-            fontSize: 10,
-            fontWeight: 'bold'
-          }
-        },
-      },
-      series: graph
-    };
+        } else {
+          tmp.push(element)
+        }
+      })
+      graph = tmp
 
-    zingchart.render({
-      id: 'myChart',
-      data: chartConfig,
-      height: '95%',
-      width: '100%',
-      output: 'canvas'
-    });
-    console.log(graph)
+      let chartConfig = {
+        type: 'tree',
+        options: {
+          link: {
+            aspect: 'arc'
+          },
+          'node[cls-bgreen]': {
+            type: 'circle',
+            size: 8,
+            backgroundColor: 'green',
+            label: {
+              fontSize: 10,
+              fontWeight: 'bold'
+            }
+          },
+          'node[cls-bred]': {
+            type: 'circle',
+            size: 8,
+            backgroundColor: 'red',
+            label: {
+              fontSize: 10,
+              fontWeight: 'bold'
+            }
+          },
+          'node[cls-bgrey]': {
+            type: 'circle',
+            size: 8,
+            backgroundColor: 'grey',
+            label: {
+              fontSize: 10,
+              fontWeight: 'bold'
+            }
+          },
+        },
+        series: graph
+      };
+
+      zingchart.render({
+        id: 'myChart',
+        data: chartConfig,
+        height: '95%',
+        width: '100%',
+        output: 'canvas'
+      });
+      console.log(graph)
   }, [])
 
   return(e("div", {id:"myChart", className:"chart--container"}))

@@ -18,10 +18,10 @@ function inputType(props){
         position:'absolute',
         width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
         height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-        marginLeft:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
-        marginRight:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
-        marginTop:`${props.v[props.counter].topInput  *screen.availHeight /437}px`,
-        marginBottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
+        left:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
+        right:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
+        top:`${props.v[props.counter].topInput  *screen.availHeight /437}px`,
+        bottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
     }
 
     if(props.v[props.counter].widgetType === "text" || props.v[props.counter].widgetType === "humanText"){        
@@ -67,7 +67,7 @@ function inputType(props){
                                 style:styleRange,
                                 onChange:()=>{rewriteLabel()}
                                 }));
-        } else if(props.v[props.counter].widgetType === "imgUpload" ){
+        } else if(props.v[props.counter].widgetType === "Foto" ){
            
             
                 const [file, setFile] = React.useState(''); // storing the uploaded file    // storing the recived file from backend

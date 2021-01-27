@@ -77,13 +77,13 @@ export const Activity = React.forwardRef((props, ref) => {
                         let answer = lastAnswer ? "Vero" : "Falso";
                         if(dinamicActivities[counter].correct === answer){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
-                            actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
+                            props.setPoints(props.points + dinamicActivities[counter].trueFalseAnswer.trueScore);
+                            actualPoints = dinamicActivities[counter].trueFalseAnswer.trueScore;
 
                         }else{
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore); 
-                            actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;         
+                            props.setPoints(props.points + dinamicActivities[counter].trueFalseAnswer.falseScore); 
+                            actualPoints = dinamicActivities[counter].trueFalseAnswer.falseScore;         
                         }
                         //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, answer, counter, seconds, actualPoints);
@@ -289,15 +289,25 @@ export const Activity = React.forwardRef((props, ref) => {
 });
 
 function correctAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
-    let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-    console.log("Risposta Corretta!");
-    let indexOfNewActivity = dictionaryActivity.get(actual.correctAnswerGo[index]);
-    dinamicActivities.push(activities[indexOfNewActivity]);
+    if(actual.correctAnswerGo.lenght === 0){
+        const last = activities.lenght;
+        dinamicActivities.push(activities[last - 1]);
+    }else{
+        let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
+        console.log("Risposta Corretta!");
+        let indexOfNewActivity = dictionaryActivity.get(actual.correctAnswerGo[index]);
+        dinamicActivities.push(activities[indexOfNewActivity]);
+    }
 }
 
 function wrongAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
-    let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
-    console.log("Risposta Errata!");
-    let indexOfNewActivity = dictionaryActivity.get(actual.wrongAnswerGo[index])
-    dinamicActivities.push(activities[indexOfNewActivity]);  
+    if(actual.wrongAnswerGo.lenght === 0){
+        const last = activities.lenght;
+        dinamicActivities.push(activities[last - 1]);
+    }else{
+        let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
+        console.log("Risposta Errata!");
+        let indexOfNewActivity = dictionaryActivity.get(actual.wrongAnswerGo[index])
+        dinamicActivities.push(activities[indexOfNewActivity]);  
+    }
 }

@@ -13,6 +13,43 @@ function inputType(props){
 
     let inputElement = [];
 
+    /** {
+      "title": "Lancio",
+      "heightFrame": "160",
+      "activityText": "E' appena finita la fase di lancio, sei uscito dall'atmosfera e ti sei appena stabilizzato con la tua navicella.\nTi accorgi subito di una senzazione strana: ti senti molto leggero, vedi gli oggetti muoversi, anche il player che stai usando è tutto al contrario.. Sei un ragazzo intelligente e in poco tempo capisci che è perchè manca la gravità.\nTi tranquillizzi, ti leghi alla tua sedia e decidi di controllare il tuo zaino per ricontrollare cosa ti sei portato dietro per questo lungo viaggio.\nScatta una foto del contenuto del tuo zaino da mandare alla base spaziale, cosi che anche loro sanno cosa hai con te.",
+      "backgroundImage": "",
+      "activityImage": "",
+      "altActivityImage": "",
+      "widgetType": "Foto",
+      "topInput": "160",
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [
+        "Esistenzapianeti"
+      ],
+      "wrongAnswerGo": [],
+      "activityIsUsed": true,
+      "firstActivity": false
+    }, */
     const inputGroup = {
         border: "solid",
         borderColor: "green",
@@ -113,10 +150,10 @@ function inputType(props){
    */
   
    inputElement.push(
-    e("input", {id: "background_color",type:'file',style:{display:'none'}, onChange:  handleChange}),
-    e("label", {htmlFor:"background_color"}, [
-        e(IconButton, { component: "span"}, 
-            e(Icon, {children: "photo_camera"}),  
+    e("input", {id: "background_color",type:'file',size:'large',style:{display:'none'}, onChange:  handleChange}),
+    e("label", {htmlFor:"background_color",size:'large'}, [
+        e(IconButton,{component: "span",fontSize:'large', style:{color:'gray'}}, 
+            e(Icon, {children: "photo_camera",fontSize:'large'}),  
         ),
     ]),)
 

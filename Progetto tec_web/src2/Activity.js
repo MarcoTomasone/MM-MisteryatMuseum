@@ -179,11 +179,11 @@ export const Activity = React.forwardRef((props, ref) => {
         display:(dinamicActivities[counter] === props.json.lastActivity)? 'None' : 'block',
         backgroundColor:(dinamicActivities[counter] !== props.json.lastActivity) ? props.json.player.nextButton.backgroundColor : 'gray',
         borderRadius:`${props.json.player.nextButton.borderRadius}px`,
-        frameColor:props.json.player.nextButton.frameColor,
+        borderColor:props.json.player.nextButton.frameColor,
         //width:`${data.player.chatButton.width *screen.availWidth /437}px`,
         width:`${props.json.player.nextButton.width *screen.availWidth /202}px`,
         height:`${props.json.player.nextButton.height * screen.availHeight /437}px`,
-        top:`${props.json.player.nextButton.top * screen.availHeight/437}px`,
+        top:`${props.json.player.nextButton.top * screen.availHeight/437 + 20}px`,
         left:`${props.json.player.nextButton.left* screen.availWidth /202}px`,
         color:props.json.player.nextButton.textColor,
         position:'absolute',
@@ -201,47 +201,13 @@ export const Activity = React.forwardRef((props, ref) => {
             fontFamily:props.json.player.fontFamily
     }
 
-var divBorderLF;
 //console.log(props.json.player);
 //non si conosce il campo che contiene lo sfondo del riquadro dentro all'activity
-if(false && dinamicActivities[counter].backgroundImage !== "" && dinamicActivities[counter].hasOwnProperty('backgroundImage')){
-    var base64data;
 
-   // console.log(dinamicActivities[counter].backgroundImage);
-    axios.get(`http://localhost:8000/downloadBackground/${dinamicActivities[counter].backgroundImage}`, { responseType:"blob" })
-            .then(function (response) {
-            var blob1 = response.data;
-            const blob = new Blob([blob1], { type: 'image/png' });
-            var reader = new window.FileReader();
-            reader.readAsDataURL(blob);
-            reader.onload = function() {
-                base64data = reader.result;                
-                setBackgroundImg(backgroundImg = base64data);
-                }
-    });   
-
-    divBorderLF = {
-        overflowY:'scroll',
-        border:'solid',
-        borderColor:'black',
-        height : `${dinamicActivities[counter].heightFrame* screen.availHeight / 437}px`,
-        left:`${props.json.player.leftFrame* screen.availWidth /202}px`,
-        width:`${props.json.player.widthFrame* screen.availWidth /202}px`,
-        top:`${props.json.player.topFrame* screen.availHeight /437}px`,
-        backgroundImage: 'url('+backgroundImg+')',
-        overflowX:'hidden',
-        fontSize:props.json.player.sizeFont* 2,
-        fontFamily:props.json.player.fontFamily,
-        borderColor:props.json.player.frameColor
-    }
-
-    
-}else{
-
-    divBorderLF = {
+    const divBorderLF = {
             border:'solid',
-            overflow:'scroll',
-            borderColor:'black',
+            overflowY:'scroll',
+            borderColor:props.json.player.frameColor,
             background:(props.json.player.textBackgroundColorActived)? props.json.player.textBackgroundColor : 'repeat', 
             //sbackground:'repeat',
             height : `${dinamicActivities[counter].heightFrame* screen.availHeight / 437}px`,
@@ -250,9 +216,9 @@ if(false && dinamicActivities[counter].backgroundImage !== "" && dinamicActiviti
             top:`${props.json.player.topFrame* screen.availHeight /437}px`,
             fontSize:props.json.player.sizeFont* 2,
             overflowX:'hidden',
-            borderColor:props.json.player.frameColor
+            borderRadius:props.json.player.borderRadiusFrame
         }
-}
+
 
     
     let mediaProp = [];
@@ -286,12 +252,13 @@ if(false && dinamicActivities[counter].backgroundImage !== "" && dinamicActiviti
     }
 
     /**per inserire immagini dentro o fuori il divActivity é necessario spostare il vettore mediaProp
-     * o come figlio di activityIntro oppure come figlio di activity e impostare i cambiamenti nel json opportuno
+     * o come figlio di 
+     * oppure come figlio di activity e impostare i cambiamenti nel json opportuno
      */
     if (dinamicActivities[counter].widgetType === "Nessuno" ){   
         return e("div",null,
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, dinamicActivities[counter].activityText , mediaProp),
-                    e("button", {role: "button", key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "NEXT")
+                    e("button", {role: "button", key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "SUCCESSIVO")
                 );
 
     }else {

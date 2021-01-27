@@ -103,14 +103,16 @@ function App2() {
         position:'absolute',
         //position:'relative' */
     };
+    
     const pointStyle= {
         position:'absolute',
         textAlign: "center",
-        fontSize: "40px",
+        fontSize:data.player.sizeFont * 2,
         color:data.player.scoreDiv.textColor,
         backgroundColor:data.player.scoreDiv.backgroundColor,
-        frameColor:data.player.frameColor,
-        borderRadius:data.player.borderRadius,
+        border:'solid',
+        borderColor:data.player.frameColor,
+        borderRadius:data.player.borderRadiusFrame,
         height:`${data.player.scoreDiv.height * screen.availHeight/437}px`,
         width:`${data.player.scoreDiv.width * screen.availWidth/202}px`,
         top:`${data.player.scoreDiv.top * screen.availHeight/437}px`,
@@ -155,6 +157,11 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
          //borderColor: data.activityStyle.divisor.borderColor,
          //position:'absolute',
         backgroundImage: 'url('+backgroundImg+')',
+        backgroundPositionTop:`${data.player.image.top* screen.availHeight/437}px`,
+        //backgroundPositionWidth:`${data.player.image.width* screen.availWidth/202}px`,
+        backgroundSize:` ${data.player.image.width* screen.availWidth/202}px ${data.player.image.height* screen.availHeight/437}px`,
+        backgroundLeft:`${data.player.image.left* screen.availHeight/437}px`,
+        
         //thicknessFrame:`${data.player.weightFont}px`,
         topFrame:`${data.player.topFrame * screen.availHeight/437}vh`,
         frameColor : data.player.frameColor,
@@ -169,7 +176,9 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
     var div_a = {      //style della div contenente le activity
        // border:data.activityStyle.divisor.border,
         //overflow:"auto",
-        //borderColor: data.activityStyle.divisor.borderColor,
+        border:'solid',
+        borderColor: data.player.frameColor,
+        borderRadius:data.player.borderRadiusFrame,
         //position:'absolute',
         background: data.player.background,
         //thicknessFrame:`${data.player.weightFont}vh`,
@@ -179,6 +188,7 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
         //weightFrame:`${data.player.weightFrame * screen.availHeight/437}vh`,
         weightFont:`${data.player.weightFont}px`,
+        
     };
 }
 
@@ -229,9 +239,9 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
             e("div", {key:"player",id:"player",style:div_a}, [
                 e("label", {id: "label-chat", htmlFor: "chat-button"}, "Questa è una descriozione della chat"),
                 e("div",{style:navbar,id:"navPlayer"},
-                e("button", {id:"chat-button", 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "Chat" ), 
-                e("p", {id: "points", style: pointStyle}, "Points:" + points),
-                e("button", {id:"help-button", style: btnHelp, onClick: ()=> {if(!slideChat) setSlideHelp(!slideHelp)}}, "Help"),
+                e("button", {id:"chat-button", 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "CHAT" ), 
+                e("div", {id: "points", style: pointStyle}, "Points:" + points),
+                e("button", {id:"help-button", style: btnHelp, onClick: ()=> {if(!slideChat) setSlideHelp(!slideHelp)}}, "AIUTO"),
             )],
                 
           /*  e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [

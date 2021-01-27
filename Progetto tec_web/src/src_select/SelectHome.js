@@ -1,27 +1,34 @@
 const e = React.createElement;
 const {Button} = MaterialUI;  
 import Card from "../src_create/Card.js"
+import {DialogComponent} from "../src_create/Dialog.js"
+
 
 function SelectHome(){
     const [arrayPrivateStories, setArrayPrivateStories] =  React.useState([]);
     const [storySelected, setStorySelected] =  React.useState("");
-    var arrayOfStories = []
-    
+    const [error, setError] = React.useState(false);
+
     function generateQRCode() {
-        var qr;
-        var story = storySelected.split(".")[0]
-        qr = new QRious({
-            element: document.getElementById('qr-code'),
-            size: 200,
-            value: `http://127.0.0.1:5500/src2/index2.html?story=${story}`
-        });
+        if (storySelected == ""){
+            setError(true)
+        } else {
+            var qr;
+            var story = storySelected.split(".")[0]
+            qr = new QRious({
+                element: document.getElementById('qr-code'),
+                size: 200,
+                value: `http://127.0.0.1:5500/src2/index2.html?story=${story}`
+            });
+        }
     }
 
+    
     React.useEffect(() => {
         axios.get(`http://localhost:8000/storiesFolder`)
         .then((response) => {
             response.data.forEach((element) => {
-                arrayOfStories.push(
+                setArrayPrivateStories(arrayPrivateStories => [...arrayPrivateStories,
                     e(Card, {
                         setStorySelected: setStorySelected,
                         background: element.background,
@@ -33,17 +40,16 @@ function SelectHome(){
                         accessibility: element.accessibility.url,
                         description: element.description,
                         published: element.published,
+                        age: element.age,
                         other: response.data
                     })
-                )
-                setArrayPrivateStories(arrayOfStories)
+                ])
             })
-        }).then(console.log())
+        })
         .catch((error) => console.log(error));
     }, [])
+
     
-
-
     return e("div", {className: "containerHome"}, [
         e("div", {className:"containerHome_userSelected"}, [
             e("p", null, `LISTA COMPLETA DELLE STORIE ATTIVE`),
@@ -54,7 +60,8 @@ function SelectHome(){
                 e(Button, {key: "bb0", id: "qr-btn", variant: "contained", onClick:generateQRCode}, "SCANSIONA"),
                 e("canvas", {key: "bb1", id: "qr-code"})
             ])
-        ])  
+        ]),
+        e(DialogComponent, {fun: setError, open: error, textError: "Selezionare prima una storia"} ),
     ])
 
 }

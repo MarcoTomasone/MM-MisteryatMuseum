@@ -154,7 +154,8 @@ app.get("/storiesFolder/:username", (req, res) => {
                 participantsType: tmp.participantsType,
                 accessibility: tmp.accessibility,
                 description: tmp.description,
-                published: tmp.published
+                published: tmp.published,
+                age: [tmp.ageStart, tmp.ageEnd]
             };
             arrayOfStories.push(story);
         }
@@ -181,7 +182,8 @@ app.get("/storiesFolder", (req, res) => {
                 participantsType: tmp.participantsType,
                 accessibility: tmp.accessibility,
                 description: tmp.description,
-                published: tmp.published
+                published: tmp.published,
+                age: [tmp.ageStart, tmp.ageEnd]
             };
             arrayOfStories.push(story);
         }
@@ -189,12 +191,14 @@ app.get("/storiesFolder", (req, res) => {
     res.status(200).end(JSON.stringify(arrayOfStories))
 })
 
+//modificare una storia
 app.get("/modifyStory/:username", (req, res) => {
     const mypath = path.join(__dirname, `storiesFolder/${req.params.username}`);
     var fileCopied = JSON.parse(fs.readFileSync(mypath));
     res.status(200).end(JSON.stringify(fileCopied));
 })
 
+//duplicare una storia
 app.get("/duplyStory/:username", (req, res) => {
     var tmp = req.params.username.split("_")[0]
     fs.readdir(dirBuf, (err, files) =>{
@@ -229,6 +233,7 @@ app.get("/duplyStory/:username", (req, res) => {
     res.status(200).end();
 })
 
+//creare e modificare una storia
 app.post("/createStory/id", (req, res) => {
     fs.readdir(dirBuf, (err, files) =>{
         if (err){
@@ -250,7 +255,7 @@ app.post("/createStory/id", (req, res) => {
             }
             req.body.story.id = `${req.body.user}_${i}.json`
             req.body.story.toCopy = true
-            if (req.body.story.accessibility.value  == "Si") req.body.story.accessibility.url = "../img/accessibility_1.png";
+            if (req.body.story.accessibility.value) req.body.story.accessibility.url = "../img/accessibility_1.png";
             else req.body.story.accessibility.url = "../img/no_accessibility_1.png";
             if (req.body.story.participantsType.value == "singlePlayer") req.body.story.participantsType.url = "../img/single.png";
             else if (req.body.story.participantsType.value == "group") req.body.story.participantsType.url = "../img/one_group.png";

@@ -218,6 +218,8 @@ function Realize_player(props){
                 document.getElementById(element).style.backgroundColor   =      playerStyle.backgroundColorInputDiv
                 document.getElementById(element).style.borderColor       =      playerStyle.frameColorInputDiv
                 document.getElementById(element).style.color             =      playerStyle.textColorInputDiv
+                document.getElementById(element).style.fontFamily        =      playerStyle.fontFamily
+                document.getElementById(element).style.borderRadius      =     `${playerStyle.borderRadiusNextButton}px`
             }
         })
     }, [playerStyle])

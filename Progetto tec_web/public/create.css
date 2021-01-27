@@ -309,8 +309,7 @@
 }
 #phoneImage{
     position: absolute;
-    width: 260px;
-    height: 437px;
+    width: 20%;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -334,6 +333,7 @@
     word-wrap: break-word; /* IE */
     overflow: scroll;
     border: solid 1px white;
+    text-align: center;
 }
 
 #scoreDiv{
@@ -345,7 +345,9 @@
     width: 100px;
     top: 15px;
     left: 50px;
-    text-align: center;
+    display : flex;
+    align-items : center;
+    justify-content: center;
     border-radius: 20px;
     font-size: 15px;
 }
@@ -386,7 +388,9 @@
     border: solid 1px white;
     position: absolute;
     border-radius: 20px;
-    text-align: center;
+    display : flex;
+    align-items : center;
+    justify-content: center;
     font-size: 0.65em;
 }
 
@@ -481,23 +485,24 @@
 /*------------------------------------------------------------------------------------------------------*/
 /*CARD*/
 /*------------------------------------------------------------------------------------------------------*/
-.card_selected{
-    background-color: rgb(79, 239, 135);
-}
 .story_published{
-    border: solid 6px green !important;
+    border: solid 6px rgb(5, 189, 14) !important;
+    box-shadow: 10px 10px 5px  rgba(5, 189, 14, 0.568) !important;
 }
 .card{
-    height: 400px;
+    height: 300px;
     width: 200px;
     margin: 20px;
     border: solid 6px black;
     border-radius: 10px;
     position: relative;
     overflow: hidden;
+    box-shadow: 10px 10px 5px rgba(87, 87, 87, 0.719);
+    transition: transform .2s;
 }
-.card:hover{
+.card:hover {
     cursor: pointer;
+    transform: scale(1.3); 
 }
 .card_content *{
     display: flex;
@@ -506,10 +511,10 @@
     text-align: center;
 }
 .card_content > *{
-    border: solid 2px rgb(92, 92, 92);
+    border: solid 1px rgb(141, 141, 141);
 }
 .card_backrgound{
-    opacity: 0.6;
+    opacity: 0.4;
 }
 .card_backrgound, .card_content{
     height: 100%;
@@ -529,7 +534,7 @@
     width: 100%;
 }
 .card_info{
-    height: 18%;
+    height: 15%;
     width: 100%;
 }
 .card_participant{
@@ -540,9 +545,18 @@
     height: 100%;
     width: 50%;
 }
-.card_description{
-    height: 52%;
+.card_accessibility *, .card_participant *{
+    height: 100%;
+    padding: 1%;
+}
+.card_age{
+    height: 10%;
     width: 100%;
+}
+.card_description{
+    height: 45%;
+    width: 100%;
+    overflow: scroll;
 }
 
 #p_answerList {
@@ -624,20 +638,11 @@ div[id='Range div']{
     margin-bottom: 20px;
 }
 
-.cardImg{
-    height: 50px;
-}
-
-
 .grafo{
     height: 100%;
     width: 100%;
     border: solid 2px red;
 }
-
-
-
-
 
 
 

@@ -50,7 +50,7 @@ function Realize_grafo(props){
 
       props.story.activities.forEach(element => {
         var title = element.title
-        if (element.correctAnswerGo.length == 0 && element.wrongAnswerGo.length == 0 && (element.firstActivity == true || element.activityIsUsed)){
+        if (element.correctAnswerGo.length == 0 && element.wrongAnswerGo.length == 0 && (element.firstActivity || element.activityIsUsed)){
           graph.push({parent: father(title), name: `Attivita conclusiva${count}`, cls: "bgrey"})
           count = count + 1
         } else {

@@ -53,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
     activityWrongAnswer:{
         color: "white",
         background: "red"
+    },
+    activityOkWrongAnswer:{
+        color: "white",
+        background: "grey"
     }
 }));
 
@@ -116,7 +120,7 @@ function Realize_activity(props){
         correctAnswerGo         :   [],
         wrongAnswerGo           :   [],
         activityIsUsed          :   false,
-        firstActivity           :   false,
+        firstActivity           :   false
     })
     const [listOfActivity, setListOfActivity] = React.useState([]);
     const [activitySelect, setActivitySelect] = React.useState("");
@@ -125,16 +129,14 @@ function Realize_activity(props){
     const [activityWrongAnswer, setActivityWrongAnswer] = React.useState("");
     const [menuItemActivityWrongAnswer, setMenuItemActivityWrongAnswer] = React.useState([])
     const [arrayOfActivity, setArrayOfActivity] = React.useState([]);
-    const [errorAnswerInserted, setErrorAnswerInserted] = React.useState(false);
-    const [errorAnswerSelected, setErrorAnswerSelected] = React.useState(false);
-    const [errorNotNumber, setErrorNotNumber] = React.useState(false);
     const [openInfoDialog, setOpenInfoDialog] = React.useState(false);
-    const [errorLimitAnswer, setErrorLimitAnswer] = React.useState(false);
-    const [errorAnswerDuplicated, setErrorAnswerDuplicated] = React.useState(false);
-    const [errorFourAnswers, setErrorFourAnswers] = React.useState(false);
     const [check, setCheck] = React.useState(true);
     const [checkSwitch, setCheckSwitch] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const [string, setString] = React.useState("");
+    const [arrayOfActivityRemoved, setArrayOfActivityRemoved] = React.useState([]);
+
+
 
     
     
@@ -218,6 +220,10 @@ function Realize_activity(props){
         var tmp = []
         props.story.activities.forEach(element => {
             if (element.title != activity.title && element.firstActivity == false && element.activityIsUsed == false && !(activity.correctAnswerGo.includes(element.title)) && !(activity.wrongAnswerGo.includes(element.title))) tmp.push(e(MenuItem, {value : element.title}, element.title))
+        })
+        arrayOfActivityRemoved.forEach(element => {
+            if (!(activity.correctAnswerGo.includes(element) || activity.wrongAnswerGo.includes(element)))
+                tmp.push(e(MenuItem, {value : element}, element))
         })
         setListOfActivity(tmp)
         tmp = []
@@ -307,26 +313,16 @@ function Realize_activity(props){
             array.push(e(MenuItem, {value : element.title}, element.title))
         })
         setArrayOfActivity(array)
-    }, [])    
-
-    function ricorsiveDelete(string){
-        var index = props.story.activities.findIndex(element => element.title == string)
-        if (index >= 0){
-            props.story.activities[index].activityIsUsed = false
-            props.story.activities[index].correctAnswerGo.forEach(element => {
-                ricorsiveDelete(element)
-            })
-            props.story.activities[index].correctAnswerGo = []
-            props.story.activities[index].wrongAnswerGo.forEach(element => {
-                ricorsiveDelete(element)
-            })
-            props.story.activities[index].wrongAnswerGo = []
-        }
+    }, [])
+    
+    function displayDialog(error){
+        setError(true)
+        setString(error)
     }
- 
+
 
     const createActivity = () => {
-        if (activity.widgetType == "Quattro opzioni" && activity.fourAnswers.length < 4) {setErrorFourAnswers(true)}
+        if (activity.widgetType == "Quattro opzioni" && activity.fourAnswers.length < 4) displayDialog("Inserire prima esattamente 4 risposte se si vuole scegliere questo tipo di risposta")
         else {
             var title = activity.title.charAt(0).toUpperCase() + activity.title.slice(1).toLowerCase()
             var tmp = {
@@ -370,15 +366,19 @@ function Realize_activity(props){
                 array.push(e(MenuItem, {value : element.title}, element.title))
             })
             setArrayOfActivity(array)
+            var arrayOfActivityUsed = []
             props.story.activities.forEach(element => {
-                if (element.activityIsUsed == false && element.firstActivity == false){
-                    ricorsiveDelete(element.title)
-                    activity.correctAnswerGo = []
-                    activity.wrongAnswerGo = []
-                    setActivityCorrectAnswer("")
-                    setActivityWrongAnswer("")
-                    setUpdateTable((prev) => !prev)
-                }
+                if (element.firstActivity) arrayOfActivityUsed.push(element.title)
+                element.correctAnswerGo.forEach(element => {
+                    arrayOfActivityUsed.push(element)
+                })
+                element.wrongAnswerGo.forEach(element => {
+                    arrayOfActivityUsed.push(element)
+                })
+            })
+            props.story.activities.forEach(element => {
+                if (arrayOfActivityUsed.includes(element.title)) element.activityIsUsed = true
+                else element.activityIsUsed = false
             })
         }
     }
@@ -394,15 +394,15 @@ function Realize_activity(props){
             setActivity({...activity, [array]: [...activity[array],newAnswer]});
             setUpdateTable((prev) => !prev)
         } else {
-            setErrorAnswerDuplicated(true)
+            displayDialog("Risposta già presente")
         }
     }
 
     function addAnswer(){
-        if (answer == "") {setErrorAnswerInserted(true)}
+        if (answer == "") displayDialog("Inserire prima una risposta")
         else {
             if ((activity.widgetType == "Quattro opzioni" && activity.fourAnswers.length >= 4)){
-                setErrorLimitAnswer(true)
+                displayDialog("Raggiunto limite risposte per questo tipo di widget")
             } else {
                 if (activity.widgetType == "Quattro opzioni") addFunction("fourAnswers")
                 else if (activity.widgetType == "Scelta multipla") addFunction("multipleAnswers")
@@ -442,8 +442,8 @@ function Realize_activity(props){
         if (answerSelect != "" && isNumeric(score)){
             if (activity.widgetType == "Quattro opzioni") updateFunction("fourAnswers")
             else if (activity.widgetType == "Scelta multipla") updateFunction("multipleAnswers")
-        } else if (answerSelect != "") { setErrorNotNumber(true)} 
-        else { setErrorAnswerSelected(true) }
+        } else if (answerSelect != "") displayDialog("Inserire un valore numerico dove richiesto")
+        else displayDialog("Selezionare prima una risposta")
         setAnswerSelect()
         setScore(0)
     }
@@ -461,18 +461,23 @@ function Realize_activity(props){
         if (answerSelect != ""){
             if (activity.widgetType == "Quattro opzioni") deleteFunction("fourAnswers")
             else if (activity.widgetType == "Scelta multipla") deleteFunction("multipleAnswers")
-        } else {setErrorAnswerSelected(true)}
+        } else displayDialog("Selezionare prima una risposta")
         setAnswerSelect("")
         setScore(0)
+    }
+
+    function removeFromArrayOfActivityRemoved(element){
+        var index = arrayOfActivityRemoved.indexOf(element);
+        if (index !== -1) {
+            arrayOfActivityRemoved.splice(index, 1);
+        }
     }
 
     function addActivityOkAnswer(){
         if (activitySelect == "") setError(true)
         else {
             setActivity({...activity, ["correctAnswerGo"]: [...activity["correctAnswerGo"], activitySelect]});
-            props.story.activities.forEach(element => {
-                if (element.title == activitySelect) element.activityIsUsed = true
-            })
+            removeFromArrayOfActivityRemoved(activitySelect)
             setActivitySelect("")
             setUpdateTable((prev) => !prev)
         }
@@ -482,34 +487,55 @@ function Realize_activity(props){
         if (activitySelect == "") setError(true)
         else {
             setActivity({...activity, ["wrongAnswerGo"]: [...activity["wrongAnswerGo"], activitySelect]});
-            props.story.activities.forEach(element => {
-                if (element.title == activitySelect) element.activityIsUsed = true
-            })
+            removeFromArrayOfActivityRemoved(activitySelect)
+            setActivitySelect("")
+            setUpdateTable((prev) => !prev)
+        }
+    }
+
+    function addActivityOkWrongAnswer(){
+        if (activitySelect == "") setError(true)
+        else {
+            setActivity({...activity, 
+                ["correctAnswerGo"]: [...activity["correctAnswerGo"], activitySelect], 
+                ["wrongAnswerGo"]  : [...activity["wrongAnswerGo"], activitySelect],
+            });
+            removeFromArrayOfActivityRemoved(activitySelect)
             setActivitySelect("")
             setUpdateTable((prev) => !prev)
         }
     }
 
     function deleteActivitiesCorrectAnswer(){
-        var tmp = []
-        activity.correctAnswerGo.forEach(element => {
-            if (element != activityCorrectAnswer) tmp.push(element)
-            else ricorsiveDelete(activityCorrectAnswer)
-        })
-        setActivity({...activity, ["correctAnswerGo"]: tmp});
-        setActivityCorrectAnswer("")
-        setUpdateTable((prev) => !prev)
+        const found = props.story.activities.find(element => element.title == activityCorrectAnswer)
+        if (found && found.correctAnswerGo.length == 0 && found.wrongAnswerGo.length == 0){
+            var tmp = []
+            activity.correctAnswerGo.forEach(element => {
+                if (element != activityCorrectAnswer) tmp.push(element)
+            })
+            setActivity({...activity, ["correctAnswerGo"]: tmp});
+            if (!(arrayOfActivityRemoved.includes(activityCorrectAnswer))) setArrayOfActivityRemoved(arrayOfActivityRemoved => [...arrayOfActivityRemoved, activityCorrectAnswer])
+            setActivityCorrectAnswer("")
+            setUpdateTable((prev) => !prev)
+        } else {
+            displayDialog("Questa attività non puo essere rimossa perche in essa a sua volta ci sono delle attività collegate. Per procedere prima rimuovere le attività collegati con essa");
+        }
     }
 
     function deleteActivitiesWrongAnswer(){
-        var tmp = []
-        activity.wrongAnswerGo.forEach(element => {
-            if (element != activityWrongAnswer) tmp.push(element)
-            else ricorsiveDelete(activityCorrectAnswer)
-        })
-        setActivity({...activity, ["wrongAnswerGo"]: tmp});
-        setActivityWrongAnswer("")
-        setUpdateTable((prev) => !prev)
+        const found = props.story.activities.find(element => element.title == activityWrongAnswer)
+        if (found && found.correctAnswerGo.length == 0 && found.wrongAnswerGo.length == 0){
+            var tmp = []
+            activity.correctAnswerGo.forEach(element => {
+                if (element != activityWrongAnswer) tmp.push(element)
+            })
+            setActivity({...activity, ["wrongAnswerGo"]: tmp});
+            if (!(arrayOfActivityRemoved.includes(activityCorrectAnswer))) setArrayOfActivityRemoved(arrayOfActivityRemoved => [...arrayOfActivityRemoved, activityWrongAnswer])
+            setActivityWrongAnswer("")
+            setUpdateTable((prev) => !prev)
+        } else {
+            displayDialog("Questa attività non puo essere rimossa perche in essa a sua volta ci sono delle attività collegate. Per procedere prima rimuovere le attività collegati con essa");
+        }
     }
 
     async function selectActivity(e){
@@ -520,6 +546,10 @@ function Realize_activity(props){
         await setActivity(props.story.activities[indexActivitySelected])
         setActivitySelect("")
         setUpdateTable((prev) => !prev)
+    }
+
+    function a(){
+        console.log(arrayOfActivityRemoved)
     }
 
     return(
@@ -577,22 +607,6 @@ function Realize_activity(props){
             ]),
             e("hr", null),
 
-            e("p", null, "DIMENSIONE E POSIZIONE DELLE RISPOSTE"),
-            e("span", {className:"spanExplain"}, "Il bordo rosso è solo di aiuto in questa fase di creazione, non verrà visualizzato nella storia finale"),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "topInput", className: classes.input, value: activity.topInput, name: "topInput", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "leftInput", className: classes.input, value: activity.leftInput, name: "leftInput", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heightInput", className: classes.input, value: activity.heightInput, name: "heightInput", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthInput", className: classes.input, value: activity.widthInput, name: "widthInput", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("hr", null),
-
             e("p", null, "TESTO DOMANDA"),
             e("div", {className: "sx_realize_option_description"}, [
                 e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, value: activity.activityText, name: "activityText", label: "Testo storia", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
@@ -625,6 +639,22 @@ function Realize_activity(props){
                 )),
                 e(DialogComponent2, {fun: setOpenInfoDialog, open: openInfoDialog, textError: "prova"} )
             ]),
+
+            e("p", null, "DIMENSIONE E POSIZIONE DELLE RISPOSTE"),
+            e("span", {className:"spanExplain"}, "Il bordo rosso è solo di aiuto in questa fase di creazione, non verrà visualizzato nella storia finale"),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "topInput", className: classes.input, value: activity.topInput, name: "topInput", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "leftInput", className: classes.input, value: activity.leftInput, name: "leftInput", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "heightInput", className: classes.input, value: activity.heightInput, name: "heightInput", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "widthInput", className: classes.input, value: activity.widthInput, name: "widthInput", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("hr", null),
 
 
             e("div", {id: "Quattro opzioni"}, [
@@ -740,6 +770,9 @@ function Realize_activity(props){
                 e(IconButton, {id: "buttonActivityWrongAnswer", disabled: check, className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityWrongAnswer], component: "span", onClick: addActivityWrongAnswer}, 
                     e(Icon, {children: "sentiment_very_dissatisfied_outlined_icon"}),  
                 ),
+                e(IconButton, {id: "buttonActivityOkWrongAnswer", disabled: check, className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityOkWrongAnswer], component: "span", onClick: addActivityOkWrongAnswer}, 
+                    e(Icon, {children: "sentiment_satisfied"}),  
+                ),
                 e(FormControl, {id: "buttonFirstActivity", variant: "outlined", className: classes.leggendButton}, [
                     e(FormControlLabel, {className: classes.formControl, control: e(SwitchButton, {disabled: checkSwitch, checked: activity.firstActivity, onChange: () => setActivity({...activity, ["firstActivity"]: !(activity.firstActivity)})}),  label: "Attività iniziale"})
                 ])        
@@ -763,14 +796,9 @@ function Realize_activity(props){
                 ),  
             ]),
 
-            e(DialogComponent, {fun: setErrorFourAnswers, open: errorFourAnswers, textError: "Inserire prima esattamente 4 risposte se si vuole scegliere questo tipo di risposta"} ),
-            e(DialogComponent, {fun: setErrorAnswerInserted, open: errorAnswerInserted, textError: "Inserire prima una risposta"} ),
-            e(DialogComponent, {fun: setErrorNotNumber, open: errorNotNumber, textError: "Inserire un valore numerico dove richiesto"} ),
-            e(DialogComponent, {fun: setErrorAnswerSelected, open: errorAnswerSelected, textError: "Selezionare prima una risposta"} ),
-            e(DialogComponent, {fun: setErrorLimitAnswer, open: errorLimitAnswer, textError: "Raggiunto limite risposte per questo tipo di widget"} ),
-            e(DialogComponent, {fun: setErrorAnswerDuplicated, open: errorAnswerDuplicated, textError: "Risposta già presente"} ),
-            e(DialogComponent, {fun: setError, open: error, textError: "Selezionare prima una risposta"} ),
+            e(DialogComponent, {fun: setError, open: error, textError: string} ),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
+            e(Button, {onClick: a}, "SALVA"),
         ])    
     )
 

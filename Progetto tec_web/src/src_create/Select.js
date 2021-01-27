@@ -104,7 +104,7 @@ function Select(props){
         axios.get(`http://localhost:8000/storiesFolder/${props.user}`)
         .then((response) => {
             response.data.forEach((element) => {
-                arrayOfStories.push(
+                setArrayPrivateStories(arrayPrivateStories => [...arrayPrivateStories,
                     e(Card, {
                         setStorySelected: setStorySelected,
                         background: element.background,
@@ -116,11 +116,11 @@ function Select(props){
                         accessibility: element.accessibility.url,
                         description: element.description,
                         published: element.published,
+                        age: element.age,
                         other: response.data
                     })
-                )
+                ])
             })
-            setArrayPrivateStories(arrayOfStories)
             return response; 
         }).then((response) => {
             response.data.forEach((element) => {

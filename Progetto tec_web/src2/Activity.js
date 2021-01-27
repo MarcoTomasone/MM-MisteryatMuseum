@@ -175,8 +175,8 @@ export const Activity = React.forwardRef((props, ref) => {
         if(actual.correctAnswerGo.length === 0){
             const last = activities.length;
             dinamicActivities.push(activities[last - 1]);
-            props.socket.emit('finish', props.playerID);
-            postOnServer(props.playerId);
+            props.socket.emit('finish', {id: props.playerId, story: "Story1"});
+            
         }else{
             let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
             console.log("Risposta Corretta!");
@@ -189,8 +189,7 @@ export const Activity = React.forwardRef((props, ref) => {
         if(actual.wrongAnswerGo.length === 0){
             const last = activities.length;
             dinamicActivities.push(activities[last - 1]);
-            props.socket.emit('finish', props.playerID);
-            postOnServer(props.playerId);
+            props.socket.emit('finish', {id: props.playerId, story: "Story1"});
         }else{
             let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
             console.log("Risposta Errata!");

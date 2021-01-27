@@ -56,8 +56,9 @@ export const Activity = React.forwardRef((props, ref) => {
                         sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
                         dinamicActivities.push(activities[questionIndex + 1]);
                     break;
-                    case "imgUpload": //modificate sendData
+                    case "Foto": //modificate sendData
                         sendData(props.playerId, activities[questionIndex].question, path, counter, seconds, 0);
+                        correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                         dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Quattro opzioni" : 

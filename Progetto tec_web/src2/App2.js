@@ -88,8 +88,7 @@ function App2() {
         height: "15%"
     };
 
-    const btnChat={
-        
+    const btnChat={   
         color: data.player.chatButton.textColor,
         backgroundColor:data. player.chatButton.backgroundColor,
         borderRadius:`${data.player.chatButton.borderRadius}px`,
@@ -161,7 +160,9 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         //backgroundPositionWidth:`${data.player.image.width* screen.availWidth/202}px`,
         backgroundSize:` ${data.player.image.width* screen.availWidth/202}px ${data.player.image.height* screen.availHeight/437}px`,
         backgroundLeft:`${data.player.image.left* screen.availHeight/437}px`,
-        
+        color :data.player.textColor,
+        fontSize:data.player.sizeFont,
+        fontFamily:data.player.fontFamily,
         //thicknessFrame:`${data.player.weightFont}px`,
         topFrame:`${data.player.topFrame * screen.availHeight/437}vh`,
         frameColor : data.player.frameColor,

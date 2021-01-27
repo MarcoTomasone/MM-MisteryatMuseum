@@ -53,8 +53,9 @@ export const Activity = React.forwardRef((props, ref) => {
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
                     case "" || "Nessuno":
+                        correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                         sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
-                        dinamicActivities.push(activities[questionIndex + 1]);
+                        //dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Foto": //modificate sendData
                         sendData(props.playerId, activities[questionIndex].question, path, counter, seconds, 0);
@@ -72,7 +73,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
                     break;
-                    case "Vero Falso" :
+                    case "Vero falso" :
                         let answer = lastAnswer ? "Vero" : "Falso";
                         if(dinamicActivities[counter].correct === answer){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
@@ -87,7 +88,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, answer, counter, seconds, actualPoints);
                         break;
-                    case "range":
+                    case "Range":
                         let value = document.getElementById("rangenpt").value;  
                         if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
@@ -102,7 +103,7 @@ export const Activity = React.forwardRef((props, ref) => {
                        // console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, value, counter, seconds, actualPoints);
                     break;
-                    case "text":
+                    case "Input testuale automatico":
                         if(document.getElementById("textAnswer").value  === props.v[counter].correct){
                             index = getRandomInt(0,props.v[counter].correctAnswerGo.length-1);
                             console.log("Risposta Corretta!");
@@ -122,7 +123,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
                     break;
-                    case "humanText":
+                    case "Input testuale valutatore":
                         props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].question, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
                         sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter, seconds, 0);
                         //dinamicActivities.push(props.json.lastActivity);
@@ -149,7 +150,7 @@ export const Activity = React.forwardRef((props, ref) => {
     }
     
     function checkButton(answer){  
-        if(props.v[counter].widgetType ==="Vero Falso"){    
+        if(props.v[counter].widgetType ==="Vero falso"){    
             if(answer === 1){
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
                 document.getElementById("btnTrue").setAttribute("aria-selected", true);
@@ -267,7 +268,7 @@ export const Activity = React.forwardRef((props, ref) => {
         const domanda = dinamicActivities[counter].activityText;
         const answer = dinamicActivities[counter].fourAnswers;
 
-        if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero Falso") {
+        if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero falso") {
                 // fuorAnswers || true\false
             return e("div",null,     
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,   mediaProp),

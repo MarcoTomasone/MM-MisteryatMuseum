@@ -27,25 +27,15 @@ function inputType(props){
 
     if(props.v[props.counter].widgetType === "Input testuale automatico" || props.v[props.counter].widgetType === "Input testuale valutatore"){        
     const styl = {
-            width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-            height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-            bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
-            left:`${props.v[props.counter].leftInput - 10 *screen.availWidth /202}px`,
-            position:"absolute",
+            //width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
+            //height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
+            //bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
+            //left:`${props.v[props.counter].leftInput - 10 *screen.availWidth /202}px`,
+           // position:"absolute",
     }
 
     inputElement.push(e("textarea",{'aria-labelledby' : "activitIntro", id:"textAnswer", key:"input", style:styl}));
 
-            /*inputElement.push(e("input",{
-                                'aria-labelledby' : "activitIntro",
-                                type:"text",
-                                id:"textAnswer",
-                                key:"input",
-                                style:styl,
-                                multiline: true
-                            }));*/
-
-            let range = false;
     }else if(props.v[props.counter].widgetType === "Range" ) {
         function rewriteLabel (){
             document.getElementById("rangeV").innerHTML = document.getElementById("rangenpt").value;
@@ -54,12 +44,12 @@ function inputType(props){
         const defaultValue = 5;
         const styleRange = {
             width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-            height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-            bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
-            left:`${props.v[props.counter].leftInput - 10  *screen.availWidth /202}px`,
-            position:'absolute'
+            //height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
+            //bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
+            //left:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
+            //position:'absolute'
         }
-        inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},defaultValue));
+        inputElement.push(e("p",{id:"rangeV",key:"rangeLabel",style:{color:'gray', fontSize:props.json.player.sizeFont*2}},defaultValue));
       
         inputElement.push(e("input",{
                                     'aria-describedby' : "activitIntro",
@@ -94,16 +84,7 @@ function inputType(props){
                                 props.socket.emit("send-humanEvaluation",{question: props.v[props.counter].question, answer: 'http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path, type : "image" , id : props.playerId, section : props.counter});       
                                 props.inc('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path);
                             }).catch(err => alert("Devi caricare un'immagine!"))}
-           
-            const stylein = {
-                width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-                height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-                marginBottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
-                marginLeft:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
-                position:'absolute'
-            }
 
-  
             inputElement.push(
                 e("input", {id: "background_color",type:'file',size:'large',style:{display:'none'}, onChange:  handleChange}),
                 e("label", {htmlFor:"background_color",size:'large'}, [

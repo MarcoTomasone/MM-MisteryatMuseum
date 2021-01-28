@@ -85,7 +85,6 @@ export const Activity = React.forwardRef((props, ref) => {
                         if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
                             console.log("risposta giusta");
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            console.log(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
                             props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
                             actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);
                         }else{
@@ -307,13 +306,13 @@ export const Activity = React.forwardRef((props, ref) => {
         const answer = dinamicActivities[counter].fourAnswers;
 
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero o falso"  || dinamicActivities[counter].widgetType === "Scelta multipla" ) {
-                // fuorAnswers || true\false
+                // fuorAnswers || True False || multipleAnswer
             return e("div",null,     
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,   mediaProp),
                     e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
         }else { 
-                //avaible Input type == 'range' || type=='text' || type=="file"
+                //avaible Input type == 'range' || type=='text' a/v || type=="file"
             return e("div",null ,             
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,mediaProp),
                     e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId}

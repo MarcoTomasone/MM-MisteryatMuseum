@@ -1,12 +1,12 @@
 {
-  "id": "Matteo_1.json",
-  "user": "Matteo",
+  "id": "Simone_3.json",
+  "user": "Simone",
   "toCopy": true,
   "published": false,
-  "title": "Sdf",
-  "gender": "Fantasy",
-  "objective": "Sdf",
-  "description": "Sdf",
+  "title": "Test",
+  "gender": "Avventura",
+  "objective": "De",
+  "description": "TestD",
   "accessibility": {
     "value": false,
     "url": "../img/no_accessibility_1.png"
@@ -19,7 +19,7 @@
   "ageEnd": 100,
   "player": {
     "background": "#000000",
-    "backgroundImage": "Matteo_2_background.jpg",
+    "backgroundImage": "",
     "frameColor": "#ffffff",
     "topFrame": 80,
     "leftFrame": 15,
@@ -86,86 +86,65 @@
   },
   "firstActivity": {
     "heightFrame": 160,
-    "activityText": "prova",
+    "activityText": "Questa é un attivita introduttiva",
     "backgroundImage": "",
     "activityImage": "",
     "altActivityImage": "",
-    "correctAnswerGo": []
+    "widgetType": "Nessuno",
+    "correctAnswerGo": [
+      "Prova"
+    ]
   },
   "lastActivity": {
     "heightFrame": 160,
-    "activityText": "",
+    "activityText": "Questa é l'attivitá conclusiva",
     "backgroundImage": "",
     "activityImage": "",
     "altActivityImage": "",
+    "widgetType": "Nessuno",
     "correctAnswerGo": []
   },
   "activities": [
     {
-      "title": "Prova_1",
+      "title": "Prova",
       "heightFrame": 160,
-      "activityText": "Faccio una prova di testo",
-      "backgroundImage": "Matteo_1_Prova_1_background.jpg",
-      "activityImage": "pikachu.png",
-      "widgetType": "Quattro opzioni",
-      "topInput": 255,
-      "leftInput": 15,
-      "heightInput": 55,
-      "widthInput": 170,
-      "errorMessage": "",
-      "fourAnswers": [
-        {
-          "text": "test1",
-          "score": 3
-        },
-        {
-          "text": "test2",
-          "score": 0
-        },
-        {
-          "text": "test3",
-          "score": 1
-        },
-        {
-          "text": "test4",
-          "score": -1
-        }
-      ],
-      "multipleAnswers": [],
-      "trueFalseAnswer": {
-        "trueScore": 0,
-        "falseScore": 0
-      },
-      "textAnswer": {
-        "value": "",
-        "scoreOk": 0,
-        "scoreWrong": 0
-      },
-      "rangeAnswer": {
-        "start": 0,
-        "end": 0,
-        "scoreOk": 0,
-        "scoreWrong": 0
-      },
-      "correctAnswerGo": [],
-      "wrongAnswerGo": [],
-      "activityIsUsed": false,
-      "firstActivity": true
-    },
-    {
-      "title": "Prova_2",
-      "heightFrame": 160,
-      "activityText": "Faccio una seconda prova golosa",
+      "activityText": "Questa é una prova di multipleAnswer",
       "backgroundImage": "",
-      "activityImage": "Matteo_1_Prova_2_activity.jpg",
-      "widgetType": "Nessuno",
+      "activityImage": "",
+      "altActivityImage": "TEst",
+      "widgetType": "Scelta multipla",
       "topInput": 320,
       "leftInput": 15,
       "heightInput": 60,
       "widthInput": 170,
       "errorMessage": "",
       "fourAnswers": [],
-      "multipleAnswers": [],
+      "multipleAnswers": [
+        {
+          "text": "Test1",
+          "score": -4
+        },
+        {
+          "text": "Test2",
+          "score": -3
+        },
+        {
+          "text": "Test3",
+          "score": -2
+        },
+        {
+          "text": "Test4",
+          "score": -1
+        },
+        {
+          "text": "Test$",
+          "score": "1"
+        },
+        {
+          "text": "Test6",
+          "score": -6
+        }
+      ],
       "trueFalseAnswer": {
         "trueScore": 0,
         "falseScore": 0
@@ -176,6 +155,8 @@
         "scoreWrong": 0
       },
       "rangeAnswer": {
+        "possibleStart": 0,
+        "possibleEnd": 0,
         "start": 0,
         "end": 0,
         "scoreOk": 0,
@@ -183,9 +164,8 @@
       },
       "correctAnswerGo": [],
       "wrongAnswerGo": [],
-      "activityIsUsed": false,
+      "activityIsUsed": true,
       "firstActivity": true
     }
-  ],
-  "activitiesNotAssigned": []
+  ]
 }

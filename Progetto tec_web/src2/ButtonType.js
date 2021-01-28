@@ -78,19 +78,18 @@ function ButtonType(props){
             
                     ListButtonAnswer.push(e("select",{
                         id:"multipleAnswerId",
+                        style:{width:'50%',height:'30%',marginTop:'10px'},
                         onChange:()=>props.checkButton(document.getElementById("multipleAnswerId").value)},
                         optionVector));
                     }       
 
        
         return e("div",null,
-                    //e("div", {key: "actDescription", style: divActivity},
-                    //e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda), props.MediaProp,
-                    e("div", {
+                 e("div", {
                         key: "buttonblock",
-                        style:buttonGroup }, [
+                        style:buttonGroup }, 
                         ListButtonAnswer
-                    ]),
+                    ),
                     e("button", {role: "button", key:"buttonNext",id: "nextButton1",style:a,onClick:props.inc}, "SUCCESSIVO")
                 );
 

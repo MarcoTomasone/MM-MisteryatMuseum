@@ -309,29 +309,3 @@ export const Activity = React.forwardRef((props, ref) => {
     }
 }
 });
-
-function correctAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
-    if(actual.correctAnswerGo.length === 0){
-        const last = activities.length;
-        dinamicActivities.push(activities[last - 1]);
-        
-    }else{
-        let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-        console.log("Risposta Corretta!");
-        let indexOfNewActivity = dictionaryActivity.get(actual.correctAnswerGo[index]);
-        dinamicActivities.push(activities[indexOfNewActivity]);
-    }
-}
-
-function wrongAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
-
-    if(actual.wrongAnswerGo.length === 0){
-        const last = activities.length;
-        dinamicActivities.push(activities[last - 1]);
-    }else{
-        let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
-        console.log("Risposta Errata!");
-        let indexOfNewActivity = dictionaryActivity.get(actual.wrongAnswerGo[index])
-        dinamicActivities.push(activities[indexOfNewActivity]);  
-    }
-}

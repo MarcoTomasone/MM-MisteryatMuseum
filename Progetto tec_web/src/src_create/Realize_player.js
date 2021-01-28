@@ -212,7 +212,7 @@ function Realize_player(props){
         document.getElementById("helpButton").style.fontFamily        =      playerStyle.fontFamily
         if (playerStyle.textBackgroundColorActived) document.getElementById("phoneText").style.backgroundColor  =      playerStyle.textBackgroundColor
         else document.getElementById("phoneText").style.backgroundColor  =      "transparent"
-        const array = ["option1", "option2", "option3", "option4", "option5", "option6", "option7", "option8", "option9", "option10", "option11"]
+        const array = ["option1", "option2", "option3", "option4", "option5", "option6", "option7", "option8", "option9"]
         array.forEach(element => {
             if (document.getElementById(element) != undefined){
                 document.getElementById(element).style.backgroundColor   =      playerStyle.backgroundColorInputDiv
@@ -222,6 +222,9 @@ function Realize_player(props){
                 document.getElementById(element).style.borderRadius      =     `${playerStyle.borderRadiusNextButton}px`
             }
         })
+        if (document.getElementById("circleDiv") != undefined) document.getElementById("circleDiv").style.color            =      playerStyle.textColorInputDiv
+        if (document.getElementById("option10") != undefined) document.getElementById("option10").style.color             =      playerStyle.textColorInputDiv
+        if (document.getElementById("option11") != undefined) document.getElementById("option11").style.color             =      playerStyle.textColorInputDiv
     }, [playerStyle])
 
 

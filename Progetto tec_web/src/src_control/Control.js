@@ -10,12 +10,14 @@ const e = React.createElement;
 const socket = io('http://localhost:8000', {query: 'type=evaluator'});
 socket.emit('new-evaluator');
 
-
-
 const useStyles2 = makeStyles({
     table: {
       minWidth: 650,
     },
+    tab: {
+        minHeight: 70,
+        alignItems: "center",
+    }
   });
   
 function createData(section, question, answer, time, points) {
@@ -332,8 +334,8 @@ export default function Control(props){
     }, []);
     return e(React.Fragment, null, [ 
         e("div", { className: classes.root }, [
-            e(AppBar, { style: {border: "none", fontSize: 10}, position: "static", children: [
-                e(Tabs, { style: {width: "auto"}, scrollButtons: "on", variant: "scrollable", value: value, onChange: handleChange, ariaLabel: "scrollable force tabs example", children: [
+            e(AppBar, { style: {border: "none"}, position: "static", children: [
+                e(Tabs, { className: classes2.tab, style: {width: "auto"}, scrollButtons: "on", variant: "scrollable", value: value, onChange: handleChange, ariaLabel: "scrollable force tabs example", children: [
                     e(Tab, { label: "Players" , ...a11yProps(0) }),
                     e(Tab, { label: "Ranking", ...a11yProps(1) }),
                     e(Tab, { label: "Help", ...a11yProps(2) }),

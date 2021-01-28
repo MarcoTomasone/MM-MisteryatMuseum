@@ -22,7 +22,7 @@ export default function Help(props) {
     }
     
     return(
-        e(Card, {style: {backgroundColor: "#a1aba4"}}, [
+        e(Card, {style: {backgroundColor: "#a1aba4", marginBottom: 20}}, [
             e(CardContent, null, [
                 e("b", null, `Section ${props.section}`), e("br"), e("b", null, `Question: `), props.question ]),
                 e(TextField, {onKeyDown: () => {isEnter(event)? onSend() : null}, id: "help_" + props.id, key: "3", variant: "outlined", style: {width: "80%", marginBottom: 20, marginLeft: 18}, InputProps: {endAdornment:

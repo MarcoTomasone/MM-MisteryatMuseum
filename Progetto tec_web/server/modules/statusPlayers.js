@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { jsPDF } = require("jspdf");
+const { dirname } = require("path");
 require('jspdf-autotable');
 
 //array of active stories 
@@ -120,7 +121,7 @@ module.exports = {
             const player = req.query.player;
             const story = req.query.story;
             let infoPlayer;
-            if(player in storiesActive[story])
+            if(player in storiesActive[story] && storiesActive[story][player])
                 infoPlayer = storiesActive[story][player];
             else{
                 const mypath = path.join(__dirname, `statusFiles/${story}/${player}.json`);
@@ -128,15 +129,8 @@ module.exports = {
                     const data = fs.readFileSync(mypath);
                     infoPlayer = JSON.parse(data); 
                 }
-                else {
-                    res.status(404).end();
-                    return;
-                }
-            }
-            //const path = `./inGame/${story}/${player}.json`;
-            if(!storiesActive[story][player]) {
-                res.sendStatus(404).end();
-                return;
+                else
+                    res.status(404).send({ message : "Player Not Exist" });
             }
             const doc = new jsPDF();
             const col = ["Section", "Question", "Answer", "Time", "Points"];
@@ -150,13 +144,35 @@ module.exports = {
                 const item = [section.section, section.question, section.answer, section.timer, section.points];
                 rows.push(item);
             });
+
+            /*let ciao;
+            for(i = 0; i < answer.length ; i++) {
+                if(answer[i].startsWith("http")) {
+                    ciao = answer[i];
+                    const bitmap = fs.readFileSync(path.join(__dirname, answer[i].replace('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/', '../')));
+                    const base64str = Buffer.from(bitmap).toString('base64');
+                    answer[i] = base64str;
+    
+                }
+                else
+                    answer[i] = false;
+            };*/
+        
             doc.autoTable(col, rows,  {
                 tableLineColor: [189, 195, 199],
                 tableLineWidth: 0.3,
                 startY: 20,
                 columnStyles: {
                     2: {columnWidth: 30},
-                }
+                },
+                /*didDrawCell: function(data) {
+                    if(data.cell.section == "body" && data.column.index == 2 && answer[data.raw] != false) {
+                       const img = answer[data.raw];
+                       const dim = data.cell.height - data.cell.padding('vertical');
+                       const textPos = data.cell.textPos;
+                       doc.addImage(img, 0,  0, dim, dim);
+                    }
+                }*/
             });
             const pdf = doc.output();
             res.contentType("application/pdf;charset=utf-8");

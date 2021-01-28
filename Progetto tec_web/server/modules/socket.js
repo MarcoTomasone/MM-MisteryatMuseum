@@ -1,5 +1,6 @@
 const { Socket } = require("socket.io");
 const fs = require("fs");
+const { finished } = require("stream");
 
 module.exports = function(io) {
     global.arrayMessages = {};
@@ -136,6 +137,8 @@ module.exports = function(io) {
                         if(item.id == id)
                             arrayEvaluations[player].splice(index, 1);
                     });
+                    //if(arrayEvaluations[player] && arrayEvaluations[player].length == 0 && player in finish)
+                        //eliminare player dalla storia
                     io.to(socketPlayers[player]).emit('add-points', { points: data.points });
                 }
             });

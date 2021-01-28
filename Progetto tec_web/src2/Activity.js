@@ -77,8 +77,8 @@ export const Activity = React.forwardRef((props, ref) => {
 
                         }else{
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points +eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
-                            actualPoints =eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
+                            props.setPoints(props.points + eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
+                            actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
                         }
                         //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, answer, counter, seconds, actualPoints);
@@ -93,7 +93,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         }else{
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.scoreWrong));
-                            actualPoints =eval( dinamicActivities[counter].trueFalseAnswer.scoreWrong);        
+                            actualPoints = eval( dinamicActivities[counter].trueFalseAnswer.scoreWrong);        
                         }
                        // console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, actualPoints);

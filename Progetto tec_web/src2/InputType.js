@@ -34,15 +34,16 @@ function inputType(props){
             position:"absolute",
     }
 
- 
-            inputElement.push(e("input",{
+    inputElement.push(e("textarea",{'aria-labelledby' : "activitIntro", id:"textAnswer", key:"input", style:styl}));
+
+            /*inputElement.push(e("input",{
                                 'aria-labelledby' : "activitIntro",
                                 type:"text",
                                 id:"textAnswer",
                                 key:"input",
                                 style:styl,
                                 multiline: true
-                            }));
+                            }));*/
 
             let range = false;
     }else if(props.v[props.counter].widgetType === "Range" ) {
@@ -59,17 +60,7 @@ function inputType(props){
             position:'absolute'
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},defaultValue));
-        /*inputElement.push(e( "range", {
-                                'aria-describedby' : "activitIntro",
-                                key:"rangebar",
-                                min: props.v[props.counter].minRange,
-                                max: props.v[props.counter].maxRange,
-                                defaultValue:defaultValue,
-                                step:1,
-                                id:"rangenpt",
-                                style:styleRange,
-                                onChange:()=>{rewriteLabel()}
-                                }));*/
+      
                 inputElement.push(e("input",{
                                     'aria-describedby' : "activitIntro",
                                     type:"range", 

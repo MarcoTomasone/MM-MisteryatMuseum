@@ -37,13 +37,18 @@ export const Activity = React.forwardRef((props, ref) => {
     //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc( path ){
         let actual = dinamicActivities[counter];
-        let index = 0;
-        let questionIndex = activities.indexOf(dinamicActivities[counter]);
-        let indexOfNewActivity;
         
+        let questionIndex = activities.indexOf(dinamicActivities[counter]);
+
+        if(dinamicActivities[counter] === props.json.lastActivity){
+            let final = props.json.lastActivity;
+            final.activityText="Grazie per aver giocato :)";
+            dinamicActivities.push(final);
+        }
 
         clearInterval(timer);
-            if(counter != 0){
+        if(!Object.is(dinamicActivities[counter],props.json.lastActivity)){
+        if(counter != 0){
                 now = new Date();
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
@@ -73,6 +78,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.trueScore);
 
                         }else{
+                            
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
                             actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
@@ -101,14 +107,13 @@ export const Activity = React.forwardRef((props, ref) => {
 
                         }else{
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.scoreWrong));
-                            actualPoints = eval( dinamicActivities[counter].trueFalseAnswer.scoreWrong);        
+                            props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreWrong));
+                            actualPoints = eval( dinamicActivities[counter].rangeAnswer.scoreWrong);        
                         }
-                       // console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, actualPoints);
                     break;
                     case "Input testuale automatico":
-                        if(document.getElementById("textAnswer").value  === props.v[counter].textAnswer.value){
+                        if(document.getElementById("textAnswer").value  === dinamicActivities[counter].textAnswer.value){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points +eval( dinamicActivities[counter].textAnswer.scoreOk));
                             actualPoints = eval(dinamicActivities[counter].textAnswer.scoreOk);
@@ -126,7 +131,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     break;
                 }
             }
-        
+        }
         setCounter(counter + 1);
         setLastAnswer(null);
         document.getElementById("help-message-container").innerHTML = "";
@@ -150,13 +155,13 @@ export const Activity = React.forwardRef((props, ref) => {
             if(answer === 1){
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
                 document.getElementById("btnTrue").setAttribute("aria-selected", true);
-                document.getElementById("btnFalse").backgroundColor ='white'; 
+                document.getElementById("btnFalse").backgroundColor =props.json.player.inputDiv.backgroundColor; 
                 document.getElementById("btnFalse").removeAttribute("aria-selected");
                 
             }else{
                 document.getElementById("btnFalse").backgroundColor = "yellow"; 
                 document.getElementById("btnFalse").setAttribute("aria-selected", true); 
-                document.getElementById("btnTrue").backgroundColor = 'white';
+                document.getElementById("btnTrue").backgroundColor =props.json.player.inputDiv.backgroundColor;
                 document.getElementById("btnTrue").removeAttribute("aria-selected"); 
             }
         }else if(props.v[counter].widgetType ==="Quattro opzioni"){
@@ -186,6 +191,9 @@ export const Activity = React.forwardRef((props, ref) => {
     }
 
     function wrongAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
+        if(dinamicActivities[counter].errorMessage !== ""){
+            alert(dinamicActivities[counter].errorMessage);
+        }
         if(actual.wrongAnswerGo.length === 0){
             const last = activities.length;
             dinamicActivities.push(activities[last - 1]);
@@ -198,13 +206,13 @@ export const Activity = React.forwardRef((props, ref) => {
         }
     }
     const btnNext={ 	   
-        display:(dinamicActivities[counter] === props.json.lastActivity)? 'None' : 'block',
+        display:(dinamicActivities[counter - 1] === props.json.lastActivity)? 'None' : 'block',
         fontSize:`1.2em`,
+        border:'solid',
         fontFamily:props.json.player.fontFamily,
-        backgroundColor:(dinamicActivities[counter] !== props.json.lastActivity) ? props.json.player.nextButton.backgroundColor : 'gray',
+        backgroundColor: props.json.player.nextButton.backgroundColor ,
         borderRadius:`${props.json.player.nextButton.borderRadius}px`,
         borderColor:props.json.player.nextButton.frameColor,
-        //width:`${data.player.chatButton.width *screen.availWidth /437}px`,
         width:`${props.json.player.nextButton.width *screen.availWidth /202}px`,
         height:`${props.json.player.nextButton.height * screen.availHeight /437}px`,
         top:`${props.json.player.nextButton.top  * screen.availHeight/437}px`,
@@ -220,7 +228,7 @@ export const Activity = React.forwardRef((props, ref) => {
             fontFamily:props.json.player.fontFamily
     }
 
-    const divBorderLF = {
+    const divBorder = {
             color:props.json.player.textColor,
             textAlign:'center',
             border:'solid',
@@ -237,8 +245,6 @@ export const Activity = React.forwardRef((props, ref) => {
             overflowY:'scroll',
         }
 
-
-    
     let mediaProp = [];
         if(dinamicActivities[counter].activityImage !== ""){     
         // -->  richiesta al server per il media 
@@ -257,17 +263,10 @@ export const Activity = React.forwardRef((props, ref) => {
         });       
         const mediaStyle = {
             width:'100%'
-          /*  width:`${props.json.player.image.width  *screen.availWidth /202}px`,
-            height:`${props.json.player.image.height  *screen.availHeight /437}px`,
-            top:`${props.json.player.image.top  *screen.availHeight /437}px`,
-            left:`${props.json.player.image.left  *screen.availWidth /202}px`,
-            */
-           
-           // position:'absolute'
         }
     
     if(img !== 0)
-        mediaProp.push (e("img",{style:mediaStyle,key:"media",alt:dinamicActivities[counter].alternativeText,src:img}));//controls:true,autoPlay:true}));    
+        mediaProp.push (e("img",{style:mediaStyle,key:"media",alt:dinamicActivities[counter].altAlternativeImage,src:img}));//controls:true,autoPlay:true}));    
     }
 
     /**per inserire immagini dentro o fuori il divActivity é necessario spostare il vettore mediaProp
@@ -276,7 +275,7 @@ export const Activity = React.forwardRef((props, ref) => {
      */
     if (dinamicActivities[counter].widgetType === "Nessuno" || !dinamicActivities[counter].hasOwnProperty('widgetType')){   
         return e("div",null,
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, dinamicActivities[counter].activityText , mediaProp),
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].activityText , mediaProp),
                     e("button", {role: "button", key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "SUCCESSIVO")
                 );
 
@@ -288,13 +287,13 @@ export const Activity = React.forwardRef((props, ref) => {
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero o falso"  || dinamicActivities[counter].widgetType === "Scelta multipla" ) {
                 // fuorAnswers || True False || multipleAnswer
             return e("div",null,     
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,   mediaProp),
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, domanda,   mediaProp),
                     e(ButtonType, {answer:answer, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
         }else { 
                 //avaible Input type == 'range' || type=='text' a/v || type=="file"
             return e("div",null ,             
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,mediaProp),
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, domanda,mediaProp),
                     e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId}
                 ));
     }

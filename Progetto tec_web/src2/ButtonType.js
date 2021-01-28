@@ -14,15 +14,17 @@ function ButtonType(props){
 
     //style's prop of single button [but it 's the same forall]
     const buttProp = {
-        backgroundColor:'white',
-        textColor:'black',
-        height:'50%',
-        width:'50%'
+        backgroundColor:props.json.player.inputDiv.backgroundColor,
+        color:props.json.player.inputDiv.textColor,
+        height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
+        width:'50%',
+        border:'solid',
+        borderColor:props.json.player.inputDiv.frameColor
     };
 
     const buttonGroup = {
         border: "solid",
-        borderColor: "green",
+        borderColor: props.json.player.inputDiv.frameColor,
         position:'absolute',
         width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
         height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
@@ -32,10 +34,12 @@ function ButtonType(props){
         bottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
     }
        const buttSelect = {
+        height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
+        color:'black',
         backgroundColor:'yellow',
-        textColor:'white',
-        height:'50%',
-        width:'50%'                
+        width:'50%',
+        border:'solid',
+        borderColor:props.json.player.inputDiv.frameColor            
        };
     
         const ListButtonAnswer = [];     //Array that contains every button
@@ -44,16 +48,18 @@ function ButtonType(props){
                 key:"BtnTrue",
                 style:(props.lastAnswer===1)? buttSelect:buttProp,
                 id:"btnTrue",
-                alt:"TRUE", 
+                alt:"Vero", 
                 onClick: () =>props.checkButton(1)
-            },"TRUE"));
+            },"VERO"));
             ListButtonAnswer.push(e("button", {
                 key:"BtnFalse",
                 style: (props.lastAnswer===0)? buttSelect:buttProp,
                 id:"btnFalse",
-                alt:"FALSE", 
+                alt:"Falso", 
                 onClick: () =>props.checkButton(0)
-            },"FALSE"));
+            },"FALSO"));
+
+
         }else if (props.v[props.counter].widgetType === "Quattro opzioni"){
             for (let i = 0; i < props.answer.length; i++) {      
                     ListButtonAnswer.push(e("button", {
@@ -71,7 +77,8 @@ function ButtonType(props){
             for(let i = 0 ; i< props.v[props.counter].multipleAnswers.length ; i++){
                 optionVector.push(e("option",{key:'answer'+ props.v[props.counter].multipleAnswers[i].text,
                                             id:'option'+i,
-                                            value:i
+                                            value:i,
+                                            alt:props.v[props.counter].multipleAnswers[i].text
                                         },
                                         props.v[props.counter].multipleAnswers[i].text));
             }

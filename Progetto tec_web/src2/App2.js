@@ -21,11 +21,11 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON("Matteo_6");
+const temp = readJSON("Simone_0");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
-
+data.activities.push(data.lastActivity);
 let activityList = [];
 activityList.push(data.activities[0]);
 activityList.push(data.activities[1]);
@@ -88,7 +88,7 @@ function App2() {
     const btnChat={   
         border:'solid',
         color: data.player.chatButton.textColor,
-        borderColor:data.player.frameColor,
+        borderColor:data.player.chatButton.frameColor,
         backgroundColor:data. player.chatButton.backgroundColor,
         borderRadius:`${data.player.chatButton.borderRadius}px`,
         frameColor:data.player.chatButton.frameColor,
@@ -110,8 +110,8 @@ function App2() {
         color:data.player.scoreDiv.textColor,
         backgroundColor:data.player.scoreDiv.backgroundColor,
         border:'solid',
-        borderColor:data.player.frameColor,
-        borderRadius:data.player.borderRadiusFrame,
+        borderColor:data.player.scoreDiv.frameColor,
+        borderRadius:data.player.scoreDiv.borderRadius+'px',
         height:`${data.player.scoreDiv.height * screen.availHeight/437}px`,
         width:`${data.player.scoreDiv.width * screen.availWidth/202}px`,
         top:`${data.player.scoreDiv.top * screen.availHeight/437}px`,
@@ -121,7 +121,7 @@ function App2() {
     const btnHelp={
         border:'solid',
         fontSize:`1.2em`,
-        borderColor:data.player.frameColor,
+        borderColor:data.player.helpButton.frameColor,
         fontFamily:data.player.fontFamily,
         color:data.player.helpButton.backgroundColor,
         borderRadius:`${data.player.helpButton.borderRadius}px`,
@@ -137,7 +137,7 @@ function App2() {
         position:'absolute'
 };
 
-if((data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))
+if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activities[counter].backgroundImage!=="" )
     || (data.player.backgroundImage !== "" && data.player.hasOwnProperty('backgroundImage'))){
      const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
     
@@ -177,12 +177,9 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
 
     var div_a = {      //style della div contenente le activity
         background: data.player.background,
-        //thicknessFrame:`${data.player.weightFont}vh`,
         topFrame:`${data.player.topFrame* screen.availHeight/437}vh`,
-        //frameColor : data.player.frameColor,
         leftFrame:`${data.player.leftFrame* screen.availWidth/202}vh`,
         widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
-        //weightFrame:`${data.player.weightFrame * screen.availHeight/437}vh`,
         weightFont:`${data.player.weightFont}px`,
         textAlign:'center'
     };

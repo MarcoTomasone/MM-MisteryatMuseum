@@ -90,8 +90,8 @@ function App2() {
 
     const btnChat={   
         color: data.player.chatButton.textColor,
-       // backgroundColor:data. player.chatButton.backgroundColor,
-        backgroundColor : "red", 
+        borderColor:data.player.frameColor,
+        backgroundColor:data. player.chatButton.backgroundColor,
         borderRadius:`${data.player.chatButton.borderRadius}px`,
         frameColor:data.player.chatButton.frameColor,
         fontSize:`1.2em`,
@@ -124,6 +124,7 @@ function App2() {
 
     const btnHelp={
         fontSize:`1.2em`,
+        borderColor:data.player.frameColor,
         fontFamily:data.player.fontFamily,
         color:data.player.helpButton.backgroundColor,
         borderRadius:`${data.player.helpButton.borderRadius}px`,
@@ -196,7 +197,7 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
         //weightFrame:`${data.player.weightFrame * screen.availHeight/437}vh`,
         weightFont:`${data.player.weightFont}px`,
-        
+        textAlign:'center'
     };
 }
 

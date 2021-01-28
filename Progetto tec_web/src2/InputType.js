@@ -25,39 +25,41 @@ function inputType(props){
         bottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
     }
 
-    if(props.v[props.counter].widgetType === "text" || props.v[props.counter].widgetType === "humanText"){        
+    if(props.v[props.counter].widgetType === "Input testuale automatico" || props.v[props.counter].widgetType === "Input testuale valutatore"){        
     const styl = {
             width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
             height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-            marginBottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
-            marginLeft:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
-            position:"absolute"
+            bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
+            left:`${props.v[props.counter].leftInput - 10 *screen.availWidth /202}px`,
+            position:"absolute",
     }
 
-    inputElement.push(e(TextField,{
+ 
+            inputElement.push(e("input",{
                                 'aria-labelledby' : "activitIntro",
-                                label: "Answer",
+                                type:"text",
                                 id:"textAnswer",
                                 key:"input",
-                                multiline : true,
                                 style:styl,
+                                multiline: true
                             }));
 
             let range = false;
-    }else if(props.v[props.counter].widgetType === "range" ) {
+    }else if(props.v[props.counter].widgetType === "Range" ) {
         function rewriteLabel (){
             document.getElementById("rangeV").innerHTML = document.getElementById("rangenpt").value;
         }
-        const defaultValue = props.v[props.counter].minRange + (props.v[props.counter].maxRange - props.v[props.counter].minRange)/2;
+        //const defaultValue = props.v[props.counter].minRange + (props.v[props.counter].maxRange - props.v[props.counter].minRange)/2;
+        const defaultValue = 5;
         const styleRange = {
             width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
             height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-            marginBottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
-            marginLeft:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
+            bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
+            left:`${props.v[props.counter].leftInput - 10  *screen.availWidth /202}px`,
             position:'absolute'
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},defaultValue));
-        inputElement.push(e( Slider, {
+        /*inputElement.push(e( "range", {
                                 'aria-describedby' : "activitIntro",
                                 key:"rangebar",
                                 min: props.v[props.counter].minRange,
@@ -67,7 +69,19 @@ function inputType(props){
                                 id:"rangenpt",
                                 style:styleRange,
                                 onChange:()=>{rewriteLabel()}
-                                }));
+                                }));*/
+                inputElement.push(e("input",{
+                                    'aria-describedby' : "activitIntro",
+                                    type:"range", 
+                                    key:"rangebar",
+                                    min:0,
+                                    max:10,
+                                    defaultValue:defaultValue,
+                                    step:1,
+                                    id:"rangenpt",
+                                    style:styleRange,
+                                    onChange:()=>{rewriteLabel()}
+                                    }));
         } else if(props.v[props.counter].widgetType === "Foto" ){
            
             

@@ -2,6 +2,7 @@ const { Socket } = require("socket.io");
 const fs = require("fs");
 const { finished } = require("stream");
 
+
 module.exports = function(io) {
     global.arrayMessages = {};
     global.arrayHelps = {};
@@ -89,6 +90,7 @@ module.exports = function(io) {
                 const player = data.id;
                 for(const evaluator in socketEvaluator)
                     io.to(socketEvaluator[evaluator]).emit('finish-player', { player });
+                storiesActive[data.story][data.id].finished = true;
             });
         }
         else if(type == 'evaluator'){
@@ -129,6 +131,8 @@ module.exports = function(io) {
             socket.on('read-message', data => {
                 const id = data.id;
                 const player = data.player;
+                const story = data.story;
+                console.log(storiesActive[story][player].sectionArray);
                 if(data.type == 'message' && arrayMessages[player]){
                     arrayMessages[player].arrived = false;
                 }
@@ -137,9 +141,9 @@ module.exports = function(io) {
                         if(item.id == id)
                             arrayEvaluations[player].splice(index, 1);
                     });
-                    //if(arrayEvaluations[player] && arrayEvaluations[player].length == 0 && player in finish)
-                        //eliminare player dalla storia
                     io.to(socketPlayers[player]).emit('add-points', { points: data.points });
+                    if(arrayEvaluations[player] && arrayEvaluations[player].length == 0 && storiesActive[story] && storiesActive[story][player].finished)
+                        delete storiesActive[story][player]; 
                 }
             });
             socket.on('delete-player', data => {

@@ -22,7 +22,7 @@ export const Activity = React.forwardRef((props, ref) => {
     const setCounter = props.setCounter;
 
     var   [img,setImg] = React.useState(0);
-    var [backgroundImg,setBackgroundImg] = React.useState(0);
+    var [backgroundImg, setBackgroundImg] = React.useState(0);
     const [lastAnswer,setLastAnswer] = React.useState(null);
     const dinamicActivities = props.v;
     const activities = props.json.activities;
@@ -43,23 +43,19 @@ export const Activity = React.forwardRef((props, ref) => {
         
 
         clearInterval(timer);
-        if(dinamicActivities[counter] === props.json.lastActivity){
-            dinamicActivities.push( props.json.lastActivity);
-            socket.emit('finish', props.playerID);
-            postOnServer(props.playerId);
-        } else {
             if(counter != 0){
                 now = new Date();
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
                     case "" || "Nessuno":
-                        sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
-                        dinamicActivities.push(activities[questionIndex + 1]);
+                        correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                        sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0);
+                        //dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Foto": //modificate sendData
-                        sendData(props.playerId, activities[questionIndex].question, path, counter, seconds, 0);
+                        sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
                         correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                        dinamicActivities.push(activities[questionIndex + 1]);
+                        //dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Quattro opzioni" : 
                         if(dinamicActivities[counter].fourAnswers[lastAnswer].score > 0){
@@ -67,69 +63,69 @@ export const Activity = React.forwardRef((props, ref) => {
                         } else {
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                         }
-                        props.setPoints(props.points + dinamicActivities[counter].fourAnswers[lastAnswer].score);
-                        actualPoints = dinamicActivities[counter].fourAnswers[lastAnswer].score;    
+                        props.setPoints(props.points + eval(dinamicActivities[counter].fourAnswers[lastAnswer].score));
+                        actualPoints = eval(dinamicActivities[counter].fourAnswers[lastAnswer].score);    
                         //console.log(actualPoints);
-                        sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
+                        sendData(props.playerId, activities[questionIndex].activityText, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
                     break;
-                    case "Vero Falso" :
+                    case "Vero o falso" :
                         let answer = lastAnswer ? "Vero" : "Falso";
-                        if(dinamicActivities[counter].correct === answer){
+                        if(((eval(dinamicActivities[counter].trueFalseAnswer.trueScore)) > 0 ) && (answer === "Vero")){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
-                            actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
+                            props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.trueScore));
+                            actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.trueScore);
 
                         }else{
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore); 
-                            actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;         
+                            props.setPoints(props.points +eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
+                            actualPoints =eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
                         }
                         //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, answer, counter, seconds, actualPoints);
                         break;
-                    case "range":
-                        let value = document.getElementById("rangenpt").value;  
-                        if(value < dinamicActivities[counter].end && value > dinamicActivities[counter].start ){
+                    case "Range":
+                        let value = eval(document.getElementById("rangenpt").value);  
+                        if(value < eval(dinamicActivities[counter].rangeAnswer.end) && value > eval(dinamicActivities[counter].rangeAnswer.start) ){
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
-                            actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
+                            props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreOk));
+                            actualPoints = eval(dinamicActivities[counter].rangeAnswer.scoreOk);
 
                         }else{
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore);
-                            actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;        
+                            props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.scoreWrong));
+                            actualPoints =eval( dinamicActivities[counter].trueFalseAnswer.scoreWrong);        
                         }
                        // console.log(actualPoints);
-                        sendData(props.playerId, activities[questionIndex].question, value, counter, seconds, actualPoints);
+                        sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, actualPoints);
                     break;
-                    case "text":
-                        if(document.getElementById("textAnswer").value  === props.v[counter].correct){
+                    case "Input testuale automatico":
+                        if(document.getElementById("textAnswer").value  === props.v[counter].textAnswer.value){
                             index = getRandomInt(0,props.v[counter].correctAnswerGo.length-1);
                             console.log("Risposta Corretta!");
                             indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
                             props.v.push(activities[indexOfNewActivity]);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.trueScore);
-                            actualPoints = dinamicActivities[counter].truefalseanswer.trueScore;
+                            props.setPoints(props.points +eval( dinamicActivities[counter].textAnswer.scoreOk));
+                            actualPoints = eval(dinamicActivities[counter].textAnswer.scoreOk);
 
                         }else{
                             index = getRandomInt(0,props.v[counter].wrongAnswerGo.length -1);
                             console.log("Risposta Errata!");
                             indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
                             props.v.push(activities[indexOfNewActivity]);
-                            props.setPoints(props.points + dinamicActivities[counter].truefalseanswer.falseScore);
-                            actualPoints = dinamicActivities[counter].truefalseanswer.falseScore;        
+                            props.setPoints(props.points + eval(dinamicActivities[counter].textAnswer.scoreWrong));
+                            actualPoints = eval(dinamicActivities[counter].textAnswer.scoreWrong);        
                         }
                         //console.log(actualPoints);
-                        sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
+                        sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
                     break;
-                    case "humanText":
-                        props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].question, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
-                        sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter, seconds, 0);
+                    case "Input testuale valutatore":
+                        props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].activityText, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
+                        sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, 0);
                         //dinamicActivities.push(props.json.lastActivity);
                     break;
                 }
             }
-        }
+        
         setCounter(counter + 1);
         setLastAnswer(null);
         document.getElementById("help-message-container").innerHTML = "";
@@ -140,7 +136,7 @@ export const Activity = React.forwardRef((props, ref) => {
             now = new Date();
             seconds = (now.getTime() - startDate.getTime()) / 1000;
             sendData(props.playerId, 
-                activities[questionIndex].question, 
+                activities[questionIndex].activityText, 
                 "Nessuna risposta",
                 counter + 1, 
                 seconds );
@@ -149,7 +145,7 @@ export const Activity = React.forwardRef((props, ref) => {
     }
     
     function checkButton(answer){  
-        if(props.v[counter].widgetType ==="Vero Falso"){    
+        if(props.v[counter].widgetType ==="Vero o falso"){    
             if(answer === 1){
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
                 document.getElementById("btnTrue").setAttribute("aria-selected", true);
@@ -174,10 +170,38 @@ export const Activity = React.forwardRef((props, ref) => {
         }
         setLastAnswer(answer);
     }
+        
+    function correctAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
+        if(actual.correctAnswerGo.length === 0){
+            const last = activities.length;
+            dinamicActivities.push(activities[last - 1]);
+            props.socket.emit('finish', {id: props.playerId, story: "Story1"});
+            
+        }else{
+            let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
+            console.log("Risposta Corretta!");
+            let indexOfNewActivity = dictionaryActivity.get(actual.correctAnswerGo[index]);
+            dinamicActivities.push(activities[indexOfNewActivity]);
+        }
+    }
 
+    function wrongAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
+        if(actual.wrongAnswerGo.length === 0){
+            const last = activities.length;
+            dinamicActivities.push(activities[last - 1]);
+            props.socket.emit('finish', {id: props.playerId, story: "Story1"});
+        }else{
+            let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
+            console.log("Risposta Errata!");
+            let indexOfNewActivity = dictionaryActivity.get(actual.wrongAnswerGo[index])
+            dinamicActivities.push(activities[indexOfNewActivity]);  
+        }
+    }
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
         //borderColor:props.json.nextButton.borderColor,
         display:(dinamicActivities[counter] === props.json.lastActivity)? 'None' : 'block',
+        fontSize:`1.2em`,
+        fontFamily:props.json.player.fontFamily,
         backgroundColor:(dinamicActivities[counter] !== props.json.lastActivity) ? props.json.player.nextButton.backgroundColor : 'gray',
         borderRadius:`${props.json.player.nextButton.borderRadius}px`,
         borderColor:props.json.player.nextButton.frameColor,
@@ -206,18 +230,20 @@ export const Activity = React.forwardRef((props, ref) => {
 //non si conosce il campo che contiene lo sfondo del riquadro dentro all'activity
 
     const divBorderLF = {
+            color:props.json.player.textColor,
+            textAlign:'center',
             border:'solid',
-            overflowY:'scroll',
+            borderRadius:props.json.player.borderRadiusFrame+'px',
+            fontFamily: props.json.player.fontFamily,
             borderColor:props.json.player.frameColor,
             background:(props.json.player.textBackgroundColorActived)? props.json.player.textBackgroundColor : 'repeat', 
-            //sbackground:'repeat',
             height : `${dinamicActivities[counter].heightFrame* screen.availHeight / 437}px`,
             left:`${props.json.player.leftFrame* screen.availWidth /202}px`,
             width:`${props.json.player.widthFrame* screen.availWidth /202}px`,
             top:`${props.json.player.topFrame* screen.availHeight /437}px`,
             fontSize:props.json.player.sizeFont* 2,
             overflowX:'hidden',
-            borderRadius:props.json.player.borderRadiusFrame
+            overflowY:'scroll',
         }
 
 
@@ -239,6 +265,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     }
         });       
         const mediaStyle = {
+            width:'100%'
           /*  width:`${props.json.player.image.width  *screen.availWidth /202}px`,
             height:`${props.json.player.image.height  *screen.availHeight /437}px`,
             top:`${props.json.player.image.top  *screen.availHeight /437}px`,
@@ -256,7 +283,7 @@ export const Activity = React.forwardRef((props, ref) => {
      * o come figlio di 
      * oppure come figlio di activity e impostare i cambiamenti nel json opportuno
      */
-    if (dinamicActivities[counter].widgetType === "Nessuno" ){   
+    if (dinamicActivities[counter].widgetType === "Nessuno" || !dinamicActivities[counter].hasOwnProperty('widgetType')){   
         return e("div",null,
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, dinamicActivities[counter].activityText , mediaProp),
                     e("button", {role: "button", key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "SUCCESSIVO")
@@ -267,7 +294,7 @@ export const Activity = React.forwardRef((props, ref) => {
         const domanda = dinamicActivities[counter].activityText;
         const answer = dinamicActivities[counter].fourAnswers;
 
-        if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero Falso") {
+        if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero o falso") {
                 // fuorAnswers || true\false
             return e("div",null,     
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,   mediaProp),
@@ -282,17 +309,3 @@ export const Activity = React.forwardRef((props, ref) => {
     }
 }
 });
-
-function correctAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
-    let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-    console.log("Risposta Corretta!");
-    let indexOfNewActivity = dictionaryActivity.get(actual.correctAnswerGo[index]);
-    dinamicActivities.push(activities[indexOfNewActivity]);
-}
-
-function wrongAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
-    let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
-    console.log("Risposta Errata!");
-    let indexOfNewActivity = dictionaryActivity.get(actual.wrongAnswerGo[index])
-    dinamicActivities.push(activities[indexOfNewActivity]);  
-}

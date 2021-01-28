@@ -21,11 +21,11 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON("Matteo_6");
+const temp = readJSON("Simone_0");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
-console.log(data);
+
 let activityList = [];
 activityList.push(data.activities[0]);
 activityList.push(data.activities[1]);
@@ -47,7 +47,7 @@ function App2() {
         React.useEffect(() => {
             socket.on('set-id', data => {
                 setID(data.id);
-                getID(data.id, activityList[0].question);
+                getID(data.id, activityList[0].activityText);
             });
             
             socket.on('help-from-evaluator' , data => {
@@ -88,12 +88,14 @@ function App2() {
         height: "15%"
     };
 
-    const btnChat={
-        
+    const btnChat={   
         color: data.player.chatButton.textColor,
+        borderColor:data.player.frameColor,
         backgroundColor:data. player.chatButton.backgroundColor,
         borderRadius:`${data.player.chatButton.borderRadius}px`,
         frameColor:data.player.chatButton.frameColor,
+        fontSize:`1.2em`,
+        fontFamily:data.player.fontFamily,
         textAlign:'center',
         width:`${data.player.chatButton.width *screen.availWidth /202}px`,
         height:`${data.player.chatButton.height* screen.availHeight /437}px`,
@@ -105,9 +107,10 @@ function App2() {
     };
     
     const pointStyle= {
+        fontSize:`1.2em`,
+        fontFamily:data.player.fontFamily,
         position:'absolute',
         textAlign: "center",
-        fontSize:data.player.sizeFont * 2,
         color:data.player.scoreDiv.textColor,
         backgroundColor:data.player.scoreDiv.backgroundColor,
         border:'solid',
@@ -120,6 +123,9 @@ function App2() {
     };
 
     const btnHelp={
+        fontSize:`1.2em`,
+        borderColor:data.player.frameColor,
+        fontFamily:data.player.fontFamily,
         color:data.player.helpButton.backgroundColor,
         borderRadius:`${data.player.helpButton.borderRadius}px`,
         frameColor:data.player.helpButton.frameColor,
@@ -161,7 +167,9 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         //backgroundPositionWidth:`${data.player.image.width* screen.availWidth/202}px`,
         backgroundSize:` ${data.player.image.width* screen.availWidth/202}px ${data.player.image.height* screen.availHeight/437}px`,
         backgroundLeft:`${data.player.image.left* screen.availHeight/437}px`,
-        
+        color :data.player.textColor,
+        fontSize:data.player.sizeFont,
+        fontFamily:data.player.fontFamily,
         //thicknessFrame:`${data.player.weightFont}px`,
         topFrame:`${data.player.topFrame * screen.availHeight/437}vh`,
         frameColor : data.player.frameColor,
@@ -169,6 +177,7 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         widthFrame: `${data.player.widthFrame * screen.availWidth/202}vh`,
         weightFrame:`${data.player.weightFrame* screen.availHeight/437}vh`,
         weightFont:`${data.player.weightFont}px`,
+        textAlign:'center'
      };
 
 }else{
@@ -188,7 +197,7 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
         //weightFrame:`${data.player.weightFrame * screen.availHeight/437}vh`,
         weightFont:`${data.player.weightFont}px`,
-        
+        textAlign:'center'
     };
 }
 

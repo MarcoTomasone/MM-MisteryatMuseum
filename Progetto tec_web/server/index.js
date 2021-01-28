@@ -71,8 +71,12 @@ app.post('/uploadImg', (req, res) => {
     }
     const myFile = req.files.file;
     //  mv() method places the file inside public directory
-    const mypath = path.join(__dirname, `uploadPlayer/${myFile.name}`);
-    myFile.mv(mypath, function (err) {
+    //const mypath = path.join(__dirname, `uploadPlayer/${myFile.name}`);
+    let myPath = path.join(__dirname,`uploadPlayer/`);
+    if (!fs.existsSync(myPath))
+        fs.mkdirSync(myPath);
+    myPath = myPath + myFile.name;
+    myFile.mv(myPath, function (err) {
         if (err) {
             console.log(err)
             return res.status(500).send({ msg: "Error occured" });

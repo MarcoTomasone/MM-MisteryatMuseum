@@ -19,7 +19,7 @@ export default function Help(props) {
                 tmp[player].splice(index, 1)
         })
         props.setArrayEvaluations(tmp);
-        props.socket.emit('read-message', { type: "evaluation", player, points, id: props.id });
+        props.socket.emit('read-message', { type: "evaluation", player, story, points, id: props.id, });
         (async () => {addAnswer(story, player, points, props.section)})();
     }
     

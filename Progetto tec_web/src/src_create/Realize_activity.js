@@ -206,6 +206,7 @@ function Realize_activity(props){
             document.getElementById("mediaDiv").setAttribute("src", ``)       
         } else {
             document.getElementById("mediaDiv").classList.remove("hiddenClass")
+            document.getElementById("mediaDiv").style.borderRadius =  `${props.story.player.borderRadiusFrame}px` 
             document.getElementById("mediaDiv").setAttribute("src", `../../server/upload/${activity.activityImage}`)
         }
     }, [activity.activityImage])
@@ -517,8 +518,10 @@ function Realize_activity(props){
             if (!(arrayOfActivityRemoved.includes(activityCorrectAnswer))) setArrayOfActivityRemoved(arrayOfActivityRemoved => [...arrayOfActivityRemoved, activityCorrectAnswer])
             setActivityCorrectAnswer("")
             setUpdateTable((prev) => !prev)
-        } else {
+        } else if (found) {
             displayDialog("Questa attività non puo essere rimossa perche in essa a sua volta ci sono delle attività collegate. Per procedere prima rimuovere le attività collegati con essa");
+        } else {
+            displayDialog("Selezionare prima un'attività");
         }
     }
 
@@ -530,11 +533,13 @@ function Realize_activity(props){
                 if (element != activityWrongAnswer) tmp.push(element)
             })
             setActivity({...activity, ["wrongAnswerGo"]: tmp});
-            if (!(arrayOfActivityRemoved.includes(activityCorrectAnswer))) setArrayOfActivityRemoved(arrayOfActivityRemoved => [...arrayOfActivityRemoved, activityWrongAnswer])
+            if (!(arrayOfActivityRemoved.includes(activityWrongAnswer))) setArrayOfActivityRemoved(arrayOfActivityRemoved => [...arrayOfActivityRemoved, activityWrongAnswer])
             setActivityWrongAnswer("")
             setUpdateTable((prev) => !prev)
-        } else {
+        } else if (found) {
             displayDialog("Questa attività non puo essere rimossa perche in essa a sua volta ci sono delle attività collegate. Per procedere prima rimuovere le attività collegati con essa");
+        } else {
+            displayDialog("Selezionare prima un'attività");
         }
     }
 

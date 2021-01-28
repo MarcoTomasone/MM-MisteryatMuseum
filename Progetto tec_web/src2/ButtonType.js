@@ -26,10 +26,10 @@ function ButtonType(props){
         position:'absolute',
         width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
         height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-        marginLeft:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
-        marginRight:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
-        marginTop:`${props.v[props.counter].topInput-20 *screen.availHeight /437}px`,
-        marginBottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
+        left:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
+        right:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
+        top:`${props.v[props.counter].topInput *screen.availHeight /437}px`,
+        bottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
     }
        const buttSelect = {
         backgroundColor:'yellow',
@@ -54,8 +54,7 @@ function ButtonType(props){
                 alt:"FALSE", 
                 onClick: () =>props.checkButton(0)
             },"FALSE"));
-        }else{
-            //console.log(props.answer)
+        }else if (props.v[props.counter].widgetType === "Quattro opzioni"){
             for (let i = 0; i < props.answer.length; i++) {      
                     ListButtonAnswer.push(e("button", {
                         role: "button", 
@@ -66,16 +65,31 @@ function ButtonType(props){
                         onClick: () => props.checkButton(i)
                     }, props.answer[i].text));
             }
-        }
+
+        }else if(props.v[props.counter].widgetType === "Scelta multipla" ){
+            let optionVector = [];
+            for(let i = 0 ; i< props.v[props.counter].multipleAnswers.length ; i++){
+                optionVector.push(e("option",{key:'answer'+ props.v[props.counter].multipleAnswers[i].text,
+                                            id:'option'+i,
+                                            value:i
+                                        },
+                                        props.v[props.counter].multipleAnswers[i].text));
+            }
+            
+                    ListButtonAnswer.push(e("select",{
+                        id:"multipleAnswerId",
+                        style:{width:'50%',height:'30%',marginTop:'10px'},
+                        onChange:()=>props.checkButton(document.getElementById("multipleAnswerId").value)},
+                        optionVector));
+                    }       
+
        
         return e("div",null,
-                    //e("div", {key: "actDescription", style: divActivity},
-                    //e("p", {style:props.textStyle,key:"textQuestion"}, props.domanda), props.MediaProp,
-                    e("div", {
+                 e("div", {
                         key: "buttonblock",
-                        style:buttonGroup }, [
+                        style:buttonGroup }, 
                         ListButtonAnswer
-                    ]),
+                    ),
                     e("button", {role: "button", key:"buttonNext",id: "nextButton1",style:a,onClick:props.inc}, "SUCCESSIVO")
                 );
 

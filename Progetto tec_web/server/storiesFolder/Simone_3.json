@@ -1,12 +1,12 @@
 {
-  "id": "Marco_2.json",
-  "user": "Marco",
+  "id": "Simone_3.json",
+  "user": "Simone",
   "toCopy": true,
   "published": false,
-  "title": "Aa",
-  "gender": "Fantasy",
-  "objective": "Asd",
-  "description": "Asd",
+  "title": "Test",
+  "gender": "Avventura",
+  "objective": "De",
+  "description": "TestD",
   "accessibility": {
     "value": false,
     "url": "../img/no_accessibility_1.png"
@@ -15,7 +15,6 @@
     "value": "singlePlayer",
     "url": "../img/single.png"
   },
-  "participantsNumber": 0,
   "ageStart": 0,
   "ageEnd": 100,
   "player": {
@@ -87,18 +86,86 @@
   },
   "firstActivity": {
     "heightFrame": 160,
-    "text": "",
+    "activityText": "Questa é un attivita introduttiva",
     "backgroundImage": "",
     "activityImage": "",
-    "correctAnswerGo": []
+    "altActivityImage": "",
+    "widgetType": "Nessuno",
+    "correctAnswerGo": [
+      "Prova"
+    ]
   },
   "lastActivity": {
     "heightFrame": 160,
-    "text": "",
+    "activityText": "Questa é l'attivitá conclusiva",
     "backgroundImage": "",
     "activityImage": "",
+    "altActivityImage": "",
+    "widgetType": "Nessuno",
     "correctAnswerGo": []
   },
-  "activities": [],
-  "activitiesNotAssigned": []
+  "activities": [
+    {
+      "title": "Prova",
+      "heightFrame": 160,
+      "activityText": "Questa é una prova di multipleAnswer",
+      "backgroundImage": "",
+      "activityImage": "",
+      "altActivityImage": "TEst",
+      "widgetType": "Scelta multipla",
+      "topInput": 320,
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [],
+      "multipleAnswers": [
+        {
+          "text": "Test1",
+          "score": -4
+        },
+        {
+          "text": "Test2",
+          "score": -3
+        },
+        {
+          "text": "Test3",
+          "score": -2
+        },
+        {
+          "text": "Test4",
+          "score": -1
+        },
+        {
+          "text": "Test$",
+          "score": "1"
+        },
+        {
+          "text": "Test6",
+          "score": -6
+        }
+      ],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "possibleStart": 0,
+        "possibleEnd": 0,
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [],
+      "wrongAnswerGo": [],
+      "activityIsUsed": true,
+      "firstActivity": true
+    }
+  ]
 }

@@ -3,7 +3,7 @@ import {readJSON, appendMessage, isEnter} from '../utils.js'
 import { getID } from './dataHandler.js';
 
 const e = React.createElement;
-const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
+const {Button, Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
@@ -21,7 +21,7 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON("Simone_0");
+const temp = readJSON("Matteo_6");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
@@ -68,14 +68,11 @@ function App2() {
             });
         });
 
-
-    
-    //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
+//Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
     var dictionaryActivity =new Map;
     for(let i = 0;i<data.activities.length;i++){
         dictionaryActivity.set( data.activities[i].title , i);
     }
-    //console.log(dictionaryActivity);
 
     var [backgroundImg,setBackgroundImg] = React.useState(0);
     React.useEffect(() => {
@@ -89,6 +86,7 @@ function App2() {
     };
 
     const btnChat={   
+        border:'solid',
         color: data.player.chatButton.textColor,
         borderColor:data.player.frameColor,
         backgroundColor:data. player.chatButton.backgroundColor,
@@ -101,9 +99,7 @@ function App2() {
         height:`${data.player.chatButton.height* screen.availHeight /437}px`,
         top:`${data.player.chatButton.top * screen.availHeight/437}px`,
         left:`${data.player.chatButton.left * screen.availWidth /202}px`,
-        //borderColor:data.player.chatButton.borderColor,
         position:'absolute',
-        //position:'relative' */
     };
     
     const pointStyle= {
@@ -123,6 +119,7 @@ function App2() {
     };
 
     const btnHelp={
+        border:'solid',
         fontSize:`1.2em`,
         borderColor:data.player.frameColor,
         fontFamily:data.player.fontFamily,
@@ -158,10 +155,6 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
     });      
 
     var div_a = {      //style della div contenente le activity
-        // border:data.activityStyle.divisor.border,
-        //overflow:"auto",
-         //borderColor: data.activityStyle.divisor.borderColor,
-         //position:'absolute',
         backgroundImage: 'url('+backgroundImg+')',
         backgroundPositionTop:`${data.player.image.top* screen.availHeight/437}px`,
         //backgroundPositionWidth:`${data.player.image.width* screen.availWidth/202}px`,
@@ -183,16 +176,10 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
 }else{
 
     var div_a = {      //style della div contenente le activity
-       // border:data.activityStyle.divisor.border,
-        //overflow:"auto",
-        border:'solid',
-        borderColor: data.player.frameColor,
-        borderRadius:data.player.borderRadiusFrame,
-        //position:'absolute',
         background: data.player.background,
         //thicknessFrame:`${data.player.weightFont}vh`,
         topFrame:`${data.player.topFrame* screen.availHeight/437}vh`,
-        frameColor : data.player.frameColor,
+        //frameColor : data.player.frameColor,
         leftFrame:`${data.player.leftFrame* screen.availWidth/202}vh`,
         widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
         //weightFrame:`${data.player.weightFrame * screen.availHeight/437}vh`,
@@ -200,8 +187,6 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         textAlign:'center'
     };
 }
-
-   
 
    /*function handleClose() {
         setDialog(false);
@@ -211,7 +196,6 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         getID(playerID, activityList[0].question);
         socket.emit('new-player', {playerID});
     }*/
-  
 
     const sendMessage = function (){
         const messageInput = document.getElementById("message-input")
@@ -223,7 +207,6 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         } 
         messageInput.value = '' //clean the input text
     } 
-
 
     const sendHelp = function (){
         const container = document.getElementById("help-message-container");
@@ -246,9 +229,8 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
  
     return e(React.Fragment, null, [ 
             e("div", {key:"player",id:"player",style:div_a}, [
-                e("label", {id: "label-chat", htmlFor: "chat-button"}, "Questa è una descriozione della chat"),
                 e("div",{style:navbar,id:"navPlayer"},
-                e("button", {id:"chat-button", 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "CHAT" ), 
+                e(Button, {id:"chat-button",variant: 'outlined', 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "CHAT" ), 
                 e("div", {id: "points", style: pointStyle}, "Points:" + points),
                 e("button", {id:"help-button", style: btnHelp, onClick: ()=> {if(!slideChat) setSlideHelp(!slideHelp)}}, "AIUTO"),
             )],

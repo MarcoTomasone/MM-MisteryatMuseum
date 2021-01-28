@@ -223,7 +223,7 @@ module.exports = {
                         lastActivity.points = sectionArray.points;
                 }      
             } else {
-                storiesActive[story][id] = {id, name, sectionArray: [sectionArray]};
+                storiesActive[story][id] = {id, name, sectionArray : [sectionArray] };
             }
             res.status(200).end(); 
         });

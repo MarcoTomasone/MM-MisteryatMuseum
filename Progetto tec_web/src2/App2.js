@@ -3,7 +3,7 @@ import {readJSON, appendMessage, isEnter} from '../utils.js'
 import { getID } from './dataHandler.js';
 
 const e = React.createElement;
-const {Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
+const {Button, Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
@@ -90,7 +90,8 @@ function App2() {
 
     const btnChat={   
         color: data.player.chatButton.textColor,
-        backgroundColor:data. player.chatButton.backgroundColor,
+       // backgroundColor:data. player.chatButton.backgroundColor,
+        backgroundColor : "red", 
         borderRadius:`${data.player.chatButton.borderRadius}px`,
         frameColor:data.player.chatButton.frameColor,
         fontSize:`1.2em`,
@@ -244,9 +245,8 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
  
     return e(React.Fragment, null, [ 
             e("div", {key:"player",id:"player",style:div_a}, [
-                e("label", {id: "label-chat", htmlFor: "chat-button"}, "Questa è una descriozione della chat"),
                 e("div",{style:navbar,id:"navPlayer"},
-                e("button", {id:"chat-button", 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "CHAT" ), 
+                e(Button, {id:"chat-button",variant: 'outlined', 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "CHAT" ), 
                 e("div", {id: "points", style: pointStyle}, "Points:" + points),
                 e("button", {id:"help-button", style: btnHelp, onClick: ()=> {if(!slideChat) setSlideHelp(!slideHelp)}}, "AIUTO"),
             )],

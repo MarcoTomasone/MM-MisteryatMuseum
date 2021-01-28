@@ -1,5 +1,5 @@
 import { sendData} from './dataHandler.js';
-const {Button, makeStyles, IconButton, Icon} = window['MaterialUI']; //to load the component from the library
+const {TextField, Slider, Button, makeStyles, IconButton, Icon} = window['MaterialUI']; //to load the component from the library
 
 const e = React.createElement;
 /**
@@ -34,11 +34,12 @@ function inputType(props){
             position:"absolute"
     }
 
-    inputElement.push(e("input",{
+    inputElement.push(e(TextField,{
                                 'aria-labelledby' : "activitIntro",
-                                type:"text",
+                                label: "Answer",
                                 id:"textAnswer",
                                 key:"input",
+                                multiline : true,
                                 style:styl,
                             }));
 
@@ -56,12 +57,11 @@ function inputType(props){
             position:'absolute'
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},defaultValue));
-        inputElement.push(e("input",{
+        inputElement.push(e( Slider, {
                                 'aria-describedby' : "activitIntro",
-                                type:"range", 
                                 key:"rangebar",
-                                min:props.v[props.counter].minRange,
-                                max:props.v[props.counter].maxRange,
+                                min: props.v[props.counter].minRange,
+                                max: props.v[props.counter].maxRange,
                                 defaultValue:defaultValue,
                                 step:1,
                                 id:"rangenpt",

@@ -50,12 +50,10 @@ export const Activity = React.forwardRef((props, ref) => {
                     case "" || "Nessuno":
                         correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                         sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0);
-                        //dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Foto": //modificate sendData
                         sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
                         correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                        //dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Quattro opzioni" : 
                         if(dinamicActivities[counter].fourAnswers[lastAnswer].score > 0){
@@ -111,22 +109,14 @@ export const Activity = React.forwardRef((props, ref) => {
                     break;
                     case "Input testuale automatico":
                         if(document.getElementById("textAnswer").value  === props.v[counter].textAnswer.value){
-                            index = getRandomInt(0,props.v[counter].correctAnswerGo.length-1);
-                            console.log("Risposta Corretta!");
-                            indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
-                            props.v.push(activities[indexOfNewActivity]);
+                            correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points +eval( dinamicActivities[counter].textAnswer.scoreOk));
                             actualPoints = eval(dinamicActivities[counter].textAnswer.scoreOk);
-
                         }else{
-                            index = getRandomInt(0,props.v[counter].wrongAnswerGo.length -1);
-                            console.log("Risposta Errata!");
-                            indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
-                            props.v.push(activities[indexOfNewActivity]);
+                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             props.setPoints(props.points + eval(dinamicActivities[counter].textAnswer.scoreWrong));
                             actualPoints = eval(dinamicActivities[counter].textAnswer.scoreWrong);        
                         }
-                        //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
                     break;
                     case "Input testuale valutatore":
@@ -156,7 +146,6 @@ export const Activity = React.forwardRef((props, ref) => {
     }
     
     function checkButton(answer){  
-       console.log(answer)
         if(props.v[counter].widgetType ==="Vero o falso"){    
             if(answer === 1){
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
@@ -208,8 +197,7 @@ export const Activity = React.forwardRef((props, ref) => {
             dinamicActivities.push(activities[indexOfNewActivity]);  
         }
     }
-    const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
-        //borderColor:props.json.nextButton.borderColor,
+    const btnNext={ 	   
         display:(dinamicActivities[counter] === props.json.lastActivity)? 'None' : 'block',
         fontSize:`1.2em`,
         fontFamily:props.json.player.fontFamily,
@@ -225,20 +213,12 @@ export const Activity = React.forwardRef((props, ref) => {
         position:'absolute',
 
     }
-    const askNav = {
-        border: "solid",
-        borderColor: props.json.player.frameColor,
-        marginTop:"20%",
-    };
-    
+
     const textStyle = {             //implementiamo uno stile di testo unico per tutte le Storie di un attivita'
             fontSize:props.json.player.sizeFont,
             textAlign:"center",
             fontFamily:props.json.player.fontFamily
     }
-
-//console.log(props.json.player);
-//non si conosce il campo che contiene lo sfondo del riquadro dentro all'activity
 
     const divBorderLF = {
             color:props.json.player.textColor,
@@ -309,7 +289,7 @@ export const Activity = React.forwardRef((props, ref) => {
                 // fuorAnswers || True False || multipleAnswer
             return e("div",null,     
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,   mediaProp),
-                    e(ButtonType, {answer:answer, askNav:askNav, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
+                    e(ButtonType, {answer:answer, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
         }else { 
                 //avaible Input type == 'range' || type=='text' a/v || type=="file"

@@ -16,7 +16,7 @@ let startDate, now, seconds;
  * @param{json:data,  v : activityList , playerId : playerId, socket : socket}
  */
 export const Activity = React.forwardRef((props, ref) => {
-    //console.log(props.json);
+
     let actualPoints = 0;
     const counter = props.counter;
     const setCounter = props.setCounter;
@@ -65,7 +65,6 @@ export const Activity = React.forwardRef((props, ref) => {
                         }
                         props.setPoints(props.points + eval(dinamicActivities[counter].fourAnswers[lastAnswer].score));
                         actualPoints = eval(dinamicActivities[counter].fourAnswers[lastAnswer].score);    
-                        //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
                     break;
                     case "Vero o falso" :
@@ -80,8 +79,21 @@ export const Activity = React.forwardRef((props, ref) => {
                             props.setPoints(props.points + eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
                             actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
                         }
-                        //console.log(actualPoints);
                         sendData(props.playerId, activities[questionIndex].activityText, answer, counter, seconds, actualPoints);
+                        break;
+                        case "Scelta multipla":
+                        if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
+                            console.log("risposta giusta");
+                            correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                            console.log(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
+                            props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
+                            actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);
+                        }else{
+                            console.log("risposta errata");
+                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                            props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
+                            actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);    
+                        }
                         break;
                     case "Range":
                         let value = eval(document.getElementById("rangenpt").value);  
@@ -145,6 +157,7 @@ export const Activity = React.forwardRef((props, ref) => {
     }
     
     function checkButton(answer){  
+       console.log(answer)
         if(props.v[counter].widgetType ==="Vero o falso"){    
             if(answer === 1){
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
@@ -158,8 +171,7 @@ export const Activity = React.forwardRef((props, ref) => {
                 document.getElementById("btnTrue").backgroundColor = 'white';
                 document.getElementById("btnTrue").removeAttribute("aria-selected"); 
             }
-        }
-        else{
+        }else if(props.v[counter].widgetType ==="Quattro opzioni"){
             const nAnswer = props.v[counter].fourAnswers.lenght;
             for(let i = 0 ; i < nAnswer ;i++){
                 document.getElementById("btn"+i).backgroundColor = 'white';
@@ -252,7 +264,7 @@ export const Activity = React.forwardRef((props, ref) => {
         if(dinamicActivities[counter].activityImage !== ""){     
         // -->  richiesta al server per il media 
         var base64data;
-            //console.log(dinamicActivities[counter].activityImage);
+
         axios.get(`http://localhost:8000/downloadImage/${dinamicActivities[counter].activityImage}`, { responseType:"blob" })
                 .then(function (response) {
                 var blob1 = response.data;
@@ -290,11 +302,11 @@ export const Activity = React.forwardRef((props, ref) => {
                 );
 
     }else {
-        //console.log(dinamicActivities[counter]);
+
         const domanda = dinamicActivities[counter].activityText;
         const answer = dinamicActivities[counter].fourAnswers;
 
-        if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero o falso") {
+        if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero o falso"  || dinamicActivities[counter].widgetType === "Scelta multipla" ) {
                 // fuorAnswers || true\false
             return e("div",null,     
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorderLF}, domanda,   mediaProp),

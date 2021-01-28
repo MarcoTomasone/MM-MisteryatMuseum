@@ -60,11 +60,8 @@ function inputType(props){
             position:'absolute'
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},defaultValue));
-<<<<<<< HEAD
       
-=======
->>>>>>> d17ffa6d066bfcb15b0881a77eefdd6a6f467baf
-                inputElement.push(e("input",{
+        inputElement.push(e("input",{
                                     'aria-describedby' : "activitIntro",
                                     type:"range", 
                                     key:"rangebar",
@@ -107,13 +104,13 @@ function inputType(props){
             }
 
   
-   inputElement.push(
-    e("input", {id: "background_color",type:'file',size:'large',style:{display:'none'}, onChange:  handleChange}),
-    e("label", {htmlFor:"background_color",size:'large'}, [
-        e(IconButton,{component: "span",fontSize:'large', style:{color:'gray'}}, 
-            e(Icon, {children: "photo_camera",fontSize:'large'}),  
-        ),
-    ]),)
+            inputElement.push(
+                e("input", {id: "background_color",type:'file',size:'large',style:{display:'none'}, onChange:  handleChange}),
+                e("label", {htmlFor:"background_color",size:'large'}, [
+                    e(IconButton,{component: "span",fontSize:'large', style:{color:'gray'}}, 
+                        e(Icon, {children: "photo_camera",fontSize:'large'}),  
+                    ),
+                ]),)
 
                 return  e("div", null,
                             e("div",{key: "inputElement", style : inputGroup },inputElement),

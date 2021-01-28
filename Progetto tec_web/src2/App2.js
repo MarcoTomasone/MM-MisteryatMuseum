@@ -21,7 +21,7 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON("Matteo_6");
+const temp = readJSON("Simone_0");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
@@ -90,6 +90,7 @@ function App2() {
 
     const btnChat={   
         color: data.player.chatButton.textColor,
+        borderColor:data.player.frameColor,
         backgroundColor:data. player.chatButton.backgroundColor,
         borderRadius:`${data.player.chatButton.borderRadius}px`,
         frameColor:data.player.chatButton.frameColor,
@@ -123,6 +124,7 @@ function App2() {
 
     const btnHelp={
         fontSize:`1.2em`,
+        borderColor:data.player.frameColor,
         fontFamily:data.player.fontFamily,
         color:data.player.helpButton.backgroundColor,
         borderRadius:`${data.player.helpButton.borderRadius}px`,
@@ -195,7 +197,7 @@ if((data.activities[counter].backgroundImage!=="" && data.activities[counter].ha
         widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
         //weightFrame:`${data.player.weightFrame * screen.availHeight/437}vh`,
         weightFont:`${data.player.weightFont}px`,
-        
+        textAlign:'center'
     };
 }
 

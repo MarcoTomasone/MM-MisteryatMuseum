@@ -28,7 +28,7 @@ function ButtonType(props){
         height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
         marginLeft:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
         marginRight:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
-        marginTop:`${props.v[props.counter].topInput  *screen.availHeight /437}px`,
+        marginTop:`${props.v[props.counter].topInput-20 *screen.availHeight /437}px`,
         marginBottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
     }
        const buttSelect = {

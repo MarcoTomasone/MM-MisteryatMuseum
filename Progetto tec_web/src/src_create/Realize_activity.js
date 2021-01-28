@@ -181,6 +181,8 @@ function Realize_activity(props){
 
     React.useEffect(() => {
         document.getElementById("inputDiv").style.height    = `${activity.heightInput}px`;
+        document.getElementById("circleDiv").style.height    = `${activity.heightInput}px`;
+        document.getElementById("circleDiv").style.width    = `${activity.heightInput}px`;
     }, [activity.heightInput])
 
     React.useEffect(() => {

@@ -7,7 +7,7 @@ import CreateHomeRealize_firstLastActivity from "./Realize_FL_Activity.js"
 import CreateHomeRealize_grafo from "./Realize_grafo.js"
 import {DialogComponent} from "./Dialog.js"
 
-const {Button, makeStyles, IconButton, Icon} = window['MaterialUI']; //to load the component from the library
+const {Button, makeStyles, IconButton, Icon, Slider} = window['MaterialUI']; //to load the component from the library
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -227,12 +227,14 @@ function Realize(props){
                                 e("textarea", { id:"option9", className: "style"})
                             ]),
                             e("div", {id: "Range div", className: "hiddenClass"}, [
-                                e("input", { id:"option10", className: "style", type:"number"}),
+                                e(Slider, { id:"option10"}),
                             ]),
                             e("div", {id: "Foto div", className: "hiddenClass"}, [
-                                e(IconButton, {className: [classes.buttonStandard], component: "span"}, 
-                                    e(Icon, {children: "photo_camera", fontSize:"large"}),  
-                                ),   
+                                e("div", {id: "circleDiv"}, [
+                                    e(IconButton, {id:"option11", className: [classes.buttonStandard], component: "span"}, 
+                                        e(Icon, {children: "photo_camera", fontSize:"large"}),  
+                                    ),   
+                                ]), 
                             ]),
                         ]),
                         e("div", {id: "nextButton"}, "SUCCESSIVO")

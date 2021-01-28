@@ -208,7 +208,7 @@ export const Activity = React.forwardRef((props, ref) => {
         //width:`${data.player.chatButton.width *screen.availWidth /437}px`,
         width:`${props.json.player.nextButton.width *screen.availWidth /202}px`,
         height:`${props.json.player.nextButton.height * screen.availHeight /437}px`,
-        top:`${props.json.player.nextButton.top * screen.availHeight/437 + 20}px`,
+        top:`${props.json.player.nextButton.top  * screen.availHeight/437}px`,
         left:`${props.json.player.nextButton.left* screen.availWidth /202}px`,
         color:props.json.player.nextButton.textColor,
         position:'absolute',

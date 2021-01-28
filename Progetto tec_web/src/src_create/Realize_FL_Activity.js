@@ -43,6 +43,7 @@ function Realize_FL_Activity(props){
         backgroundImage : props.activity.backgroundImage,
         activityImage   : props.activity.activityImage,
         altActivityImage: props.activity.altActivityImage,
+        widgetType      : "Nessuno",
         correctAnswerGo : props.activity.correctAnswerGo,
     })
 
@@ -114,6 +115,7 @@ function Realize_FL_Activity(props){
             backgroundImage : activity.backgroundImage,
             activityImage   : activity.activityImage,
             altActivityImage: activity.altActivityImage,
+            widgetType      : "Nessuno",
             correctAnswerGo : activity.correctAnswerGo,
         };
         if (props.indexActivity == "firstActivity") {

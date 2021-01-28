@@ -106,16 +106,18 @@ function Realize_activity(props){
             trueScore   :   0,
             falseScore  :   0
         },
-        textAnswer              :   {
+        textAnswer: {
             value       :   "",
             scoreOk     :   0,
             scoreWrong  :   0
         },
         rangeAnswer             :   {
-            start       :   0,
-            end         :   0,
-            scoreOk     :   0,
-            scoreWrong  :   0
+            possibleStart   : 0,
+            possibleEnd     : 0,
+            start           : 0,
+            end             : 0,
+            scoreOk         : 0,
+            scoreWrong      : 0
         },
         correctAnswerGo         :   [],
         wrongAnswerGo           :   [],
@@ -212,6 +214,7 @@ function Realize_activity(props){
     }, [activity.activityImage])
 
     React.useEffect(() => {
+        var arrayOfFreeActivity = []
         if (!(props.story.activities.some(element => element.title == activity.title))){
             activity.correctAnswerGo = []
             activity.wrongAnswerGo = []
@@ -220,11 +223,16 @@ function Realize_activity(props){
         }
         var tmp = []
         props.story.activities.forEach(element => {
-            if (element.title != activity.title && element.firstActivity == false && element.activityIsUsed == false && !(activity.correctAnswerGo.includes(element.title)) && !(activity.wrongAnswerGo.includes(element.title))) tmp.push(e(MenuItem, {value : element.title}, element.title))
+            if (element.title != activity.title && element.firstActivity == false && element.activityIsUsed == false && !(activity.correctAnswerGo.includes(element.title)) && !(activity.wrongAnswerGo.includes(element.title)) && (!(arrayOfFreeActivity.includes(element.title)))){
+                tmp.push(e(MenuItem, {value : element.title}, element.title))
+                arrayOfFreeActivity.push(element.title)
+            }
         })
         arrayOfActivityRemoved.forEach(element => {
-            if (!(activity.correctAnswerGo.includes(element) || activity.wrongAnswerGo.includes(element)))
+            if ((!(activity.correctAnswerGo.includes(element) || activity.wrongAnswerGo.includes(element))) && (!(arrayOfFreeActivity.includes(element)))){
                 tmp.push(e(MenuItem, {value : element}, element))
+                arrayOfFreeActivity.push(element.title)
+            }
         })
         setListOfActivity(tmp)
         tmp = []
@@ -377,9 +385,11 @@ function Realize_activity(props){
                     arrayOfActivityUsed.push(element)
                 })
             })
+            props.story.firstActivity.correctAnswerGo = []
             props.story.activities.forEach(element => {
                 if (arrayOfActivityUsed.includes(element.title)) element.activityIsUsed = true
                 else element.activityIsUsed = false
+                if (element.firstActivity) props.story.firstActivity.correctAnswerGo.push(element.title)
             })
         }
     }
@@ -515,6 +525,7 @@ function Realize_activity(props){
                 if (element != activityCorrectAnswer) tmp.push(element)
             })
             setActivity({...activity, ["correctAnswerGo"]: tmp});
+            console.log(arrayOfActivityRemoved, activityCorrectAnswer, arrayOfActivityRemoved.includes(activityCorrectAnswer))
             if (!(arrayOfActivityRemoved.includes(activityCorrectAnswer))) setArrayOfActivityRemoved(arrayOfActivityRemoved => [...arrayOfActivityRemoved, activityCorrectAnswer])
             setActivityCorrectAnswer("")
             setUpdateTable((prev) => !prev)
@@ -533,6 +544,7 @@ function Realize_activity(props){
                 if (element != activityWrongAnswer) tmp.push(element)
             })
             setActivity({...activity, ["wrongAnswerGo"]: tmp});
+            console.log(arrayOfActivityRemoved, activityWrongAnswer, arrayOfActivityRemoved.includes(activityWrongAnswer))
             if (!(arrayOfActivityRemoved.includes(activityWrongAnswer))) setArrayOfActivityRemoved(arrayOfActivityRemoved => [...arrayOfActivityRemoved, activityWrongAnswer])
             setActivityWrongAnswer("")
             setUpdateTable((prev) => !prev)
@@ -551,10 +563,6 @@ function Realize_activity(props){
         await setActivity(props.story.activities[indexActivitySelected])
         setActivitySelect("")
         setUpdateTable((prev) => !prev)
-    }
-
-    function a(){
-        console.log(arrayOfActivityRemoved)
     }
 
     return(
@@ -644,24 +652,6 @@ function Realize_activity(props){
                 )),
                 e(DialogComponent2, {fun: setOpenInfoDialog, open: openInfoDialog, textError: "prova"} )
             ]),
-
-            e("p", null, "DIMENSIONE E POSIZIONE DELLE RISPOSTE"),
-            e("span", {className:"spanExplain"}, "Il bordo rosso è solo di aiuto in questa fase di creazione, non verrà visualizzato nella storia finale"),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "topInput", className: classes.input, value: activity.topInput, name: "topInput", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "leftInput", className: classes.input, value: activity.leftInput, name: "leftInput", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heightInput", className: classes.input, value: activity.heightInput, name: "heightInput", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthInput", className: classes.input, value: activity.widthInput, name: "widthInput", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("hr", null),
-
-
             e("div", {id: "Quattro opzioni"}, [
                 e("div", {className: "sx_realize_option"}, [
                     e(TextField, {id: "answer", className: classes.input, value: answer, name: "answer", label: "Inserire risposta", variant:"outlined", onChange:  (e) => setAnswer(e.target.value)}),
@@ -749,11 +739,30 @@ function Realize_activity(props){
 
             e("div", {id: "Range", className: classes.hide}, [
                 e("div", {className: "sx_realize_option"}, [
-                    e(TextField, {id: "scoreTrue", className: [classes.input, classes.score], value: activity.rangeAnswer.start, name: "rangeAnswer.start", label: "Minimo", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                    e(TextField, {id: "scorefalse", className: [classes.input, classes.score], value: activity.rangeAnswer.end, name: "rangeAnswer.end", label: "Massimo", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                    e(TextField, {id: "scoreTrue", className: [classes.input, classes.score], value: activity.rangeAnswer.scoreOk, name: "rangeAnswer.scoreOk", label: "Score risposta esatta", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                    e(TextField, {id: "scorefalse", className: [classes.input, classes.score], value: activity.rangeAnswer.scoreWrong, name: "rangeAnswer.scoreWrong", label: "Score risposta sbagliata", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(TextField, {id: "possibleScoreStart", className: [classes.input, classes.score], value: activity.rangeAnswer.possibleStart, name: "rangeAnswer.possibleStart", label: "Minimo possibile", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(TextField, {id: "possibleScoreEnd", className: [classes.input, classes.score], value: activity.rangeAnswer.possibleEnd, name: "rangeAnswer.possibleEnd", label: "Massimo possibile", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(TextField, {id: "scoreStart", className: [classes.input, classes.score], value: activity.rangeAnswer.start, name: "rangeAnswer.start", label: "Minimo accettato", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(TextField, {id: "scoreEnd", className: [classes.input, classes.score], value: activity.rangeAnswer.end, name: "rangeAnswer.end", label: "Massimo accettato", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(TextField, {id: "scoreTrue", className: [classes.input, classes.score], value: activity.rangeAnswer.scoreOk, name: "rangeAnswer.scoreOk", label: "Score rix esatta", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(TextField, {id: "scorefalse", className: [classes.input, classes.score], value: activity.rangeAnswer.scoreWrong, name: "rangeAnswer.scoreWrong", label: "Score rix sbagliata", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
+            ]),
+            e("hr", null),
+
+            
+            e("p", null, "DIMENSIONE E POSIZIONE DELLE RISPOSTE"),
+            e("span", {className:"spanExplain"}, "Il bordo rosso è solo di aiuto in questa fase di creazione, non verrà visualizzato nella storia finale"),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "topInput", className: classes.input, value: activity.topInput, name: "topInput", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "leftInput", className: classes.input, value: activity.leftInput, name: "leftInput", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "heightInput", className: classes.input, value: activity.heightInput, name: "heightInput", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "widthInput", className: classes.input, value: activity.widthInput, name: "widthInput", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
 
@@ -803,7 +812,6 @@ function Realize_activity(props){
 
             e(DialogComponent, {fun: setError, open: error, textError: string} ),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
-            e(Button, {onClick: a}, "SALVA"),
         ])    
     )
 

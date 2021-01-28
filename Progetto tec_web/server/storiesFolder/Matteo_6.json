@@ -90,7 +90,10 @@
     "backgroundImage": "",
     "activityImage": "",
     "altActivityImage": "",
-    "correctAnswerGo": []
+    "widgetType": "Nessuno",
+    "correctAnswerGo": [
+      "Partenza"
+    ]
   },
   "lastActivity": {
     "heightFrame": 160,
@@ -98,6 +101,7 @@
     "backgroundImage": "",
     "activityImage": "",
     "altActivityImage": "",
+    "widgetType": "Nessuno",
     "correctAnswerGo": []
   },
   "activities": [
@@ -134,7 +138,9 @@
       "correctAnswerGo": [
         "Lancio"
       ],
-      "wrongAnswerGo": [],
+      "wrongAnswerGo": [
+        "Lancio"
+      ],
       "activityIsUsed": true,
       "firstActivity": true
     },
@@ -171,8 +177,10 @@
       "correctAnswerGo": [
         "Esistenzapianeti"
       ],
-      "wrongAnswerGo": [],
-      "activityIsUsed": false,
+      "wrongAnswerGo": [
+        "Esistenzapianeti"
+      ],
+      "activityIsUsed": true,
       "firstActivity": false
     },
     {
@@ -208,7 +216,9 @@
       "correctAnswerGo": [
         "Tuttipianeti"
       ],
-      "wrongAnswerGo": ["Tuttipianeti"],
+      "wrongAnswerGo": [
+        "Tuttipianeti"
+      ],
       "activityIsUsed": true,
       "firstActivity": false
     },
@@ -279,7 +289,9 @@
         "start": "28",
         "end": "30",
         "scoreOk": "100",
-        "scoreWrong": 0
+        "scoreWrong": 0,
+        "possibleStart": "-23",
+        "possibleEnd": "100"
       },
       "correctAnswerGo": [],
       "wrongAnswerGo": [],

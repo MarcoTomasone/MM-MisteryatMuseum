@@ -221,10 +221,10 @@ function Realize(props){
                                 e("div", {id: "option7", className: "optionTrueFalse style"}, "Falso"),
                             ]),
                             e("div", {id: "Input testuale automatico div", className: "hiddenClass"}, [
-                                e("input", { id:"option8", className: "style", type:"text"})
+                                e("textarea", { id:"option8", className: "style"})
                             ]),
                             e("div", {id: "Input testuale valutatore div", className: "hiddenClass"}, [
-                                e("input", { id:"option9", className: "style", type:"text"})
+                                e("textarea", { id:"option9", className: "style"})
                             ]),
                             e("div", {id: "Range div", className: "hiddenClass"}, [
                                 e("input", { id:"option10", className: "style", type:"number"}),

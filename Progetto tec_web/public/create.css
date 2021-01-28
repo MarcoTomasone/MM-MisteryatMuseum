@@ -606,6 +606,7 @@ div[id='Range div']{
     color: white;
     border: solid 1px white;
     font-size: 10px;
+    resize: none
 }
 
 .optionFourChoices{

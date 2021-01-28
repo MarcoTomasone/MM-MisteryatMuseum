@@ -59,17 +59,6 @@ function inputType(props){
             position:'absolute'
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel"},defaultValue));
-        /*inputElement.push(e( "range", {
-                                'aria-describedby' : "activitIntro",
-                                key:"rangebar",
-                                min: props.v[props.counter].minRange,
-                                max: props.v[props.counter].maxRange,
-                                defaultValue:defaultValue,
-                                step:1,
-                                id:"rangenpt",
-                                style:styleRange,
-                                onChange:()=>{rewriteLabel()}
-                                }));*/
                 inputElement.push(e("input",{
                                     'aria-describedby' : "activitIntro",
                                     type:"range", 
@@ -92,7 +81,6 @@ function inputType(props){
                 const handleChange = (e) => {
                     setProgess(0)
                     const file = e.target.files[0]; // accesing file
-                    //console.log(file);
                     setFile(file); // storing file
                 }
                 //send to server an image to evaluation
@@ -113,18 +101,6 @@ function inputType(props){
                 position:'absolute'
             }
 
- /*           inputElement.push(e("input",{
-                'aria-labelledby' : "activitIntro",
-                type:"file", 
-                key:"fileUplodad",
-                id:"flUpld",
-                accept:"image/png, image/jpeg",
-                style:stylein,
-                capture:"camera",
-                onChange:handleChange
-                },  
-            ));
-   */
   
    inputElement.push(
     e("input", {id: "background_color",type:'file',size:'large',style:{display:'none'}, onChange:  handleChange}),
@@ -143,7 +119,6 @@ function inputType(props){
 
         return e("div",null, 
                     e("div", {key:"inputElement" , style:inputGroup}, inputElement),
-                    //     range ? e("p",null,document.getElementById("rangept").value : null),
                     e("button", {role: "button", key:"buttonNext",id: "nextButton",style:props.btnNext,onClick:props.inc}, "SUCCESSIVO")
                 );
 }

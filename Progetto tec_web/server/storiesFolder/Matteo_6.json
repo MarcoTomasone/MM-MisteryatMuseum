@@ -137,7 +137,8 @@
       "wrongAnswerGo": [],
       "activityIsUsed": true,
       "firstActivity": true
-    },{
+    },
+    {
       "title": "Lancio",
       "heightFrame": "160",
       "activityText": "E' appena finita la fase di lancio, sei uscito dall'atmosfera e ti sei appena stabilizzato con la tua navicella.\nTi accorgi subito di una senzazione strana: ti senti molto leggero, vedi gli oggetti muoversi, anche il player che stai usando è tutto al contrario.. Sei un ragazzo intelligente e in poco tempo capisci che è perchè manca la gravità.\nTi tranquillizzi, ti leghi alla tua sedia e decidi di controllare il tuo zaino per ricontrollare cosa ti sei portato dietro per questo lungo viaggio.\nScatta una foto del contenuto del tuo zaino da mandare alla base spaziale, cosi che anche loro sanno cosa hai con te.",
@@ -171,7 +172,7 @@
         "Esistenzapianeti"
       ],
       "wrongAnswerGo": [],
-      "activityIsUsed": true,
+      "activityIsUsed": false,
       "firstActivity": false
     },
     {
@@ -239,6 +240,45 @@
         "start": 0,
         "end": 0,
         "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [
+        "A"
+      ],
+      "wrongAnswerGo": [
+        "A"
+      ],
+      "activityIsUsed": true,
+      "firstActivity": false
+    },
+    {
+      "title": "A",
+      "heightFrame": 160,
+      "activityText": "",
+      "backgroundImage": "",
+      "activityImage": "",
+      "altActivityImage": "",
+      "widgetType": "Range",
+      "topInput": "200",
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "start": "28",
+        "end": "30",
+        "scoreOk": "100",
         "scoreWrong": 0
       },
       "correctAnswerGo": [],

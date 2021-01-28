@@ -22,7 +22,7 @@ export const Activity = React.forwardRef((props, ref) => {
     const setCounter = props.setCounter;
 
     var   [img,setImg] = React.useState(0);
-    var [backgroundImg,setBackgroundImg] = React.useState(0);
+    var [backgroundImg, setBackgroundImg] = React.useState(0);
     const [lastAnswer,setLastAnswer] = React.useState(null);
     const dinamicActivities = props.v;
     const activities = props.json.activities;
@@ -43,22 +43,17 @@ export const Activity = React.forwardRef((props, ref) => {
         
 
         clearInterval(timer);
-        if(dinamicActivities[counter] === props.json.lastActivity){
-            dinamicActivities.push( props.json.lastActivity);
-            socket.emit('finish', props.playerID);
-            postOnServer(props.playerId);
-        } else {
             if(counter != 0){
                 now = new Date();
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
                 switch(dinamicActivities[counter].widgetType){
                     case "" || "Nessuno":
                         correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                        sendData(props.playerId, activities[questionIndex].question, "Non ci sono risposte!", counter, seconds, 0);
+                        sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0);
                         //dinamicActivities.push(activities[questionIndex + 1]);
                     break;
                     case "Foto": //modificate sendData
-                        sendData(props.playerId, activities[questionIndex].question, path, counter, seconds, 0);
+                        sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
                         correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                         //dinamicActivities.push(activities[questionIndex + 1]);
                     break;
@@ -71,7 +66,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         props.setPoints(props.points + eval(dinamicActivities[counter].fourAnswers[lastAnswer].score));
                         actualPoints = eval(dinamicActivities[counter].fourAnswers[lastAnswer].score);    
                         //console.log(actualPoints);
-                        sendData(props.playerId, activities[questionIndex].question, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
+                        sendData(props.playerId, activities[questionIndex].activityText, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
                     break;
                     case "Vero o falso" :
                         let answer = lastAnswer ? "Vero" : "Falso";
@@ -97,11 +92,11 @@ export const Activity = React.forwardRef((props, ref) => {
 
                         }else{
                             wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + eval(dinamicActivities[counter].truefalseanswer.falseScore));
-                            actualPoints =eval( dinamicActivities[counter].truefalseanswer.falseScore);        
+                            props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.scoreWrong));
+                            actualPoints =eval( dinamicActivities[counter].trueFalseAnswer.scoreWrong);        
                         }
                        // console.log(actualPoints);
-                        sendData(props.playerId, activities[questionIndex].question, value, counter, seconds, actualPoints);
+                        sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, actualPoints);
                     break;
                     case "Input testuale automatico":
                         if(document.getElementById("textAnswer").value  === props.v[counter].textAnswer.value){
@@ -109,28 +104,28 @@ export const Activity = React.forwardRef((props, ref) => {
                             console.log("Risposta Corretta!");
                             indexOfNewActivity = props.dictionaryActivity.get(actual.correctAnswerGo[index]);
                             props.v.push(activities[indexOfNewActivity]);
-                            props.setPoints(props.points + dinamicActivities[counter].textAnswer.scoreOk);
-                            actualPoints = dinamicActivities[counter].textAnswer.scoreOk;
+                            props.setPoints(props.points +eval( dinamicActivities[counter].textAnswer.scoreOk));
+                            actualPoints = eval(dinamicActivities[counter].textAnswer.scoreOk);
 
                         }else{
                             index = getRandomInt(0,props.v[counter].wrongAnswerGo.length -1);
                             console.log("Risposta Errata!");
                             indexOfNewActivity = props.dictionaryActivity.get(actual.wrongAnswerGo[index]);
                             props.v.push(activities[indexOfNewActivity]);
-                            props.setPoints(props.points + dinamicActivities[counter].textAnswer.scoreWrong);
-                            actualPoints = dinamicActivities[counter].textAnswer.scoreWrong;        
+                            props.setPoints(props.points + eval(dinamicActivities[counter].textAnswer.scoreWrong));
+                            actualPoints = eval(dinamicActivities[counter].textAnswer.scoreWrong);        
                         }
                         //console.log(actualPoints);
-                        sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
+                        sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
                     break;
                     case "Input testuale valutatore":
-                        props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].question, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
-                        sendData(props.playerId, activities[questionIndex].question, document.getElementById("textAnswer").value, counter, seconds, 0);
+                        props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].activityText, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
+                        sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, 0);
                         //dinamicActivities.push(props.json.lastActivity);
                     break;
                 }
             }
-        }
+        
         setCounter(counter + 1);
         setLastAnswer(null);
         document.getElementById("help-message-container").innerHTML = "";
@@ -141,7 +136,7 @@ export const Activity = React.forwardRef((props, ref) => {
             now = new Date();
             seconds = (now.getTime() - startDate.getTime()) / 1000;
             sendData(props.playerId, 
-                activities[questionIndex].question, 
+                activities[questionIndex].activityText, 
                 "Nessuna risposta",
                 counter + 1, 
                 seconds );
@@ -175,7 +170,33 @@ export const Activity = React.forwardRef((props, ref) => {
         }
         setLastAnswer(answer);
     }
+        
+    function correctAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
+        if(actual.correctAnswerGo.length === 0){
+            const last = activities.length;
+            dinamicActivities.push(activities[last - 1]);
+            props.socket.emit('finish', {id: props.playerId, story: "Story1"});
+            
+        }else{
+            let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
+            console.log("Risposta Corretta!");
+            let indexOfNewActivity = dictionaryActivity.get(actual.correctAnswerGo[index]);
+            dinamicActivities.push(activities[indexOfNewActivity]);
+        }
+    }
 
+    function wrongAnswerAction(dinamicActivities, counter , dictionaryActivity ,activities, actual){
+        if(actual.wrongAnswerGo.length === 0){
+            const last = activities.length;
+            dinamicActivities.push(activities[last - 1]);
+            props.socket.emit('finish', {id: props.playerId, story: "Story1"});
+        }else{
+            let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
+            console.log("Risposta Errata!");
+            let indexOfNewActivity = dictionaryActivity.get(actual.wrongAnswerGo[index])
+            dinamicActivities.push(activities[indexOfNewActivity]);  
+        }
+    }
     const btnNext={ 	    //adesso sono settate parte delle proprieta di btnChat => da aggingere attributi al JSON
         //borderColor:props.json.nextButton.borderColor,
         display:(dinamicActivities[counter] === props.json.lastActivity)? 'None' : 'block',

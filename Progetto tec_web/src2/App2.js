@@ -25,7 +25,7 @@ const temp = readJSON("Simone_0");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
-console.log(data);
+
 let activityList = [];
 activityList.push(data.activities[0]);
 activityList.push(data.activities[1]);
@@ -47,7 +47,7 @@ function App2() {
         React.useEffect(() => {
             socket.on('set-id', data => {
                 setID(data.id);
-                getID(data.id, activityList[0].question);
+                getID(data.id, activityList[0].activityText);
             });
             
             socket.on('help-from-evaluator' , data => {

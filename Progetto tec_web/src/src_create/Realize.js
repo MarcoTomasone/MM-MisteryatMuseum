@@ -224,10 +224,10 @@ function Realize(props){
                                 e("input", { id:"option8", className: "style", type:"text"})
                             ]),
                             e("div", {id: "Input testuale valutatore div", className: "hiddenClass"}, [
-                                e("input", { id:"option8", className: "style", type:"text"})
+                                e("input", { id:"option9", className: "style", type:"text"})
                             ]),
                             e("div", {id: "Range div", className: "hiddenClass"}, [
-                                e("input", { id:"option9", className: "style", type:"number"}),
+                                e("input", { id:"option10", className: "style", type:"number"}),
                             ]),
                             e("div", {id: "Foto div", className: "hiddenClass"}, [
                                 e(IconButton, {className: [classes.buttonStandard], component: "span"}, 

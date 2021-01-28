@@ -1,6 +1,7 @@
 const { Socket } = require("socket.io");
 const fs = require("fs");
 
+
 module.exports = function(io) {
     global.arrayMessages = {};
     global.arrayHelps = {};
@@ -86,6 +87,7 @@ module.exports = function(io) {
             });
             socket.on('finish', data => {
                 //io.to(socketEvaluator[evaluator]).emit('finish-player', {"Ho finito"});
+                storiesActive[data.story][data.id].finished = true;
             });
         }
         else if(type == 'evaluator'){

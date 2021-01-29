@@ -14,6 +14,21 @@ const createFile = (player, story) => {
     fs.writeFileSync(filePath, JSON.stringify(storiesActive[story][player]));
 }
 
+const getAllPlayers = (story) => {
+    const players = [];
+    if(!storiesActive[story]) 
+        return 0; 
+    Object.keys(storiesActive[story]).forEach((player) => {
+        players.push(player.replace("player", ""));
+    })
+    const storyPath = path.join(__dirname, `../statusFiles/${story}`);
+    if(fs.existsSync(storyPath))
+        fs.readdirSync(storyPath).forEach((file) => {
+            players.push(file.replace(".json", "").replace("player", ""));
+        })
+    return Math.max(players);
+}
+
 module.exports = function(io) {
     global.arrayMessages = {};
     global.arrayHelps = {};
@@ -42,14 +57,9 @@ module.exports = function(io) {
         if(type == 'player'){
             socket.on('new-player', data => {
                 const bool = true;
-                let id;
-                //while(bool) {
-                    nPlayer += 1;
-                //    if(!'player' + nPlayer in socketPlayers) {
-                        id = 'player' + nPlayer;
-                //        bool = false;
-                //    }
-               // }
+
+                nPlayer += 1;
+                const id = 'player' + nPlayer;
                 socketPlayers[id] = socket.id;
                 io.to(socketPlayers[id]).emit('set-id', { id } );
                 const toDo = () => {

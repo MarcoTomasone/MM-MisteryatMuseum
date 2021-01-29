@@ -21,7 +21,6 @@ export default function Help(props) {
         props.setArrayEvaluations(tmp);
         (async () => {
             await addAnswer(story, player, points, props.section);
-            console.log("go emit");
             props.socket.emit('read-message', { type: "evaluation", player, story, points, id: props.id });
         })();
     }

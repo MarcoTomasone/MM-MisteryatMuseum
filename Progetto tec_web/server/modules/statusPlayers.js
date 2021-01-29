@@ -13,10 +13,8 @@ module.exports = {
         app.get('/status', (req, res) => {
             const story = req.query.story;
             const arrayPlayers = [];
-            if(!storiesActive[story]) {//or is empty
-                res.sendStatus(404).end();
-                return;
-            }
+            if(!storiesActive[story])//or is empty
+                res.status(404).send({ message: "Story not found" });
             for(id in storiesActive[story]){
                 arrayPlayers.push(storiesActive[story][id]);
             }
@@ -56,7 +54,11 @@ module.exports = {
             if(fs.existsSync(storyPath))
                 fs.readdirSync(storyPath).forEach((file) => {
                     const info = JSON.parse(fs.readFileSync(storyPath + file));
-                    players.push({ id: info.id, name: info.name, points: info.points});
+                    let points = 0;
+                    info.sectionArray.forEach((item) => {
+                        points += item.points;
+                    })
+                    players.push({ id: info.id, name: info.name, points: points });
                 })
             const data = JSON.stringify(players);
             res.status(200).send(data);
@@ -84,16 +86,16 @@ module.exports = {
             const story = req.query.story;
             if(player in storiesActive[story]) {
                 const data = JSON.stringify(storiesActive[story][player]);
-                res.status(200).end(data);
+                res.status(200).send(data);
             }
             else{
                 const myPath = path.join(__dirname, `../statusFiles/${story}/${player}.json`);
                 if(fs.existsSync(myPath)) {
                     const data = fs.readFileSync(myPath);
-                    res.status(200).end(data); 
+                    res.status(200).send(data); 
                 }
                 else {
-                    res.status(404).end();
+                    res.status(404).send({ message: "Players not found" });
                     return;
                 }
             }

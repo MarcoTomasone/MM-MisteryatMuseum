@@ -197,7 +197,6 @@ if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activitie
     const sendMessage = function (){
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
-        console.log(message)
         if(message != ""){
             appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
             socket.emit('send-to-evaluator', {message: message, id})  //server side
@@ -219,7 +218,7 @@ if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activitie
             if(sectionRef.current) {
                 const section = sectionRef.current.getSection();
                 socket.emit('send-help-text', {question: message, id, nElem : length, section : section})  //server side
-                helpInput.value = ''}//clean the input text
+                helpInput.value = ''} //clean the input text
             }
     } 
 
@@ -227,7 +226,7 @@ if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activitie
     return e(React.Fragment, null, [ 
             e("div", {key:"player",id:"player",style:div_a}, [
                 e("div",{style:navbar,id:"navPlayer"},
-                e(Button, {id:"chat-button",variant: 'outlined', 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "CHAT" ), 
+                e("button", {id:"chat-button",variant: 'outlined', 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "CHAT" ), 
                 e("div", {id: "points", style: pointStyle}, "Points:" + points),
                 e("button", {id:"help-button", style: btnHelp, onClick: ()=> {if(!slideChat) setSlideHelp(!slideHelp)}}, "AIUTO"),
             )],
@@ -244,20 +243,20 @@ if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activitie
                 ]),
             ]),*/
             e(Activity, {counter:counter,setCounter:setCounter, ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints}),
-            e(Slide, {in: slideChat, direction: "right", id: "slide-chat", style : {width : "90%"}, children: e(Paper, null, [
+            e(Slide, {in: slideChat, direction: "left", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
-                    e("div",{id: "message-container", style: {overflow:"scroll", width: "80%", height: "50%", margin: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+                    e("div",{id: "message-container"}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
-                        e(TextField, {id: "message-input", onKeyDown: () => {isEnter(event)? sendMessage() : null},variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                        e(TextField, {id: "message-input", onKeyDown: () => {isEnter(event)? sendMessage() : null},variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft : "10%"}, InputProps: {endAdornment:
                             e(IconButton, {id:"send-button", onClick: sendMessage,  children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])
             ])}),
             e(Slide, {in: slideHelp, direction:"down", id: "slide-help", style : {height : "70%"} , unmountOnExit: false, children: e(Paper, null, [  
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideHelp(false)}}),
-                    e("div",{id: "help-message-container", style: {overflow:"scroll", width: "80%", height: "70%", marginLeft: "10%", border: "1px solid grey", borderRadius: "5px"}}), //div di arrivo delle risposte da valutare
+                    e("div",{id: "help-message-container"}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
-                        e(TextField, {id: "help-message-input",onKeyDown: () => {isEnter(event)? sendHelp() : null}, variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft: "10%"}, InputProps: {endAdornment:
+                        e(TextField, {id: "help-message-input",onKeyDown: () => {isEnter(event)? sendHelp() : null}, variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft : "10%"}, InputProps: {endAdornment:
                             e(IconButton, {id:"send-button", onClick: sendHelp, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])

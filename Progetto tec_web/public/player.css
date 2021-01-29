@@ -164,25 +164,49 @@ html, body {
 
 #slide-chat{
     border-radius: 0px;
-    background-color: rgba(247, 244, 244, 0.9);
+    background-color:  rgba(121, 121, 121, 0.87);
     position: fixed;
-    height: 100%;
-    width: 40%;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
-    box-sizing: border-box;
-}
-#slide-help{
-    border-radius: 0px;
-    background-color: rgba(247, 244, 244, 0.9);
-    position: fixed;
-    height: 30%;
-    width: 100%;
+    top: 0px;
+    right: 0px;
+    height: 70%;
+    width: 70%;
     border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-top-left-radius: 15px;
     box-sizing: border-box;
+    text-align: left;
 }
 
+#message-container{
+    overflow: scroll; 
+    width: 80%; 
+    height: 70%; 
+    margin-left: 10%;
+    border: 1px solid black; 
+    border-radius: 5px;
+}
+
+#slide-help{
+    border-radius: 0px;
+    background-color: rgba(121, 121, 121, 0.836);
+    position: fixed;
+    top : 0px;
+    height: 30%;
+    width: 70%;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    box-sizing: border-box; 
+    text-align: left;
+
+}
+
+#help-message-container {
+    overflow:scroll; 
+    width: 80%; 
+    height: 70% ; 
+    margin-left: 10%; 
+    border: 1px solid black; 
+    border-radius: 5px;
+}
 
 * {
     box-sizing: border-box;
@@ -193,7 +217,7 @@ html, body {
 
 #body2 {
     overflow: scroll;
-}::-webkit-scrollbar {
+} ::-webkit-scrollbar {
     display: none;
     width: 0px; 
     height: 0px;

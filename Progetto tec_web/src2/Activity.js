@@ -42,7 +42,7 @@ export const Activity = React.forwardRef((props, ref) => {
 
         if(dinamicActivities[counter] === props.json.lastActivity){
             let final = props.json.lastActivity;
-            final.activityText="Grazie per aver giocato :)";
+            final.activityText = "Grazie per aver giocato :)";
             dinamicActivities.push(final);
         }
 
@@ -138,16 +138,17 @@ export const Activity = React.forwardRef((props, ref) => {
         mediaProp = [];
         startDate = new Date();
         questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
-        timer = setInterval( () => {
-            now = new Date();
-            seconds = (now.getTime() - startDate.getTime()) / 1000;
-            sendData(props.playerId, 
-                activities[questionIndex].activityText, 
-                "Nessuna risposta",
-                counter + 1, 
-                seconds );
-                props.socket.emit("data-update", props.playerId);
-        }, 5000);
+        if (dinamicActivities[counter - 1] === props.json.lastActivity)
+            timer = setInterval( () => {
+                now = new Date();
+                seconds = (now.getTime() - startDate.getTime()) / 1000;
+                sendData(props.playerId, 
+                    activities[questionIndex].activityText, 
+                    "Nessuna risposta",
+                    counter + 1, 
+                    seconds );
+                    props.socket.emit("data-update", props.playerId);
+            }, 5000);
     }
     
     function checkButton(answer){  

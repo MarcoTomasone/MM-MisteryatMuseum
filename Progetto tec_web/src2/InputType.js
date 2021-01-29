@@ -18,7 +18,7 @@ function inputType(props){
         borderColor: props.json.player.inputDiv.frameColor,
         position:'absolute',
         opacity:'80%',
-        backgroundColor:props.json.player.inputDiv.backgroundColor,
+        //backgroundColor:props.json.player.inputDiv.backgroundColor,
         color:props.json.player.inputDiv.textColor,
         width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
         height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
@@ -60,18 +60,19 @@ function inputType(props){
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel",style:{color:'gray', fontSize:props.json.player.sizeFont*2}},defaultValue));
       
-        inputElement.push(e("input",{
-                                    'aria-describedby' : "activitIntro",
-                                    type:"range", 
-                                    key:"rangebar",
-                                    min:eval(props.v[props.counter].rangeAnswer.possibleStart),
-                                    max:eval(props.v[props.counter].rangeAnswer.possibleEnd),
-                                    defaultValue:defaultValue,
-                                    step:1,
-                                    id:"rangenpt",
-                                    style:styleRange,
-                                    onChange:()=>{rewriteLabel()}
-                                    }));
+        inputElement.push(
+                    e("input",{
+                        'aria-describedby' : "activitIntro",
+                        type:"range", 
+                        key:"rangebar",
+                        min:eval(props.v[props.counter].rangeAnswer.possibleStart),
+                        max:eval(props.v[props.counter].rangeAnswer.possibleEnd),
+                        defaultValue:defaultValue,
+                        step:1,
+                        id:"rangenpt",
+                        style:styleRange,
+                        onChange:()=>{rewriteLabel()}
+                    }));
         } else if(props.v[props.counter].widgetType === "Foto" ){
            
             
@@ -97,7 +98,7 @@ function inputType(props){
             inputElement.push(
                 e("input", {id: "background_color",type:'file',size:'large',style:{display:'none'}, onChange:  handleChange}),
                 e("label", {htmlFor:"background_color",size:'large'}, [
-                    e(IconButton,{component: "span",fontSize:'large', style:{color:'gray'}}, 
+                    e(IconButton,{component: "span",fontSize:'large', style:{color:props.json.player.inputDiv.textColor , top :'25%'}}, 
                         e(Icon, {children: "photo_camera",fontSize:'large'}),  
                     ),
                 ]),)

@@ -45,32 +45,40 @@ function ButtonType(props){
         const ListButtonAnswer = [];     //Array that contains every button
 
         if(props.v[props.counter].widgetType === "Vero o falso"){
-            ListButtonAnswer.push(e("button", {
-                key:"BtnTrue",
-                style:(props.lastAnswer===1)? buttSelect:buttProp,
-                id:"btnTrue",
-                alt:"Vero", 
-                onClick: () =>props.checkButton(1)
-            },"VERO"));
-            ListButtonAnswer.push(e("button", {
-                key:"BtnFalse",
-                style: (props.lastAnswer===0)? buttSelect:buttProp,
-                id:"btnFalse",
-                alt:"Falso", 
-                onClick: () =>props.checkButton(0)
-            },"FALSO"));
 
+            ListButtonAnswer.push(
+                    e("button", {
+                        role:'button',
+                        key:"BtnTrue",
+                        style:(props.lastAnswer===1)? buttSelect:buttProp,
+                        id:"btnTrue",
+                        alt:"Vero", 
+                        onClick: () => props.checkButton(1)
+                    },"VERO"));
+
+                    ListButtonAnswer.push(
+                    e("button", {
+                        key:"BtnFalse",
+                        role:'button',
+                        style: (props.lastAnswer===0)? buttSelect:buttProp,
+                        id:"btnFalse",
+                        alt:"Falso", 
+                        onClick: () => props.checkButton(0)
+                    },"FALSO"));
+            
 
         }else if (props.v[props.counter].widgetType === "Quattro opzioni"){
+            
             for (let i = 0; i < props.answer.length; i++) {      
-                ListButtonAnswer.push(e("button", {
-                    role: "button", 
-                    key:"Btn"+ i,
-                    style: (i != props.lastAnswer)? buttProp:buttSelect,
-                    id:"btn"+ i,
-                    alt:"bottone : "+props.answer[i].text, 
-                    onClick: () => props.checkButton(i)
-                }, props.answer[i].text));
+                ListButtonAnswer.push(
+                    e("button", {
+                        role: "button", 
+                        key:"Btn"+ i,
+                        style: (i != props.lastAnswer)? buttProp:buttSelect,
+                        id:"btn"+ i,
+                        alt:"bottone : "+props.answer[i].text, 
+                        onClick: () => props.checkButton(i)
+                    }, props.answer[i].text));
             }
 
         }else if(props.v[props.counter].widgetType === "Scelta multipla" ){
@@ -93,7 +101,7 @@ function ButtonType(props){
                 optionVector));
             }       
 
-       
+
         return e("div",null,
                     e("div", {
                         key: "buttonblock",

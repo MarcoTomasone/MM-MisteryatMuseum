@@ -20,13 +20,13 @@ export const Activity = React.forwardRef((props, ref) => {
     let actualPoints = 0;
     const counter = props.counter;
     const setCounter = props.setCounter;
-
     var   [img,setImg] = React.useState(0);
     var [backgroundImg, setBackgroundImg] = React.useState(0);
     const [lastAnswer,setLastAnswer] = React.useState(null);
     const dinamicActivities = props.v;
     const activities = props.json.activities;
     const activityStyle =  props.json.activityStyle;
+    const actual = dinamicActivities[counter];
 
     React.useImperativeHandle(ref, (value) => ({
         getSection(){
@@ -36,101 +36,120 @@ export const Activity = React.forwardRef((props, ref) => {
     
     //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc( path ){
-        let actual = dinamicActivities[counter];
-        
-        let questionIndex = activities.indexOf(dinamicActivities[counter]);
+     
+        if( mustAnswer(actual) || (lastAnswer != null)){
+            let actual = dinamicActivities[counter];        
+            let questionIndex = activities.indexOf(dinamicActivities[counter]);
 
-        if(dinamicActivities[counter] === props.json.lastActivity){
-            let final = props.json.lastActivity;
-            final.activityText="Grazie per aver giocato :)";
-            dinamicActivities.push(final);
-        }
-
-        clearInterval(timer);
-        if(!Object.is(dinamicActivities[counter],props.json.lastActivity)){
-        if(counter != 0){
-                now = new Date();
-                seconds = (now.getTime() - startDate.getTime()) / 1000;
-                switch(dinamicActivities[counter].widgetType){
-                    case "" || "Nessuno":
-                        correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                        sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0);
-                    break;
-                    case "Foto": //modificate sendData
-                        sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
-                        correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                    break;
-                    case "Quattro opzioni" : 
-                        if(dinamicActivities[counter].fourAnswers[lastAnswer].score > 0){
+            if(dinamicActivities[counter] === props.json.lastActivity){
+                let final = props.json.lastActivity;
+                final.activityText="Grazie per aver giocato :)";
+                dinamicActivities.push(final);
+            }
+            clearInterval(timer);
+            if(!Object.is(dinamicActivities[counter],props.json.lastActivity)){
+            if(counter != 0){
+                    now = new Date();
+                    seconds = (now.getTime() - startDate.getTime()) / 1000;
+                    switch(dinamicActivities[counter].widgetType){
+                        case "" || "Nessuno":
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                        } else {
-                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                        }
-                        props.setPoints(props.points + eval(dinamicActivities[counter].fourAnswers[lastAnswer].score));
-                        actualPoints = eval(dinamicActivities[counter].fourAnswers[lastAnswer].score);    
-                        sendData(props.playerId, activities[questionIndex].activityText, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
-                    break;
-                    case "Vero o falso" :
-                        let answer = lastAnswer ? "Vero" : "Falso";
-                        if(((eval(dinamicActivities[counter].trueFalseAnswer.trueScore)) > 0 ) && (answer === "Vero")){
-                            correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.trueScore));
-                            actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.trueScore);
-
-                        }else{
-                            
-                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
-                            actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
-                        }
-                        sendData(props.playerId, activities[questionIndex].activityText, answer, counter, seconds, actualPoints);
+                            sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0);
                         break;
+                        case "Foto": //modificate sendData
+                            sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
+                            correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                        break;
+                        case "Quattro opzioni" : 
+                            if(dinamicActivities[counter].fourAnswers[lastAnswer].score > 0){
+                                correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                            } else {
+                                wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                            }
+                            props.setPoints(props.points + eval(dinamicActivities[counter].fourAnswers[lastAnswer].score));
+                            actualPoints = eval(dinamicActivities[counter].fourAnswers[lastAnswer].score);    
+                            sendData(props.playerId, activities[questionIndex].activityText, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
+                        break;
+                        case "Vero o falso":
+                            let answerL = lastAnswer ? "Vero" : "Falso";
+                            if(lastAnswer !== 1 && lastAnswer !== 0){ alert("Devi rispondere in tutti i casi");}//let a = dinamicActivities[1000].activityText;}
+                            if(((eval(dinamicActivities[counter].trueFalseAnswer.trueScore)) > 0 ) && (answerL === "Vero")){
+                                correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                                props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.trueScore));
+                                actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.trueScore);
+
+                            }else{
+                                
+                                wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                                props.setPoints(props.points + eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
+                                actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
+                            }
+                            sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, seconds, actualPoints);
+                            break;
                         case "Scelta multipla":
-                        if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
-                            console.log("risposta giusta");
-                            correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
-                            actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);
-                        }else{
-                            console.log("risposta errata");
-                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
-                            actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);    
-                        }
-                        break;
-                    case "Range":
-                        let value = eval(document.getElementById("rangenpt").value);  
-                        if(value < eval(dinamicActivities[counter].rangeAnswer.end) && value > eval(dinamicActivities[counter].rangeAnswer.start) ){
-                            correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreOk));
-                            actualPoints = eval(dinamicActivities[counter].rangeAnswer.scoreOk);
+                            if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
+                                console.log("risposta giusta");
+                                correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
+                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);
+                            }else{
+                                console.log("risposta errata");
+                                wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
+                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);    
+                            }
+                            break;
+                        case "Range":
+                            let value = eval(document.getElementById("rangenpt").value);  
+                            if(value < eval(dinamicActivities[counter].rangeAnswer.end) && value > eval(dinamicActivities[counter].rangeAnswer.start) ){
+                                correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                                props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreOk));
+                                actualPoints = eval(dinamicActivities[counter].rangeAnswer.scoreOk);
 
-                        }else{
-                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreWrong));
-                            actualPoints = eval( dinamicActivities[counter].rangeAnswer.scoreWrong);        
-                        }
-                        sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, actualPoints);
-                    break;
-                    case "Input testuale automatico":
-                        if(document.getElementById("textAnswer").value  === dinamicActivities[counter].textAnswer.value){
+                            }else{
+                                wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                                props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreWrong));
+                                actualPoints = eval( dinamicActivities[counter].rangeAnswer.scoreWrong);        
+                            }
+                            sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, actualPoints);
+                        break;
+                        case "Input testuale automatico":
+                            if(document.getElementById("textAnswer").value  === dinamicActivities[counter].textAnswer.value){
+                                correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                                props.setPoints(props.points +eval( dinamicActivities[counter].textAnswer.scoreOk));
+                                actualPoints = eval(dinamicActivities[counter].textAnswer.scoreOk);
+                            }else{
+                                wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                                props.setPoints(props.points + eval(dinamicActivities[counter].textAnswer.scoreWrong));
+                                actualPoints = eval(dinamicActivities[counter].textAnswer.scoreWrong);        
+                            }
+                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
+                        break;
+                        case "Input testuale valutatore":
+                            props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].activityText, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
+                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, 0);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points +eval( dinamicActivities[counter].textAnswer.scoreOk));
-                            actualPoints = eval(dinamicActivities[counter].textAnswer.scoreOk);
-                        }else{
-                            wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            props.setPoints(props.points + eval(dinamicActivities[counter].textAnswer.scoreWrong));
-                            actualPoints = eval(dinamicActivities[counter].textAnswer.scoreWrong);        
-                        }
-                        sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
-                    break;
-                    case "Input testuale valutatore":
-                        props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].activityText, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
-                        sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, 0);
-                        correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                    break;
+                        break;
+                    }
                 }
             }
+            
+            setCounter(counter + 1);
+            setLastAnswer(null);
+            document.getElementById("help-message-container").innerHTML = "";
+            mediaProp = [];
+            startDate = new Date();
+            questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
+            timer = setInterval( () => {
+                now = new Date();
+                seconds = (now.getTime() - startDate.getTime()) / 1000;
+                sendData(props.playerId, 
+                    activities[questionIndex].activityText, 
+                    "Nessuna risposta",
+                    counter + 1, 
+                    seconds );
+                    props.socket.emit("data-update", props.playerId);
+            }, 5000);
         }
         setCounter(counter + 1);
         setLastAnswer(null);
@@ -151,6 +170,30 @@ export const Activity = React.forwardRef((props, ref) => {
             }, 5000);
     }
     
+    
+    function  mustAnswer(actual){
+            switch(actual.widgetType){
+                case "" || "Nessuno":
+                    return true;
+                case "Vero o falso":
+                    return false;
+                case "Scelta multipla":
+                    return false;
+                case "Quattro opzioni":
+                    return false;
+                case "Range":
+                    return true;
+                case "Input testuale automatico" || "Input testuale valutatore":
+                    if(document.getElementById("textAnswer").value !== "")
+                        return true;
+                    else 
+                        return false;
+                case "Foto":
+                    return true;
+            }
+
+        }
+
     function checkButton(answer){  
         if(props.v[counter].widgetType ==="Vero o falso"){    
             if(answer === 1){
@@ -206,6 +249,7 @@ export const Activity = React.forwardRef((props, ref) => {
             dinamicActivities.push(activities[indexOfNewActivity]);  
         }
     }
+
     const btnNext={ 	   
         display:(dinamicActivities[counter - 1] === props.json.lastActivity)? 'None' : 'block',
         fontSize:`1.2em`,
@@ -262,6 +306,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     setImg(img = base64data);
                     }
         });       
+    
         const mediaStyle = {
             width:'100%'
         }
@@ -291,6 +336,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, domanda,   mediaProp),
                     e(ButtonType, {answer:answer, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) , btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
+
         }else { 
                 //avaible Input type == 'range' || type=='text' a/v || type=="file"
             return e("div",null ,             

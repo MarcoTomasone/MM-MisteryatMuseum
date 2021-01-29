@@ -21,7 +21,7 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON("Simone_3");
+const temp = readJSON("Simone_0");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
@@ -68,124 +68,125 @@ function App2() {
             });
         });
 
-//Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
-    var dictionaryActivity =new Map;
-    for(let i = 0;i<data.activities.length;i++){
-        dictionaryActivity.set( data.activities[i].title , i);
-    }
+        //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
+        var dictionaryActivity =new Map;
+        for(let i = 0;i<data.activities.length;i++){
+            dictionaryActivity.set( data.activities[i].title , i);
+        }
 
-    var [backgroundImg,setBackgroundImg] = React.useState(0);
-    React.useEffect(() => {
-        document.getElementById("body2").style.height = `${screen.availHeight}px`;
-        document.getElementById("body2").style.width = `${screen.availWidth}px`;
-                }, [])
+        var [backgroundImg,setBackgroundImg] = React.useState(0);
+        React.useEffect(() => {
+            document.getElementById("body2").style.height = `${screen.availHeight}px`;
+            document.getElementById("body2").style.width = `${screen.availWidth}px`;
+                    }, [])
 
    
-    const navbar ={
-        height: "15%"
-    };
+        const navbar ={
+            height: "15%"
+        };
 
-    const btnChat={ 
-        display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
-        border:'solid',
-        color: data.player.chatButton.textColor,
-        borderColor:data.player.chatButton.frameColor,
-        backgroundColor:data. player.chatButton.backgroundColor,
-        borderRadius:`${data.player.chatButton.borderRadius}px`,
-        frameColor:data.player.chatButton.frameColor,
-        fontSize:`1.2em`,
-        fontFamily:data.player.fontFamily,
-        textAlign:'center',
-        width:`${data.player.chatButton.width *screen.availWidth /202}px`,
-        height:`${data.player.chatButton.height* screen.availHeight /437}px`,
-        top:`${data.player.chatButton.top * screen.availHeight/437}px`,
-        left:`${data.player.chatButton.left * screen.availWidth /202}px`,
-        position:'absolute',
-    };
+        const btnChat={ 
+            display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
+            border:'solid',
+            color: data.player.chatButton.textColor,
+            borderColor:data.player.chatButton.frameColor,
+            backgroundColor:data. player.chatButton.backgroundColor,
+            borderRadius:`${data.player.chatButton.borderRadius}px`,
+            frameColor:data.player.chatButton.frameColor,
+            fontSize:`1.2em`,
+            fontFamily:data.player.fontFamily,
+            textAlign:'center',
+            width:`${data.player.chatButton.width *screen.availWidth /202}px`,
+            height:`${data.player.chatButton.height* screen.availHeight /437}px`,
+            top:`${data.player.chatButton.top * screen.availHeight/437}px`,
+            left:`${data.player.chatButton.left * screen.availWidth /202}px`,
+            position:'absolute',
+        };
     
-    const pointStyle= {
-        fontSize:`1.2em`,
-        fontFamily:data.player.fontFamily,
-        position:'absolute',
-        textAlign: "center",
-        color:data.player.scoreDiv.textColor,
-        backgroundColor:data.player.scoreDiv.backgroundColor,
-        border:'solid',
-        borderColor:data.player.scoreDiv.frameColor,
-        borderRadius:data.player.scoreDiv.borderRadius+'px',
-        height:`${data.player.scoreDiv.height * screen.availHeight/437}px`,
-        width:`${data.player.scoreDiv.width * screen.availWidth/202}px`,
-        top:`${data.player.scoreDiv.top * screen.availHeight/437}px`,
-        left:`${data.player.scoreDiv.left * screen.availWidth/202}px`
+        const pointStyle= {
+            fontSize:`1.2em`,
+            fontFamily:data.player.fontFamily,
+            position:'absolute',
+            textAlign: "center",
+            color:data.player.scoreDiv.textColor,
+            backgroundColor:data.player.scoreDiv.backgroundColor,
+            border:'solid',
+            borderColor:data.player.scoreDiv.frameColor,
+            borderRadius:data.player.scoreDiv.borderRadius+'px',
+            height:`${data.player.scoreDiv.height * screen.availHeight/437}px`,
+            width:`${data.player.scoreDiv.width * screen.availWidth/202}px`,
+            top:`${data.player.scoreDiv.top * screen.availHeight/437}px`,
+            left:`${data.player.scoreDiv.left * screen.availWidth/202}px`
+        };
+
+        const btnHelp={
+            display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
+            border:'solid',
+            fontSize:`1.2em`,
+            borderColor:data.player.helpButton.frameColor,
+            fontFamily:data.player.fontFamily,
+            color:data.player.helpButton.backgroundColor,
+            borderRadius:`${data.player.helpButton.borderRadius}px`,
+            frameColor:data.player.helpButton.frameColor,
+            color:data.player.helpButton.textColor,
+            backgroundColor:data.player.helpButton.backgroundColor,
+            textAlign:'center',
+            width:`${data.player.helpButton.width *screen.availWidth /202}px`,
+            height:`${data.player.helpButton.height* screen.availHeight /437}px`,
+            top:`${data.player.helpButton.top * screen.availHeight/437}px`,
+            left:`${data.player.helpButton.left * screen.availWidth /202}px`,
+            //borderColor:data.player.chatButton.borderColor,
+            position:'absolute'
     };
 
-    const btnHelp={
-        display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
-        border:'solid',
-        fontSize:`1.2em`,
-        borderColor:data.player.helpButton.frameColor,
-        fontFamily:data.player.fontFamily,
-        color:data.player.helpButton.backgroundColor,
-        borderRadius:`${data.player.helpButton.borderRadius}px`,
-        frameColor:data.player.helpButton.frameColor,
-        color:data.player.helpButton.textColor,
-        backgroundColor:data.player.helpButton.backgroundColor,
-        textAlign:'center',
-        width:`${data.player.helpButton.width *screen.availWidth /202}px`,
-        height:`${data.player.helpButton.height* screen.availHeight /437}px`,
-        top:`${data.player.helpButton.top * screen.availHeight/437}px`,
-        left:`${data.player.helpButton.left * screen.availWidth /202}px`,
-        //borderColor:data.player.chatButton.borderColor,
-        position:'absolute'
-};
+    if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activities[counter].backgroundImage!=="" )
+        || (data.player.backgroundImage !== "" && data.player.hasOwnProperty('backgroundImage'))){
+        const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
+        
+        var base64data;
+        axios.get(`http://localhost:8000/downloadBackground/${path}`, { responseType:"blob" })
+                .then(function (response) {
+                var blob1 = response.data;
+                const blob = new Blob([blob1], { type: 'image/png' });
+                var reader = new window.FileReader();
+                reader.readAsDataURL(blob);
+                reader.onload = function() {
+                    base64data = reader.result;                
+                    setBackgroundImg(backgroundImg = base64data);
+                    }
+        });      
 
-if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activities[counter].backgroundImage!=="" )
-    || (data.player.backgroundImage !== "" && data.player.hasOwnProperty('backgroundImage'))){
-     const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
-    
-     var base64data;
-    axios.get(`http://localhost:8000/downloadBackground/${path}`, { responseType:"blob" })
-            .then(function (response) {
-            var blob1 = response.data;
-            const blob = new Blob([blob1], { type: 'image/png' });
-            var reader = new window.FileReader();
-            reader.readAsDataURL(blob);
-            reader.onload = function() {
-                base64data = reader.result;                
-                setBackgroundImg(backgroundImg = base64data);
-                }
-    });      
+        var div_a = {      //style della div contenente le activity
+            backgroundImage: 'url('+backgroundImg+')',
+            backgroundPositionTop:`${data.player.image.top* screen.availHeight/437}px`,
+            //backgroundPositionWidth:`${data.player.image.width* screen.availWidth/202}px`,
+            backgroundSize:` ${data.player.image.width* screen.availWidth/202}px ${data.player.image.height* screen.availHeight/437}px`,
+            backgroundLeft:`${data.player.image.left* screen.availHeight/437}px`,
+            color :data.player.textColor,
+            fontSize:data.player.sizeFont,
+            fontFamily:data.player.fontFamily,
+            //thicknessFrame:`${data.player.weightFont}px`,
+            topFrame:`${data.player.topFrame * screen.availHeight/437}vh`,
+            frameColor : data.player.frameColor,
+            leftFrame:`${data.player.leftFrame* screen.availHeight/202}vh`,
+            widthFrame: `${data.player.widthFrame * screen.availWidth/202}vh`,
+            weightFrame:`${data.player.weightFrame* screen.availHeight/437}vh`,
+            weightFont:`${data.player.weightFont}px`,
+            textAlign:'center'
+        };
 
-    var div_a = {      //style della div contenente le activity
-        backgroundImage: 'url('+backgroundImg+')',
-        backgroundPositionTop:`${data.player.image.top* screen.availHeight/437}px`,
-        //backgroundPositionWidth:`${data.player.image.width* screen.availWidth/202}px`,
-        backgroundSize:` ${data.player.image.width* screen.availWidth/202}px ${data.player.image.height* screen.availHeight/437}px`,
-        backgroundLeft:`${data.player.image.left* screen.availHeight/437}px`,
-        color :data.player.textColor,
-        fontSize:data.player.sizeFont,
-        fontFamily:data.player.fontFamily,
-        //thicknessFrame:`${data.player.weightFont}px`,
-        topFrame:`${data.player.topFrame * screen.availHeight/437}vh`,
-        frameColor : data.player.frameColor,
-        leftFrame:`${data.player.leftFrame* screen.availHeight/202}vh`,
-        widthFrame: `${data.player.widthFrame * screen.availWidth/202}vh`,
-        weightFrame:`${data.player.weightFrame* screen.availHeight/437}vh`,
-        weightFont:`${data.player.weightFont}px`,
-        textAlign:'center'
-     };
+    }else{
 
-}else{
+        var div_a = {      //style della div contenente le activity
+            background: data.player.background,
+            topFrame:`${data.player.topFrame* screen.availHeight/437}vh`,
+            leftFrame:`${data.player.leftFrame* screen.availWidth/202}vh`,
+            widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
+            weightFont:`${data.player.weightFont}px`,
+            textAlign:'center'
+        };
 
-    var div_a = {      //style della div contenente le activity
-        background: data.player.background,
-        topFrame:`${data.player.topFrame* screen.availHeight/437}vh`,
-        leftFrame:`${data.player.leftFrame* screen.availWidth/202}vh`,
-        widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
-        weightFont:`${data.player.weightFont}px`,
-        textAlign:'center'
-    };
-}
+    }
 
    /*function handleClose() {
         setDialog(false);
@@ -267,10 +268,6 @@ if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activitie
         )
     ])        
     }
-        
-
-    
-    
         
 export default App2;
 

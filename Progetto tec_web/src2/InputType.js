@@ -60,18 +60,19 @@ function inputType(props){
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel",style:{color:'gray', fontSize:props.json.player.sizeFont*2}},defaultValue));
       
-        inputElement.push(e("input",{
-                                    'aria-describedby' : "activitIntro",
-                                    type:"range", 
-                                    key:"rangebar",
-                                    min:eval(props.v[props.counter].rangeAnswer.possibleStart),
-                                    max:eval(props.v[props.counter].rangeAnswer.possibleEnd),
-                                    defaultValue:defaultValue,
-                                    step:1,
-                                    id:"rangenpt",
-                                    style:styleRange,
-                                    onChange:()=>{rewriteLabel()}
-                                    }));
+        inputElement.push(
+                    e("input",{
+                        'aria-describedby' : "activitIntro",
+                        type:"range", 
+                        key:"rangebar",
+                        min:eval(props.v[props.counter].rangeAnswer.possibleStart),
+                        max:eval(props.v[props.counter].rangeAnswer.possibleEnd),
+                        defaultValue:defaultValue,
+                        step:1,
+                        id:"rangenpt",
+                        style:styleRange,
+                        onChange:()=>{rewriteLabel()}
+                    }));
         } else if(props.v[props.counter].widgetType === "Foto" ){
            
             

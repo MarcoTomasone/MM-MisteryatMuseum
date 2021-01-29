@@ -89,11 +89,13 @@
     "activityText": "Vediamo la tua preparazione riguardo ai film di azione",
     "backgroundImage": "",
     "activityImage": "",
+    "widgetType": "Nessuno",
     "altActivityImage": "",
     "correctAnswerGo": ["test1"]
   },
   "lastActivity": {
     "heightFrame": 160,
+    "widgetType": "Nessuno",
     "activityText": "Bene...\nSei piu o meno preparato, ti manderemo i risultati nei prossimi giorni.",
     "backgroundImage": "",
     "activityImage": "",
@@ -168,7 +170,9 @@
         "start": 0,
         "end": "10",
         "scoreOk": "3",
-        "scoreWrong": 0
+        "scoreWrong": 0,
+        "possibleEnd":"20",
+        "possibleStart":"0"
       },
       "correctAnswerGo": [],
       "wrongAnswerGo": [],
@@ -220,7 +224,9 @@
         "start": 0,
         "end": "10",
         "scoreOk": "3",
-        "scoreWrong": 0
+        "scoreWrong": 0,
+        "possibleStart": 0,
+        "possibleEnd": 20
       },
       "correctAnswerGo": [],
       "wrongAnswerGo": ["Test"],
@@ -287,10 +293,12 @@
         "scoreWrong": "-1"
       },
       "rangeAnswer": {
-        "start": 0,
-        "end": 0,
-        "scoreOk": 0,
-        "scoreWrong": 0
+        "start": "10",
+        "end": "0",
+        "scoreOk": "10",
+        "scoreWrong": "0",
+        "possibleEnd":"20",
+        "possibleStart":"0"
       },
       "correctAnswerGo": [],
       "wrongAnswerGo": [],

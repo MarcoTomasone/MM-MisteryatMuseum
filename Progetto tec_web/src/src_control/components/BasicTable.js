@@ -38,6 +38,7 @@ export default function BasicTable(props) {
     React.useEffect(() => {
         ///players = props.players;
         (async() => {const players = await getFinishedPlayers(props.story)
+        console.log(players);
         sort(players);
         players.forEach((player, index) => {
             rows.push(createData((index + 1) + '°', player.id, player.name, player.points));

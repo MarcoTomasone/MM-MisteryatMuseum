@@ -116,8 +116,8 @@ module.exports = function(io) {
             socket.on('finish', data => {
                 const story = data.story;
                 const player = data.id;
-                for(const evaluator in socketEvaluator)
-                    io.to(socketEvaluator[evaluator]).emit('finish-player', { player });
+                //for(const evaluator in socketEvaluator)
+                //    io.to(socketEvaluator[evaluator]).emit('finish-player', { player });
                 storiesActive[story][player].finished = true;
             });
         }

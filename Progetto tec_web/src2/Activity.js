@@ -151,6 +151,23 @@ export const Activity = React.forwardRef((props, ref) => {
                     props.socket.emit("data-update", props.playerId);
             }, 5000);
         }
+        setCounter(counter + 1);
+        setLastAnswer(null);
+        document.getElementById("help-message-container").innerHTML = "";
+        mediaProp = [];
+        startDate = new Date();
+        questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
+        if (dinamicActivities[counter - 1] === props.json.lastActivity)
+            timer = setInterval( () => {
+                now = new Date();
+                seconds = (now.getTime() - startDate.getTime()) / 1000;
+                sendData(props.playerId, 
+                    activities[questionIndex].activityText, 
+                    "Nessuna risposta",
+                    counter + 1, 
+                    seconds );
+                    props.socket.emit("data-update", props.playerId);
+            }, 5000);
     }
     
     

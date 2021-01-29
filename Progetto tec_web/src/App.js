@@ -8,7 +8,6 @@ const HashRouter  = ReactRouterDOM.HashRouter ;
 const Route = ReactRouterDOM.Route;
 
 function App(){
-    
     return e(React.Fragment, null, [
         e("header", {className: "myheader", key: "headerHome", id: "headerHome"}, "Benvenuti in xxxxx"),
         e("main", {key: "main"}, [

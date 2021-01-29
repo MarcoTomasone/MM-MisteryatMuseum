@@ -85,16 +85,15 @@ export default function Control(props){
                 return [];
             const data = await getHistory(player, story);
             const tmp = [];
-            console.log(data);
             data.sectionArray.forEach((item) => {
                 let answer = item.answer;
-                if(answer.startsWith('http'))
+                if(isNaN(answer) && answer.startsWith('http'))
                     answer = e('img', {src: item.answer, style: {maxWidth: 200, maxHeight: 150}});
                 tmp.push(createData(item.section, item.question, answer, item.timer, item.points));
             })
             setRows(tmp);
         })();
-    }
+    };
 
     //function that returns current players 
     const getPlayers = (value) => {

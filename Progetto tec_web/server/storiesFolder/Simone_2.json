@@ -1,12 +1,12 @@
 {
-  "id": "Simone_0.json",
+  "id": "Simone_2.json",
   "user": "Simone",
   "toCopy": true,
   "published": false,
-  "title": "Test Storia",
-  "gender": "Azione",
-  "objective": "Film di azione",
-  "description": "Questa é la storia per verificare la conoscenza dei film di azione",
+  "title": "Prova",
+  "gender": "Storico",
+  "objective": "Storico",
+  "description": "Test Storico",
   "accessibility": {
     "value": false,
     "url": "../img/no_accessibility_1.png"
@@ -15,20 +15,20 @@
     "value": "singlePlayer",
     "url": "../img/single.png"
   },
-  "ageStart": 17,
-  "ageEnd": 73,
+  "ageStart": 25,
+  "ageEnd": 78,
   "player": {
-    "background": "#000000",
+    "background": "#1b00a3",
     "backgroundImage": "",
-    "frameColor": "#ffffff",
-    "topFrame": 80,
+    "frameColor": "#cf0707",
+    "topFrame": 180,
     "leftFrame": 15,
     "widthFrame": 170,
     "weightFrame": 1,
     "borderRadiusFrame": 0,
     "textColor": "#ffffff",
-    "textBackgroundColorActived": false,
-    "textBackgroundColor": "#000000",
+    "textBackgroundColorActived": true,
+    "textBackgroundColor": "#b13939",
     "fontFamily": "Arial",
     "sizeFont": 14,
     "weightFont": 500,
@@ -44,12 +44,12 @@
       "textColor": "#ffffff"
     },
     "scoreDiv": {
-      "backgroundColor": "#000000",
+      "backgroundColor": "#f4e40b",
       "frameColor": "#ffffff",
-      "textColor": "#ffffff",
-      "height": 20,
+      "textColor": "#f00505",
+      "height": 25,
       "width": 100,
-      "top": 15,
+      "top": 78,
       "left": 50,
       "borderRadius": 20
     },
@@ -59,7 +59,7 @@
       "textColor": "#ffffff",
       "height": 30,
       "width": 170,
-      "top": 390,
+      "top": 120,
       "left": 15,
       "borderRadius": 20
     },
@@ -86,70 +86,33 @@
   },
   "firstActivity": {
     "heightFrame": 160,
-    "activityText": "Vediamo la tua preparazione riguardo ai film di azione",
+    "activityText": "Ciao questa é un'attivita introduttiva",
     "backgroundImage": "",
     "activityImage": "",
-    "widgetType": "Nessuno",
     "altActivityImage": "",
-    "correctAnswerGo": ["test1"]
+    "widgetType": "Nessuno",
+    "correctAnswerGo": [
+      "Start"
+    ]
   },
   "lastActivity": {
-    "heightFrame": 160,
-    "widgetType": "Nessuno",
-    "activityText": "Bene...\nSei piu o meno preparato, ti manderemo i risultati nei prossimi giorni.",
+    "heightFrame": 199,
+    "activityText": "Ciao questa é un'attivitá conclusiva",
     "backgroundImage": "",
     "activityImage": "",
     "altActivityImage": "",
+    "widgetType": "Nessuno",
     "correctAnswerGo": []
   },
   "activities": [
     {
-      "title": "test1",
+      "title": "Start",
       "heightFrame": 160,
-      "activityText": "Zac Efron é il protagonista di Baywatch",
+      "activityText": "Ciao Iniziamo",
       "backgroundImage": "",
       "activityImage": "",
-      "altActivityImage": "Baywatch",
-      "widgetType": "Vero o falso",
-      "topInput": 320,
-      "leftInput": 15,
-      "heightInput": 60,
-      "widthInput": 170,
-      "errorMessage": "",
-      "fourAnswers": [],
-      "multipleAnswers": [],
-      "trueFalseAnswer": {
-        "trueScore": "5",
-        "falseScore": "-1"
-      },
-      "textAnswer": {
-        "value": "",
-        "scoreOk": 0,
-        "scoreWrong": 0
-      },
-      "rangeAnswer": {
-        "start": 0,
-        "end": "10",
-        "scoreOk": "3",
-        "scoreWrong": 0
-      },
-      "correctAnswerGo": [
-        "Tenet"
-      ],
-      "wrongAnswerGo": [
-        "Acquamen"
-      ],
-      "activityIsUsed": true,
-      "firstActivity": true
-    },
-    {
-      "title": "Tenet",
-      "heightFrame": 160,
-      "activityText": "Cosa ne pensi di Tenet?(Quanto ti piace da 0 a 10)",
-      "backgroundImage": "",
-      "activityImage": "",
-      "altActivityImage": "parere",
-      "widgetType": "Range",
+      "altActivityImage": "",
+      "widgetType": "Nessuno",
       "topInput": 320,
       "leftInput": 15,
       "heightInput": 60,
@@ -167,47 +130,47 @@
         "scoreWrong": 0
       },
       "rangeAnswer": {
+        "possibleStart": 0,
+        "possibleEnd": 0,
         "start": 0,
-        "end": "10",
-        "scoreOk": "3",
-        "scoreWrong": 0,
-        "possibleEnd":"20",
-        "possibleStart":"0"
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
       },
-      "correctAnswerGo": [],
-      "wrongAnswerGo": [],
-      "activityIsUsed": false,
-      "firstActivity": false
+      "correctAnswerGo": ["4opzioni"],
+      "wrongAnswerGo": ["4opzioni"],
+      "activityIsUsed": true,
+      "firstActivity": true
     },
     {
-      "title": "Acquamen",
+      "title": "4opzioni",
       "heightFrame": 160,
-      "activityText": "Chi é il protagonista di AcquaMan?",
+      "activityText": "Proviamo con una risposta a 4 Opzioni:\nSeleziona la risposta4",
       "backgroundImage": "",
       "activityImage": "",
-      "altActivityImage": "protagonista",
+      "altActivityImage": "",
       "widgetType": "Quattro opzioni",
-      "topInput": 320,
+      "topInput": "343",
       "leftInput": 15,
-      "heightInput": 60,
+      "heightInput": "80",
       "widthInput": 170,
       "errorMessage": "",
       "fourAnswers": [
         {
-          "text": "Jason Momoa",
-          "score": "2"
+          "text": "risposta1",
+          "score": 0
         },
         {
-          "text": "Patrick Wilson",
-          "score": "0"
+          "text": "risposta2",
+          "score": 0
         },
         {
-          "text": "Mio nonno",
-          "score": "-1"
+          "text": "risposta3",
+          "score": 0
         },
         {
-          "text": "Nessuno",
-          "score": "-5"
+          "text": "risposta4",
+          "score": "5"
         }
       ],
       "multipleAnswers": [],
@@ -221,36 +184,53 @@
         "scoreWrong": 0
       },
       "rangeAnswer": {
-        "start": 0,
-        "end": "10",
-        "scoreOk": "3",
-        "scoreWrong": 0,
         "possibleStart": 0,
-        "possibleEnd": 20
+        "possibleEnd": 0,
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
       },
-      "correctAnswerGo": [],
-      "wrongAnswerGo": ["Test"],
-      "activityIsUsed": true,
+      "correctAnswerGo": [ "Verofalso"],
+      "wrongAnswerGo": [ "Verofalso"],
+      "activityIsUsed": false,
       "firstActivity": false
     },
     {
-      "title": "Baywatch",
+      "title": "Verofalso",
       "heightFrame": 160,
-      "activityText": "Zac Efron é il protagonista di Baywatch",
+      "activityText": "Proviamo con un Vero o falso",
       "backgroundImage": "",
       "activityImage": "",
-      "altActivityImage": "Baywatch",
+      "altActivityImage": "",
       "widgetType": "Vero o falso",
-      "topInput": 320,
+      "topInput": "341",
       "leftInput": 15,
-      "heightInput": 60,
+      "heightInput": "50",
       "widthInput": 170,
       "errorMessage": "",
-      "fourAnswers": [],
+      "fourAnswers": [
+        {
+          "text": "risposta1",
+          "score": 0
+        },
+        {
+          "text": "risposta2",
+          "score": 0
+        },
+        {
+          "text": "risposta3",
+          "score": 0
+        },
+        {
+          "text": "risposta4",
+          "score": "5"
+        }
+      ],
       "multipleAnswers": [],
       "trueFalseAnswer": {
-        "trueScore": "5",
-        "falseScore": "-1"
+        "trueScore": "3",
+        "falseScore": 0
       },
       "textAnswer": {
         "value": "",
@@ -258,47 +238,120 @@
         "scoreWrong": 0
       },
       "rangeAnswer": {
+        "possibleStart": 0,
+        "possibleEnd": 0,
         "start": 0,
-        "end": "10",
-        "scoreOk": "3",
+        "end": 0,
+        "scoreOk": 0,
         "scoreWrong": 0
       },
-      "correctAnswerGo": [],
-      "wrongAnswerGo": [],
-      "activityIsUsed": true,
-      "firstActivity": true
+      "correctAnswerGo": ["Range"],
+      "wrongAnswerGo": ["Range"],
+      "activityIsUsed": false,
+      "firstActivity": false
     },
     {
-      "title": "Test",
+      "title": "Range",
       "heightFrame": 160,
-      "activityText": "inserisci prova",
+      "activityText": "Proviamo con una prova di range",
+      "backgroundImage": "",
+      "activityImage": "",
+      "altActivityImage": "",
+      "widgetType": "Range",
+      "topInput": "341",
+      "leftInput": 15,
+      "heightInput": "50",
+      "widthInput": 170,
+      "errorMessage": "Hai sbagliato risposta",
+      "fourAnswers": [
+        {
+          "text": "risposta1",
+          "score": 0
+        },
+        {
+          "text": "risposta2",
+          "score": 0
+        },
+        {
+          "text": "risposta3",
+          "score": 0
+        },
+        {
+          "text": "risposta4",
+          "score": "5"
+        }
+      ],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": "3",
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "possibleStart": "0",
+        "possibleEnd": "20",
+        "start": "5",
+        "end": "10",
+        "scoreOk": "3",
+        "scoreWrong": "-2"
+      },
+      "correctAnswerGo": ["Testo"],
+      "wrongAnswerGo": ["Testo"],
+      "activityIsUsed": false,
+      "firstActivity": false
+    },
+    {
+      "title": "Testo",
+      "heightFrame": 160,
+      "activityText": "Inserisci testo ",
       "backgroundImage": "",
       "activityImage": "",
       "altActivityImage": "",
       "widgetType": "Input testuale automatico",
-      "topInput": 320,
+      "topInput": "341",
       "leftInput": 15,
-      "heightInput": 60,
+      "heightInput": "50",
       "widthInput": 170,
-      "errorMessage": "",
-      "fourAnswers": [],
+      "errorMessage": "Hai sbagliato risposta",
+      "fourAnswers": [
+        {
+          "text": "risposta1",
+          "score": 0
+        },
+        {
+          "text": "risposta2",
+          "score": 0
+        },
+        {
+          "text": "risposta3",
+          "score": 0
+        },
+        {
+          "text": "risposta4",
+          "score": "5"
+        }
+      ],
       "multipleAnswers": [],
       "trueFalseAnswer": {
-        "trueScore": 0,
+        "trueScore": "3",
         "falseScore": 0
       },
       "textAnswer": {
-        "value": "prova",
-        "scoreOk": "3",
+        "value": "testo",
+        "scoreOk": "1",
         "scoreWrong": "-1"
       },
       "rangeAnswer": {
-        "start": "10",
-        "end": "0",
-        "scoreOk": "10",
-        "scoreWrong": "0",
-        "possibleEnd":"20",
-        "possibleStart":"0"
+        "possibleStart": "0",
+        "possibleEnd": "20",
+        "start": "5",
+        "end": "10",
+        "scoreOk": "3",
+        "scoreWrong": "-2"
       },
       "correctAnswerGo": [],
       "wrongAnswerGo": [],

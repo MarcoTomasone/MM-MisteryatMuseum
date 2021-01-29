@@ -57,7 +57,17 @@ export async function getHistory(player, story) {
  * @returns The ids/names of all active players
  */
 export async function getPlayers(story) {
-    const response = await axios.get('http://localhost:8000/players', { params: { story } })
+    const response = await axios.get('http://localhost:8000/players', { params: { story } });
+    return response.data;
+}
+
+export async function getFinishedPlayers(story) {
+    const response = await axios.get('http://localhost:8000/finishedPlayers', { params: { story } });
+    return response.data;
+}
+
+export async function getAllPlayers(story) {
+    const response = await axios.get('http://localhost:8000/allPlayers', { params: { story } });
     return response.data;
 }
 

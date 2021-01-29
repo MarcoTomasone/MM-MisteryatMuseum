@@ -19,8 +19,11 @@ export default function Help(props) {
                 tmp[player].splice(index, 1)
         })
         props.setArrayEvaluations(tmp);
-        props.socket.emit('read-message', { type: "evaluation", player, story, points, id: props.id, });
-        (async () => {addAnswer(story, player, points, props.section)})();
+        (async () => {
+            await addAnswer(story, player, points, props.section);
+            console.log("go emit");
+            props.socket.emit('read-message', { type: "evaluation", player, story, points, id: props.id });
+        })();
     }
     
     return(

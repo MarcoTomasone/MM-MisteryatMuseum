@@ -1,5 +1,6 @@
 const e = React.createElement;
 const { makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } = MaterialUI;
+import { getFinishedPlayers } from '../API.js';
 
 const useStyles = makeStyles({
     table: {
@@ -14,8 +15,8 @@ const useStyles = makeStyles({
 });
 
 export default function BasicTable(props) {
+    console.log(props.story);
     const [myRows, setMyRows] = React.useState([]);
-    let players = [];
     const rows = [];
     const classes = useStyles();
 
@@ -23,7 +24,7 @@ export default function BasicTable(props) {
         return { position, player, name, points };
     }
 
-    const sort = () => {
+    const sort = (players) => {
         const compare = (a, b) => {
             if(b.points < a.points){
                 return -1;
@@ -35,13 +36,15 @@ export default function BasicTable(props) {
     }
 
     React.useEffect(() => {
-        players = props.players;
-        sort();
+        ///players = props.players;
+        (async() => {const players = await getFinishedPlayers(props.story)
+        sort(players);
         players.forEach((player, index) => {
             rows.push(createData((index + 1) + '°', player.id, player.name, player.points));
         });
         getRows();
-    }, [props.players]);
+        })();
+    }, []);
 
     function getRows() {
         const element = [];

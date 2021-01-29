@@ -35,18 +35,48 @@ module.exports = {
             })
             const infoStories = JSON.stringify({stories: stories, nPlayers: nPlayers});
             res.end(infoStories);
-        });     
-
-        //get players in a story
+        });
+        
+        //get active players in a story
         app.get('/players', (req, res) => {
             const story = req.query.story;
-            if(!storiesActive[story]) {
-                res.sendStatus(404).end();
-                return;
-            }
+            if(!storiesActive[story]) 
+                res.status(404).send({ message: "Story not found" });
             const players = Object.keys(storiesActive[story]);
             const data = JSON.stringify(players);
             res.status(200).end(data);
+        });
+
+        app.get('/finishedPlayers', (req, res) => {
+            const story = req.query.story;
+            if(!storiesActive[story]) 
+                res.status(404).send({ message: "Story not found" });
+            const players = [];
+            const storyPath = path.join(__dirname, `../statusFiles/${story}/`);
+            if(fs.existsSync(storyPath))
+                fs.readdirSync(storyPath).forEach((file) => {
+                    const info = JSON.parse(fs.readFileSync(storyPath + file));
+                    players.push({ id: info.id, name: info.name, points: info.points});
+                })
+            const data = JSON.stringify(players);
+            res.status(200).send(data);
+        });
+
+        app.get('/allPlayers', (req, res) => {
+            const story = req.query.story;
+            if(!storiesActive[story]) 
+                res.status(404).send({ message: "Story not found" });
+            const players = [];
+            Object.keys(storiesActive[story]).forEach((player) => {
+                players.push({ player, finished: false});
+            })
+            const storyPath = path.join(__dirname, `../statusFiles/${story}`);
+            if(fs.existsSync(storyPath))
+                fs.readdirSync(storyPath).forEach((file) => {
+                    players.push({ player: file.replace(".json", ""), finished: true });
+                })
+            const data = JSON.stringify(players);
+            res.status(200).send(data);
         });
 
         app.get('/history', (req, res) => {
@@ -57,10 +87,10 @@ module.exports = {
                 res.status(200).end(data);
             }
             else{
-                const mypath = path.join(__dirname, `statusFiles/${story}/${player}.json`);
-                if(fs.existsSync(mypath)) {
-                    const data = fs.readFileSync(mypath);
-                    res.status(200).end(JSON.stringify(data)); 
+                const myPath = path.join(__dirname, `../statusFiles/${story}/${player}.json`);
+                if(fs.existsSync(myPath)) {
+                    const data = fs.readFileSync(myPath);
+                    res.status(200).end(data); 
                 }
                 else {
                     res.status(404).end();
@@ -89,12 +119,12 @@ module.exports = {
             const story = req.body.params.story;
             const points = req.body.params.points;
             const section = req.body.params.section;
-            if(storiesActive[story][player] && storiesActive[story][player].sectionArray[section])
+            if(storiesActive[story][player] && storiesActive[story][player].sectionArray[section]) {
                 storiesActive[story][player].sectionArray[section].points = parseInt(points);
-            else {
-                res.sendStatus(404).end();
-                return;
+                res.status(200).send();
             }
+            else
+                res.status(404).send({ message: "Player not found" });
         })
 
         app.post('/setName', (req, res) => {
@@ -110,7 +140,6 @@ module.exports = {
         });
 
         app.delete('deletePlayer', (req, res) => {
-            console.log(req.body);
             const player = req.body.data.player;
             const story = req.body.data.story;
             if(storiesActive[story][player])
@@ -124,7 +153,7 @@ module.exports = {
             if(player in storiesActive[story] && storiesActive[story][player])
                 infoPlayer = storiesActive[story][player];
             else{
-                const mypath = path.join(__dirname, `statusFiles/${story}/${player}.json`);
+                const mypath = path.join(__dirname, `../statusFiles/${story}/${player}.json`);
                 if(fs.existsSync(mypath)) {
                     const data = fs.readFileSync(mypath);
                     infoPlayer = JSON.parse(data); 
@@ -179,26 +208,6 @@ module.exports = {
             res.send(pdf);
         })
 
-        function generate() {
-            var doc = new jsPDF();
-      
-        doc.autoTable({
-          html: '#mytable',
-          bodyStyles: {minCellHeight: 15},
-          didDrawCell: function(data) {
-            if (data.column.index === 5 && data.cell.section === 'body') {
-               var td = data.cell.raw;
-               var img = td.getElementsByTagName('img')[0];
-               var dim = data.cell.height - data.cell.padding('vertical');
-               var textPos = data.cell.textPos;
-               doc.addImage(img.src, textPos.x,  textPos.y, dim, dim);
-            }
-          }
-        });
-      
-            doc.save("table.pdf");
-          }
-
         //post status files of players
         app.post('/updateData', (req, res) => {
             const id = req.body.id; //the json of player
@@ -229,14 +238,17 @@ module.exports = {
         });
         
         app.post('/postJson', (req, res) => {
-            const id = req.body.id;
+            const player = req.body.id;
             const story = req.body.story;
-            const path = `./statusFiles/`;
-            const file = path + req.body.id + ".json"
-            if (!fs.existsSync(path))
-                fs.mkdirSync(path);
+            const dirPath = path.join(__dirname, '../statusFiles/');
+            const storyPath = path.join(__dirname, `../statusFiles/${story}/`);
+            const filePath = path.join(__dirname, `../statusFiles/${story}/${player}.json`);
+            if (!fs.existsSync(dirPath))
+                fs.mkdirSync(dirPath);
+            if(!fs.existsSync(storyPath))
+                fs.mkdirSync(storyPath);
             //Pubblico il file nel path
-            fs.writeFileSync(file, JSON.stringify(storiesActive[story][id]));
+            fs.writeFileSync(filePath, JSON.stringify(storiesActive[story][player]));
             res.status(200).end();
         });
     }

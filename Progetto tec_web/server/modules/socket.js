@@ -1,7 +1,18 @@
 const { Socket } = require("socket.io");
+const path = require("path");
 const fs = require("fs");
 const { finished } = require("stream");
 
+const createFile = (player, story) => {
+    const dirPath = path.join(__dirname, '../statusFiles/');
+    const storyPath = path.join(__dirname, `../statusFiles/${story}/`);
+    const filePath = path.join(__dirname, `../statusFiles/${story}/${player}.json`);
+    if (!fs.existsSync(dirPath))
+        fs.mkdirSync(dirPath);
+    if(!fs.existsSync(storyPath))
+        fs.mkdirSync(storyPath);
+    fs.writeFileSync(filePath, JSON.stringify(storiesActive[story][player]));
+}
 
 module.exports = function(io) {
     global.arrayMessages = {};
@@ -11,6 +22,16 @@ module.exports = function(io) {
     const socketEvaluator = {};
     let nPlayer = 0;
     let nEvaluator = 0;
+
+    const deletePlayer = (player, story) => {
+        delete storiesActive[story][player];
+        delete arrayEvaluations[player];
+        delete arrayHelps[player];
+        delete arrayMessages[player];
+        for(const evaluator in socketEvaluator) 
+            io.to(socketEvaluator[evaluator]).emit('update-status');
+    }
+    
    
     io.on('connection', socket => {
         const type = socket.handshake.query.type;
@@ -20,8 +41,15 @@ module.exports = function(io) {
         });
         if(type == 'player'){
             socket.on('new-player', data => {
-                nPlayer += 1;
-                const id = 'player' + nPlayer;
+                const bool = true;
+                let id;
+                //while(bool) {
+                    nPlayer += 1;
+                //    if(!'player' + nPlayer in socketPlayers) {
+                        id = 'player' + nPlayer;
+                //        bool = false;
+                //    }
+               // }
                 socketPlayers[id] = socket.id;
                 io.to(socketPlayers[id]).emit('set-id', { id } );
                 const toDo = () => {
@@ -41,13 +69,12 @@ module.exports = function(io) {
                 for(const story in storiesActive)
                     for(const player in storiesActive[story])
                         if(player == playerToDelete) {
-                            delete storiesActive[story][playerToDelete];
-                            delete arrayEvaluations[playerToDelete];
-                            delete arrayHelps[playerToDelete];
-                            delete arrayMessages[playerToDelete];
-                            for(const evaluator in socketEvaluator) 
-                                io.to(socketEvaluator[evaluator]).emit('update-status');
-                            return;
+                            storiesActive[story][player].finished = true;
+                            if((arrayEvaluations[player] && arrayEvaluations[player].length == 0) || !arrayEvaluations[player]) {
+                                createFile(player, story)
+                                deletePlayer(player, story)
+                                return;
+                            }
                         }
             });
             socket.on('send-to-evaluator', data => {
@@ -87,10 +114,11 @@ module.exports = function(io) {
                     io.to(socketEvaluator[evaluator]).emit('answer-from-player', { question, answer, type, id, section, player });
             });
             socket.on('finish', data => {
+                const story = data.story;
                 const player = data.id;
                 for(const evaluator in socketEvaluator)
                     io.to(socketEvaluator[evaluator]).emit('finish-player', { player });
-                storiesActive[data.story][data.id].finished = true;
+                storiesActive[story][player].finished = true;
             });
         }
         else if(type == 'evaluator'){
@@ -132,27 +160,21 @@ module.exports = function(io) {
                 const id = data.id;
                 const player = data.player;
                 const story = data.story;
-                console.log(storiesActive[story][player].sectionArray);
                 if(data.type == 'message' && arrayMessages[player]){
                     arrayMessages[player].arrived = false;
                 }
                 else if(arrayEvaluations[player]) {
+                    io.to(socketPlayers[player]).emit('add-points', { points: data.points });
                     arrayEvaluations[player].forEach((item, index) => {
                         if(item.id == id)
                             arrayEvaluations[player].splice(index, 1);
                     });
-                    io.to(socketPlayers[player]).emit('add-points', { points: data.points });
-                    if(arrayEvaluations[player] && arrayEvaluations[player].length == 0 && storiesActive[story] && storiesActive[story][player].finished)
-                        delete storiesActive[story][player]; 
+                    if(arrayEvaluations[player] && arrayEvaluations[player].length == 0 && storiesActive[story] && storiesActive[story][player].finished) {
+                        createFile(player, story);
+                        deletePlayer(player, story);
+                    }
                 }
             });
-            socket.on('delete-player', data => {
-                if(arrayMessages[data.id]){
-                    delete arrayMessages[data.id];
-                    delete arrayEvaluations[data.id];
-                    delete arrayHelps[data.id];
-                }
-            })
         }
     })  
 }

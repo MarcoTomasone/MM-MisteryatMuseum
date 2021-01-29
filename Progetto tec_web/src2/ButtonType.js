@@ -10,39 +10,40 @@ const e = React.createElement;
  */
 
 function ButtonType(props){
-   const a = props.btnNext;
+        const a = props.btnNext;
 
-    //style's prop of single button [but it 's the same forall]
-    const buttProp = {
-        backgroundColor:props.json.player.inputDiv.backgroundColor,
-        color:props.json.player.inputDiv.textColor,
-        height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
-        width:'50%',
-        border:'solid',
-        borderColor:props.json.player.inputDiv.frameColor
-    };
+        //style's prop of single button [but it 's the same forall]
+        const buttProp = {
+            backgroundColor:props.json.player.inputDiv.backgroundColor,
+            color:props.json.player.inputDiv.textColor,
+            height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
+            width:'50%',
+            border:'solid',
+            borderColor:props.json.player.inputDiv.frameColor
+        };
 
-    const buttonGroup = {
-        border: "solid",
-        borderColor: props.json.player.inputDiv.frameColor,
-        position:'absolute',
-        width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-        height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-        left:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
-        right:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
-        top:`${props.v[props.counter].topInput *screen.availHeight /437}px`,
-        bottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
-    }
-       const buttSelect = {
-        height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
-        color:'black',
-        backgroundColor:'yellow',
-        width:'50%',
-        border:'solid',
-        borderColor:props.json.player.inputDiv.frameColor            
-       };
+        const buttonGroup = {
+            border: "solid",
+            borderColor: props.json.player.inputDiv.frameColor,
+            position:'absolute',
+            width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
+            height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
+            left:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
+            right:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
+            top:`${props.v[props.counter].topInput *screen.availHeight /437}px`,
+            bottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
+        }
+        const buttSelect = { //When select a Button
+            height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
+            color:'black',
+            backgroundColor:'yellow',
+            width:'50%',
+            border:'solid',
+            borderColor:props.json.player.inputDiv.frameColor            
+        };
     
         const ListButtonAnswer = [];     //Array that contains every button
+
         if(props.v[props.counter].widgetType === "Vero o falso"){
             ListButtonAnswer.push(e("button", {
                 key:"BtnTrue",
@@ -62,37 +63,39 @@ function ButtonType(props){
 
         }else if (props.v[props.counter].widgetType === "Quattro opzioni"){
             for (let i = 0; i < props.answer.length; i++) {      
-                    ListButtonAnswer.push(e("button", {
-                        role: "button", 
-                        key:"Btn"+ i,
-                        style: (i != props.lastAnswer)? buttProp:buttSelect,
-                        id:"btn"+ i,
-                        alt:"bottone : "+props.answer[i].text, 
-                        onClick: () => props.checkButton(i)
-                    }, props.answer[i].text));
+                ListButtonAnswer.push(e("button", {
+                    role: "button", 
+                    key:"Btn"+ i,
+                    style: (i != props.lastAnswer)? buttProp:buttSelect,
+                    id:"btn"+ i,
+                    alt:"bottone : "+props.answer[i].text, 
+                    onClick: () => props.checkButton(i)
+                }, props.answer[i].text));
             }
 
         }else if(props.v[props.counter].widgetType === "Scelta multipla" ){
             let optionVector = [];
+        
             for(let i = 0 ; i< props.v[props.counter].multipleAnswers.length ; i++){
-                optionVector.push(e("option",{key:'answer'+ props.v[props.counter].multipleAnswers[i].text,
-                                            id:'option'+i,
-                                            value:i,
-                                            alt:props.v[props.counter].multipleAnswers[i].text
-                                        },
-                                        props.v[props.counter].multipleAnswers[i].text));
+                optionVector.push(e("option",
+                                    {key:'answer'+ props.v[props.counter].multipleAnswers[i].text,
+                                        id:'option'+i,
+                                        value:i,
+                                        alt:props.v[props.counter].multipleAnswers[i].text
+                                    },
+                                    props.v[props.counter].multipleAnswers[i].text));
             }
-            
-                    ListButtonAnswer.push(e("select",{
-                        id:"multipleAnswerId",
-                        style:{width:'50%',height:'30%',marginTop:'10px'},
-                        onChange:()=>props.checkButton(document.getElementById("multipleAnswerId").value)},
-                        optionVector));
-                    }       
+    
+            ListButtonAnswer.push(e("select",{
+                id:"multipleAnswerId",
+                style:{width:'80%',height:'30%',marginTop:'20px'},
+                onChange:()=>props.checkButton(document.getElementById("multipleAnswerId").value)},
+                optionVector));
+            }       
 
        
         return e("div",null,
-                 e("div", {
+                    e("div", {
                         key: "buttonblock",
                         style:buttonGroup }, 
                         ListButtonAnswer

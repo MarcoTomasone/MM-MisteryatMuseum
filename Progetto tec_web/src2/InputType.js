@@ -15,8 +15,11 @@ function inputType(props){
 
     const inputGroup = {
         border: "solid",
-        borderColor: "green",
+        borderColor: props.json.player.inputDiv.frameColor,
         position:'absolute',
+        opacity:'80%',
+        backgroundColor:props.json.player.inputDiv.backgroundColor,
+        color:props.json.player.inputDiv.textColor,
         width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
         height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
         left:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
@@ -27,6 +30,12 @@ function inputType(props){
 
     if(props.v[props.counter].widgetType === "Input testuale automatico" || props.v[props.counter].widgetType === "Input testuale valutatore"){        
     const styl = {
+            width:'100%',
+            height:'100%',
+            backgroundColor:props.json.player.inputDiv.backgroundColor,
+            border:'solid',
+            borderColor:props.json.player.inputDiv.frameColor,
+            color:props.json.player.inputDiv.textColor
             //width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
             //height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
             //bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
@@ -40,8 +49,8 @@ function inputType(props){
         function rewriteLabel (){
             document.getElementById("rangeV").innerHTML = document.getElementById("rangenpt").value;
         }
-        //const defaultValue = props.v[props.counter].minRange + (props.v[props.counter].maxRange - props.v[props.counter].minRange)/2;
-        const defaultValue = 5;
+        const defaultValue = eval(props.v[props.counter].rangeAnswer.possibleStart) + (eval(props.v[props.counter].rangeAnswer.possibleEnd) - eval(props.v[props.counter].rangeAnswer.possibleStart))/2 ;
+        
         const styleRange = {
             width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
             //height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
@@ -55,8 +64,8 @@ function inputType(props){
                                     'aria-describedby' : "activitIntro",
                                     type:"range", 
                                     key:"rangebar",
-                                    min:0,
-                                    max:10,
+                                    min:eval(props.v[props.counter].rangeAnswer.possibleStart),
+                                    max:eval(props.v[props.counter].rangeAnswer.possibleEnd),
                                     defaultValue:defaultValue,
                                     step:1,
                                     id:"rangenpt",

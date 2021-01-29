@@ -21,7 +21,7 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON("Simone_0");
+const temp = readJSON("Simone_3");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
@@ -85,7 +85,8 @@ function App2() {
         height: "15%"
     };
 
-    const btnChat={   
+    const btnChat={ 
+        display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
         border:'solid',
         color: data.player.chatButton.textColor,
         borderColor:data.player.chatButton.frameColor,
@@ -119,6 +120,7 @@ function App2() {
     };
 
     const btnHelp={
+        display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
         border:'solid',
         fontSize:`1.2em`,
         borderColor:data.player.helpButton.frameColor,

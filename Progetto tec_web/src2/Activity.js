@@ -138,7 +138,7 @@ export const Activity = React.forwardRef((props, ref) => {
         mediaProp = [];
         startDate = new Date();
         questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
-        if (dinamicActivities[counter - 1] === props.json.lastActivity)
+        if (dinamicActivities[counter + 1] !== props.json.lastActivity)
             timer = setInterval( () => {
                 now = new Date();
                 seconds = (now.getTime() - startDate.getTime()) / 1000;
@@ -156,7 +156,7 @@ export const Activity = React.forwardRef((props, ref) => {
             if(answer === 1){
                 document.getElementById("btnTrue").backgroundColor = "yellow"; 
                 document.getElementById("btnTrue").setAttribute("aria-selected", true);
-                document.getElementById("btnFalse").backgroundColor =props.json.player.inputDiv.backgroundColor; 
+                document.getElementById("btnFalse").backgroundColor = props.json.player.inputDiv.backgroundColor; 
                 document.getElementById("btnFalse").removeAttribute("aria-selected");
                 
             }else{

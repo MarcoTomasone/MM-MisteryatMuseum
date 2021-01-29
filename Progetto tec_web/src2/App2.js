@@ -21,7 +21,7 @@ socket.on('message-from-evaluator', data => {
 })
 
 
-const temp = readJSON("Simone_3");
+const temp = readJSON("Matteo_6");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
@@ -228,9 +228,9 @@ if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activitie
     return e(React.Fragment, null, [ 
             e("div", {key:"player",id:"player",style:div_a}, [
                 e("div",{style:navbar,id:"navPlayer"},
-                e("button", {id:"chat-button",variant: 'outlined', 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {if(!slideHelp) setSlideChat(!slideChat)}}, "CHAT" ), 
+                e("button", {id:"chat-button",variant: 'outlined', 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {setSlideHelp(false) ; setSlideChat(!slideChat)}}, "CHAT" ), 
                 e("div", {id: "points", style: pointStyle}, "Points:" + points),
-                e("button", {id:"help-button", style: btnHelp, onClick: ()=> {if(!slideChat) setSlideHelp(!slideHelp)}}, "AIUTO"),
+                e("button", {id:"help-button", style: btnHelp, onClick: ()=> {setSlideChat(false) ; setSlideHelp(!slideHelp)}}, "AIUTO"),
             )],
                 
           /*  e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [

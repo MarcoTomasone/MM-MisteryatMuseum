@@ -41,7 +41,8 @@
     "inputDiv": {
       "backgroundColor": "#000000",
       "frameColor": "#ffffff",
-      "textColor": "#ffffff"
+      "textColor": "#ffffff",
+      "borderRadius":5
     },
     "scoreDiv": {
       "backgroundColor": "#f4e40b",

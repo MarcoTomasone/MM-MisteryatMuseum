@@ -1,5 +1,5 @@
 //get id from the Dialog and write it on the JSON FILE
-export function getID(playerID, question){
+export function getID(playerID, story, question){
     const player = {
         section : 0,
         question, 
@@ -7,10 +7,10 @@ export function getID(playerID, question){
         points: 0,
         timer : 0
     }
-    axios.post(`http://localhost:8000/updateData`, {id: playerID, name: "", sectionArray: player, story : "Story1"});
+    axios.post(`http://localhost:8000/updateData`, {id: playerID, name: "", sectionArray: player, story : story});
 }
 //get answer and question from the Dialog and write it on the JSON FILE
-export function sendData(playerID, question, answer, section, timer,points){
+export function sendData(playerID, question, answer, section, timer, points, story){
     const player = {
         section,
         question,
@@ -18,10 +18,10 @@ export function sendData(playerID, question, answer, section, timer,points){
         points, 
         timer
     }
-    axios.post(`http://localhost:8000/updateData`, {id: playerID, sectionArray: player, story : "Story1"});
+    axios.post(`http://localhost:8000/updateData`, {id: playerID, sectionArray: player, story : story});
 }
-export function postOnServer(playerID){
-    axios.post('http://localhost:8000/postJson', {id : playerID, story : "Story1"})
+export function postOnServer(playerID, story){
+    axios.post('http://localhost:8000/postJson', {id : playerID, story : story})
 }
 
 

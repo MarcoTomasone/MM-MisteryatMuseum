@@ -237,7 +237,7 @@ module.exports = {
             } else {
                 storiesActive[story][id] = {id, name, sectionArray : [sectionArray] };
             }
-            res.status(200).end(); 
+            res.status(200).send(); 
         });
         
         app.post('/postJson', (req, res) => {

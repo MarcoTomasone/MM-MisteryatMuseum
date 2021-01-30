@@ -7,7 +7,7 @@ const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText,
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
-
+const story = "Matteo_6";
 //Chat
 const socket = io('http://localhost:8000', {query: 'type=player'})
 socket.emit('new-player');
@@ -16,15 +16,12 @@ socket.on('message-from-evaluator', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
 })
 
-const temp = readJSON("Matteo_6");
+const temp = readJSON(story);
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
-data.activities.push(data.lastActivity);
 let activityList = [];
 activityList.push(data.activities[0]);
-activityList.push(data.activities[1]);
-//console.log(activityList);
 
 
 function App2() {
@@ -42,11 +39,10 @@ function App2() {
         React.useEffect(() => {
             socket.on('set-id', data => {
                 setID(data.id);
-                getID(data.id, activityList[0].activityText);
+                getID(data.id, story, activityList[0].activityText);
             });
             
             socket.on('help-from-evaluator' , data => {
-                console.log(data);
                 var section = null;
                 if(sectionRef.current)
                     section = sectionRef.current.getSection();
@@ -134,8 +130,8 @@ function App2() {
             position:'absolute'
     };
 
-    if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activities[counter].backgroundImage!=="" )
-        || (data.player.backgroundImage !== "" && data.player.hasOwnProperty('backgroundImage'))){
+    if((data.activities[counter].backgroundImage!=="" )
+        || (data.player.backgroundImage !== "")){
         const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
         
         var base64data;
@@ -227,8 +223,7 @@ function App2() {
                 e("button", {id:"chat-button",variant: 'outlined', 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {setSlideHelp(false) ; setSlideChat(!slideChat)}}, "CHAT" ), 
                 e("div", {id: "points", style: pointStyle}, "Points:" + points),
                 e("button", {id:"help-button", style: btnHelp, onClick: ()=> {setSlideChat(false) ; setSlideHelp(!slideHelp)}}, "AIUTO"),
-            )],
-                
+            )],      
           /*  e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),
                 e(DialogContent, null, [
@@ -240,7 +235,7 @@ function App2() {
                     ])
                 ]),
             ]),*/
-            e(Activity, {counter:counter,setCounter:setCounter, ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints}),
+            e(Activity, {counter:counter,setCounter:setCounter, ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints, story : "Matteo_6"}),
             e(Slide, {in: slideChat, direction: "left", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container"}), //div di arrivo delle risposte da valutare

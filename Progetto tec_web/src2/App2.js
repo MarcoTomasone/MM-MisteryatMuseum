@@ -12,13 +12,14 @@ const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText,
 const socket = io('http://localhost:8000', {query: 'type=player'})
 socket.emit('new-player');
 //waiting event
-socket.on('message-from-evaluator', data => {
-    appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
-})
+    socket.on('message-from-evaluator', data => {
+        appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
+    })
 
 const temp = readJSON("Simone_4");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
+data.activities.push(data.lastActivity);
 data.activities.push(data.lastActivity);
 let activityList = [];
 activityList.push(data.activities[0]);
@@ -131,7 +132,7 @@ function App2() {
             position:'absolute'
     };
 
-    if((data.activities[counter].backgroundImage!=="" )
+    if(( counter <= data.activities.length && data.activities[counter].backgroundImage!=="" )
         || (data.player.backgroundImage !== "")){
         const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
         

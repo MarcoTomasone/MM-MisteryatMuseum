@@ -16,15 +16,16 @@ socket.on('message-from-evaluator', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
 })
 
+<<<<<<< HEAD
 const temp = readJSON(story);
+=======
+const temp = readJSON("Simone_4");
+>>>>>>> 2264e46278fa76da03c43b1956e57d91ed9fc6c2
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
-data.activities.push(data.lastActivity);
 let activityList = [];
 activityList.push(data.activities[0]);
-activityList.push(data.activities[1]);
-//console.log(activityList);
 
 
 function App2() {
@@ -133,8 +134,8 @@ function App2() {
             position:'absolute'
     };
 
-    if((data.activities[counter].hasOwnProperty('backgroundImage') && data.activities[counter].backgroundImage!=="" )
-        || (data.player.backgroundImage !== "" && data.player.hasOwnProperty('backgroundImage'))){
+    if((data.activities[counter].backgroundImage!=="" )
+        || (data.player.backgroundImage !== "")){
         const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
         
         var base64data;

@@ -17,6 +17,7 @@ let startDate, now, seconds;
  */
 export const Activity = React.forwardRef((props, ref) => {
 
+
     let actualPoints = 0;
     const counter = props.counter;
     const setCounter = props.setCounter;
@@ -32,7 +33,6 @@ export const Activity = React.forwardRef((props, ref) => {
         },
     }));
     
-    //lastAnswer != NULL per esigenze di Debug in fase di presentazione sono da eliminare
     function inc( path ){
         if( mustAnswer(actual) || (lastAnswer != null)){
             let actual = dinamicActivities[counter];        
@@ -49,6 +49,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     seconds = (now.getTime() - startDate.getTime()) / 1000;
                     switch(dinamicActivities[counter].widgetType){
                         case "" || "Nessuno":
+                            console.log(counter);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0, props.story);
                         break;
@@ -127,6 +128,10 @@ export const Activity = React.forwardRef((props, ref) => {
                             sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, 0, props.story);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                         break;
+                    }
+                }else{
+                    if(dinamicActivities[counter] === props.json.firstActivity){
+                        correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                     }
                 }
             }  
@@ -209,7 +214,6 @@ export const Activity = React.forwardRef((props, ref) => {
             
         }else{
             let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
-            console.log("Risposta Corretta!");
             let indexOfNewActivity = dictionaryActivity.get(actual.correctAnswerGo[index]);
             dinamicActivities.push(activities[indexOfNewActivity]);
         }

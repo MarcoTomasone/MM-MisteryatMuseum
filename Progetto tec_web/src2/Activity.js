@@ -300,7 +300,7 @@ export const Activity = React.forwardRef((props, ref) => {
         }
     
     if(img !== 0)
-        mediaProp.push (e("img",{style:mediaStyle,key:"media",alt:dinamicActivities[counter].altAlternativeImage,src:img}));//controls:true,autoPlay:true}));    
+        mediaProp.push (e("img",{style:mediaStyle,key:"media",alt:dinamicActivities[counter].altActivityImage,src:img}));//controls:true,autoPlay:true}));    
     }
 
     /**per inserire immagini dentro o fuori il divActivity é necessario spostare il vettore mediaProp

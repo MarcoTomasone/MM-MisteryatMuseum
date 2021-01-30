@@ -49,7 +49,6 @@ export const Activity = React.forwardRef((props, ref) => {
                     seconds = (now.getTime() - startDate.getTime()) / 1000;
                     switch(dinamicActivities[counter].widgetType){
                         case "" || "Nessuno":
-                            console.log(counter);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0, props.story);
                         break;
@@ -65,7 +64,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             }
                             props.setPoints(props.points + eval(dinamicActivities[counter].fourAnswers[lastAnswer].score));
                             actualPoints = eval(dinamicActivities[counter].fourAnswers[lastAnswer].score);    
-                            sendData(props.playerId, activities[questionIndex].activityText, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints, props.story);
+                            sendData(props.playerId, activities[questionIndex].activityText, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, props.story, actualPoints,);
                         break;
                         case "Vero o falso":
                             let answerL = lastAnswer ? "Vero" : "Falso";
@@ -81,7 +80,7 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
                                 actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, seconds, actualPoints, props.story);
+                            sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, seconds,  props.story, actualPoints,);
                             break;
                         case "Scelta multipla":
                             if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
@@ -95,7 +94,7 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
                                 actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);    
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[lastAnswer] , counter, seconds, actualPoints, props.story);
+                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[lastAnswer] , counter, seconds, props.story, actualPoints);
                             break;
                         case "Range":
                             let value = eval(document.getElementById("rangenpt").value);  
@@ -109,7 +108,7 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreWrong));
                                 actualPoints = eval( dinamicActivities[counter].rangeAnswer.scoreWrong);        
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, actualPoints, props.story);
+                            sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, props.story,  actualPoints);
                         break;
                         case "Input testuale automatico":
                             if(document.getElementById("textAnswer").value  === dinamicActivities[counter].textAnswer.value){
@@ -121,11 +120,11 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval(dinamicActivities[counter].textAnswer.scoreWrong));
                                 actualPoints = eval(dinamicActivities[counter].textAnswer.scoreWrong);        
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter,  seconds, actualPoints, props.story);
+                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter,  seconds, props.story, actualPoints);
                         break;
                         case "Input testuale valutatore":
                             props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].activityText, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
-                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, 0, props.story);
+                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, props.story, 0);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                         break;
                     }
@@ -144,7 +143,7 @@ export const Activity = React.forwardRef((props, ref) => {
             if (dinamicActivities[counter + 1] !== props.json.lastActivity) {
                 timer = setInterval( () => {
                     now = new Date();
-                    seconds = (now.getTime() - startDate.getTime()) / 1000;
+                    seconds = Math.trunc( (now.getTime() - startDate.getTime()) / 1000);
                     sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta", counter + 1, seconds, props.story);
                         props.socket.emit("data-update", props.playerId);
                 }, 5000);

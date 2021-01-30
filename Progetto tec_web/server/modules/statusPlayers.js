@@ -60,6 +60,7 @@ module.exports = {
                     })
                     players.push({ id: info.id, name: info.name, points: points });
                 })
+                console.log(players);
             const data = JSON.stringify(players);
             res.status(200).send(data);
         });

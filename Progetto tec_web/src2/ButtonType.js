@@ -19,7 +19,7 @@ function ButtonType(props){
             height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
             width:'50%',
             border:'solid',
-            borderRadius:props.json.player.inputDiv.borderRadius,
+            //borderRadius:props.json.player.inputDiv.borderRadius,
             borderColor:props.json.player.inputDiv.frameColor
         };
 
@@ -37,7 +37,7 @@ function ButtonType(props){
         const buttSelect = { //When select a Button
             height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
             color:'black',
-            borderRadius:props.json.player.inputDiv.borderRadius,
+            //borderRadius:props.json.player.inputDiv.borderRadius,
             backgroundColor:'yellow',
             width:'50%',
             border:'solid',

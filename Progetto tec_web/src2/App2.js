@@ -16,11 +16,7 @@ socket.on('message-from-evaluator', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
 })
 
-<<<<<<< HEAD
 const temp = readJSON(story);
-=======
-const temp = readJSON("Simone_4");
->>>>>>> 2264e46278fa76da03c43b1956e57d91ed9fc6c2
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);

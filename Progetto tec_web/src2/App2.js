@@ -3,7 +3,7 @@ import {readJSON, appendMessage, isEnter} from '../utils.js'
 import { getID } from './dataHandler.js';
 
 const e = React.createElement;
-const {Button, Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
+const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
@@ -15,11 +15,6 @@ socket.emit('new-player');
 socket.on('message-from-evaluator', data => {
     appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
 })
-
-socket.on('message-from-evaluator', data => {
-    appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
-})
-
 
 const temp = readJSON("Matteo_6");
 const data = JSON.parse(temp);

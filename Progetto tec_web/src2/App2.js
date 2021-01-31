@@ -16,10 +16,9 @@ socket.emit('new-player');
         appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
     })
 
-const temp = readJSON("Simone_4");
+const temp = readJSON("Simone_0");
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
-data.activities.push(data.lastActivity);
 data.activities.push(data.lastActivity);
 let activityList = [];
 activityList.push(data.activities[0]);
@@ -130,12 +129,9 @@ function App2() {
             left:`${data.player.helpButton.left * screen.availWidth /202}px`,
             //borderColor:data.player.chatButton.borderColor,
             position:'absolute'
-    };
-
-    if(( counter <= data.activities.length && data.activities[counter].backgroundImage!=="" )
-        || (data.player.backgroundImage !== "")){
+    };        
+    if( counter< data.activities.length && (( data.activities[counter].backgroundImage!=="" )|| (data.player.backgroundImage !== ""))){
         const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
-        
         var base64data;
         axios.get(`http://localhost:8000/downloadBackground/${path}`, { responseType:"blob" })
                 .then(function (response) {
@@ -178,7 +174,6 @@ function App2() {
             weightFont:`${data.player.weightFont}px`,
             textAlign:'center'
         };
-
     }
 
    /*function handleClose() {

@@ -22,11 +22,9 @@ export const Activity = React.forwardRef((props, ref) => {
     const counter = props.counter;
     const setCounter = props.setCounter;
     var   [img,setImg] = React.useState(0);
-    var [backgroundImg, setBackgroundImg] = React.useState(0);
     const [lastAnswer,setLastAnswer] = React.useState(null);
     const dinamicActivities = props.v;
     const activities = props.json.activities;
-    const activityStyle =  props.json.activityStyle;
     const actual = dinamicActivities[counter];
 
     React.useImperativeHandle(ref, (value) => ({
@@ -39,7 +37,6 @@ export const Activity = React.forwardRef((props, ref) => {
         if( mustAnswer(actual) || (lastAnswer != null)){
             let actual = dinamicActivities[counter];        
             let questionIndex = activities.indexOf(dinamicActivities[counter]);
-
             if(dinamicActivities[counter] === props.json.lastActivity){
                 let final = props.json.lastActivity;
                 final.activityText= "Grazie per aver giocato :)";
@@ -52,9 +49,8 @@ export const Activity = React.forwardRef((props, ref) => {
                     seconds = (now.getTime() - startDate.getTime()) / 1000;
                     switch(dinamicActivities[counter].widgetType){
                         case "" || "Nessuno":
-                            console.log(counter);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0);
+                            sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0, props.story);
                         break;
                         case "Foto": //modificate sendData
                             sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
@@ -68,7 +64,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             }
                             props.setPoints(props.points + eval(dinamicActivities[counter].fourAnswers[lastAnswer].score));
                             actualPoints = eval(dinamicActivities[counter].fourAnswers[lastAnswer].score);    
-                            sendData(props.playerId, activities[questionIndex].activityText, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, actualPoints);
+                            sendData(props.playerId, activities[questionIndex].activityText, dinamicActivities[counter].fourAnswers[lastAnswer].text, counter, seconds, props.story, actualPoints,);
                         break;
                         case "Vero o falso":
                             let answerL = lastAnswer ? "Vero" : "Falso";
@@ -84,7 +80,7 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
                                 actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, seconds, actualPoints);
+                            sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, seconds,  props.story, actualPoints,);
                             break;
                         case "Scelta multipla":
                             if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
@@ -98,6 +94,7 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
                                 actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);    
                             }
+                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[lastAnswer] , counter, seconds, props.story, actualPoints);
                             break;
                         case "Range":
                             let value = eval(document.getElementById("rangenpt").value);  
@@ -111,7 +108,7 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreWrong));
                                 actualPoints = eval( dinamicActivities[counter].rangeAnswer.scoreWrong);        
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, actualPoints);
+                            sendData(props.playerId, activities[questionIndex].activityText, value, counter, seconds, props.story,  actualPoints);
                         break;
                         case "Input testuale automatico":
                             if(document.getElementById("textAnswer").value  === dinamicActivities[counter].textAnswer.value){
@@ -123,11 +120,11 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval(dinamicActivities[counter].textAnswer.scoreWrong));
                                 actualPoints = eval(dinamicActivities[counter].textAnswer.scoreWrong);        
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter,  seconds,actualPoints);
+                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter,  seconds, props.story, actualPoints);
                         break;
                         case "Input testuale valutatore":
                             props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].activityText, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
-                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, 0);
+                            sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, props.story, 0);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                         break;
                     }
@@ -136,25 +133,21 @@ export const Activity = React.forwardRef((props, ref) => {
                         correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                     }
                 }
-            }
-            
+            }  
             setCounter(counter + 1);
             setLastAnswer(null);
             document.getElementById("help-message-container").innerHTML = "";
             mediaProp = [];
             startDate = new Date();
             questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
-            if (dinamicActivities[counter ] !== props.json.lastActivity) {
+            if (dinamicActivities[counter + 1] !== props.json.lastActivity) {
                 timer = setInterval( () => {
                     now = new Date();
-                    seconds = (now.getTime() - startDate.getTime()) / 1000;
-                    sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta",counter + 1, seconds );
+                    seconds = Math.trunc( (now.getTime() - startDate.getTime()) / 1000);
+                    sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta", counter + 1, seconds, props.story);
                         props.socket.emit("data-update", props.playerId);
                 }, 5000);
             }
-          //  else {
-           //     sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta", counter + 1, 0 );
-           // }
         }
     }
     
@@ -216,7 +209,7 @@ export const Activity = React.forwardRef((props, ref) => {
         if(actual.correctAnswerGo.length === 0){
             const last = activities.length;
             dinamicActivities.push(activities[last - 1]);
-            props.socket.emit('finish', {id: props.playerId, story: "Story1"});
+            props.socket.emit('finish', {id: props.playerId, story: props.story});
             
         }else{
             let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
@@ -232,7 +225,7 @@ export const Activity = React.forwardRef((props, ref) => {
         if(actual.wrongAnswerGo.length === 0){
             const last = activities.length;
             dinamicActivities.push(activities[last - 1]);
-            props.socket.emit('finish', {id: props.playerId, story: "Story1"});
+            props.socket.emit('finish', {id: props.playerId, story: props.story});
         }else{
             let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
             console.log("Risposta Errata!");

@@ -34,6 +34,7 @@ export const Activity = React.forwardRef((props, ref) => {
     }));
     
     function inc( path ){
+        
         if( mustAnswer(actual) || (lastAnswer != null)){
             let actual = dinamicActivities[counter];        
             let questionIndex = activities.indexOf(dinamicActivities[counter]);
@@ -52,7 +53,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0, props.story);
                         break;
-                        case "Foto": //modificate sendData
+                        case "Foto": //export function sendData(playerID, question, answer, section, timer, story, points){
                             sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                         break;
@@ -68,19 +69,17 @@ export const Activity = React.forwardRef((props, ref) => {
                         break;
                         case "Vero o falso":
                             let answerL = lastAnswer ? "Vero" : "Falso";
-                            if(lastAnswer !== 1 && lastAnswer !== 0){ alert("Devi rispondere in tutti i casi");}//let a = dinamicActivities[1000].activityText;}
                             if(((eval(dinamicActivities[counter].trueFalseAnswer.trueScore)) > 0 ) && (answerL === "Vero")){
                                 correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                                 props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.trueScore));
                                 actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.trueScore);
 
                             }else{
-                                
                                 wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                                 props.setPoints(props.points + eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
                                 actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, seconds,  props.story, actualPoints,);
+                            sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, seconds,  props.story, actualPoints);
                             break;
                         case "Scelta multipla":
                             if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
@@ -94,11 +93,11 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
                                 actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);    
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[lastAnswer] , counter, seconds, props.story, actualPoints);
+                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[lastAnswer].text , counter, seconds, props.story, actualPoints);
                             break;
                         case "Range":
                             let value = eval(document.getElementById("rangenpt").value);  
-                            if(value < eval(dinamicActivities[counter].rangeAnswer.end) && value > eval(dinamicActivities[counter].rangeAnswer.start) ){
+                            if(value <= eval(dinamicActivities[counter].rangeAnswer.end) && value >= eval(dinamicActivities[counter].rangeAnswer.start) ){
                                 correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                                 props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreOk));
                                 actualPoints = eval(dinamicActivities[counter].rangeAnswer.scoreOk);

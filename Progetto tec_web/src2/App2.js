@@ -7,7 +7,7 @@ const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText,
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
-const story = "Simone_3";
+const story = "Matteo_6";
 //Chat
 const socket = io('http://localhost:8000', {query: 'type=player'})
 socket.emit('new-player');
@@ -25,6 +25,7 @@ activityList.push(data.activities[0]);
 
 
 function App2() {
+
     const [counter,setCounter] = React.useState(0);
     //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);

@@ -27,12 +27,12 @@ function ButtonType(props){
             border: "solid",
             borderColor: props.json.player.inputDiv.frameColor,
             position:'absolute',
-            width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-            height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-            left:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
-            right:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
-            top:`${props.v[props.counter].topInput *screen.availHeight /437}px`,
-            bottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
+            width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
+            height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
+            left:`${props.v[props.counter].leftInput *window.innerWidth /202}px`,
+            right:`${props.v[props.counter].rightInput  *window.innerHeight /437}px`,
+            top:`${props.v[props.counter].topInput *window.innerHeight /437}px`,
+            bottom:`${props.v[props.counter].buttonInput  *window.innerHeight /437}px`
         }
         const buttSelect = { //When select a Button
             height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',

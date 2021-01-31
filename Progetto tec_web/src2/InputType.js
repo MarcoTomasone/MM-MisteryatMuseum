@@ -20,12 +20,12 @@ function inputType(props){
         opacity:'80%',
         //backgroundColor:props.json.player.inputDiv.backgroundColor,
         color:props.json.player.inputDiv.textColor,
-        width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-        height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-        left:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
-        right:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
-        top:`${props.v[props.counter].topInput  *screen.availHeight /437}px`,
-        bottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
+        width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
+        height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
+        left:`${props.v[props.counter].leftInput *window.innerWidth /202}px`,
+        right:`${props.v[props.counter].rightInput  *window.innerHeight /437}px`,
+        top:`${props.v[props.counter].topInput  *window.innerHeight /437}px`,
+        bottom:`${props.v[props.counter].buttonInput  *window.innerHeight /437}px`
     }
 
     if(props.v[props.counter].widgetType === "Input testuale automatico" || props.v[props.counter].widgetType === "Input testuale valutatore"){        
@@ -36,10 +36,10 @@ function inputType(props){
             border:'solid',
             borderColor:props.json.player.inputDiv.frameColor,
             color:props.json.player.inputDiv.textColor
-            //width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-            //height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-            //bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
-            //left:`${props.v[props.counter].leftInput - 10 *screen.availWidth /202}px`,
+            //width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
+            //height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
+            //bottom:`${props.v[props.counter].bottomInput  *window.innerHeight /437}px`,
+            //left:`${props.v[props.counter].leftInput - 10 *window.innerWidth /202}px`,
            // position:"absolute",
     }
 
@@ -52,10 +52,10 @@ function inputType(props){
         const defaultValue = eval(props.v[props.counter].rangeAnswer.possibleStart) + (eval(props.v[props.counter].rangeAnswer.possibleEnd) - eval(props.v[props.counter].rangeAnswer.possibleStart))/2 ;
         
         const styleRange = {
-            width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-            //height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-            //bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
-            //left:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
+            width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
+            //height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
+            //bottom:`${props.v[props.counter].bottomInput  *window.innerHeight /437}px`,
+            //left:`${props.v[props.counter].leftInput  *window.innerWidth /202}px`,
             //position:'absolute'
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel",style:{color:'gray', fontSize:props.json.player.sizeFont*2}},defaultValue));

@@ -86,11 +86,6 @@ function inputType(props){
                     setFile(file); // storing file
                 }
 
-                const test = () => {
-                    props.setDisabled(true);
-                    setTimeout(uploadFile, 5000);
-                }
-
                 //send to server an image to evaluation
                 const uploadFile = () => {
                     props.setDisabled(true);
@@ -116,7 +111,7 @@ function inputType(props){
 
                 return  e("div", null,
                             e("div",{key: "inputElement", style : inputGroup },inputElement),
-                            e(Button,{role: "button", key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: test, disabled: props.disabled }, "SUCCESSIVO")
+                            e(Button,{role: "button", key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: uploadFile, disabled: props.disabled }, "SUCCESSIVO")
                         );
                 
         }

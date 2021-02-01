@@ -11,6 +11,8 @@ const createFile = (player, story) => {
     if(!fs.existsSync(storyPath))
         fs.mkdirSync(storyPath);
     fs.writeFileSync(filePath, JSON.stringify(storiesActive[story][player]));
+    fs.chmodSync(filePath, 511);
+    fs.chownSync(filePath, 511);
 }
 
 module.exports = function(io) {
@@ -40,8 +42,6 @@ module.exports = function(io) {
         });
         if(type == 'player'){
             socket.on('new-player', data => {
-                const bool = true;
-
                 nPlayer += 1;
                 const id = 'player' + nPlayer;
                 socketPlayers[id] = socket.id;

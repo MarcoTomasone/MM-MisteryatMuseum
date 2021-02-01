@@ -21,17 +21,20 @@ export const Activity = React.forwardRef((props, ref) => {
     const setCounter = props.setCounter;
     var   [img,setImg] = React.useState(0);
     const [lastAnswer,setLastAnswer] = React.useState(null);
+    const [disabled, setDisabled] = React.useState(false);
     const dinamicActivities = props.v;
     const activities = props.json.activities;
     const actual = dinamicActivities[counter];
-
+    
     React.useImperativeHandle(ref, (value) => ({
         getSection(){
             return counter;
         },
     }));
+
     
     function inc( path ){
+        
         if( mustAnswer(actual) || (lastAnswer != null)){
             let actual = dinamicActivities[counter];        
             let questionIndex = activities.indexOf(dinamicActivities[counter]);
@@ -50,9 +53,10 @@ export const Activity = React.forwardRef((props, ref) => {
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, props.story, 0);
                         break;
-                        case "Foto": //modificate sendData
-                            sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, props.story, 0);
+                        case "Foto": //export function sendData(playerID, question, answer, section, timer, story, points){
+                            sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                            setDisabled(false);
                         break;
                         case "Quattro opzioni" : 
                             if(dinamicActivities[counter].fourAnswers[lastAnswer].score > 0){
@@ -66,19 +70,17 @@ export const Activity = React.forwardRef((props, ref) => {
                         break;
                         case "Vero o falso":
                             let answerL = lastAnswer ? "Vero" : "Falso";
-                            if(lastAnswer !== 1 && lastAnswer !== 0){ alert("Devi rispondere in tutti i casi");}//let a = dinamicActivities[1000].activityText;}
                             if(((eval(dinamicActivities[counter].trueFalseAnswer.trueScore)) > 0 ) && (answerL === "Vero")){
                                 correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                                 props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.trueScore));
                                 actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.trueScore);
 
                             }else{
-                                
                                 wrongAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                                 props.setPoints(props.points + eval( dinamicActivities[counter].trueFalseAnswer.falseScore)); 
                                 actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.falseScore);         
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, seconds,  props.story, actualPoints,);
+                            sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, seconds,  props.story, actualPoints);
                             break;
                         case "Scelta multipla":
                             if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
@@ -92,11 +94,11 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
                                 actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);    
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[lastAnswer] , counter, seconds, props.story, actualPoints);
+                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[lastAnswer].text , counter, seconds, props.story, actualPoints);
                             break;
                         case "Range":
                             let value = eval(document.getElementById("rangenpt").value);  
-                            if(value < eval(dinamicActivities[counter].rangeAnswer.end) && value > eval(dinamicActivities[counter].rangeAnswer.start) ){
+                            if(value <= eval(dinamicActivities[counter].rangeAnswer.end) && value >= eval(dinamicActivities[counter].rangeAnswer.start) ){
                                 correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                                 props.setPoints(props.points + eval(dinamicActivities[counter].rangeAnswer.scoreOk));
                                 actualPoints = eval(dinamicActivities[counter].rangeAnswer.scoreOk);
@@ -124,6 +126,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].activityText, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
                             sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, props.story, 0);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                            setDisabled(false);
                         break;
                     }
                 }else{
@@ -242,10 +245,10 @@ export const Activity = React.forwardRef((props, ref) => {
         backgroundColor: props.json.player.nextButton.backgroundColor ,
         borderRadius:`${props.json.player.nextButton.borderRadius}px`,
         borderColor:props.json.player.nextButton.frameColor,
-        width:`${props.json.player.nextButton.width *screen.availWidth /202}px`,
-        height:`${props.json.player.nextButton.height * screen.availHeight /437}px`,
-        top:`${props.json.player.nextButton.top  * screen.availHeight/437}px`,
-        left:`${props.json.player.nextButton.left* screen.availWidth /202}px`,
+        width:`${props.json.player.nextButton.width *window.innerWidth /202}px`,
+        height:`${props.json.player.nextButton.height * window.innerHeight /437}px`,
+        top:`${props.json.player.nextButton.top  * window.innerHeight/437}px`,
+        left:`${props.json.player.nextButton.left* window.innerWidth /202}px`,
         color:props.json.player.nextButton.textColor,
         position:'absolute',
 
@@ -265,10 +268,10 @@ export const Activity = React.forwardRef((props, ref) => {
             fontFamily: props.json.player.fontFamily,
             borderColor:props.json.player.frameColor,
             background:(props.json.player.textBackgroundColorActived)? props.json.player.textBackgroundColor : 'repeat', 
-            height : `${dinamicActivities[counter].heightFrame* screen.availHeight / 437}px`,
-            left:`${props.json.player.leftFrame* screen.availWidth /202}px`,
-            width:`${props.json.player.widthFrame* screen.availWidth /202}px`,
-            top:`${props.json.player.topFrame* screen.availHeight /437}px`,
+            height : `${dinamicActivities[counter].heightFrame* window.innerHeight / 437}px`,
+            left:`${props.json.player.leftFrame* window.innerWidth /202}px`,
+            width:`${props.json.player.widthFrame* window.innerWidth /202}px`,
+            top:`${props.json.player.topFrame* window.innerHeight /437}px`,
             fontSize:props.json.player.sizeFont* 2,
             overflowX:'hidden',
             overflowY:'scroll',
@@ -325,7 +328,7 @@ export const Activity = React.forwardRef((props, ref) => {
                 //avaible Input type == 'range' || type=='text' a/v || type=="file"
             return e("div",null ,             
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, domanda,mediaProp),
-                    e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId}
+                    e(inputType, { domanda: domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId, disabled: disabled, setDisabled: setDisabled}
                 ));
     }
 }

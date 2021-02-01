@@ -12,9 +12,9 @@ const story = "Matteo_6";
 const socket = io('http://localhost:8000', {query: 'type=player'})
 socket.emit('new-player');
 //waiting event
-socket.on('message-from-evaluator', data => {
-    appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
-})
+    socket.on('message-from-evaluator', data => {
+        appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
+    })
 
 const temp = readJSON(story);
 const data = JSON.parse(temp);
@@ -26,6 +26,7 @@ activityList.push(data.activities[0]);
 
 
 function App2() {
+
     const [counter,setCounter] = React.useState(0);
     //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);
@@ -68,8 +69,8 @@ function App2() {
 
         var [backgroundImg,setBackgroundImg] = React.useState(0);
         React.useEffect(() => {
-            document.getElementById("body2").style.height = `${screen.availHeight}px`;
-            document.getElementById("body2").style.width = `${screen.availWidth}px`;
+            document.getElementById("body2").style.height = `${window.innerHeight}px`;
+            document.getElementById("body2").style.width = `${window.innerWidth}px`;
                     }, [])
 
    
@@ -88,10 +89,10 @@ function App2() {
             fontSize:`1.2em`,
             fontFamily:data.player.fontFamily,
             textAlign:'center',
-            width:`${data.player.chatButton.width *screen.availWidth /202}px`,
-            height:`${data.player.chatButton.height* screen.availHeight /437}px`,
-            top:`${data.player.chatButton.top * screen.availHeight/437}px`,
-            left:`${data.player.chatButton.left * screen.availWidth /202}px`,
+            width:`${data.player.chatButton.width *window.innerWidth /202}px`,
+            height:`${data.player.chatButton.height* window.innerHeight /437}px`,
+            top:`${data.player.chatButton.top * window.innerHeight/437}px`,
+            left:`${data.player.chatButton.left * window.innerWidth /202}px`,
             position:'absolute',
         };
     
@@ -105,10 +106,10 @@ function App2() {
             border:'solid',
             borderColor:data.player.scoreDiv.frameColor,
             borderRadius:data.player.scoreDiv.borderRadius+'px',
-            height:`${data.player.scoreDiv.height * screen.availHeight/437}px`,
-            width:`${data.player.scoreDiv.width * screen.availWidth/202}px`,
-            top:`${data.player.scoreDiv.top * screen.availHeight/437}px`,
-            left:`${data.player.scoreDiv.left * screen.availWidth/202}px`
+            height:`${data.player.scoreDiv.height * window.innerHeight/437}px`,
+            width:`${data.player.scoreDiv.width * window.innerWidth/202}px`,
+            top:`${data.player.scoreDiv.top * window.innerHeight/437}px`,
+            left:`${data.player.scoreDiv.left * window.innerWidth/202}px`
         };
 
         const btnHelp={
@@ -123,18 +124,15 @@ function App2() {
             color:data.player.helpButton.textColor,
             backgroundColor:data.player.helpButton.backgroundColor,
             textAlign:'center',
-            width:`${data.player.helpButton.width *screen.availWidth /202}px`,
-            height:`${data.player.helpButton.height* screen.availHeight /437}px`,
-            top:`${data.player.helpButton.top * screen.availHeight/437}px`,
-            left:`${data.player.helpButton.left * screen.availWidth /202}px`,
+            width:`${data.player.helpButton.width *window.innerWidth /202}px`,
+            height:`${data.player.helpButton.height* window.innerHeight /437}px`,
+            top:`${data.player.helpButton.top * window.innerHeight/437}px`,
+            left:`${data.player.helpButton.left * window.innerWidth /202}px`,
             //borderColor:data.player.chatButton.borderColor,
             position:'absolute'
-    };
-
-    if((data.activities[counter].backgroundImage!=="" )
-        || (data.player.backgroundImage !== "")){
-        const path = (data.activities[counter].backgroundImage!=="" && data.activities[counter].hasOwnProperty('backgroundImage'))?data.activities[counter].backgroundImage : data.player.backgroundImage;
-        
+    };        
+    if( ( activityList[counter].backgroundImage!=="" )|| (data.player.backgroundImage !== "")){
+        const path = (activityList[counter].backgroundImage!=="" )?activityList[counter].backgroundImage : data.player.backgroundImage;
         var base64data;
         axios.get(`http://localhost:8000/downloadBackground/${path}`, { responseType:"blob" })
                 .then(function (response) {
@@ -150,19 +148,19 @@ function App2() {
 
         var div_a = {      //style della div contenente le activity
             backgroundImage: 'url('+backgroundImg+')',
-            backgroundPositionTop:`${data.player.image.top* screen.availHeight/437}px`,
-            //backgroundPositionWidth:`${data.player.image.width* screen.availWidth/202}px`,
-            backgroundSize:` ${data.player.image.width* screen.availWidth/202}px ${data.player.image.height* screen.availHeight/437}px`,
-            backgroundLeft:`${data.player.image.left* screen.availHeight/437}px`,
+            backgroundPositionTop:`${data.player.image.top* window.innerHeight/437}px`,
+            //backgroundPositionWidth:`${data.player.image.width* window.innerWidth/202}px`,
+            backgroundSize:` ${data.player.image.width* window.innerWidth/202}px ${data.player.image.height* window.innerHeight/437}px`,
+            backgroundLeft:`${data.player.image.left* window.innerHeight/437}px`,
             color :data.player.textColor,
             fontSize:data.player.sizeFont,
             fontFamily:data.player.fontFamily,
             //thicknessFrame:`${data.player.weightFont}px`,
-            topFrame:`${data.player.topFrame * screen.availHeight/437}vh`,
+            topFrame:`${data.player.topFrame * window.innerHeight/437}vh`,
             frameColor : data.player.frameColor,
-            leftFrame:`${data.player.leftFrame* screen.availHeight/202}vh`,
-            widthFrame: `${data.player.widthFrame * screen.availWidth/202}vh`,
-            weightFrame:`${data.player.weightFrame* screen.availHeight/437}vh`,
+            leftFrame:`${data.player.leftFrame* window.innerHeight/202}vh`,
+            widthFrame: `${data.player.widthFrame * window.innerWidth/202}vh`,
+            weightFrame:`${data.player.weightFrame* window.innerHeight/437}vh`,
             weightFont:`${data.player.weightFont}px`,
             textAlign:'center'
         };
@@ -171,13 +169,12 @@ function App2() {
 
         var div_a = {      //style della div contenente le activity
             background: data.player.background,
-            topFrame:`${data.player.topFrame* screen.availHeight/437}vh`,
-            leftFrame:`${data.player.leftFrame* screen.availWidth/202}vh`,
-            widthFrame: `${data.player.widthFrame* screen.availHeight/202}vh`,
+            topFrame:`${data.player.topFrame* window.innerHeight/437}vh`,
+            leftFrame:`${data.player.leftFrame* window.innerWidth/202}vh`,
+            widthFrame: `${data.player.widthFrame* window.innerHeight/202}vh`,
             weightFont:`${data.player.weightFont}px`,
             textAlign:'center'
         };
-
     }
 
    /*function handleClose() {

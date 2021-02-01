@@ -1,0 +1,239 @@
+{
+  "id": "Simone_4.json",
+  "user": "Simone",
+  "toCopy": true,
+  "published": false,
+  "title": "Titolo",
+  "gender": "Thriller",
+  "objective": "Obiettivo didattico",
+  "description": "Test Descrizione",
+  "accessibility": {
+    "value": false,
+    "url": "../img/no_accessibility_1.png"
+  },
+  "participantsType": {
+    "value": "singlePlayer",
+    "url": "../img/single.png"
+  },
+  "ageStart": 0,
+  "ageEnd": 100,
+  "player": {
+    "background": "#000000",
+    "backgroundImage": "",
+    "frameColor": "#ffffff",
+    "topFrame": 80,
+    "leftFrame": 15,
+    "widthFrame": 170,
+    "weightFrame": 1,
+    "borderRadiusFrame": 15,
+    "textColor": "#ffffff",
+    "textBackgroundColorActived": false,
+    "textBackgroundColor": "#000000",
+    "fontFamily": "Arial",
+    "sizeFont": 14,
+    "weightFont": 500,
+    "image": {
+      "height": 437,
+      "width": 202,
+      "top": 0,
+      "left": 0
+    },
+    "inputDiv": {
+      "borderRadius":5,
+      "backgroundColor": "#000000",
+      "frameColor": "#ffffff",
+      "textColor": "#ffffff"
+    },
+    "scoreDiv": {
+      "backgroundColor": "#000000",
+      "frameColor": "#ffffff",
+      "textColor": "#ffffff",
+      "height": 20,
+      "width": 100,
+      "top": 15,
+      "left": 50,
+      "borderRadius": 20
+    },
+    "nextButton": {
+      "backgroundColor": "#000000",
+      "frameColor": "#ffffff",
+      "textColor": "#ffffff",
+      "height": 30,
+      "width": 170,
+      "top": 390,
+      "left": 15,
+      "borderRadius": 20
+    },
+    "chatButton": {
+      "backgroundColor": "#000000",
+      "frameColor": "#ffffff",
+      "textColor": "#ffffff",
+      "height": 30,
+      "width": 60,
+      "top": 40,
+      "left": 125,
+      "borderRadius": 20
+    },
+    "helpButton": {
+      "backgroundColor": "#000000",
+      "frameColor": "#ffffff",
+      "textColor": "#ffffff",
+      "height": 30,
+      "width": 60,
+      "top": 40,
+      "left": 15,
+      "borderRadius": 20
+    }
+  },
+  "firstActivity": {
+    "heightFrame": 160,
+    "activityText": "Prova",
+    "backgroundImage": "",
+    "activityImage": "",
+    "altActivityImage": "Descrizione",
+    "widgetType": "Nessuno",
+    "correctAnswerGo": [
+      "Test2","Start"
+    ]
+  },
+  "lastActivity": {
+    "heightFrame": 256,
+    "activityText": "Conclusiva",
+    "backgroundImage": "",
+    "activityImage": "",
+    "altActivityImage": "cn",
+    "widgetType": "Nessuno",
+    "correctAnswerGo": []
+  },
+  "activities": [
+    {
+      "title": "Start",
+      "heightFrame": 160,
+      "activityText": "Questa é la descrizione della storia",
+      "backgroundImage": "",
+      "activityImage": "",
+      "altActivityImage": "",
+      "widgetType": "Quattro opzioni",
+      "topInput": 320,
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [
+        {
+          "text": "1",
+          "score": "1"
+        },
+        {
+          "text": "2",
+          "score": "2"
+        },
+        {
+          "text": "3",
+          "score": "3"
+        },
+        {
+          "text": "4",
+          "score": "4"
+        }
+      ],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "possibleStart": 0,
+        "possibleEnd": 0,
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [],
+      "wrongAnswerGo": [],
+      "activityIsUsed": true,
+      "firstActivity": true
+    },
+    {
+      "title": "Test2",
+      "heightFrame": 160,
+      "activityText": "storia 2",
+      "backgroundImage": "",
+      "activityImage": "",
+      "altActivityImage": "",
+      "widgetType": "Scelta multipla",
+      "topInput": 320,
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [
+        {
+          "text": "1",
+          "score": "1"
+        },
+        {
+          "text": "2",
+          "score": "2"
+        },
+        {
+          "text": "3",
+          "score": "3"
+        },
+        {
+          "text": "4",
+          "score": "4"
+        }
+      ],
+      "multipleAnswers": [
+        {
+          "text": "1",
+          "score": 0
+        },
+        {
+          "text": "2",
+          "score": "2"
+        },
+        {
+          "text": "3",
+          "score": 0
+        },
+        {
+          "text": "4",
+          "score": 0
+        },
+        {
+          "text": "5",
+          "score": 0
+        }
+      ],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "possibleStart": 0,
+        "possibleEnd": 0,
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [],
+      "wrongAnswerGo": [],
+      "activityIsUsed": true,
+      "firstActivity": true
+    }
+  ]
+}

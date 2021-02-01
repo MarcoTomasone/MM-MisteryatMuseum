@@ -20,12 +20,12 @@ function inputType(props){
         opacity:'80%',
         //backgroundColor:props.json.player.inputDiv.backgroundColor,
         color:props.json.player.inputDiv.textColor,
-        width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-        height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-        left:`${props.v[props.counter].leftInput *screen.availWidth /202}px`,
-        right:`${props.v[props.counter].rightInput  *screen.availHeight /437}px`,
-        top:`${props.v[props.counter].topInput  *screen.availHeight /437}px`,
-        bottom:`${props.v[props.counter].buttonInput  *screen.availHeight /437}px`
+        width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
+        height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
+        left:`${props.v[props.counter].leftInput *window.innerWidth /202}px`,
+        right:`${props.v[props.counter].rightInput  *window.innerHeight /437}px`,
+        top:`${props.v[props.counter].topInput  *window.innerHeight /437}px`,
+        bottom:`${props.v[props.counter].buttonInput  *window.innerHeight /437}px`
     }
 
     if(props.v[props.counter].widgetType === "Input testuale automatico" || props.v[props.counter].widgetType === "Input testuale valutatore"){        
@@ -36,10 +36,10 @@ function inputType(props){
             border:'solid',
             borderColor:props.json.player.inputDiv.frameColor,
             color:props.json.player.inputDiv.textColor
-            //width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-            //height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-            //bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
-            //left:`${props.v[props.counter].leftInput - 10 *screen.availWidth /202}px`,
+            //width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
+            //height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
+            //bottom:`${props.v[props.counter].bottomInput  *window.innerHeight /437}px`,
+            //left:`${props.v[props.counter].leftInput - 10 *window.innerWidth /202}px`,
            // position:"absolute",
     }
 
@@ -52,10 +52,10 @@ function inputType(props){
         const defaultValue = eval(props.v[props.counter].rangeAnswer.possibleStart) + (eval(props.v[props.counter].rangeAnswer.possibleEnd) - eval(props.v[props.counter].rangeAnswer.possibleStart))/2 ;
         
         const styleRange = {
-            width:`${props.v[props.counter].widthInput  *screen.availWidth /202}px`,
-            //height:`${props.v[props.counter].heightInput  *screen.availHeight /437}px`,
-            //bottom:`${props.v[props.counter].bottomInput  *screen.availHeight /437}px`,
-            //left:`${props.v[props.counter].leftInput  *screen.availWidth /202}px`,
+            width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
+            //height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
+            //bottom:`${props.v[props.counter].bottomInput  *window.innerHeight /437}px`,
+            //left:`${props.v[props.counter].leftInput  *window.innerWidth /202}px`,
             //position:'absolute'
         }
         inputElement.push(e("p",{id:"rangeV",key:"rangeLabel",style:{color:'gray', fontSize:props.json.player.sizeFont*2}},defaultValue));
@@ -85,15 +85,26 @@ function inputType(props){
                     const file = e.target.files[0]; // accesing file
                     setFile(file); // storing file
                 }
+
+                const test = () => {
+                    props.setDisabled(true);
+                    setTimeout(uploadFile, 5000);
+                }
+
                 //send to server an image to evaluation
                 const uploadFile = () => {
+                    props.setDisabled(true);
                     const formData = new FormData();        
                     formData.append('file', file); // appending file
                     axios.post('http://localhost:8000/uploadImg', formData).then(res => {
                             if(res.status == 200)   
                                 props.socket.emit("send-humanEvaluation",{question: props.v[props.counter].question, answer: 'http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path, type : "image" , id : props.playerId, section : props.counter});       
+                                
                                 props.inc('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path);
-                            }).catch(err => alert("Devi caricare un'immagine!"))}
+                                
+                            }).catch(err => alert("Devi caricare un'immagine!"))
+                    
+                }
 
             inputElement.push(
                 e("input", {id: "background_color",type:'file',size:'large',style:{display:'none'}, onChange:  handleChange}),
@@ -105,7 +116,7 @@ function inputType(props){
 
                 return  e("div", null,
                             e("div",{key: "inputElement", style : inputGroup },inputElement),
-                            e("button",{role: "button", key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: uploadFile }, "SUCCESSIVO")
+                            e(Button,{role: "button", key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: test, disabled: props.disabled }, "SUCCESSIVO")
                         );
                 
         }

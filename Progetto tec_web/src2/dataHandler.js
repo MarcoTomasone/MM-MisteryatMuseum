@@ -10,7 +10,7 @@ export function getID(playerID, story, question){
     axios.post(`http://localhost:8000/updateData`, {id: playerID, name: "", sectionArray: player, story : story});
 }
 //get answer and question from the Dialog and write it on the JSON FILE
-export function sendData(playerID, question, answer, section, timer, points, story) {
+export function sendData(playerID, question, answer, section, timer, story, points){
     const player = {
         section,
         question,

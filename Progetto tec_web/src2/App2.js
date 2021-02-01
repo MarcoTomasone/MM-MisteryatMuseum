@@ -20,6 +20,7 @@ const temp = readJSON(story);
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
 data.activities.push(data.lastActivity);
+data.activities.push(data.lastActivity);
 let activityList = [];
 activityList.push(data.activities[0]);
 

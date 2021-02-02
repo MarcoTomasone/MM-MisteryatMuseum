@@ -7,7 +7,7 @@ const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText,
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
-const story = "Matteo_6";
+const story = "Simone_4";
 //Chat
 const socket = io('http://localhost:8000', {query: 'type=player'})
 socket.emit('new-player');

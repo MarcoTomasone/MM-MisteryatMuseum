@@ -1,13 +1,13 @@
 import { Activity } from './Activity.js'
 import {readJSON, appendMessage, isEnter, getRandomInt} from '../utils.js'
 import { getID } from './dataHandler.js';
-import {getButtonChatProperty, getScoreProperty} from './style.js'
+import {getButtonChatProperty, getScoreProperty,getButtonHelpProperty,getActivityNoBackground,getActivityIMG} from './style.js'
 const e = React.createElement;
 const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
-const story = "Simone_4";
+const story = "Simone_2";
 //Chat
 const socket = io('http://localhost:8000', {query: 'type=player'})
 socket.emit('new-player');
@@ -19,6 +19,7 @@ socket.emit('new-player');
 const temp = readJSON(story);
 const data = JSON.parse(temp);
 data.activities.unshift(data.firstActivity);
+data.activities.push(data.lastActivity);
 data.activities.push(data.lastActivity);
 let activityList = [];
 activityList.push(data.activities[0]);
@@ -79,26 +80,8 @@ function App2() {
 
         const btnChat = getButtonChatProperty(activityList,counter,data);
         const pointStyle = getScoreProperty(data);
+        const btnHelp = getButtonHelpProperty(activityList,counter,data);
 
-        const btnHelp={
-            display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
-            border:'solid',
-            fontSize:`1.2em`,
-            borderColor:data.player.helpButton.frameColor,
-            fontFamily:data.player.fontFamily,
-            color:data.player.helpButton.backgroundColor,
-            borderRadius:`${data.player.helpButton.borderRadius}px`,
-            frameColor:data.player.helpButton.frameColor,
-            color:data.player.helpButton.textColor,
-            backgroundColor:data.player.helpButton.backgroundColor,
-            textAlign:'center',
-            width:`${data.player.helpButton.width *window.innerWidth /202}px`,
-            height:`${data.player.helpButton.height* window.innerHeight /437}px`,
-            top:`${data.player.helpButton.top * window.innerHeight/437}px`,
-            left:`${data.player.helpButton.left * window.innerWidth /202}px`,
-            //borderColor:data.player.chatButton.borderColor,
-            position:'absolute'
-    };        
     if( ( activityList[counter].backgroundImage!=="" )|| (data.player.backgroundImage !== "")){
         const path = (activityList[counter].backgroundImage!=="" )?activityList[counter].backgroundImage : data.player.backgroundImage;
         var base64data;
@@ -114,35 +97,9 @@ function App2() {
                     }
         });      
 
-        var div_a = {      //style della div contenente le activity
-            backgroundImage: 'url('+backgroundImg+')',
-            backgroundPositionTop:`${data.player.image.top* window.innerHeight/437}px`,
-            //backgroundPositionWidth:`${data.player.image.width* window.innerWidth/202}px`,
-            backgroundSize:` ${data.player.image.width* window.innerWidth/202}px ${data.player.image.height* window.innerHeight/437}px`,
-            backgroundLeft:`${data.player.image.left* window.innerHeight/437}px`,
-            color :data.player.textColor,
-            fontSize:data.player.sizeFont,
-            fontFamily:data.player.fontFamily,
-            //thicknessFrame:`${data.player.weightFont}px`,
-            topFrame:`${data.player.topFrame * window.innerHeight/437}vh`,
-            frameColor : data.player.frameColor,
-            leftFrame:`${data.player.leftFrame* window.innerHeight/202}vh`,
-            widthFrame: `${data.player.widthFrame * window.innerWidth/202}vh`,
-            weightFrame:`${data.player.weightFrame* window.innerHeight/437}vh`,
-            weightFont:`${data.player.weightFont}px`,
-            textAlign:'center'
-        };
-
+        var div_a = getActivityIMG(data,backgroundImg);
     }else{
-
-        var div_a = {      //style della div contenente le activity
-            background: data.player.background,
-            topFrame:`${data.player.topFrame* window.innerHeight/437}vh`,
-            leftFrame:`${data.player.leftFrame* window.innerWidth/202}vh`,
-            widthFrame: `${data.player.widthFrame* window.innerHeight/202}vh`,
-            weightFont:`${data.player.weightFont}px`,
-            textAlign:'center'
-        };
+        var div_a = getActivityNoBackground(data);
     }
 
    /*function handleClose() {

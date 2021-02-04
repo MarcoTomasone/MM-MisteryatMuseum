@@ -1,7 +1,6 @@
 const { Socket } = require("socket.io");
 const path = require("path");
 const fs = require("fs");
-const { finished } = require("stream");
 
 const createFile = (player, story) => {
     const dirPath = path.join(__dirname, '../statusFiles/');
@@ -12,21 +11,8 @@ const createFile = (player, story) => {
     if(!fs.existsSync(storyPath))
         fs.mkdirSync(storyPath);
     fs.writeFileSync(filePath, JSON.stringify(storiesActive[story][player]));
-}
-
-const getAllPlayers = (story) => {
-    const players = [];
-    if(!storiesActive[story]) 
-        return 0; 
-    Object.keys(storiesActive[story]).forEach((player) => {
-        players.push(player.replace("player", ""));
-    })
-    const storyPath = path.join(__dirname, `../statusFiles/${story}`);
-    if(fs.existsSync(storyPath))
-        fs.readdirSync(storyPath).forEach((file) => {
-            players.push(file.replace(".json", "").replace("player", ""));
-        })
-    return Math.max(players);
+    fs.chmodSync(filePath, 511);
+    //fs.chownSync(filePath, 511);
 }
 
 module.exports = function(io) {
@@ -56,8 +42,6 @@ module.exports = function(io) {
         });
         if(type == 'player'){
             socket.on('new-player', data => {
-                const bool = true;
-
                 nPlayer += 1;
                 const id = 'player' + nPlayer;
                 socketPlayers[id] = socket.id;
@@ -67,7 +51,6 @@ module.exports = function(io) {
                         io.to(socketEvaluator[evaluator]).emit('update-status')
                 };
                 setTimeout(toDo, 2500);
-                
             });
             socket.on('disconnect', (req, res) => {
                 let playerToDelete;
@@ -126,9 +109,11 @@ module.exports = function(io) {
             socket.on('finish', data => {
                 const story = data.story;
                 const player = data.id;
-                //for(const evaluator in socketEvaluator)
-                //    io.to(socketEvaluator[evaluator]).emit('finish-player', { player });
                 storiesActive[story][player].finished = true;
+                if(arrayEvaluations[player] && arrayEvaluations[player].length == 0) {
+                    createFile(player, story);
+                    deletePlayer(player, story);
+                }
             });
         }
         else if(type == 'evaluator'){
@@ -151,7 +136,6 @@ module.exports = function(io) {
                     arrayMessages[player] = { messages: [], arrived: false };
                 arrayMessages[player].messages.push(`<b>You</b>: ${message}`);
                 arrayMessages[player].arrived = true;
-                //socket.broadcast.emit('message-from-evaluator', {message : data.message , name :"Admin", id: data.id})
             });
             socket.on('help-to-player', data => {
                 const answer = data.answer;

@@ -2,6 +2,7 @@ import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import { sendData, postOnServer} from './dataHandler.js';
 import {correctAnswerAction,wrongAnswerAction,mustAnswer,checkButton} from './utilsActivity.js'
+import { getButtonNextProperty,getDivBorder } from './style.js';
 const e = React.createElement;
 let timer; 
 let startDate, now, seconds;
@@ -15,22 +16,22 @@ let startDate, now, seconds;
  * @param{json:data,  v : activityList , playerId : playerId, socket : socket}
  */
 export const Activity = React.forwardRef((props, ref) => {
-
-
     let actualPoints = 0;
     const counter = props.counter;
     const setCounter = props.setCounter;
     var   [img,setImg] = React.useState(0);
     const [lastAnswer,setLastAnswer] = React.useState(null);
+    const [disabled, setDisabled] = React.useState(false);
     const dinamicActivities = props.v;
     const activities = props.json.activities;
     const actual = dinamicActivities[counter];
-
+    
     React.useImperativeHandle(ref, (value) => ({
         getSection(){
             return counter;
         },
     }));
+
     
     function inc( path ){
         
@@ -50,11 +51,12 @@ export const Activity = React.forwardRef((props, ref) => {
                     switch(dinamicActivities[counter].widgetType){
                         case "" || "Nessuno":
                             correctAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                            sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, 0, props.story);
+                            sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, props.story, 0);
                         break;
                         case "Foto": //export function sendData(playerID, question, answer, section, timer, story, points){
-                            sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
+                            sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, props.story, 0);
                             correctAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                            setDisabled(false);
                         break;
                         case "Quattro opzioni" : 
                             if(dinamicActivities[counter].fourAnswers[lastAnswer].score > 0){
@@ -114,7 +116,7 @@ export const Activity = React.forwardRef((props, ref) => {
                                 props.setPoints(props.points +eval( dinamicActivities[counter].textAnswer.scoreOk));
                                 actualPoints = eval(dinamicActivities[counter].textAnswer.scoreOk);
                             }else{
-                                wrongAnswerAction(props.playerId,props.story,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                                wrongAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                                 props.setPoints(props.points + eval(dinamicActivities[counter].textAnswer.scoreWrong));
                                 actualPoints = eval(dinamicActivities[counter].textAnswer.scoreWrong);        
                             }
@@ -124,6 +126,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             props.socket.emit("send-humanEvaluation",{question:  activities[questionIndex].activityText, answer: document.getElementById("textAnswer").value ,type : "text" , id : props.playerId, section : counter}); 
                             sendData(props.playerId, activities[questionIndex].activityText, document.getElementById("textAnswer").value, counter, seconds, props.story, 0);
                             correctAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
+                            setDisabled(false);
                         break;
                     }
                 }else{
@@ -138,13 +141,17 @@ export const Activity = React.forwardRef((props, ref) => {
             mediaProp = [];
             startDate = new Date();
             questionIndex = activities.indexOf(dinamicActivities[counter + 1]);
-            if (dinamicActivities[counter + 1] !== props.json.lastActivity) {
+            if (dinamicActivities[counter] !== props.json.lastActivity) {
                 timer = setInterval( () => {
                     now = new Date();
-                    seconds = Math.trunc( (now.getTime() - startDate.getTime()) / 1000);
+                    seconds = Math.trunc( (now.getTime() - startDate.getTime()) / 1000 );
                     sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta", counter + 1, seconds, props.story);
                         props.socket.emit("data-update", props.playerId);
                 }, 5000);
+            }
+            else {
+                props.socket.emit('data-update', {id: props.playerId});
+                props.socket.emit('finish', {id: props.playerId, story: props.story});
             }
         }
     }
@@ -152,22 +159,7 @@ export const Activity = React.forwardRef((props, ref) => {
     
     
 
-    const btnNext={ 	   
-        display:(dinamicActivities[counter - 1] === props.json.lastActivity)? 'None' : 'block',
-        fontSize:`1.2em`,
-        border:'solid',
-        fontFamily:props.json.player.fontFamily,
-        backgroundColor: props.json.player.nextButton.backgroundColor ,
-        borderRadius:`${props.json.player.nextButton.borderRadius}px`,
-        borderColor:props.json.player.nextButton.frameColor,
-        width:`${props.json.player.nextButton.width *window.innerWidth /202}px`,
-        height:`${props.json.player.nextButton.height * window.innerHeight /437}px`,
-        top:`${props.json.player.nextButton.top  * window.innerHeight/437}px`,
-        left:`${props.json.player.nextButton.left* window.innerWidth /202}px`,
-        color:props.json.player.nextButton.textColor,
-        position:'absolute',
-
-    }
+    const btnNext= getButtonNextProperty(dinamicActivities,counter,props.json);
 
     const textStyle = {             //implementiamo uno stile di testo unico per tutte le Storie di un attivita'
             fontSize:props.json.player.sizeFont,
@@ -175,22 +167,7 @@ export const Activity = React.forwardRef((props, ref) => {
             fontFamily:props.json.player.fontFamily
     }
 
-    const divBorder = {
-            color:props.json.player.textColor,
-            textAlign:'center',
-            border:'solid',
-            borderRadius:props.json.player.borderRadiusFrame+'px',
-            fontFamily: props.json.player.fontFamily,
-            borderColor:props.json.player.frameColor,
-            background:(props.json.player.textBackgroundColorActived)? props.json.player.textBackgroundColor : 'repeat', 
-            height : `${dinamicActivities[counter].heightFrame* window.innerHeight / 437}px`,
-            left:`${props.json.player.leftFrame* window.innerWidth /202}px`,
-            width:`${props.json.player.widthFrame* window.innerWidth /202}px`,
-            top:`${props.json.player.topFrame* window.innerHeight /437}px`,
-            fontSize:props.json.player.sizeFont* 2,
-            overflowX:'hidden',
-            overflowY:'scroll',
-        }
+    const divBorder = getDivBorder(dinamicActivities,counter,props.json);
 
     let mediaProp = [];
         if(dinamicActivities[counter].activityImage !== ""){     
@@ -243,7 +220,7 @@ export const Activity = React.forwardRef((props, ref) => {
                 //avaible Input type == 'range' || type=='text' a/v || type=="file"
             return e("div",null ,             
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, domanda,mediaProp),
-                    e(inputType, { domanda:domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId}
+                    e(inputType, { domanda: domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId, disabled: disabled, setDisabled: setDisabled}
                 ));
     }
 }

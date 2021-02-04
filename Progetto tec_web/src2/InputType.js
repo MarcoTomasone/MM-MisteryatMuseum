@@ -1,6 +1,6 @@
 import { sendData} from './dataHandler.js';
 const {TextField, Slider, Button, makeStyles, IconButton, Icon} = window['MaterialUI']; //to load the component from the library
-
+import {getTextAreaProperty,getInputGroupProperty} from './style.js';
 const e = React.createElement;
 /**
  * function thath contains the properties of Input type
@@ -13,36 +13,10 @@ function inputType(props){
 
     let inputElement = [];
 
-    const inputGroup = {
-        border: "solid",
-        borderColor: props.json.player.inputDiv.frameColor,
-        position:'absolute',
-        opacity:'80%',
-        //backgroundColor:props.json.player.inputDiv.backgroundColor,
-        color:props.json.player.inputDiv.textColor,
-        width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
-        height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
-        left:`${props.v[props.counter].leftInput *window.innerWidth /202}px`,
-        right:`${props.v[props.counter].rightInput  *window.innerHeight /437}px`,
-        top:`${props.v[props.counter].topInput  *window.innerHeight /437}px`,
-        bottom:`${props.v[props.counter].buttonInput  *window.innerHeight /437}px`
-    }
+    const inputGroup = getInputGroupProperty(props.v,props.counter,props.json);
 
     if(props.v[props.counter].widgetType === "Input testuale automatico" || props.v[props.counter].widgetType === "Input testuale valutatore"){        
-    const styl = {
-            width:'100%',
-            height:'100%',
-            backgroundColor:props.json.player.inputDiv.backgroundColor,
-            border:'solid',
-            borderColor:props.json.player.inputDiv.frameColor,
-            color:props.json.player.inputDiv.textColor
-            //width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
-            //height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
-            //bottom:`${props.v[props.counter].bottomInput  *window.innerHeight /437}px`,
-            //left:`${props.v[props.counter].leftInput - 10 *window.innerWidth /202}px`,
-           // position:"absolute",
-    }
-
+    const styl = getTextAreaProperty(props.json);
     inputElement.push(e("textarea",{'aria-labelledby' : "activitIntro", id:"textAnswer", key:"input", style:styl}));
 
     }else if(props.v[props.counter].widgetType === "Range" ) {
@@ -85,15 +59,20 @@ function inputType(props){
                     const file = e.target.files[0]; // accesing file
                     setFile(file); // storing file
                 }
+
                 //send to server an image to evaluation
                 const uploadFile = () => {
+                    props.setDisabled(true);
                     const formData = new FormData();        
                     formData.append('file', file); // appending file
                     axios.post('http://localhost:8000/uploadImg', formData).then(res => {
                             if(res.status == 200)   
                                 props.socket.emit("send-humanEvaluation",{question: props.v[props.counter].question, answer: 'http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path, type : "image" , id : props.playerId, section : props.counter});       
                                 props.inc('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path);
-                            }).catch(err => alert("Devi caricare un'immagine!"))}
+                                
+                            }).catch(err => alert("Devi caricare un'immagine!"))
+                    
+                }
 
             inputElement.push(
                 e("input", {id: "background_color",type:'file',size:'large',style:{display:'none'}, onChange:  handleChange}),
@@ -105,7 +84,7 @@ function inputType(props){
 
                 return  e("div", null,
                             e("div",{key: "inputElement", style : inputGroup },inputElement),
-                            e("button",{role: "button", key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: uploadFile }, "SUCCESSIVO")
+                            e(Button,{role: "button", key: "buttonNext", id: "nextButton", style: props.btnNext, onClick: uploadFile, disabled: props.disabled }, "SUCCESSIVO")
                         );
                 
         }

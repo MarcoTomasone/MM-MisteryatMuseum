@@ -288,15 +288,16 @@ export default function Control(props){
             tmp[player].push(e(Evaluation, { id, player, question, answer, type, socket, story, section, setArrayEvaluations, arrayEvaluations: tmp }));            
             setArrayEvaluations(tmp);
         });
+        /*
         socket.on('finish-player', data => {
-            /*const player = data.player;
+            const player = data.player;
             if(arrayEvaluations[player].length == 0) {
-                
                 const players = _.cloneDeep(allPlayers);
                 players[player].finished = true;
                 (async() => { await deletePlayer(player, story) })();
-            }*/
+            }
         })
+        */
         socket.on('update-status', data => {
             (async () => {
                 const players = await getDataPlayer(story);
@@ -307,7 +308,7 @@ export default function Control(props){
             socket.off('message-from-player');
             socket.off('help-from-player');
             socket.off('answer-from-player');
-            socket.off('finish-player');
+           // socket.off('finish-player');
             socket.off('update-status');
         }       
     }, [arrived, arrayEvaluations, arrayHelps]);

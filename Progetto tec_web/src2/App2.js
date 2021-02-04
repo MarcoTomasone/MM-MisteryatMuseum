@@ -1,7 +1,7 @@
 import { Activity } from './Activity.js'
-import {readJSON, appendMessage, isEnter} from '../utils.js'
+import {readJSON, appendMessage, isEnter, getRandomInt} from '../utils.js'
 import { getID } from './dataHandler.js';
-
+import {getButtonChatProperty, getScoreProperty} from './style.js'
 const e = React.createElement;
 const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
@@ -77,39 +77,8 @@ function App2() {
             height: "15%"
         };
 
-        const btnChat={ 
-            display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
-            border:'solid',
-            color: data.player.chatButton.textColor,
-            borderColor:data.player.chatButton.frameColor,
-            backgroundColor:data. player.chatButton.backgroundColor,
-            borderRadius:`${data.player.chatButton.borderRadius}px`,
-            frameColor:data.player.chatButton.frameColor,
-            fontSize:`1.2em`,
-            fontFamily:data.player.fontFamily,
-            textAlign:'center',
-            width:`${data.player.chatButton.width *window.innerWidth /202}px`,
-            height:`${data.player.chatButton.height* window.innerHeight /437}px`,
-            top:`${data.player.chatButton.top * window.innerHeight/437}px`,
-            left:`${data.player.chatButton.left * window.innerWidth /202}px`,
-            position:'absolute',
-        };
-    
-        const pointStyle= {
-            fontSize:`1.2em`,
-            fontFamily:data.player.fontFamily,
-            position:'absolute',
-            textAlign: "center",
-            color:data.player.scoreDiv.textColor,
-            backgroundColor:data.player.scoreDiv.backgroundColor,
-            border:'solid',
-            borderColor:data.player.scoreDiv.frameColor,
-            borderRadius:data.player.scoreDiv.borderRadius+'px',
-            height:`${data.player.scoreDiv.height * window.innerHeight/437}px`,
-            width:`${data.player.scoreDiv.width * window.innerWidth/202}px`,
-            top:`${data.player.scoreDiv.top * window.innerHeight/437}px`,
-            left:`${data.player.scoreDiv.left * window.innerWidth/202}px`
-        };
+        const btnChat = getButtonChatProperty(activityList,counter,data);
+        const pointStyle = getScoreProperty(data);
 
         const btnHelp={
             display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   

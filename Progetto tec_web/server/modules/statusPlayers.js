@@ -56,7 +56,7 @@ module.exports = {
                     const info = JSON.parse(fs.readFileSync(storyPath + file));
                     let points = 0;
                     info.sectionArray.forEach((item) => {
-                        points += item.points;
+                        points += item.points ? item.points : 0;
                     })
                     players.push({ id: info.id, name: info.name, points: points });
                 })

@@ -308,7 +308,7 @@ export default function Control(props){
             socket.off('message-from-player');
             socket.off('help-from-player');
             socket.off('answer-from-player');
-            socket.off('finish-player');
+           // socket.off('finish-player');
             socket.off('update-status');
         }       
     }, [arrived, arrayEvaluations, arrayHelps]);

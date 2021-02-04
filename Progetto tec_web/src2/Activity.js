@@ -54,7 +54,7 @@ export const Activity = React.forwardRef((props, ref) => {
                             sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, seconds, props.story, 0);
                         break;
                         case "Foto": //export function sendData(playerID, question, answer, section, timer, story, points){
-                            sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, 0);
+                            sendData(props.playerId, activities[questionIndex].activityText, path, counter, seconds, props.story, 0);
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                             setDisabled(false);
                         break;

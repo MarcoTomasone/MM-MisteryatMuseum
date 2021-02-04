@@ -12,7 +12,7 @@ const createFile = (player, story) => {
         fs.mkdirSync(storyPath);
     fs.writeFileSync(filePath, JSON.stringify(storiesActive[story][player]));
     fs.chmodSync(filePath, 511);
-    fs.chownSync(filePath, 511);
+    //fs.chownSync(filePath, 511);
 }
 
 module.exports = function(io) {

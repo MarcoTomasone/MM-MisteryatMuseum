@@ -2,7 +2,7 @@ import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import { sendData, postOnServer} from './dataHandler.js';
 import {correctAnswerAction,wrongAnswerAction,mustAnswer,checkButton} from './utilsActivity.js'
-import { getButtonNextProperty,getDivBorder } from './style.js';
+import { getButtonNextProperty,getDivBorder,getTextStyle } from './style.js';
 const e = React.createElement;
 let timer; 
 let startDate, now, seconds;
@@ -163,15 +163,9 @@ export const Activity = React.forwardRef((props, ref) => {
     
     
     
-
+    //Add Style Property
     const btnNext= getButtonNextProperty(dinamicActivities,counter,props.json);
-
-    const textStyle = {             //implementiamo uno stile di testo unico per tutte le Storie di un attivita'
-            fontSize:props.json.player.sizeFont,
-            textAlign:"center",
-            fontFamily:props.json.player.fontFamily
-    }
-
+    const textStyle = getTextStyle(props.json);
     const divBorder = getDivBorder(dinamicActivities,counter,props.json);
 
     let mediaProp = [];

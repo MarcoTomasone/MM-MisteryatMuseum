@@ -1,3 +1,4 @@
+import {getButtonProperty,getButtonGroupProperty,getButtonSelectProperty} from './style.js';
 const e = React.createElement;
 
 /**
@@ -13,36 +14,9 @@ function ButtonType(props){
         const a = props.btnNext;
 
         //style's prop of single button [but it 's the same forall]
-        const buttProp = {
-            backgroundColor:props.json.player.inputDiv.backgroundColor,
-            color:props.json.player.inputDiv.textColor,
-            height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
-            width:'50%',
-            border:'solid',
-            //borderRadius:props.json.player.inputDiv.borderRadius,
-            borderColor:props.json.player.inputDiv.frameColor
-        };
-
-        const buttonGroup = {
-            border: "solid",
-            borderColor: props.json.player.inputDiv.frameColor,
-            position:'absolute',
-            width:`${props.v[props.counter].widthInput  *window.innerWidth /202}px`,
-            height:`${props.v[props.counter].heightInput  *window.innerHeight /437}px`,
-            left:`${props.v[props.counter].leftInput *window.innerWidth /202}px`,
-            right:`${props.v[props.counter].rightInput  *window.innerHeight /437}px`,
-            top:`${props.v[props.counter].topInput *window.innerHeight /437}px`,
-            bottom:`${props.v[props.counter].buttonInput  *window.innerHeight /437}px`
-        }
-        const buttSelect = { //When select a Button
-            height:(props.v[props.counter].widgetType === "Vero o falso")? '100%':'50%',
-            color:'black',
-            //borderRadius:props.json.player.inputDiv.borderRadius,
-            backgroundColor:'yellow',
-            width:'50%',
-            border:'solid',
-            borderColor:props.json.player.inputDiv.frameColor            
-        };
+        const buttProp = getButtonProperty(props.v,props.counter,props.json);
+        const buttonGroup = getButtonGroupProperty(props.v,props.counter,props.json);
+        const buttSelect = getButtonSelectProperty(props.v,props.counter,props.json);
     
         const ListButtonAnswer = [];     //Array that contains every button
 

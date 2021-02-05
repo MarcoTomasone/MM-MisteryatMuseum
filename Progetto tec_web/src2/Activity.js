@@ -7,6 +7,8 @@ const e = React.createElement;
 let timer; 
 let startDate, now, seconds;
 
+
+
 /**         Activity 
  * contains the interactive activities 
  * state[Counter]   <-- number of activity from v[] {dinamic Array}
@@ -145,8 +147,10 @@ export const Activity = React.forwardRef((props, ref) => {
                 timer = setInterval( () => {
                     now = new Date();
                     seconds = Math.trunc( (now.getTime() - startDate.getTime()) / 1000 );
-                    const test = new Date(seconds * 1000).toISOString().substr(11, 8);
-                    sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta", counter + 1, test, props.story);
+                    const date = new Date(0);
+                    date.setSeconds(seconds); // specify value for SECONDS here
+                    const timeString = date.toISOString().substr(11, 8);
+                    sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta", counter + 1, timeString, props.story);
                         props.socket.emit("data-update", props.playerId);
                 }, 5000);
             }

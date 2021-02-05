@@ -117,7 +117,7 @@ export const CardPlayer = React.forwardRef((props, ref) => {
 
     return(
         e(Card, {key: props.id, className: classes_card.root, id: props.id, raised: true, children: [
-            e(CardHeader, {key: "1", avatar: e(Avatar, {key: "avatar", children: props.name ? props.name.charAt(0) : props.id.replace("player", "P"), className: classes_card.avatar}), title: props.name ? props.name : props.id, subheader: "Time: " + props.timer, action:  e(IconButton, {key: "I1", children: e(Icon, {children: "create", color: "primary"})}), onClick: handleName}),
+            e(CardHeader, {key: "1", avatar: e(Avatar, {key: "avatar", children: props.name ? props.name.charAt(0) : props.id.replace("player", "P"), className: classes_card.avatar}), title: props.name ? props.name : props.id, subheader: props.timer, action:  e(IconButton, {key: "I1", children: e(Icon, {children: "create", color: "primary"})}), onClick: handleName}),
             e(CardContent, {key: "2", id: props.id + "_grid", className: classes_grid.root, children: [
                 e(Grid, {key: "grid", container: true, spacing: 2, children: [
                     e(Grid, {key: "g1", item: true, xs: 6, children: e(Paper, {className: classes_grid.paper}, [ e("p", {key: "p1"}, "Section "), e("p", {key: "p2"}, props.section) ])}),

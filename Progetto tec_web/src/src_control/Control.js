@@ -1,7 +1,6 @@
 import BasicTable from './components/BasicTable.js';
 import Help from './components/Help.js';
 import Evaluation from './components/Evaluation.js';
-import { MyDialog } from './components/MyDialog.js';
 import { CardPlayer } from './components/CardPlayer.js';
 import { deletePlayer, getAllPlayers, getDataPlayer, getEvaluations, getHelps, getHistory, getMessages, getPDF } from './API.js';
 import {appendMessage, isEnter} from '../../utils.js';
@@ -100,7 +99,7 @@ export default function Control(props){
         const type = value == "arrayEvaluations" ? arrayEvaluations : arrayHelps;
         const players = [];
         arrayPlayers.forEach((item) => {
-            players.push(e(MenuItem, {value: item.key, children: [ item.key, e(Icon, {fontSize: "small", children: "new_releases", color: "secondary", style: {marginLeft: 20, display: type[item.key] && type[item.key].length > 0 ? "hidden" : "none"}}) ]}));
+            players.push(e(MenuItem, {value: item.key, children: [ item.props.name != "" ? item.props.name : item.key, e(Icon, {fontSize: "small", children: "new_releases", color: "secondary", style: {marginLeft: 20, display: type[item.key] && type[item.key].length > 0 ? "hidden" : "none"}}) ]}));
         })
         return players;
     };
@@ -226,7 +225,7 @@ export default function Control(props){
             //newRanking.push({id: key, name: arrayOfPlayers[key].name, points: arrayOfPlayers[key].points});
             !(key in tmp) ? tmp[key] = false : null;
             if(cardsRef.current[key]) {
-                if(arrayOfPlayers[key].timer > 60)
+                if(arrayOfPlayers[key].timer > '00:01:00')
                     cardsRef.current[key].handleTimer("secondary");
                 else
                     cardsRef.current[key].handleTimer("primary");
@@ -401,7 +400,6 @@ export default function Control(props){
                     ]})
                 ]}),
                 ID !== "" && e(Button, {size: "large", variant: "contained", onClick: async() => { await getPDF(ID, story)}}, "Download" ),
-                //e(MyDialog, {key: "dialog", story: story, ref: dialogRef}),
             ] })
         ])
     ]);

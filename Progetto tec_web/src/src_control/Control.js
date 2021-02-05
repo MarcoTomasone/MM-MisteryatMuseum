@@ -118,7 +118,7 @@ export default function Control(props){
             const id = player.props.id;
             const timer = player.props.timer;
             if(cardsRef.current[id]) {
-                if(timer > 60)
+                if(timer > '00:01:00')
                     cardsRef.current[id].handleTimer("secondary");
                 else
                     cardsRef.current[id].handleTimer("primary");

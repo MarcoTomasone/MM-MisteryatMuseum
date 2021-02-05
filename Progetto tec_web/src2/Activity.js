@@ -148,7 +148,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     now = new Date();
                     seconds = Math.trunc( (now.getTime() - startDate.getTime()) / 1000 );
                     const date = new Date(0);
-                    date.setSeconds(seconds); // specify value for SECONDS here
+                    date.setSeconds(seconds);
                     const timeString = date.toISOString().substr(11, 8);
                     sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta", counter + 1, timeString, props.story);
                         props.socket.emit("data-update", props.playerId);

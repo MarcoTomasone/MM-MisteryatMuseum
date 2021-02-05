@@ -135,7 +135,7 @@ module.exports = function(io) {
                 if(!arrayMessages[player])
                     arrayMessages[player] = { messages: [], arrived: false };
                 arrayMessages[player].messages.push(`<b>You</b>: ${message}`);
-                arrayMessages[player].arrived = true;
+                arrayMessages[player].arrived = false;
             });
             socket.on('help-to-player', data => {
                 const answer = data.answer;

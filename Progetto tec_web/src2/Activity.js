@@ -2,6 +2,7 @@ import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import { getRandomInt} from '../utils.js';
 import { sendData, postOnServer} from './dataHandler.js';
+import { UV_FS_O_FILEMAP } from 'constants';
 
 const e = React.createElement;
 let timer; 
@@ -47,7 +48,7 @@ export const Activity = React.forwardRef((props, ref) => {
             if(!Object.is(dinamicActivities[counter],props.json.lastActivity)){
             if(counter != 0){
                     now = new Date();
-                    seconds = (now.getTime() - startDate.getTime()) / 1000;
+                    seconds = Math.trunc ( (now.getTime() - startDate.getTime()) / 1000 );
                     switch(dinamicActivities[counter].widgetType){
                         case "" || "Nessuno":
                             correctAnswerAction(dinamicActivities,counter,props.dictionaryActivity,activities,actual);
@@ -145,7 +146,8 @@ export const Activity = React.forwardRef((props, ref) => {
                 timer = setInterval( () => {
                     now = new Date();
                     seconds = Math.trunc( (now.getTime() - startDate.getTime()) / 1000 );
-                    sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta", counter + 1, seconds, props.story);
+                    const test = new Date(seconds * 1000).toISOString().substr(11, 8);
+                    sendData(props.playerId, activities[questionIndex].activityText, "Nessuna risposta", counter + 1, test, props.story);
                         props.socket.emit("data-update", props.playerId);
                 }, 5000);
             }

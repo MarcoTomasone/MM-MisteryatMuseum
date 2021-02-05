@@ -55,7 +55,7 @@ function ButtonType(props){
                         style:(props.lastAnswer===1)? buttSelect:buttProp,
                         id:"btnTrue",
                         alt:"Vero", 
-                        onClick: () => props.checkButton(1)
+                        onClick: () => props.checkButton(1,props.v,props.counter,props.setLastAnswer,props.json)
                     },"VERO"));
 
                     ListButtonAnswer.push(
@@ -65,7 +65,7 @@ function ButtonType(props){
                         style: (props.lastAnswer===0)? buttSelect:buttProp,
                         id:"btnFalse",
                         alt:"Falso", 
-                        onClick: () => props.checkButton(0)
+                        onClick: () => props.checkButton(0,props.v,props.counter,props.setLastAnswer,props.json)
                     },"FALSO"));
             
 
@@ -79,7 +79,7 @@ function ButtonType(props){
                         style: (i != props.lastAnswer)? buttProp:buttSelect,
                         id:"btn"+ i,
                         alt:"bottone : "+props.answer[i].text, 
-                        onClick: () => props.checkButton(i)
+                        onClick: () => props.checkButton(i,props.v,props.counter,props.setLastAnswer,props.json)
                     }, props.answer[i].text));
             }
 
@@ -99,7 +99,7 @@ function ButtonType(props){
             ListButtonAnswer.push(e("select",{
                 id:"multipleAnswerId",
                 style:{width:'80%',height:'30%',marginTop:'20px'},
-                onChange:()=>props.checkButton(document.getElementById("multipleAnswerId").value)},
+                onChange:()=>props.checkButton(document.getElementById("multipleAnswerId").value,props.v,props.counter,props.setLastAnswer,props.json)},
                 optionVector));
             }       
 

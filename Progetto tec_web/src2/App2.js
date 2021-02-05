@@ -1,13 +1,13 @@
 import { Activity } from './Activity.js'
-import {readJSON, appendMessage, isEnter} from '../utils.js'
+import {readJSON, appendMessage, isEnter, getRandomInt} from '../utils.js'
 import { getID } from './dataHandler.js';
-
+import {getButtonChatProperty, getScoreProperty,getButtonHelpProperty,getActivityNoBackground,getActivityIMG} from './style.js'
 const e = React.createElement;
 const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
-const story = "Matteo_6";
+const story = "Simone_2";
 //Chat
 const socket = io('http://localhost:8000', {query: 'type=player'})
 socket.emit('new-player');
@@ -78,59 +78,10 @@ function App2() {
             height: "15%"
         };
 
-        const btnChat={ 
-            display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
-            border:'solid',
-            color: data.player.chatButton.textColor,
-            borderColor:data.player.chatButton.frameColor,
-            backgroundColor:data. player.chatButton.backgroundColor,
-            borderRadius:`${data.player.chatButton.borderRadius}px`,
-            frameColor:data.player.chatButton.frameColor,
-            fontSize:`1.2em`,
-            fontFamily:data.player.fontFamily,
-            textAlign:'center',
-            width:`${data.player.chatButton.width *window.innerWidth /202}px`,
-            height:`${data.player.chatButton.height* window.innerHeight /437}px`,
-            top:`${data.player.chatButton.top * window.innerHeight/437}px`,
-            left:`${data.player.chatButton.left * window.innerWidth /202}px`,
-            position:'absolute',
-        };
-    
-        const pointStyle= {
-            fontSize:`1.2em`,
-            fontFamily:data.player.fontFamily,
-            position:'absolute',
-            textAlign: "center",
-            color:data.player.scoreDiv.textColor,
-            backgroundColor:data.player.scoreDiv.backgroundColor,
-            border:'solid',
-            borderColor:data.player.scoreDiv.frameColor,
-            borderRadius:data.player.scoreDiv.borderRadius+'px',
-            height:`${data.player.scoreDiv.height * window.innerHeight/437}px`,
-            width:`${data.player.scoreDiv.width * window.innerWidth/202}px`,
-            top:`${data.player.scoreDiv.top * window.innerHeight/437}px`,
-            left:`${data.player.scoreDiv.left * window.innerWidth/202}px`
-        };
+        const btnChat = getButtonChatProperty(activityList,counter,data);
+        const pointStyle = getScoreProperty(data);
+        const btnHelp = getButtonHelpProperty(activityList,counter,data);
 
-        const btnHelp={
-            display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
-            border:'solid',
-            fontSize:`1.2em`,
-            borderColor:data.player.helpButton.frameColor,
-            fontFamily:data.player.fontFamily,
-            color:data.player.helpButton.backgroundColor,
-            borderRadius:`${data.player.helpButton.borderRadius}px`,
-            frameColor:data.player.helpButton.frameColor,
-            color:data.player.helpButton.textColor,
-            backgroundColor:data.player.helpButton.backgroundColor,
-            textAlign:'center',
-            width:`${data.player.helpButton.width *window.innerWidth /202}px`,
-            height:`${data.player.helpButton.height* window.innerHeight /437}px`,
-            top:`${data.player.helpButton.top * window.innerHeight/437}px`,
-            left:`${data.player.helpButton.left * window.innerWidth /202}px`,
-            //borderColor:data.player.chatButton.borderColor,
-            position:'absolute'
-    };        
     if( ( activityList[counter].backgroundImage!=="" )|| (data.player.backgroundImage !== "")){
         const path = (activityList[counter].backgroundImage!=="" )?activityList[counter].backgroundImage : data.player.backgroundImage;
         var base64data;
@@ -146,35 +97,9 @@ function App2() {
                     }
         });      
 
-        var div_a = {      //style della div contenente le activity
-            backgroundImage: 'url('+backgroundImg+')',
-            backgroundPositionTop:`${data.player.image.top* window.innerHeight/437}px`,
-            //backgroundPositionWidth:`${data.player.image.width* window.innerWidth/202}px`,
-            backgroundSize:` ${data.player.image.width* window.innerWidth/202}px ${data.player.image.height* window.innerHeight/437}px`,
-            backgroundLeft:`${data.player.image.left* window.innerHeight/437}px`,
-            color :data.player.textColor,
-            fontSize:data.player.sizeFont,
-            fontFamily:data.player.fontFamily,
-            //thicknessFrame:`${data.player.weightFont}px`,
-            topFrame:`${data.player.topFrame * window.innerHeight/437}vh`,
-            frameColor : data.player.frameColor,
-            leftFrame:`${data.player.leftFrame* window.innerHeight/202}vh`,
-            widthFrame: `${data.player.widthFrame * window.innerWidth/202}vh`,
-            weightFrame:`${data.player.weightFrame* window.innerHeight/437}vh`,
-            weightFont:`${data.player.weightFont}px`,
-            textAlign:'center'
-        };
-
+        var div_a = getActivityIMG(data,backgroundImg);
     }else{
-
-        var div_a = {      //style della div contenente le activity
-            background: data.player.background,
-            topFrame:`${data.player.topFrame* window.innerHeight/437}vh`,
-            leftFrame:`${data.player.leftFrame* window.innerWidth/202}vh`,
-            widthFrame: `${data.player.widthFrame* window.innerHeight/202}vh`,
-            weightFont:`${data.player.weightFont}px`,
-            textAlign:'center'
-        };
+        var div_a = getActivityNoBackground(data);
     }
 
    /*function handleClose() {

@@ -70,12 +70,14 @@ module.exports = {
                 res.status(404).send({ message: "Story not found" });
             const players = [];
             Object.keys(storiesActive[story]).forEach((player) => {
-                players.push({ player, finished: false});
+                players.push({ player, name: storiesActive[story][player].name, finished: false});
             })
             const storyPath = path.join(__dirname, `../statusFiles/${story}`);
             if(fs.existsSync(storyPath))
                 fs.readdirSync(storyPath).forEach((file) => {
-                    players.push({ player: file.replace(".json", ""), finished: true });
+                    const json = fs.readFileSync(storyPath + '/' + file);
+                    const info = JSON.parse(json);
+                    players.push({ player: info.id, name: info.name,finished: true });
                 })
             const data = JSON.stringify(players);
             res.status(200).send(data);
@@ -133,10 +135,8 @@ module.exports = {
             const player = req.body.params.player;
             const story = req.body.params.story;
             const name = req.body.params.name;
-            if(name === "") {
-                res.sendStatus(400).end();
-                return;
-            }
+            if(name === "") 
+                res.status(400).send({ message: "Empty name" });
             storiesActive[story][player].name = name;
             res.status(200).end();            
         });

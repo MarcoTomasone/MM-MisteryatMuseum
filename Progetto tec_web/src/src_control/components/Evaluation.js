@@ -8,6 +8,7 @@ export default function Help(props) {
 
     const onValued = () => {
         const points = document.getElementById("valuation" + props.id).value;
+        document.getElementById("valuation" + props.id).value = "";
         if(!points)
             return;
         const player = props.player;

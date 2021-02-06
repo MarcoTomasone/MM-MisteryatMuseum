@@ -17,7 +17,7 @@ export async function getDataPlayer(story) {
             key: player.id, 
             id: player.id,
             name: player.name, 
-            timer: player.sectionArray.length > 0 ?  player.sectionArray[lastSection].timer : 0,
+            timer: player.sectionArray.length > 0 ?  player.sectionArray[lastSection].timer : '00:00:00',
             section: player.sectionArray.length > 0 ?  player.sectionArray[lastSection].section : 0, 
             points : player.sectionArray.length > 0 ?  totalPoints : 0,
         };

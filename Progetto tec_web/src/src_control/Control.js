@@ -236,7 +236,6 @@ export default function Control(props){
         setArrayPlayers(arrayOfCards);
         notifyHelp();
         notifyEvaluation();
-        //setRanking(newRanking);
         (async() => {
             const players = await getAllPlayers(story);
             setAllPlayers(players);
@@ -337,7 +336,7 @@ export default function Control(props){
     return e(React.Fragment, null, [ 
         e("div", { className: classes.root }, [
             e(AppBar, { style: {border: "none"}, position: "static", children: [
-                e(Tabs, { className: classes2.tab, style: {width: "auto"}, scrollButtons: "on", variant: "scrollable", value: value, onChange: handleChange, ariaLabel: "scrollable force tabs example", children: [
+                e(Tabs, { className: classes2.tab, style: {width: "auto"}, scrollButtons: "on", centered: screen.width > 800 ? true : false, variant: screen.width <= 800 ? "scrollable" : "standard", value: value, onChange: handleChange, ariaLabel: "scrollable force tabs example", children: [
                     e(Tab, { label: "Players" , ...a11yProps(0) }),
                     e(Tab, { label: "Ranking", ...a11yProps(1) }),
                     e(Tab, { label: "Help", ...a11yProps(2) }),
@@ -371,7 +370,7 @@ export default function Control(props){
                     (() => {
                         const players = [];
                         allPlayers.forEach((player) => {
-                            players.push(e(MenuItem, {value: player, children: [ player.player , e(Icon, {fontSize: "small", children: "done", color: "secondary", style: {marginLeft: 20, display: player.finished ? "hidden" : "none"}}) ]}));
+                            players.push(e(MenuItem, {value: player, children: [ player.name && player.name != "" ? player.name : player.player, e(Icon, {fontSize: "small", children: "done", color: "secondary", style: {marginLeft: 20, display: player.finished ? "hidden" : "none"}}) ]}));
                         });
                         return players;
                     })()

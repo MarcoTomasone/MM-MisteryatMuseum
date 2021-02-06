@@ -2,7 +2,7 @@ import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import { sendData, postOnServer} from './dataHandler.js';
 import {correctAnswerAction,wrongAnswerAction,mustAnswer,checkButton} from './utilsActivity.js'
-import { getButtonNextProperty,getDivBorder } from './style.js';
+import { getButtonNextProperty,getDivBorder,getTextStyle } from './style.js';
 const e = React.createElement;
 let timer; 
 let startDate, now, seconds;
@@ -168,42 +168,50 @@ export const Activity = React.forwardRef((props, ref) => {
     
     
     
-
+    //Add Style Property
     const btnNext= getButtonNextProperty(dinamicActivities,counter,props.json);
-
-    const textStyle = {             //implementiamo uno stile di testo unico per tutte le Storie di un attivita'
-            fontSize:props.json.player.sizeFont,
-            textAlign:"center",
-            fontFamily:props.json.player.fontFamily
-    }
-
+    const textStyle = getTextStyle(props.json);
     const divBorder = getDivBorder(dinamicActivities,counter,props.json);
 
     let mediaProp = [];
-        if(dinamicActivities[counter].activityImage !== ""){     
-        // -->  richiesta al server per il media 
-        var base64data;
+    if(dinamicActivities[counter].activityImage !== ""){     
+    // -->  richiesta al server per il media 
+    var base64data;
 
-        axios.get(`http://localhost:8000/downloadImage/${dinamicActivities[counter].activityImage}`, { responseType:"blob" })
-                .then(function (response) {
-                var blob1 = response.data;
-                const blob = new Blob([blob1], { type: 'image/png' });
-                var reader = new window.FileReader();
-                reader.readAsDataURL(blob);
-                reader.onload = function() {
-                    base64data = reader.result;                
-                    setImg(img = base64data);
-                    }
-        });       
-    
-        const mediaStyle = {
-            width:'100%'
-        }
+    axios.get(`http://localhost:8000/downloadImage/${dinamicActivities[counter].activityImage}`, { responseType:"blob" })
+            .then(function (response) {
+            var blob1 = response.data;
+            const blob = new Blob([blob1], { type: 'image/png' });
+            var reader = new window.FileReader();
+            reader.readAsDataURL(blob);
+            reader.onload = function() {
+                base64data = reader.result;                
+                setImg(img = base64data);
+                }
+    });       
+
+    const mediaStyle = {
+        width:'100%'
+    }
     
     if(img !== 0)
         mediaProp.push (e("img",{style:mediaStyle,key:"media",alt:dinamicActivities[counter].altActivityImage,src:img}));//controls:true,autoPlay:true}));    
     }
 
+/*      if(dinamicActivities[counter].streamVideo !== ""){
+        const videoSource = dinamicActivities[counter].streamVideo;
+        let source;
+        if(dinamicActivities[counter].streamVideo.indexOf('watch')>-1){
+             source = videoSource.replace("https://www.youtube.com/watch?v=","https://www.youtube.com/embed/")
+            console.log(source);
+        }else{
+            source = videoSource.replace("https://youtu.be","https://www.youtube.com/embed");
+            console.log(source);
+        }
+
+        mediaProp.push(e("iframe",{controls: true , id:'ytplayer',autoPlay: true,src:source,key:"video"}));
+    }
+*/
     /**per inserire immagini dentro o fuori il divActivity é necessario spostare il vettore mediaProp
      * o come figlio di 
      * oppure come figlio di activity e impostare i cambiamenti nel json opportuno

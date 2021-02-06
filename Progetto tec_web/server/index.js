@@ -40,7 +40,7 @@ app.get('/', (_, res) => {
 
 app.get('/downloadImage/:source',(req,res) =>{
     const mypath = path.join(__dirname, `upload/${req.params.source}`);
-    const data = fs.readFileSync(mypath);
+    const data = fs.readFileSync(mypath, {encoding:'utf8', flag:'r'});
     res.send(data); 
 })
 
@@ -56,7 +56,7 @@ app.get('/downloadBackground/:source',(req,res) =>{
 
 app.get(`/requestJson/:title`,(req,res)=>{
     const mypath = path.join(__dirname, `storiesFolder/${req.params.title}`);
-    const data = fs.readFileSync(mypath);
+    const data = fs.readFileSync(mypath, {encoding:'utf8', flag:'r'});
     res.send(JSON.parse(data));
 })
 
@@ -86,6 +86,24 @@ app.post('/uploadImg', (req, res) => {
     });
 })
 
+app.get(`/idNumber/:username`, async (req,res)=>{
+    var i = 0;
+    var arrayIndex = []
+    const mypath = path.join(__dirname, `storiesFolder`);
+    var files = fs.readdirSync(mypath) 
+    files.forEach((element, index) => {
+        var user = element.split("_")[0]
+        var index = element.split("_")[1].split(".")[0]
+        if (user == req.params.username.split(":")[1]) arrayIndex.push(parseInt(index))
+    })
+    arrayIndex.sort(function(a, b) {return a - b});
+    for(var index = 0; index < arrayIndex.length; index++) {
+        if (!(arrayIndex.includes(index))) i = index
+    }
+    res.status(200).end(JSON.stringify(i))
+})
+
+
 app.post("/addImage/:id/:type", (req, res) => {
     if (req.files === null){
         return res.status(400).json({msg: "No file uploaded"})
@@ -111,31 +129,10 @@ app.post("/addImage/:id/:type", (req, res) => {
     res.end(newImage)
 })
 
-app.delete("/deleteImage/:id/:type", (req, res) => {
-    const mypath = path.join(__dirname, `upload`);
-    var files = fs.readdirSync(mypath) 
-    if (req.params.type == "bckgrnd"){
-        files.forEach((element) =>{
-            var tmp = element.split('.')[0]
-            var tmp2 = req.params.id.split('.')[0] + "_background"
-            if (tmp == tmp2) {
-                const mypath = path.join(__dirname, `/upload/${element}`);
-                fs.unlink(mypath, (err) => {if (err) throw err});
-                console.log(`Delete image \"${element}\"`)
-            }
-        })        
-    } else {
-        var indexActivity = req.params.type.split("t")[1]
-        files.forEach((element) =>{
-            var tmp = element.split('.')[0]
-            var tmp2 = `${req.params.id.split('.')[0]}_activity${indexActivity}`
-            if (tmp == tmp2) {
-                const mypath = path.join(__dirname, `/upload/${element}`);
-                fs.unlink(mypath, (err) => {if (err) throw err})
-                console.log(`Delete image \"${element}\"`)
-            }
-        })
-    }
+app.delete("/deleteImage/:img", (req, res) => {
+    const mypath = path.join(__dirname, `upload/${req.params.img}`);
+    fs.unlink(mypath, (err) => {if (err) throw err});
+    console.log(`Delete image \"${element}\"`)
 })
 
 //restituisce l'array di tutte le storie create dall'utente
@@ -196,8 +193,8 @@ app.get("/storiesFolder", (req, res) => {
 
 //modificare una storia
 app.get("/modifyStory/:username", (req, res) => {
-    const mypath = path.join(__dirname, `storiesFolder/${req.params.username}`);
-    var fileCopied = JSON.parse(fs.readFileSync(mypath));
+    const mypath = path.join(__dirname, `storiesFolder/${req.params.username}.json`);
+    var fileCopied = JSON.parse(fs.readFileSync(mypath, {encoding:'utf8', flag:'r'}));
     res.status(200).end(JSON.stringify(fileCopied));
 })
 
@@ -218,7 +215,7 @@ app.get("/duplyStory/:username", (req, res) => {
             for(var index = 0; index <= arrayIndex.length; index++) {
                 if (!(arrayIndex.includes(index))) i = index
             }
-            const mypath = path.join(__dirname, `storiesFolder/${req.params.username}`);
+            const mypath = path.join(__dirname, `storiesFolder/${req.params.username}.json`);
             fs.readFile(mypath, {encoding:'utf8', flag:'r'}, (err, data) => {
                 if (err) throw err;
                 var fileCopied = JSON.parse(data)
@@ -242,31 +239,15 @@ app.post("/createStory/id", (req, res) => {
         if (err){
             console.log(err.message);
         } else {
-            let i = files.length;
-            if (req.body.story.toCopy == true){
-                i = req.body.story.id.split("_")[1].split(".")[0]
-            } else {
-                var arrayIndex = []
-                files.forEach((element, index) => {
-                    var index = element.split("_")[1].split(".")[0]
-                    arrayIndex.push(parseInt(index))
-                })
-                arrayIndex.sort(function(a, b) {return a - b});
-                for(var index = 0; index <= arrayIndex.length; index++) {
-                    if (!(arrayIndex.includes(index))) i = index
-                }
-            }
-            req.body.story.id = `${req.body.user}_${i}.json`
-            req.body.story.toCopy = true
             if (req.body.story.accessibility.value) req.body.story.accessibility.url = "../img/accessibility_1.png";
             else req.body.story.accessibility.url = "../img/no_accessibility_1.png";
             if (req.body.story.participantsType.value == "singlePlayer") req.body.story.participantsType.url = "../img/single.png";
             else if (req.body.story.participantsType.value == "group") req.body.story.participantsType.url = "../img/one_group.png";
             else if (req.body.story.participantsType.value == "differentGroup") req.body.story.participantsType.url = "../img/more_group.png";
-            const mypath = path.join(__dirname, `storiesFolder/${req.body.user}_${i}.json`);
+            const mypath = path.join(__dirname, `storiesFolder/${req.body.story.id}.json`);
             fs.writeFile(mypath, JSON.stringify(req.body.story, null, 2), function (err) {
                 if (err) throw err;
-                console.log(`L'utente ${req.body.user} ha appena aggiunto la storia ${req.body.user}_${i}.json`);
+                console.log(`L'utente ${req.body.user} ha appena aggiunto la storia ${req.body.story.id}.json`);
             })
         }
     })
@@ -282,12 +263,13 @@ app.post("/publishStory", (req, res) => {
         if (err){
             console.log(err.message);
         } else {
-            const mypath = path.join(__dirname, `storiesFolder/${req.body.story}`);
-            const data = JSON.parse(fs.readFileSync(mypath));
+            const mypath = path.join(__dirname, `storiesFolder/${req.body.story}.json`);
+            const data = JSON.parse(fs.readFileSync(mypath, {encoding:'utf8', flag:'r'}));
             data.published = true;
             fs.writeFileSync(mypath, JSON.stringify(data, null, 2));
         }
     })
+    console.log(`L'utente ${req.body.story.split("_")[0]} ha appena pubblicato la storia ${req.body.story}`)
     res.status(200).end();
 })
 
@@ -295,10 +277,11 @@ app.post("/publishStory", (req, res) => {
 
 //ritirare una storia
 app.delete("/retireStory/:story", (req, res) => {
-    const mypath = path.join(__dirname, `storiesFolder/${req.params.story}`);
-    const data = JSON.parse(fs.readFileSync(mypath));
+    const mypath = path.join(__dirname, `storiesFolder/${req.params.story}.json`);
+    const data = JSON.parse(fs.readFileSync(mypath, {encoding:'utf8', flag:'r'}));
     data.published = false;
     fs.writeFileSync(mypath, JSON.stringify(data, null, 2));
+    console.log(`L'utente ${req.body.story.split("_")[0]} ha appena ritirato la storia ${req.body.story}`)
     res.status(200).end();
 })
 
@@ -306,7 +289,7 @@ app.delete("/retireStory/:story", (req, res) => {
 
 //eliminare una storia
 app.delete("/deleteStory/:story", (req, res) => {
-    const mypath = path.join(__dirname, `storiesFolder/${req.params.story}`);
+    const mypath = path.join(__dirname, `storiesFolder/${req.params.story}.json`);
     fs.unlink(mypath, (err) => {
         if (err) throw err;
         const tmp = req.params.story.split("_")[0];

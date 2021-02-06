@@ -99,7 +99,7 @@ function Realize_info(props){
     }, [])
     
     
-    function createNewJsonFile() {
+    async function createNewJsonFile() {
         var c = true;
         var allFields = ["title", "gender", "objective", "description"]
         allFields.forEach((element) => {
@@ -121,10 +121,12 @@ function Realize_info(props){
                 file.ageEnd = age[1]
             }
             else {
+                var idNUmber = 0;
+                await axios.get(`http://localhost:8000/idNumber/:${props.user}`)
+                .then((response) => idNUmber = response.data)
                 file = {
-                    id: "",
+                    id: `${props.user}_${idNUmber}`,
                     user: props.user,
-                    toCopy: false,
                     published: false, 
                     title: title.charAt(0).toUpperCase() + title.substring(1),
                     gender: gender,

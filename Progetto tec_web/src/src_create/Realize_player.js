@@ -5,7 +5,7 @@ function Realize_player(props){
     const [check, setCheck] = React.useState(true)
     const [playerStyle, setPlayerStyle] = React.useState({
         background_color           :   props.story.player.background,
-        backgroundImage         :   props.story.player.backgroundImage,
+        backgroundImage            :   props.story.player.backgroundImage,
         topImage                   :   props.story.player.image.top,
         leftImage                  :   props.story.player.image.left,
         heighImage                 :   props.story.player.image.height,
@@ -288,6 +288,8 @@ function Realize_player(props){
         e.preventDefault()
         const formData = new FormData();
         formData.append("file", e.target.files[0])
+        var extension = e.target.files[0].type.split("/")[1]
+        setPlayerStyle({...playerStyle, ["backgroundImage"]: `${props.story.id}_background.${extension}`})
         axios.post(`http://localhost:8000/addImage/${props.story.id}/bckgrnd`, formData, {
             headers:{ "Content-Type": "multipart/form-data" }
         })
@@ -299,6 +301,7 @@ function Realize_player(props){
 
     function deleteImage(){
         setPlayerStyle({...playerStyle, ["backgroundImage"]: ``})
+        axios.delete(`http://localhost:8000/deleteImage/${playerStyle.backgroundImage}`); 
     }
 
 

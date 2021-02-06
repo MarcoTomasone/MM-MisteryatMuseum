@@ -49,19 +49,18 @@ function Realize_FL_Activity(props){
 
     function addImage(e){
         e.preventDefault()
+        console.log(e.target.name)
         const formData = new FormData();
         formData.append("file", e.target.files[0])
+        var extension = e.target.files[0].type.split("/")[1]
+        setActivity({...activity, [e.target.name]: `${props.story.id}_${e.target.name}.${extension}`});
         axios.post(`http://localhost:8000/addImage/${props.story.id}/${e.target.name}`, formData, {
             headers:{ "Content-Type": "multipart/form-data" }
         })
         .catch(error => {
             if (error.response.status === 500) console.log("Errore con il server")
             else console.log(error)
-        })  
-    }
-
-    function deleteImage(){
-        axios.delete(`http://localhost:8000/deleteImage/${props.story.id}/act${props.firstLast}`)
+        })
     }
 
     function updateField(e){
@@ -151,7 +150,10 @@ function Realize_FL_Activity(props){
             ]),
             e("div", {className: "sx_realize_option"}, [
                 e("label", {htmlFor:"delete_background_image"}, [
-                    e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteImage}, 
+                    e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: () => {
+                        axios.delete(`http://localhost:8000/deleteImage/${activity.backgroundImage}`);
+                        setActivity({...activity, ["backgroundImage"]: ""});
+                    }}, 
                         e(Icon, {children: "cancel"}),  
                     ),
                     " ELIMINA IMMAGINE"
@@ -171,7 +173,10 @@ function Realize_FL_Activity(props){
             ]),
             e("div", {className: "sx_realize_option"}, [
                 e("label", {htmlFor:"delete_activity_image"}, [
-                    e(IconButton, {id: "delete_activity_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteImage}, 
+                    e(IconButton, {id: "delete_activity_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: () => {
+                        axios.delete(`http://localhost:8000/deleteImage/${activity.activityImage}`);
+                        setActivity({...activity, ["activityImage"]: ""});
+                    }}, 
                         e(Icon, {children: "cancel"}),  
                     ),
                     " ELIMINA IMMAGINE"

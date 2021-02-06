@@ -63,8 +63,7 @@ function Realize(props){
     const [story, setStory] =  React.useState(props.storyToModify);
     const [step, setStep] =  React.useState([false, false, false, false]);
     const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}));
-    const [openErrorDialog, setOpenErrorDialog] = React.useState(false);
-    const [textErrorDialog, setTextErrorDialog] = React.useState("");
+
 
 
     return e("div", {className: "containerHome"}, [
@@ -101,8 +100,8 @@ function Realize(props){
                                 setStep: setStep
                             }))
                         } else {
-                            setTextErrorDialog("Prima compila e salva i campi di info generali")
-                            setOpenErrorDialog(true)
+                            props.setTextErrorDialog("Prima compila e salva i campi di info generali")
+                            props.setOpenErrorDialog(true)
                         }
                     }},"PLAYER"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
@@ -121,12 +120,12 @@ function Realize(props){
                                 text: "Inserisci un testo introduttivo alla tua storia, per far immergere al meglio il giocatore"
                             }))
                         } else {
-                            setTextErrorDialog("Prima controlla lo stile del player")
-                            setOpenErrorDialog(true)
+                            props.setTextErrorDialog("Prima controlla lo stile del player")
+                            props.setOpenErrorDialog(true)
                         }
                     }}, "ATTIVITA' INTRODUTTIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        //if (step[2] == true){
+                        if (step[2] == true){
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {
                                 id: "CreateHomeRealize_firstActivity", 
                                 className: "CreateHomeRealize_firstLastActivity", 
@@ -140,13 +139,13 @@ function Realize(props){
                                 title: "Crea l'attività conclusiva alla tua storia",
                                 text: "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore"
                             }))
-                        /*} else {
-                            setTextErrorDialog("Prima crea e salva l'attività introduttiva")
-                            setOpenErrorDialog(true)          
-                        }*/
+                        } else {
+                            props.setTextErrorDialog("Prima crea e salva l'attività introduttiva")
+                            props.setOpenErrorDialog(true)          
+                        }
                     }}, "ATTIVITA' CONCLUSIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        //if (step[2] == true){
+                        if (step[2] == true){
                             setPageLoad(e(CreateHomeRealize_activity, {
                                 id: "CreateHomeRealize_activity", 
                                 className: "CreateHomeRealize_activity", 
@@ -156,33 +155,33 @@ function Realize(props){
                                 step: step, 
                                 setStep: setStep,
                             }))
-                        /*} else {
-                            setTextErrorDialog("Prima crea e salva l'attività introduttiva")
-                            setOpenErrorDialog(true)   
-                        }*/
+                        } else {
+                            props.setTextErrorDialog("Prima crea e salva l'attività introduttiva")
+                            props.setOpenErrorDialog(true)   
+                        }
                     }}, "CREA/MODIFICA ATTIVITA'"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        //if (step[3] == true){
+                        if(step[0] == true){
                             setPageLoad(e(CreateHomeRealize_grafo, {
                                 id: "CreateHomeRealize_lastActivity", 
                                 className: "CreateHomeRealize_firstLastActivity CreateHomeRealize_graph", 
                                 user: props.user, 
                                 story: story, 
                             }))
-                        /*} else {
-                            setTextErrorDialog("Prima crea e salva almeno un'attività diversa da quella introduttiva")
-                            setOpenErrorDialog(true)   
-                        }*/
+                        } else {
+                            props.setTextErrorDialog("Prima compila e salva i campi di info generali")
+                            props.setOpenErrorDialog(true)
+                        }
                     }}, "GRAFO ATTIVITA'"),
                    e(Button, {variant: "contained", size: "large", className: classes.redButton, onClick: () => {
-                        //if (step[3] == true){
+                        if (step[3] == true){
                             axios.post(`http://localhost:8000/createStory/id`, {user: props.user, story: story})
                             .then((response) => alert(`Storia pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`))
                             .catch((error) => console.log(error)); 
-                        /*} else {
-                            setTextErrorDialog("Prima crea e salva almeno un'attività diversa da quella introduttiva")
-                            setOpenErrorDialog(true)   
-                        }*/
+                        } else {
+                            props.setTextErrorDialog("Prima crea e salva l'attività finale")
+                            props.setOpenErrorDialog(true)   
+                        }
                     }}, "INVIA")
                 ])
             ]),
@@ -242,7 +241,7 @@ function Realize(props){
                 ])
             ])
         ]),
-        e(DialogComponent, {fun: setOpenErrorDialog, open: openErrorDialog, textError: textErrorDialog} )
+        e(DialogComponent, {fun: props.setOpenErrorDialog, open: props.openErrorDialog, textError: props.textErrorDialog} )
     ])
 }
 

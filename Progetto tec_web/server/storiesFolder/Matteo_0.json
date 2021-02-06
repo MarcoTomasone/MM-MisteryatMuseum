@@ -1,22 +1,21 @@
 {
-  "id": "Simone_3",
-  "user": "Simone",
-  "toCopy": true,
+  "id": "Matteo_0",
+  "user": "Matteo",
   "published": false,
-  "title": "Test",
-  "gender": "Avventura",
-  "objective": "De",
-  "description": "TestD",
+  "title": "S",
+  "gender": "Horror",
+  "objective": "Sdf",
+  "description": "Sdf",
   "accessibility": {
     "value": false,
     "url": "../img/no_accessibility_1.png"
   },
   "participantsType": {
-    "value": "singlePlayer",
-    "url": "../img/single.png"
+    "value": "differentGroup",
+    "url": "../img/more_group.png"
   },
-  "ageStart": 0,
-  "ageEnd": 100,
+  "ageStart": 34,
+  "ageEnd": 77,
   "player": {
     "background": "#000000",
     "backgroundImage": "",
@@ -41,8 +40,7 @@
     "inputDiv": {
       "backgroundColor": "#000000",
       "frameColor": "#ffffff",
-      "textColor": "#ffffff",
-      "borderRadius":5
+      "textColor": "#ffffff"
     },
     "scoreDiv": {
       "backgroundColor": "#000000",
@@ -87,86 +85,19 @@
   },
   "firstActivity": {
     "heightFrame": 160,
-    "activityText": "Questa é un attivita introduttiva",
+    "activityText": "",
     "backgroundImage": "",
     "activityImage": "",
     "altActivityImage": "",
-    "widgetType": "Nessuno",
-    "correctAnswerGo": [
-      "Prova"
-    ]
+    "correctAnswerGo": []
   },
   "lastActivity": {
     "heightFrame": 160,
-    "activityText": "Questa é l'attivitá conclusiva",
+    "activityText": "",
     "backgroundImage": "",
     "activityImage": "",
     "altActivityImage": "",
-    "widgetType": "Nessuno",
     "correctAnswerGo": []
   },
-  "activities": [
-    {
-      "title": "Prova",
-      "heightFrame": 160,
-      "activityText": "Questa é una prova di multipleAnswer",
-      "backgroundImage": "",
-      "activityImage": "",
-      "altActivityImage": "TEst",
-      "widgetType": "Scelta multipla",
-      "topInput": 320,
-      "leftInput": 15,
-      "heightInput": 60,
-      "widthInput": 170,
-      "errorMessage": "",
-      "fourAnswers": [],
-      "multipleAnswers": [
-        {
-          "text": "Test1",
-          "score": -4
-        },
-        {
-          "text": "Test2",
-          "score": -3
-        },
-        {
-          "text": "Test3",
-          "score": -2
-        },
-        {
-          "text": "Test4",
-          "score": -1
-        },
-        {
-          "text": "Test$",
-          "score": "1"
-        },
-        {
-          "text": "Test6",
-          "score": -6
-        }
-      ],
-      "trueFalseAnswer": {
-        "trueScore": 0,
-        "falseScore": 0
-      },
-      "textAnswer": {
-        "value": "",
-        "scoreOk": 0,
-        "scoreWrong": 0
-      },
-      "rangeAnswer": {
-        "possibleStart": 0,
-        "possibleEnd": 0,
-        "start": 0,
-        "end": 0,
-        "scoreOk": 0,
-        "scoreWrong": 0
-      },
-      "correctAnswerGo": [],
-      "wrongAnswerGo": [],
-      "activityIsUsed": true,
-      "firstActivity": true
-    }
-  ]
+  "activities": []
 }

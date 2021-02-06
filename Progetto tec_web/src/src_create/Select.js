@@ -44,54 +44,79 @@ function Select(props){
     }
     
     const toDuply = function(){
-        if (storySelected == "") alert("Selezionare prima una storia");
+        if (storySelected == ""){
+            props.setTextErrorDialog("Selezionare prima una storia")
+            props.setOpenErrorDialog(true)
+        }
         else {
             axios.get(`http://localhost:8000/duplyStory/${storySelected}`)
-            .then((response) => alert(`Storia \"${storySelected}\" dupicata correttamente`))
+            .then((response) => {
+                props.setTextErrorDialog(`Storia \"${storySelected}\" dupicata correttamente`);
+                props.setOpenErrorDialog(true)
+            })
             .catch((error) => console.log(error));  
         }
     }
     
     const toModify = function(){
-        if (storySelected == "") alert("Selezionare prima una storia")
+        if (storySelected == ""){
+            props.setTextErrorDialog("Selezionare prima una storia")
+            props.setOpenErrorDialog(true)
+        }
         else {
             axios.get(`http://localhost:8000/modifyStory/${storySelected}`)
-            .then((response) => {console.log(response.data), props.setStoryToModify(response.data)})
+            .then((response) => {props.setStoryToModify(response.data)})
             .catch((error) => console.log(error));
             location.href = "./?#/Create/realize"
         }
     }
     
     const toPublish = function(){
-        if (storySelected == "") alert("Selezionare prima una storia")
+        if (storySelected == ""){
+            props.setTextErrorDialog("Selezionare prima una storia")
+            props.setOpenErrorDialog(true)
+        }
         else {
             axios.post('http://localhost:8000/publishStory', {story: storySelected})
-            .then((response) => alert(`Storia \"${storySelected}\" pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`))
+            .then((response) => {
+                props.setTextErrorDialog(`Storia \"${storySelected}\" pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`);
+                props.setOpenErrorDialog(true)
+            })
             .catch((error) => console.log(error));
         }
     }
     
     const toRetire = function(){
-        if (storySelected == "") alert("Selezionare prima una storia")
+        if (storySelected == ""){
+            props.setTextErrorDialog("Selezionare prima una storia")
+            props.setOpenErrorDialog(true)
+        }
         else {
             axios.delete(`http://localhost:8000/retireStory/${storySelected}`)
-            .then((response) => alert(`Storia \"${storySelected}\" ritirata correttamente`))
+            .then((response) => {
+                props.setTextErrorDialog(`Storia \"${storySelected}\" ritirata correttamente`);
+                props.setOpenErrorDialog(true)
+            })
             .then(() => document.getElementById(storySelected).classList.remove("story_published"))
             .catch((error) => console.log(error));  
         }
     }
     
     const toDelete = function(){
-        if (storySelected == "") alert("Selezionare prima una storia")
+        if (storySelected == ""){
+            props.setTextErrorDialog("Selezionare prima una storia")
+            props.setOpenErrorDialog(true)
+        }
         else {
             axios.delete(`http://localhost:8000/deleteStory/${storySelected}`)
-            .then((response) => alert(`Storia \"${storySelected}\" eliminata correttamente`))
+            .then((response) => {
+                props.setTextErrorDialog(`Storia \"${storySelected}\" eliminata correttamente`);
+                props.setOpenErrorDialog(true)
+            })
             .catch((error) => console.log(error));
         }
     }
 
-
-    var arrayOfStories = []
 
     if (props.user == "") props.setUser(localStorage.getItem(`user0`));    
     else {
@@ -151,14 +176,3 @@ function Select(props){
 }
 
 export default Select;
-
-
-    /*mechanism to avoid th effect of refresh (refresh restes the variables used with the hooks)
-    if refresh is clicked, you have to go back to the login and select again the user
-    window.addEventListener('beforeunload', function (e) {
-        e.preventDefault(); 
-        e.returnValue = ''; 
-    });
-    if (performance.navigation.type == performance.navigation.TYPE_RELOAD) { //if the page is reloaded, then go back to the login page
-        location.href = "./#/Create/login"
-    }*/

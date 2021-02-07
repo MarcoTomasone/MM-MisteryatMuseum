@@ -94,7 +94,7 @@ function Realize_info(props){
             setaccessibility(props.story.accessibility.value);
             setParticipantsType(props.story.participantsType.value);
             setAge([props.story.ageStart, props.story.ageEnd]);
-            props.setStep([true, false, true, true])
+            props.setStep([true, false])
         }
     }, [])
     
@@ -109,13 +109,22 @@ function Realize_info(props){
             alert("Compila prima tutti i campi")  
         } else {
             var file = {}
+            var acc = (accessibility) ? "../../img/accessibility_1.png" : "../../img/no_accessibility_1.png"
+            var player = (participantsType == "singlePlayer") ? "../../img/single.png" : (participantsType == "group") ? "../../img/one_group.png" : "../../img/more_group.png"
             if (props.story) {
                 file = props.story
                 file.title = title.charAt(0).toUpperCase() + title.substring(1)
                 file.gender = gender
                 file.objective = objective.charAt(0).toUpperCase() + objective.substring(1)
                 file.description = description.charAt(0).toUpperCase() + description.substring(1)
-                file.accessibility.value = accessibility
+                file.accessibility = {
+                    value: accessibility,
+                    url: acc
+                }
+                file.participantsType = {
+                    value: participantsType,
+                    url: player
+                },
                 file.participantsType.value = participantsType
                 file.ageStart = age[0]
                 file.ageEnd = age[1]
@@ -134,11 +143,11 @@ function Realize_info(props){
                     description: description.charAt(0).toUpperCase() + description.substring(1),
                     accessibility: {
                         value: accessibility,
-                        url: ""
+                        url: acc
                     },
                     participantsType: {
                         value: participantsType,
-                        url: ""
+                        url: player
                     }, 
                     ageStart: age[0],
                     ageEnd: age[1],

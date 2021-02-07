@@ -59,11 +59,17 @@ function Realize(props){
         localStorage.setItem(`user0`, props.user);
         props.setUser(localStorage.getItem(`user0`));    
     }
-
+    const [step, setStep] =  React.useState([false, false]);
     const [story, setStory] =  React.useState(props.storyToModify);
-    const [step, setStep] =  React.useState([false, false, false, false]);
-    const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {id: "CreateHomeRealize_info", className: "CreateHomeRealize_info", user: props.user, story: story, setStory: setStory, step: step, setStep: setStep}));
-
+    const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {
+        id: "CreateHomeRealize_info",
+        className: "CreateHomeRealize_info",
+        user: props.user,
+        story: story,
+        setStory: setStory,
+        step: step,
+        setStep: setStep
+    }));
 
 
     return e("div", {className: "containerHome"}, [
@@ -82,8 +88,8 @@ function Realize(props){
                             className: "CreateHomeRealize_info", 
                             user: props.user, 
                             story: story, 
-                            setStory: setStory, 
-                            step: step, 
+                            setStory: setStory,
+                            step: step,
                             setStep: setStep
                         }))
                     }}, "INFO"),
@@ -112,8 +118,6 @@ function Realize(props){
                                 user: props.user, 
                                 story: story, 
                                 setStory: setStory, 
-                                step: step, 
-                                setStep: setStep, 
                                 activity: story.firstActivity,
                                 indexActivity: "firstActivity",
                                 title: "Crea l'attività introduttiva alla tua storia",
@@ -125,39 +129,35 @@ function Realize(props){
                         }
                     }}, "ATTIVITA' INTRODUTTIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        if (step[2] == true){
+                        if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {
                                 id: "CreateHomeRealize_firstActivity", 
                                 className: "CreateHomeRealize_firstLastActivity", 
                                 user: props.user, 
                                 story: story, 
                                 setStory: setStory,
-                                step: step, 
-                                setStep: setStep, 
                                 activity: story.lastActivity,
                                 indexActivity: "lastActivity",
                                 title: "Crea l'attività conclusiva alla tua storia",
                                 text: "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore"
                             }))
                         } else {
-                            props.setTextErrorDialog("Prima crea e salva l'attività introduttiva")
-                            props.setOpenErrorDialog(true)          
+                            props.setTextErrorDialog("Prima controlla lo stile del player")
+                            props.setOpenErrorDialog(true)
                         }
                     }}, "ATTIVITA' CONCLUSIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
-                        if (step[2] == true){
+                        if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_activity, {
                                 id: "CreateHomeRealize_activity", 
                                 className: "CreateHomeRealize_activity", 
                                 user: props.user, 
                                 story: story,
                                 setStory: setStory,
-                                step: step, 
-                                setStep: setStep,
                             }))
                         } else {
-                            props.setTextErrorDialog("Prima crea e salva l'attività introduttiva")
-                            props.setOpenErrorDialog(true)   
+                            props.setTextErrorDialog("Prima controlla lo stile del player")
+                            props.setOpenErrorDialog(true)
                         }
                     }}, "CREA/MODIFICA ATTIVITA'"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
@@ -174,14 +174,14 @@ function Realize(props){
                         }
                     }}, "GRAFO ATTIVITA'"),
                    e(Button, {variant: "contained", size: "large", className: classes.redButton, onClick: () => {
-                        if (step[3] == true){
-                            axios.post(`http://localhost:8000/createStory/id`, {user: props.user, story: story})
-                            .then((response) => alert(`Storia pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`))
-                            .catch((error) => console.log(error)); 
-                        } else {
-                            props.setTextErrorDialog("Prima crea e salva l'attività finale")
-                            props.setOpenErrorDialog(true)   
-                        }
+                    if(step[0] == true){
+                        axios.post(`http://localhost:8000/createStory/id`, {user: props.user, story: story})
+                        .then((response) => alert(`Storia pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`))
+                        .catch((error) => console.log(error)); 
+                    } else {
+                        props.setTextErrorDialog("Prima compila e salva i campi di info generali")
+                        props.setOpenErrorDialog(true)
+                    }
                     }}, "INVIA")
                 ])
             ]),

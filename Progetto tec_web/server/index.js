@@ -94,7 +94,7 @@ app.get(`/idNumber/:username`, async (req,res)=>{
     files.forEach((element, index) => {
         var user = element.split("_")[0]
         var index = element.split("_")[1].split(".")[0]
-        if (user == req.params.username.split(":")[1]) arrayIndex.push(parseInt(index))
+        if (user == req.params.username) arrayIndex.push(parseInt(index))
     })
     arrayIndex.sort(function(a, b) {return a - b});
     for(var index = 0; index < arrayIndex.length; index++) {
@@ -219,9 +219,8 @@ app.get("/duplyStory/:username", (req, res) => {
             fs.readFile(mypath, {encoding:'utf8', flag:'r'}, (err, data) => {
                 if (err) throw err;
                 var fileCopied = JSON.parse(data)
-                fileCopied.id = `${tmp}_${i}.json`;
                 fileCopied.published = false;
-                fileCopied.id = `${tmp}_${i}.json`
+                fileCopied.id = `${tmp}_${i}`
                 const mypath = path.join(__dirname, `storiesFolder/${tmp}_${i}.json`);
                 fs.writeFile(mypath, JSON.stringify(fileCopied, null, 2), function (err) {
                     if (err) throw err;
@@ -239,11 +238,6 @@ app.post("/createStory/id", (req, res) => {
         if (err){
             console.log(err.message);
         } else {
-            if (req.body.story.accessibility.value) req.body.story.accessibility.url = "../img/accessibility_1.png";
-            else req.body.story.accessibility.url = "../img/no_accessibility_1.png";
-            if (req.body.story.participantsType.value == "singlePlayer") req.body.story.participantsType.url = "../img/single.png";
-            else if (req.body.story.participantsType.value == "group") req.body.story.participantsType.url = "../img/one_group.png";
-            else if (req.body.story.participantsType.value == "differentGroup") req.body.story.participantsType.url = "../img/more_group.png";
             const mypath = path.join(__dirname, `storiesFolder/${req.body.story.id}.json`);
             fs.writeFile(mypath, JSON.stringify(req.body.story, null, 2), function (err) {
                 if (err) throw err;
@@ -295,7 +289,7 @@ app.delete("/deleteStory/:story", (req, res) => {
         const tmp = req.params.story.split("_")[0];
         console.log(`L'utente ${tmp} ha appena eliminato la storia ${req.params.story}`);
     });
-    res.end();
+    res.status(200).end();
 })
 
 

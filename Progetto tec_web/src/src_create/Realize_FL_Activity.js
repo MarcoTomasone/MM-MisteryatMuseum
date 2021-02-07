@@ -117,16 +117,6 @@ function Realize_FL_Activity(props){
             widgetType      : "Nessuno",
             correctAnswerGo : activity.correctAnswerGo,
         };
-        if (props.indexActivity == "firstActivity") {
-            oldStory.firstActivity = tmp
-            props.step[2] = true
-            props.setStep(props.step)
-        }
-        else {
-            oldStory.lastActivity = tmp
-            props.step[3] = true
-            props.setStep(props.step)
-        }
     }
         
 

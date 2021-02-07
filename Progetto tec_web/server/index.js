@@ -275,7 +275,7 @@ app.delete("/retireStory/:story", (req, res) => {
     const data = JSON.parse(fs.readFileSync(mypath, {encoding:'utf8', flag:'r'}));
     data.published = false;
     fs.writeFileSync(mypath, JSON.stringify(data, null, 2));
-    console.log(`L'utente ${req.body.story.split("_")[0]} ha appena ritirato la storia ${req.body.story}`)
+    console.log(`L'utente ${req.params.story.split("_")[0]} ha appena ritirato la storia ${req.params.story}`)
     res.status(200).end();
 })
 

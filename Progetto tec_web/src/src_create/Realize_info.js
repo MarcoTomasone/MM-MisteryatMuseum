@@ -131,7 +131,7 @@ function Realize_info(props){
             }
             else {
                 var idNUmber = 0;
-                await axios.get(`http://localhost:8000/idNumber/:${props.user}`)
+                await axios.get(`http://localhost:8000/idNumber/${props.user}`)
                 .then((response) => idNUmber = response.data)
                 file = {
                     id: `${props.user}_${idNUmber}`,

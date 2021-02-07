@@ -3,17 +3,17 @@
   "user": "Matteo",
   "toCopy": true,
   "published": true,
-  "title": "Odissea nello spazioo",
+  "title": "Odissea nello spazio",
   "gender": "Fantascienza",
   "objective": "Studio dei pianeti",
   "description": "Attraverso questa storia, il ragazzo verrà stimolato nella conoscenza e nello studio di quello che c'è oltre il pianeta Terra",
   "accessibility": {
     "value": true,
-    "url": "../img/accessibility_1.png"
+    "url": "../../img/accessibility_1.png"
   },
   "participantsType": {
     "value": "group",
-    "url": "../img/one_group.png"
+    "url": "../../img/one_group.png"
   },
   "ageStart": 8,
   "ageEnd": 16,
@@ -89,7 +89,7 @@
     "activityText": "ANNO 2820\nSul pianeta Terra il cibo è praticamente finito e ormai anche l'acqua comincia a scarseggiare. Negli ultimi anni si è provato di tutto per salvare la popolazione ma senza buoni risultati.\nCosi si decide di fare un ultimo tentativo disperato: uscire dal pianeta direzione spazio, alla ricerca di un qualcosa che possa salvarci tutti.\nSarà un impresa lunga e molto difficile, infatti per questo motivo tutti si rifiutano di provarci.. tutti tranne te.\nTu sei super coraggioso, non hai paura di niente e decidi di provare a salvare la Terra. Cosi accetti l'incarico e ti preparari per il giorno del lancio programmato tra un mese.",
     "backgroundImage": "",
     "activityImage": "",
-    "streamVideo":"",
+    "streamVideo": "",
     "altActivityImage": "",
     "widgetType": "Nessuno",
     "correctAnswerGo": [
@@ -101,7 +101,7 @@
     "activityText": "",
     "backgroundImage": "",
     "activityImage": "",
-    "streamVideo":"",
+    "streamVideo": "",
     "altActivityImage": "",
     "widgetType": "Nessuno",
     "correctAnswerGo": []
@@ -118,7 +118,7 @@
       "topInput": 320,
       "leftInput": 15,
       "heightInput": 60,
-      "streamVideo":"https://www.youtube.com/watch?v=labCCzsXjZ8",
+      "streamVideo": "https://www.youtube.com/watch?v=labCCzsXjZ8",
       "widthInput": 170,
       "errorMessage": "",
       "fourAnswers": [],
@@ -153,7 +153,7 @@
       "activityText": "E' appena finita la fase di lancio, sei uscito dall'atmosfera e ti sei appena stabilizzato con la tua navicella.\nTi accorgi subito di una senzazione strana: ti senti molto leggero, vedi gli oggetti muoversi, anche il player che stai usando è tutto al contrario.. Sei un ragazzo intelligente e in poco tempo capisci che è perchè manca la gravità.\nTi tranquillizzi, ti leghi alla tua sedia e decidi di controllare il tuo zaino per ricontrollare cosa ti sei portato dietro per questo lungo viaggio.\nScatta una foto del contenuto del tuo zaino da mandare alla base spaziale, cosi che anche loro sanno cosa hai con te.",
       "backgroundImage": "",
       "activityImage": "",
-      "streamVideo":"",
+      "streamVideo": "",
       "altActivityImage": "",
       "widgetType": "Foto",
       "topInput": "160",

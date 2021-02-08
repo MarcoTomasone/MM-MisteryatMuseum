@@ -16,8 +16,13 @@ function inputType(props){
     const inputGroup = getInputGroupProperty(props.v,props.counter,props.json);
 
     if(props.v[props.counter].widgetType === "Input testuale automatico" || props.v[props.counter].widgetType === "Input testuale valutatore"){        
-    const styl = getTextAreaProperty(props.json);
-    inputElement.push(e("textarea",{'aria-labelledby' : "activitIntro", id:"textAnswer", key:"input", style:styl}));
+        const styl = getTextAreaProperty(props.json);
+        inputElement.push(
+            e("textarea",{
+                'aria-labelledby' : "activitIntro",
+                id:"textAnswer",
+                key:"input",
+                style:styl}));
 
     }else if(props.v[props.counter].widgetType === "Range" ) {
         function rewriteLabel (){
@@ -47,6 +52,7 @@ function inputType(props){
                         style:styleRange,
                         onChange:()=>{rewriteLabel()}
                     }));
+                    
         } else if(props.v[props.counter].widgetType === "Foto" ){
            
             
@@ -65,7 +71,7 @@ function inputType(props){
                     props.setDisabled(true);
                     const formData = new FormData();        
                     formData.append('file', file); // appending file
-                    axios.post('http://localhost:8000/uploadImg', formData).then(res => {
+                    axios.post(`${props.server}/uploadImg`, formData).then(res => {
                             if(res.status == 200)   
                                 props.socket.emit("send-humanEvaluation",{question: props.v[props.counter].question, answer: 'http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path, type : "image" , id : props.playerId, section : props.counter});       
                                 props.inc('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/' + res.data.path);

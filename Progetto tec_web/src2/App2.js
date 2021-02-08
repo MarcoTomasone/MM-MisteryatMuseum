@@ -1,29 +1,25 @@
 import { Activity } from './Activity.js'
-import {readJSON, appendMessage, isEnter, getRandomInt} from '../utils.js'
+import {init, appendMessage, isEnter} from '../utils.js'
 import { getID } from './dataHandler.js';
 import {getButtonChatProperty, getScoreProperty,getButtonHelpProperty,getActivityNoBackground,getActivityIMG} from './style.js'
 const e = React.createElement;
 const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
 
 //const url = window.location.href;
-//const story = url.replace("http://127.0.0.1`/src2/index2.html?story=", "");
+//const story = url.replace("http://127.0.0.1`/src2/player.html?story=", "");
 const story = "Matteo_6";
+
+const server = "http://localhost:8000"; //http://site181997.tw.cs.unibo.it
 //Chat
-const socket = io('http://localhost:8000', {query: 'type=player'})
+const socket = io(server, {query: 'type=player'})
 socket.emit('new-player');
 //waiting event
     socket.on('message-from-evaluator', data => {
         appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
     })
 
-const temp = readJSON(story);
-const data = JSON.parse(temp);
-data.activities.unshift(data.firstActivity);
-data.activities.push(data.lastActivity);
-data.activities.push(data.lastActivity);
 let activityList = [];
-activityList.push(data.activities[0]);
-
+const data = init(activityList,story,server);
 
 function App2() {
 
@@ -85,7 +81,7 @@ function App2() {
     if( ( activityList[counter].backgroundImage!=="" )|| (data.player.backgroundImage !== "")){
         const path = (activityList[counter].backgroundImage!=="" )?activityList[counter].backgroundImage : data.player.backgroundImage;
         var base64data;
-        axios.get(`http://localhost:8000/downloadBackground/${path}`, { responseType:"blob" })
+        axios.get(`${server}/downloadBackground/${path}`, { responseType:"blob" })
                 .then(function (response) {
                 var blob1 = response.data;
                 const blob = new Blob([blob1], { type: 'image/png' });
@@ -158,7 +154,7 @@ function App2() {
                     ])
                 ]),
             ]),*/
-            e(Activity, {counter:counter,setCounter:setCounter, ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints, story : "Matteo_6"}),
+            e(Activity, {counter:counter,server: server,setCounter:setCounter, ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints, story : "Matteo_6"}),
             e(Slide, {in: slideChat, direction: "left", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container"}), //div di arrivo delle risposte da valutare

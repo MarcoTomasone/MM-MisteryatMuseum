@@ -178,7 +178,7 @@ export const Activity = React.forwardRef((props, ref) => {
     // -->  richiesta al server per il media 
     var base64data;
 
-    axios.get(`http://localhost:8000/downloadImage/${dinamicActivities[counter].activityImage}`, { responseType:"blob" })
+    axios.get(`${props.server}/downloadImage/${dinamicActivities[counter].activityImage}`, { responseType:"blob" })
             .then(function (response) {
             var blob1 = response.data;
             const blob = new Blob([blob1], { type: 'image/png' });
@@ -195,7 +195,12 @@ export const Activity = React.forwardRef((props, ref) => {
     }
     
     if(img !== 0)
-        mediaProp.push (e("img",{style:mediaStyle,key:"media",alt:dinamicActivities[counter].altActivityImage,src:img}));//controls:true,autoPlay:true}));    
+        mediaProp.push (e("img",{
+                            style:mediaStyle,
+                            key:"media",
+                            alt:dinamicActivities[counter].altActivityImage,
+                            src:img
+                        }));    
     }
 
 /*      if(dinamicActivities[counter].streamVideo !== ""){
@@ -238,7 +243,7 @@ export const Activity = React.forwardRef((props, ref) => {
                 //avaible Input type == 'range' || type=='text' a/v || type=="file"
             return e("div",null ,             
                     e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, domanda,mediaProp),
-                    e(inputType, { domanda: domanda, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId, disabled: disabled, setDisabled: setDisabled}
+                    e(inputType, { domanda: domanda,server: props.server, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId, disabled: disabled, setDisabled: setDisabled}
                 ));
     }
 }

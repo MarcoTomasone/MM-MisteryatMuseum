@@ -1,15 +1,30 @@
 const e = React.createElement;
 
+/**init import JSON structure
+ * @param activityList to push the first activity 
+ * @return data object
+ */
+export function init(activityList,story,server){
+   
+    const temp = readJSON(server,story);
+    const data = JSON.parse(temp);
+    data.activities.unshift(data.firstActivity);
+    data.activities.push(data.lastActivity);
+    data.activities.push(data.lastActivity);
+    activityList.push(data.activities[0]);
+    return data;
+}
+
 /**
  * Import JSON files
  * @param file : file to import
  * @returns a file JSON
  */
 
-export function readJSON(story) {
+export function readJSON(server,story) {
     let title = story + ".json";
     let request = new XMLHttpRequest();
-    request.open('GET', `http://localhost:8000/requestJson/${title}`, false);
+    request.open('GET', `${server}/requestJson/${title}`, false);
     request.send(null);
     //console.log(request.responseText);
     if (request.status == 200)

@@ -23,38 +23,38 @@ function ButtonType(props){
         if(props.v[props.counter].widgetType === "Vero o falso"){
 
             ListButtonAnswer.push(
-                    e("button", {
-                        role:'button',
-                        key:"BtnTrue",
-                        style:(props.lastAnswer===1)? buttSelect:buttProp,
-                        id:"btnTrue",
-                        alt:"Vero", 
-                        onClick: () => props.checkButton(1,props.v,props.counter,props.setLastAnswer,props.json)
-                    },"VERO"));
+                e("button", {
+                    role:'button',
+                    key:"BtnTrue",
+                    style:(props.lastAnswer===1)? buttSelect:buttProp,
+                    id:"btnTrue",
+                    alt:"Vero", 
+                    onClick: () => props.checkButton(1,props.v,props.counter,props.setLastAnswer,props.json)
+                },"VERO"));
 
-                    ListButtonAnswer.push(
-                    e("button", {
-                        key:"BtnFalse",
-                        role:'button',
-                        style: (props.lastAnswer===0)? buttSelect:buttProp,
-                        id:"btnFalse",
-                        alt:"Falso", 
-                        onClick: () => props.checkButton(0,props.v,props.counter,props.setLastAnswer,props.json)
-                    },"FALSO"));
+                ListButtonAnswer.push(
+                e("button", {
+                    key:"BtnFalse",
+                    role:'button',
+                    style: (props.lastAnswer===0)? buttSelect:buttProp,
+                    id:"btnFalse",
+                    alt:"Falso", 
+                    onClick: () => props.checkButton(0,props.v,props.counter,props.setLastAnswer,props.json)
+                },"FALSO"));
             
 
         }else if (props.v[props.counter].widgetType === "Quattro opzioni"){
             
             for (let i = 0; i < props.answer.length; i++) {      
                 ListButtonAnswer.push(
-                    e("button", {
-                        role: "button", 
-                        key:"Btn"+ i,
-                        style: (i != props.lastAnswer)? buttProp:buttSelect,
-                        id:"btn"+ i,
-                        alt:"bottone : "+props.answer[i].text, 
-                        onClick: () => props.checkButton(i,props.v,props.counter,props.setLastAnswer,props.json)
-                    }, props.answer[i].text));
+                e("button", {
+                    role: "button", 
+                    key:"Btn"+ i,
+                    style: (i != props.lastAnswer)? buttProp:buttSelect,
+                    id:"btn"+ i,
+                    alt:"bottone : "+props.answer[i].text, 
+                    onClick: () => props.checkButton(i,props.v,props.counter,props.setLastAnswer,props.json)
+                }, props.answer[i].text));
             }
 
         }else if(props.v[props.counter].widgetType === "Scelta multipla" ){
@@ -62,7 +62,8 @@ function ButtonType(props){
         
             for(let i = 0 ; i< props.v[props.counter].multipleAnswers.length ; i++){
                 optionVector.push(e("option",
-                                    {key:'answer'+ props.v[props.counter].multipleAnswers[i].text,
+                                    {
+                                        key:'answer'+ props.v[props.counter].multipleAnswers[i].text,
                                         id:'option'+i,
                                         value:i,
                                         alt:props.v[props.counter].multipleAnswers[i].text
@@ -70,11 +71,12 @@ function ButtonType(props){
                                     props.v[props.counter].multipleAnswers[i].text));
             }
     
-            ListButtonAnswer.push(e("select",{
-                id:"multipleAnswerId",
-                style:{width:'80%',height:'30%',marginTop:'20px'},
-                onChange:()=>props.checkButton(document.getElementById("multipleAnswerId").value,props.v,props.counter,props.setLastAnswer,props.json)},
-                optionVector));
+            ListButtonAnswer.push(
+                e("select",{
+                    id:"multipleAnswerId",
+                    style:{width:'80%',height:'30%',marginTop:'20px'},
+                    onChange:()=>props.checkButton(document.getElementById("multipleAnswerId").value,props.v,props.counter,props.setLastAnswer,props.json)},
+                    optionVector));
             }       
 
 

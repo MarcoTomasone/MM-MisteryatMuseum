@@ -154,7 +154,7 @@ function App2() {
                     ])
                 ]),
             ]),*/
-            e(Activity, {counter:counter,server: server,setCounter:setCounter, ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints, story : "Matteo_6"}),
+            e(Activity, {counter:counter,server: server,setCounter:setCounter, ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints, story : story}),
             e(Slide, {in: slideChat, direction: "left", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container"}), //div di arrivo delle risposte da valutare

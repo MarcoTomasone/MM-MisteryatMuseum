@@ -109,10 +109,12 @@ module.exports = function(io) {
             socket.on('finish', data => {
                 const story = data.story;
                 const player = data.id;
-                storiesActive[story][player].finished = true;
-                if(arrayEvaluations[player] && arrayEvaluations[player].length == 0) {
-                    createFile(player, story);
-                    deletePlayer(player, story);
+                if(storiesActive[story][player]){
+                    storiesActive[story][player].finished = true;
+                    if(!arrayEvaluations[player] || (arrayEvaluations[player] && arrayEvaluations[player].length == 0)) {
+                        createFile(player, story);
+                        deletePlayer(player, story);
+                    }
                 }
             });
         }

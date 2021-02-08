@@ -84,6 +84,7 @@ function Realize_FL_Activity(props){
             document.getElementById("mediaDiv").classList.add("hiddenClass")
             document.getElementById("mediaDiv").setAttribute("src", ``)       
         } else {
+            
             document.getElementById("mediaDiv").classList.remove("hiddenClass")
             document.getElementById("mediaDiv").style.borderRadius =  `${props.story.player.borderRadiusFrame}px` 
             document.getElementById("mediaDiv").setAttribute("src", `../../server/upload/${activity.activityImage}`)

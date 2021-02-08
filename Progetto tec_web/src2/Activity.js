@@ -41,6 +41,12 @@ export const Activity = React.forwardRef((props, ref) => {
             let actual = dinamicActivities[counter];        
             let questionIndex = activities.indexOf(dinamicActivities[counter]);
             if(dinamicActivities[counter] === props.json.lastActivity){
+                now = new Date();
+                const date = new Date(0);
+                seconds = Math.trunc ( (now.getTime() - startDate.getTime()) / 1000 );
+                date.setSeconds(seconds);
+                const timeString = date.toISOString().substr(11, 8);
+                sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, timeString, props.story, 0);
                 let final = props.json.lastActivity;
                 final.activityText= "Grazie per aver giocato :)";
                 dinamicActivities.push(final);
@@ -53,8 +59,6 @@ export const Activity = React.forwardRef((props, ref) => {
                     seconds = Math.trunc ( (now.getTime() - startDate.getTime()) / 1000 );
                     date.setSeconds(seconds);
                     const timeString = date.toISOString().substr(11, 8);
-                    console.log(timeString)
-                    console.log(seconds)
                     switch(dinamicActivities[counter].widgetType){
                         case "" || "Nessuno":
                             correctAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);

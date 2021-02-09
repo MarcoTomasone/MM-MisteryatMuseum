@@ -46,50 +46,81 @@ function Realize_FL_Activity(props){
         widgetType      : "Nessuno",
         correctAnswerGo : props.activity.correctAnswerGo,
     })
+    const [imageBackground, setImageBackground] = React.useState(null)
+    const [imageActivity, setImageActivity] = React.useState(null)
 
-    function addImage(e){
+
+    function addBackgroundImage(e){
         e.preventDefault()
-        console.log(e.target.name)
         const formData = new FormData();
         formData.append("file", e.target.files[0])
-        var extension = e.target.files[0].type.split("/")[1]
-        setActivity({...activity, [e.target.name]: `${props.story.id}_${e.target.name}.${extension}`});
-        axios.post(`http://localhost:8000/addImage/${props.story.id}/${e.target.name}`, formData, {
-            headers:{ "Content-Type": "multipart/form-data" }
-        })
-        .catch(error => {
-            if (error.response.status === 500) console.log("Errore con il server")
-            else console.log(error)
-        })
+        setImageBackground(formData)
+        var extension = e.target.files[0].name.split('.').pop();
+        setActivity({...activity, ["backgroundImage"]: `${props.story.id}_${props.indexActivity}_background.${extension}`});
+        var reader = new FileReader();
+        reader.onload = function(){
+            document.getElementById("phoneImage").setAttribute("src", reader.result)
+            document.getElementById("phoneImage").classList.remove("hiddenClass")
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+    function addActivityImage(e){
+        e.preventDefault()
+        const formData = new FormData();
+        formData.append("file", e.target.files[0])
+        setImageActivity(formData)
+        var extension = e.target.files[0].name.split('.').pop();
+        setActivity({...activity, ["activityImage"]: `${props.story.id}_${props.indexActivity}_activity.${extension}`});
+        var reader = new FileReader();
+        reader.onload = function(){
+            document.getElementById("mediaDiv").classList.remove("hiddenClass")
+            document.getElementById("mediaDiv").style.borderRadius =  `${props.story.player.borderRadiusFrame}px` 
+            document.getElementById("mediaDiv").setAttribute("src",  reader.result)
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+
+    function deleteBackgroundImage(){
+        if (activity.backgroundImage != ""){
+            axios.delete(`http://localhost:8000/deleteImage/${activity.backgroundImage}`)
+            .then(()=>{
+                setImageBackground(null)
+                setActivity({...activity, ["backgroundImage"]: ``});
+                if (props.story.player.backgroundImage == ""){
+                    document.getElementById("phoneImage").classList.add("hiddenClass")
+                    document.getElementById("phoneImage").setAttribute("src", ``)        }
+                else {
+                    document.getElementById("phoneImage").classList.remove("hiddenClass")
+                    document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.story.player.backgroundImage}`)
+                }    
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
+    }
+
+    function deleteActivityImage(){
+        if (activity.activityImage != ""){
+            axios.delete(`http://localhost:8000/deleteImage/${activity.activityImage}`)
+            .then(()=>{
+                setImageBackground(null)
+                setActivity({...activity, ["activityImage"]: ``});
+                document.getElementById("mediaDiv").classList.add("hiddenClass")
+                document.getElementById("mediaDiv").setAttribute("src", ``)  
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
     }
 
     function updateField(e){
         setActivity({...activity, [e.target.name]: e.target.value});
     };
 
-    function updateImage(){
-        if (activity.backgroundImage == ""){
-            if (props.story.player.backgroundImage == ""){
-                document.getElementById("phoneImage").classList.add("hiddenClass")
-                document.getElementById("phoneImage").setAttribute("src", ``)        }
-            else {
-                document.getElementById("phoneImage").classList.remove("hiddenClass")
-                document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.story.player.backgroundImage}`)
-            }    
-        } else {
-            document.getElementById("phoneImage").classList.remove("hiddenClass")
-            document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${activity.backgroundImage}`)
-        }
-        if (activity.activityImage == ""){
-            document.getElementById("mediaDiv").classList.add("hiddenClass")
-            document.getElementById("mediaDiv").setAttribute("src", ``)       
-        } else {
-            
-            document.getElementById("mediaDiv").classList.remove("hiddenClass")
-            document.getElementById("mediaDiv").style.borderRadius =  `${props.story.player.borderRadiusFrame}px` 
-            document.getElementById("mediaDiv").setAttribute("src", `../../server/upload/${activity.activityImage}`)
-        }
-    }
 
     React.useEffect(() => {
         document.getElementById("inputDiv").classList.add("hiddenClass")
@@ -98,17 +129,34 @@ function Realize_FL_Activity(props){
     React.useEffect(() => {
         document.getElementById("phoneText").style.height             = `${activity.heightFrame}px`;
         document.getElementById("textDiv").innerHTML                  =    activity.activityText;
-        updateImage()
     }, [activity])
 
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = props.title
         setActivity(props.activity)
+	console.log(props.activity.backgroundImage)
+        if (props.activity.backgroundImage != ""){
+            document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.activity.backgroundImage}`)
+            document.getElementById("phoneImage").classList.remove("hiddenClass")
+        } else {
+            if (props.story.player.backgroundImage == ""){
+                document.getElementById("phoneImage").classList.add("hiddenClass")
+                document.getElementById("phoneImage").setAttribute("src", ``)        }
+            else {
+                document.getElementById("phoneImage").classList.remove("hiddenClass")
+                document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.story.player.backgroundImage}`)
+            }
+        }
+        if (props.activity.activityImage != ""){
+            document.getElementById("mediaDiv").setAttribute("src", `../../server/upload/${props.activity.activityImage}`)
+            document.getElementById("mediaDiv").classList.remove("hiddenClass")
+        } else{
+            document.getElementById("mediaDiv").classList.add("hiddenClass")
+            document.getElementById("mediaDiv").setAttribute("src", ``)  
+        }
     }, [props.indexActivity])
 
-
     function createActivity(){
-        var oldStory = props.story;
         var tmp = {
             heightFrame     : parseInt(activity.heightFrame),
             activityText    : activity.activityText,
@@ -118,6 +166,25 @@ function Realize_FL_Activity(props){
             widgetType      : "Nessuno",
             correctAnswerGo : activity.correctAnswerGo,
         };
+        props.setStory({...props.story, [props.indexActivity]: tmp} )
+        if (imageBackground != null){
+            axios.post(`http://localhost:8000/addImage/${props.story.id}/${props.indexActivity}_background`, imageBackground, {
+                headers:{ "Content-Type": "multipart/form-data" }
+            })
+            .catch(error => {
+                if (error.response.status === 500) console.log("Errore con il server")
+                else console.log(error)
+            })
+        }
+        if (imageActivity != null){
+            axios.post(`http://localhost:8000/addImage/${props.story.id}/${props.indexActivity}_activity`, imageActivity, {
+                headers:{ "Content-Type": "multipart/form-data" }
+            })
+            .catch(error => {
+                if (error.response.status === 500) console.log("Errore con il server")
+                else console.log(error)
+            })
+        }
     }
         
 
@@ -131,7 +198,7 @@ function Realize_FL_Activity(props){
 
             e("p", null, "IMMAGINE SFONDO"),
             e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "background_image", className: classes.hide, name: `${props.indexActivity}_background`, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addImage}),
+                e("input", {id: "background_image", className: classes.hide, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addBackgroundImage}),
                 e("label", {htmlFor:"background_image"}, [
                     e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
                         e(Icon, {children: "image"}),  
@@ -141,10 +208,7 @@ function Realize_FL_Activity(props){
             ]),
             e("div", {className: "sx_realize_option"}, [
                 e("label", {htmlFor:"delete_background_image"}, [
-                    e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: () => {
-                        axios.delete(`http://localhost:8000/deleteImage/${activity.backgroundImage}`);
-                        setActivity({...activity, ["backgroundImage"]: ""});
-                    }}, 
+                    e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteBackgroundImage}, 
                         e(Icon, {children: "cancel"}),  
                     ),
                     " ELIMINA IMMAGINE"
@@ -154,7 +218,7 @@ function Realize_FL_Activity(props){
 
             e("p", null, "IMMAGINE ATTIVITA'"),
             e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "activity_image", className: classes.hide, name: `${props.indexActivity}_activity`, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addImage}),
+                e("input", {id: "activity_image", className: classes.hide, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addActivityImage}),
                 e("label", {htmlFor:"activity_image"}, [
                     e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
                         e(Icon, {children: "image"}),  
@@ -164,10 +228,7 @@ function Realize_FL_Activity(props){
             ]),
             e("div", {className: "sx_realize_option"}, [
                 e("label", {htmlFor:"delete_activity_image"}, [
-                    e(IconButton, {id: "delete_activity_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: () => {
-                        axios.delete(`http://localhost:8000/deleteImage/${activity.activityImage}`);
-                        setActivity({...activity, ["activityImage"]: ""});
-                    }}, 
+                    e(IconButton, {id: "delete_activity_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivityImage}, 
                         e(Icon, {children: "cancel"}),  
                     ),
                     " ELIMINA IMMAGINE"

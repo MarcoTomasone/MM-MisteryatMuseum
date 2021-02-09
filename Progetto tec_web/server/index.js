@@ -16,7 +16,6 @@ app.use (express.static(path.join(__dirname,'../')));
 
 let directory = "storiesFolder";
 let dirBuf = Buffer.from(directory);
-var array = []
 
 app.get('/', (_, res) => {
     res.sendFile(path.join(__dirname, '../', 'index.html'));
@@ -89,17 +88,17 @@ app.post('/uploadImg', (req, res) => {
 app.get(`/idNumber/:username`, async (req,res)=>{
     var i = 0;
     var arrayIndex = []
-    const mypath = path.join(__dirname, `storiesFolder`);
-    var files = fs.readdirSync(mypath) 
+    const mypathDir = path.join(__dirname, `storiesFolder`);
+    var files = fs.readdirSync(mypathDir) 
     files.forEach((element, index) => {
-        var user = element.split("_")[0]
         var index = element.split("_")[1].split(".")[0]
-        if (user == req.params.username) arrayIndex.push(parseInt(index))
+        if (element.split("_")[0] == req.params.username.split("_")[0]) arrayIndex.push(parseInt(index))
     })
     arrayIndex.sort(function(a, b) {return a - b});
     for(var index = 0; index < arrayIndex.length; index++) {
         if (!(arrayIndex.includes(index))) i = index
     }
+    if (i == 0 && arrayIndex.includes(0)) i = arrayIndex.length
     res.status(200).end(JSON.stringify(i))
 })
 
@@ -112,27 +111,32 @@ app.post("/addImage/:id/:type", (req, res) => {
     const extension = path.extname(file.name)
     const name = req.params.id.split('.')[0]
     var newImage = ""
-    const mypath = path.join(__dirname, `upload`);
-    var files = fs.readdirSync(mypath)
-    
     if (req.params.type == "bckgrnd") newImage = `${name}_background${extension}`
     else newImage = `${name}_${req.params.type}${extension}`
-    files.forEach((element) =>{
-        if (element.split(".")[0] == newImage.split(".")[0]) {
-            const mypath = path.join(__dirname, `upload/${element}`);
-            fs.unlink(mypath, (err) => {if (err) throw err});
-            console.log(`Delete image \"${element}\"`)
+    const mypathDir = path.join(__dirname, `upload`);
+    var files = fs.readdirSync(mypathDir)
+    files.forEach((element) => {
+        if (element.startsWith(newImage.split('.')[0])) {
+            const mypathOldFile = path.join(__dirname, `upload/${element}`);
+            fs.unlinkSync(mypathOldFile);
         }
     })
     file.mv(`${__dirname}/upload/${newImage}`, (err) => {if (err) throw err})
     console.log(`Add image \"${newImage}\"`)
-    res.end(newImage)
+    res.status(200).end(newImage)
 })
 
 app.delete("/deleteImage/:img", (req, res) => {
-    const mypath = path.join(__dirname, `upload/${req.params.img}`);
-    fs.unlink(mypath, (err) => {if (err) throw err});
-    console.log(`Delete image \"${element}\"`)
+    const mypathDir = path.join(__dirname, `upload`);
+    var files = fs.readdirSync(mypathDir)
+    files.forEach((element) => {
+        if (element.startsWith(req.params.img.split('.')[0])) {
+            const mypath = path.join(__dirname, `upload/${element}`);
+            fs.unlinkSync(mypath);
+            console.log(`Delete image \"${req.params.img}\"`)
+        }
+    })
+    res.status(200).end()
 })
 
 //restituisce l'array di tutte le storie create dall'utente
@@ -201,72 +205,46 @@ app.get("/modifyStory/:username", (req, res) => {
 //duplicare una storia
 app.get("/duplyStory/:username", (req, res) => {
     var tmp = req.params.username.split("_")[0]
-    fs.readdir(dirBuf, (err, files) =>{
-        if (err){
-            console.log(err.message);
-        } else {
-            let i = files.length;
-            var arrayIndex = []
-            files.forEach((element, index) => {
-                var index = element.split("_")[1].split(".")[0]
-                arrayIndex.push(parseInt(index))
-            })
-            arrayIndex.sort(function(a, b) {return a - b});
-            for(var index = 0; index <= arrayIndex.length; index++) {
-                if (!(arrayIndex.includes(index))) i = index
-            }
-            const mypath = path.join(__dirname, `storiesFolder/${req.params.username}.json`);
-            fs.readFile(mypath, {encoding:'utf8', flag:'r'}, (err, data) => {
-                if (err) throw err;
-                var fileCopied = JSON.parse(data)
-                fileCopied.published = false;
-                fileCopied.id = `${tmp}_${i}`
-                const mypath = path.join(__dirname, `storiesFolder/${tmp}_${i}.json`);
-                fs.writeFile(mypath, JSON.stringify(fileCopied, null, 2), function (err) {
-                    if (err) throw err;
-                    console.log(`L'utente ${tmp} ha appena duplicato la storia ${req.params.username}`);
-                })
-            });
-        }
+    var i = 0;
+    var arrayIndex = []
+    const mypathDir = path.join(__dirname, `storiesFolder`);
+    var files = fs.readdirSync(mypathDir) 
+    files.forEach((element, index) => {
+        var index = element.split("_")[1].split(".")[0]
+        if (element.split("_")[0] == req.params.username.split("_")[0]) arrayIndex.push(parseInt(index))
     })
+    arrayIndex.sort(function(a, b) {return a - b});
+    for(var index = 0; index < arrayIndex.length; index++) {
+        if (!(arrayIndex.includes(index))) i = index
+    }
+    if (i == 0 && arrayIndex.includes(0)) i = arrayIndex.length
+    const mypathOld = path.join(__dirname, `storiesFolder/${req.params.username}.json`);
+    const data = JSON.parse(fs.readFileSync(mypathOld, {encoding:'utf8', flag:'r'}));
+    data.id = `${tmp}_${i}`
+    data.published = false;
+    const mypathNew = path.join(__dirname, `storiesFolder/${tmp}_${i}.json`);
+    fs.writeFileSync(mypathNew, JSON.stringify(data, null, 2));
+    console.log(`L'utente ${req.params.username.split("_")[0]} ha appena pubblicato la storia ${req.params.username}`)
     res.status(200).end();
 })
 
 //creare e modificare una storia
 app.post("/createStory/id", (req, res) => {
-    fs.readdir(dirBuf, (err, files) =>{
-        if (err){
-            console.log(err.message);
-        } else {
-            const mypath = path.join(__dirname, `storiesFolder/${req.body.story.id}.json`);
-            fs.writeFile(mypath, JSON.stringify(req.body.story, null, 2), function (err) {
-                if (err) throw err;
-                console.log(`L'utente ${req.body.user} ha appena aggiunto la storia ${req.body.story.id}.json`);
-            })
-        }
-    })
+    const mypath = path.join(__dirname, `storiesFolder/${req.body.story.id}.json`);
+    fs.writeFileSync(mypath, JSON.stringify(req.body.story, null, 2));
+    console.log(`L'utente ${req.body.user} ha appena aggiunto la storia ${req.body.story.id}.json`);
     res.status(200).end();
 });
 
-
-
 //pubblicare una storia
-app.post("/publishStory", (req, res) => {
-    fs.readdir(dirBuf, (err, files) =>{
-        let i = 0;
-        if (err){
-            console.log(err.message);
-        } else {
-            const mypath = path.join(__dirname, `storiesFolder/${req.body.story}.json`);
-            const data = JSON.parse(fs.readFileSync(mypath, {encoding:'utf8', flag:'r'}));
-            data.published = true;
-            fs.writeFileSync(mypath, JSON.stringify(data, null, 2));
-        }
-    })
-    console.log(`L'utente ${req.body.story.split("_")[0]} ha appena pubblicato la storia ${req.body.story}`)
+app.delete("/publishStory/:story", (req, res) => {
+    const mypath = path.join(__dirname, `storiesFolder/${req.params.story}.json`);
+    const data = JSON.parse(fs.readFileSync(mypath, {encoding:'utf8', flag:'r'}));
+    data.published = true;
+    fs.writeFileSync(mypath, JSON.stringify(data, null, 2));
+    console.log(`L'utente ${req.params.story.split("_")[0]} ha appena pubblicato la storia ${req.params.story}`)
     res.status(200).end();
 })
-
 
 
 //ritirare una storia
@@ -278,7 +256,6 @@ app.delete("/retireStory/:story", (req, res) => {
     console.log(`L'utente ${req.params.story.split("_")[0]} ha appena ritirato la storia ${req.params.story}`)
     res.status(200).end();
 })
-
 
 
 //eliminare una storia
@@ -304,8 +281,3 @@ const io = require('socket.io')(server, {cors: {origin: '*'}});
 require('./modules/socket')(io);
 
 server.listen(8000, () => console.log('Server listening behind port 8000'));
-
-
-
-
-

@@ -77,12 +77,13 @@ function Select(props){
             props.setOpenErrorDialog(true)
         }
         else {
-            axios.post('http://localhost:8000/publishStory', {story: storySelected})
+            axios.delete(`http://localhost:8000/publishStory/${storySelected}`)
             .then((response) => {
                 props.setTextErrorDialog(`Storia \"${storySelected}\" pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`);
                 props.setOpenErrorDialog(true)
             })
-            .catch((error) => console.log(error));
+            .then(() => document.getElementById(storySelected).classList.add("story_published"))
+            .catch((error) => console.log(error));  
         }
     }
     

@@ -2,7 +2,7 @@ const e = React.createElement;
 const {Button, Icon, IconButton, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, withStyles} = window['MaterialUI']; //to load the component from the library
 
 function Realize_player(props){
-    const [check, setCheck] = React.useState(true)
+    const [image, setImage] = React.useState(null)
     const [playerStyle, setPlayerStyle] = React.useState({
         background_color           :   props.story.player.background,
         backgroundImage            :   props.story.player.backgroundImage,
@@ -140,9 +140,6 @@ function Realize_player(props){
 
     React.useEffect(() => {
         document.getElementById("inputDiv").classList.add("hiddenClass")
-    }, [])
-
-    React.useEffect(() => {
         if (playerStyle.backgroundImage == ""){
             document.getElementById("phoneImage").classList.add("hiddenClass")
             document.getElementById("phoneImage").setAttribute("src", ``)        }
@@ -150,9 +147,7 @@ function Realize_player(props){
             document.getElementById("phoneImage").classList.remove("hiddenClass")
             document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${playerStyle.backgroundImage}`)
         }
-        setCheck(playerStyle.backgroundImage == "")
-    }, [playerStyle.backgroundImage])
-
+    }, [])
     
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea il layout al player (i valori sono tutti in pixel e la dimensione dello schermo è di 437 x 202, ovvero 6.1\")";
@@ -282,26 +277,45 @@ function Realize_player(props){
         props.story.player.helpButton.height            =   parseInt(playerStyle.heightHelpButton)
         props.story.player.helpButton.width             =   parseInt(playerStyle.widthHelpButton)
         props.story.player.helpButton.borderRadius      =   parseInt(playerStyle.borderRadiusHelpButton)
+        if (image != null){
+            axios.post(`http://localhost:8000/addImage/${props.story.id}/bckgrnd`, image, {
+                headers:{ "Content-Type": "multipart/form-data" }
+            })
+            .catch(error => {
+                if (error.response.status === 500) console.log("Errore con il server")
+                else console.log(error)
+            })
+        }
     }
 
     function addImage(e){
         e.preventDefault()
         const formData = new FormData();
         formData.append("file", e.target.files[0])
-        var extension = e.target.files[0].type.split("/")[1]
+        setImage(formData)
+        var extension = e.target.files[0].name.split('.').pop();
         setPlayerStyle({...playerStyle, ["backgroundImage"]: `${props.story.id}_background.${extension}`})
-        axios.post(`http://localhost:8000/addImage/${props.story.id}/bckgrnd`, formData, {
-            headers:{ "Content-Type": "multipart/form-data" }
-        })
-        .catch(error => {
-            if (error.response.status === 500) console.log("Errore con il server")
-            else console.log(error)
-        })  
+        var reader = new FileReader();
+        reader.onload = function(){
+            document.getElementById("phoneImage").setAttribute("src", reader.result)
+            document.getElementById("phoneImage").classList.remove("hiddenClass")
+        }
+        reader.readAsDataURL(e.target.files[0]);
     }
 
     function deleteImage(){
-        setPlayerStyle({...playerStyle, ["backgroundImage"]: ``})
-        axios.delete(`http://localhost:8000/deleteImage/${playerStyle.backgroundImage}`); 
+        if (playerStyle.backgroundImage != ""){
+            axios.delete(`http://site181997.tw.cs.unibo.it/deleteImage/${playerStyle.backgroundImage}`)
+            .then(()=>{
+                setImage(null)
+                setPlayerStyle({...playerStyle, ["backgroundImage"]: ``})
+                document.getElementById("phoneImage").classList.add("hiddenClass")
+                document.getElementById("phoneImage").setAttribute("src", ``) 
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
     }
 
 
@@ -342,16 +356,16 @@ function Realize_player(props){
             e("hr", null),
             e("p", null, "IMMAGINE COME SFONDO"),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "topImage", disabled: check, className: classes.input, value: playerStyle.topImage, name:"topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "topImage", disabled: playerStyle.backgroundImage == "", className: classes.input, value: playerStyle.topImage, name:"topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "leftImage", disabled: check, className: classes.input, value: playerStyle.leftImage, name:"leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "leftImage", disabled: playerStyle.backgroundImage == "", className: classes.input, value: playerStyle.leftImage, name:"leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heighImage", disabled: check, className: classes.input, value: playerStyle.heighImage, name:"heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "heighImage", disabled: playerStyle.backgroundImage == "", className: classes.input, value: playerStyle.heighImage, name:"heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthImage", disabled: check, className: classes.input, value: playerStyle.widthImage, name:"widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "widthImage", disabled: playerStyle.backgroundImage == "", className: classes.input, value: playerStyle.widthImage, name:"widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
 
             e("hr", null),

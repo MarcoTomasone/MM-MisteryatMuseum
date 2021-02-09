@@ -43,6 +43,7 @@ function Realize_FL_Activity(props){
         backgroundImage : props.activity.backgroundImage,
         activityImage   : props.activity.activityImage,
         altActivityImage: props.activity.altActivityImage,
+        streamVideo     : props.activity.streamVideo,
         widgetType      : "Nessuno",
         correctAnswerGo : props.activity.correctAnswerGo,
     })
@@ -134,7 +135,6 @@ function Realize_FL_Activity(props){
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = props.title
         setActivity(props.activity)
-	console.log(props.activity.backgroundImage)
         if (props.activity.backgroundImage != ""){
             document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.activity.backgroundImage}`)
             document.getElementById("phoneImage").classList.remove("hiddenClass")
@@ -163,6 +163,7 @@ function Realize_FL_Activity(props){
             backgroundImage : activity.backgroundImage,
             activityImage   : activity.activityImage,
             altActivityImage: activity.altActivityImage,
+            streamVideo     : activity.streamVideo,
             widgetType      : "Nessuno",
             correctAnswerGo : activity.correctAnswerGo,
         };
@@ -236,6 +237,12 @@ function Realize_FL_Activity(props){
             ]),
             e("div", {className: "sx_realize_option_description"}, [
                 e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilità", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("hr", null),
+            
+            e("p", null, "VIDEO YOUTUBE"),
+            e("div", {className: "sx_realize_option_description"}, [
+                e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
 

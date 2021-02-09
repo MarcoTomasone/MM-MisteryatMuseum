@@ -94,6 +94,7 @@ function Realize_activity(props){
         backgroundImage         :   "",
         activityImage           :   "",
         altActivityImage        :   "",
+        streamVideo             :   "",
         topInput                :   320,
         leftInput               :   15,
         heightInput             :   60,
@@ -392,6 +393,7 @@ function Realize_activity(props){
                 backgroundImage         :   activity.backgroundImage,
                 activityImage           :   activity.activityImage,
                 altActivityImage        :   activity.altActivityImage,
+                streamVideo             :   activity.streamVideo,
                 widgetType              :   activity.widgetType,
                 topInput                :   activity.topInput,
                 leftInput               :   activity.leftInput,
@@ -685,6 +687,12 @@ function Realize_activity(props){
             ]),
             e("div", {className: "sx_realize_option_description"}, [
                 e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilità", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("hr", null),
+
+            e("p", null, "VIDEO YOUTUBE"),
+            e("div", {className: "sx_realize_option_description"}, [
+                e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
 

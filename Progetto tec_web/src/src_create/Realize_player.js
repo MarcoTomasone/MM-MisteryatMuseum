@@ -25,6 +25,8 @@ function Realize_player(props){
         backgroundColorInputDiv    :   props.story.player.inputDiv.backgroundColor,
         frameColorInputDiv         :   props.story.player.inputDiv.frameColor,
         textColorInputDiv          :   props.story.player.inputDiv.textColor,
+        borderRadiusInputDiv       :   props.story.player.inputDiv.borderRadius,
+
         backgroundColorScoreDiv    :   props.story.player.scoreDiv.backgroundColor,
         frameColorScoreDiv         :   props.story.player.scoreDiv.frameColor,
         textColorScoreDiv          :   props.story.player.scoreDiv.textColor,
@@ -32,6 +34,7 @@ function Realize_player(props){
         leftScoreDiv               :   props.story.player.scoreDiv.left,
         heightScoreDiv             :   props.story.player.scoreDiv.height,
         widthScoreDiv              :   props.story.player.scoreDiv.width,
+        borderRadiusScoreDiv       :   props.story.player.scoreDiv.borderRadius,
         backgroundColorNextButton  :   props.story.player.nextButton.backgroundColor,
         frameColorNextButton       :   props.story.player.nextButton.frameColor,
         textColorNextButton        :   props.story.player.nextButton.textColor,
@@ -174,6 +177,7 @@ function Realize_player(props){
         document.getElementById("scoreDiv").style.left              =   `${playerStyle.leftScoreDiv}px`
         document.getElementById("scoreDiv").style.height            =   `${playerStyle.heightScoreDiv}px`
         document.getElementById("scoreDiv").style.width             =   `${playerStyle.widthScoreDiv}px`
+        document.getElementById("scoreDiv").style.borderRadius      =   `${playerStyle.borderRadiusScoreDiv}px`
         document.getElementById("scoreDiv").style.fontFamily        =      playerStyle.fontFamily
 
         document.getElementById("nextButton").style.backgroundColor =      playerStyle.backgroundColorNextButton
@@ -214,7 +218,7 @@ function Realize_player(props){
                 document.getElementById(element).style.borderColor       =      playerStyle.frameColorInputDiv
                 document.getElementById(element).style.color             =      playerStyle.textColorInputDiv
                 document.getElementById(element).style.fontFamily        =      playerStyle.fontFamily
-                document.getElementById(element).style.borderRadius      =     `${playerStyle.borderRadiusNextButton}px`
+                document.getElementById(element).style.borderRadius      =     `${playerStyle.borderRadiusInputDiv}px`
             }
         })
         if (document.getElementById("circleDiv") != undefined) document.getElementById("circleDiv").style.color            =      playerStyle.textColorInputDiv
@@ -246,6 +250,7 @@ function Realize_player(props){
         props.story.player.inputDiv.backgroundColor     =   playerStyle.backgroundColorInputDiv
         props.story.player.inputDiv.frameColor          =   playerStyle.frameColorInputDiv
         props.story.player.inputDiv.textColor           =   playerStyle.textColorInputDiv
+        props.story.player.inputDiv.borderRadius        =   parseInt(playerStyle.borderRadiusInputDiv)
         props.story.player.scoreDiv.backgroundColor     =   playerStyle.backgroundColorScoreDiv
         props.story.player.scoreDiv.frameColor          =   playerStyle.frameColorScoreDiv
         props.story.player.scoreDiv.textColor           =   playerStyle.textColorScoreDiv
@@ -253,6 +258,7 @@ function Realize_player(props){
         props.story.player.scoreDiv.left                =   parseInt(playerStyle.leftScoreDiv)
         props.story.player.scoreDiv.height              =   parseInt(playerStyle.heightScoreDiv)
         props.story.player.scoreDiv.width               =   parseInt(playerStyle.widthScoreDiv)
+        props.story.player.scoreDiv.borderRadius        =   parseInt(playerStyle.borderRadiusScoreDiv)
         props.story.player.nextButton.backgroundColor   =   playerStyle.backgroundColorNextButton
         props.story.player.nextButton.frameColor        =   playerStyle.frameColorNextButton
         props.story.player.nextButton.textColor         =   playerStyle.textColorNextButton
@@ -468,7 +474,10 @@ function Realize_player(props){
                     ),
                     " COLORE DEL TESTO"
                 ]),
-            ]),       
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "borderRadiusInputDiv", className: classes.input, value: playerStyle.borderRadiusInputDiv, name:"borderRadiusInputDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),    
             e("hr", null),
 
             e("p", null, "SEZIONE PUNTEGGIO"),
@@ -510,6 +519,9 @@ function Realize_player(props){
             ]),
             e("div", {className: "sx_realize_option"}, [
                 e(TextField, {id: "widthScoreDiv", className: classes.input, value: playerStyle.widthScoreDiv, name:"widthScoreDiv", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            ]),
+            e("div", {className: "sx_realize_option"}, [
+                e(TextField, {id: "borderRadiusScoreDiv", className: classes.input, value: playerStyle.borderRadiusScoreDiv, name:"borderRadiusScoreDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
 

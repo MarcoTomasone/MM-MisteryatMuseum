@@ -29,6 +29,7 @@
     "textColor": "#ffffff",
     "textBackgroundColorActived": false,
     "textBackgroundColor": "#000000",
+    "textBackgroundColorOpaciy":0,
     "fontFamily": "Arial",
     "sizeFont": 14,
     "weightFont": 500,
@@ -87,6 +88,7 @@
   },
   "firstActivity": {
     "heightFrame": 160,
+    "streamVideo":"",
     "activityText": "Questa é un attivita introduttiva",
     "backgroundImage": "",
     "activityImage": "",
@@ -101,6 +103,7 @@
     "activityText": "Questa é l'attivitá conclusiva",
     "backgroundImage": "",
     "activityImage": "",
+    "streamVideo":"",
     "altActivityImage": "",
     "widgetType": "Nessuno",
     "correctAnswerGo": []
@@ -115,6 +118,7 @@
       "altActivityImage": "TEst",
       "widgetType": "Scelta multipla",
       "topInput": 320,
+      "streamVideo":"",
       "leftInput": 15,
       "heightInput": 60,
       "widthInput": 170,
@@ -168,5 +172,13 @@
       "activityIsUsed": true,
       "firstActivity": true
     }
-  ]
+  ],
+  "finalMessage":{
+    "message1":"lessThan",
+    "range1":[-100000,0],
+    "message2":"Equals",
+    "range2":[0,100],
+    "message3":"GreatherThan",
+    "range3":[101,11110]    
+  }
 }

@@ -27,8 +27,9 @@
     "weightFrame": 3,
     "borderRadiusFrame": 13,
     "textColor": "#ffffff",
-    "textBackgroundColorActived": false,
+    "textBackgroundColorActived": true,
     "textBackgroundColor": "#000000",
+    "textBackgroundColorOpacity":30,
     "fontFamily": "Yanone Kaffeesatz",
     "sizeFont": 18,
     "weightFont": 500,
@@ -302,5 +303,13 @@
       "activityIsUsed": true,
       "firstActivity": false
     }
-  ]
+  ],
+  "finalMessage":{
+    "message1":"",
+    "range1":[-100000,0],
+    "message2":"",
+    "range2":[0,100],
+    "message3":"",
+    "range3":[101,11110]    
+  }
 }

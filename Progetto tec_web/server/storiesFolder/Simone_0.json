@@ -29,6 +29,7 @@
     "textColor": "#ffffff",
     "textBackgroundColorActived": false,
     "textBackgroundColor": "#000000",
+    "textBackgroundColorOpaciy":0,
     "fontFamily": "Arial",
     "sizeFont": 14,
     "weightFont": 500,
@@ -91,6 +92,7 @@
     "backgroundImage": "",
     "activityImage": "",
     "widgetType": "Nessuno",
+    "streamVideo":"",
     "altActivityImage": "",
     "correctAnswerGo": ["test1"]
   },
@@ -101,6 +103,7 @@
     "backgroundImage": "",
     "activityImage": "",
     "altActivityImage": "",
+    "streamVideo":"",
     "correctAnswerGo": []
   },
   "activities": [
@@ -117,6 +120,7 @@
       "heightInput": 60,
       "widthInput": 170,
       "errorMessage": "",
+      "streamVideo":"",
       "fourAnswers": [],
       "multipleAnswers": [],
       "trueFalseAnswer": {
@@ -156,6 +160,7 @@
       "heightInput": 60,
       "widthInput": 170,
       "errorMessage": "",
+      "streamVideo":"",
       "fourAnswers": [],
       "multipleAnswers": [],
       "trueFalseAnswer": {
@@ -190,6 +195,7 @@
       "widgetType": "Quattro opzioni",
       "topInput": 320,
       "leftInput": 15,
+      "streamVideo":"",
       "heightInput": 60,
       "widthInput": 170,
       "errorMessage": "",
@@ -239,6 +245,7 @@
       "heightFrame": 160,
       "activityText": "Zac Efron é il protagonista di Baywatch",
       "backgroundImage": "",
+      "streamVideo":"",
       "activityImage": "",
       "altActivityImage": "Baywatch",
       "widgetType": "Vero o falso",
@@ -276,6 +283,7 @@
       "backgroundImage": "",
       "activityImage": "",
       "altActivityImage": "",
+      "streamVideo":"",
       "widgetType": "Input testuale automatico",
       "topInput": 320,
       "leftInput": 15,
@@ -306,5 +314,13 @@
       "activityIsUsed": false,
       "firstActivity": false
     }
-  ]
+  ],
+  "finalMessage":{
+    "message1":"lessThan",
+    "range1":[-100000,0],
+    "message2":"Equals",
+    "range2":[0,100],
+    "message3":"GreatherThan",
+    "range3":[101,11110]    
+  }
 }

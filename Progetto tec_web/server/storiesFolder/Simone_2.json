@@ -29,6 +29,7 @@
     "textColor": "#ffffff",
     "textBackgroundColorActived": true,
     "textBackgroundColor": "#b13939",
+    "textBackgroundColorOpaciy":0,
     "fontFamily": "Arial",
     "sizeFont": 14,
     "weightFont": 500,
@@ -90,6 +91,7 @@
     "activityText": "Ciao questa é un'attivita introduttiva",
     "backgroundImage": "",
     "activityImage": "",
+    "streamVideo":"",
     "altActivityImage": "",
     "widgetType": "Nessuno",
     "correctAnswerGo": [
@@ -101,6 +103,7 @@
     "activityText": "Ciao questa é un'attivitá conclusiva",
     "backgroundImage": "",
     "activityImage": "",
+    "streamVideo":"",
     "altActivityImage": "",
     "widgetType": "Nessuno",
     "correctAnswerGo": []
@@ -112,6 +115,7 @@
       "activityText": "Ciao Iniziamo",
       "backgroundImage": "",
       "activityImage": "",
+      "streamVideo":"",
       "altActivityImage": "",
       "widgetType": "Nessuno",
       "topInput": 320,
@@ -150,6 +154,7 @@
       "backgroundImage": "",
       "activityImage": "",
       "altActivityImage": "",
+      "streamVideo":"",
       "widgetType": "Quattro opzioni",
       "topInput": "343",
       "leftInput": 15,
@@ -208,6 +213,7 @@
       "topInput": "341",
       "leftInput": 15,
       "heightInput": "50",
+      "streamVideo":"",
       "widthInput": 170,
       "errorMessage": "",
       "fourAnswers": [
@@ -262,6 +268,7 @@
       "topInput": "341",
       "leftInput": 15,
       "heightInput": "50",
+      "streamVideo":"",
       "widthInput": 170,
       "errorMessage": "Hai sbagliato risposta",
       "fourAnswers": [
@@ -311,6 +318,7 @@
       "activityText": "Inserisci testo ",
       "backgroundImage": "",
       "activityImage": "",
+      "streamVideo":"",
       "altActivityImage": "",
       "widgetType": "Input testuale automatico",
       "topInput": "341",
@@ -359,5 +367,13 @@
       "activityIsUsed": false,
       "firstActivity": false
     }
-  ]
+  ],
+  "finalMessage":{
+    "message1":"lessThan",
+    "range1":[-100000,0],
+    "message2":"Equals",
+    "range2":[0,100],
+    "message3":"GreatherThan",
+    "range3":[101,11110]    
+  }
 }

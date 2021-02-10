@@ -1,7 +1,7 @@
 import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import { sendData, postOnServer} from './dataHandler.js';
-import {correctAnswerAction,wrongAnswerAction,mustAnswer,checkButton} from './utilsActivity.js'
+import {correctAnswerAction,wrongAnswerAction,mustAnswer,checkButton,getFinalMessage} from './utilsActivity.js'
 import { getButtonNextProperty,getDivBorder,getTextStyle } from './style.js';
 const e = React.createElement;
 let timer; 
@@ -41,14 +41,16 @@ export const Activity = React.forwardRef((props, ref) => {
             let actual = dinamicActivities[counter];        
             let questionIndex = activities.indexOf(dinamicActivities[counter]);
             if(dinamicActivities[counter] === props.json.lastActivity){
-                now = new Date();
+                /*now = new Date();
                 const date = new Date(0);
                 seconds = Math.trunc ( (now.getTime() - startDate.getTime()) / 1000 );
                 date.setSeconds(seconds);
                 const timeString = date.toISOString().substr(11, 8);
-                sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, timeString, props.story, 0);
+                *///sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, timeString, props.story, 0);
                 let final = props.json.lastActivity;
-                final.activityText= "Grazie per aver giocato :)";
+                
+                final.activityText= getFinalMessage(props.points,props.json.finalMessage);
+
                 dinamicActivities.push(final);
 
             }
@@ -229,7 +231,7 @@ export const Activity = React.forwardRef((props, ref) => {
      */
     if (dinamicActivities[counter].widgetType === "Nessuno" || !dinamicActivities[counter].hasOwnProperty('widgetType')){   
         return e("div",null,
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder}, dinamicActivities[counter].activityText , mediaProp),
+                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder},dinamicActivities[counter].activityText , mediaProp),
                     e("button", {role: "button", key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "SUCCESSIVO")
                 );
 

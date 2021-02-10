@@ -29,6 +29,7 @@
     "textColor": "#ffffff",
     "textBackgroundColorActived": false,
     "textBackgroundColor": "#000000",
+    "textBackgroundColorOpaciy":0,
     "fontFamily": "Arial",
     "sizeFont": 14,
     "weightFont": 500,
@@ -89,6 +90,7 @@
     "heightFrame": 160,
     "activityText": "Prova",
     "backgroundImage": "",
+    "streamVideo":"",
     "activityImage": "",
     "altActivityImage": "Descrizione",
     "widgetType": "Nessuno",
@@ -112,6 +114,7 @@
       "activityText": "Questa é la descrizione della storia",
       "backgroundImage": "",
       "activityImage": "",
+      "streamVideo":"",
       "altActivityImage": "",
       "widgetType": "Quattro opzioni",
       "topInput": 320,
@@ -162,6 +165,7 @@
     },
     {
       "title": "Test2",
+      "streamVideo":"",
       "heightFrame": 160,
       "activityText": "storia 2",
       "backgroundImage": "",
@@ -235,5 +239,13 @@
       "activityIsUsed": true,
       "firstActivity": true
     }
-  ]
+  ],
+  "finalMessage":{
+    "message1":"lessThan",
+    "range1":[-100000,0],
+    "message2":"Equals",
+    "range2":[0,100],
+    "message3":"GreatherThan",
+    "range3":[101,11110]    
+  }
 }

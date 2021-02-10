@@ -30,7 +30,6 @@
     "textBackgroundColorActived": true,
     "textBackgroundColor": "#000000",
     "textBackgroundColorOpacity":60,
-    "fontFamily": "Yanone Kaffeesatz",
     "sizeFont": 18,
     "weightFont": 500,
     "image": {
@@ -83,7 +82,8 @@
       "top": 40,
       "left": 10,
       "borderRadius": 10
-    }
+    },
+    "fontFamily": "Yanone Kaffeesatz"
   },
   "firstActivity": {
     "heightFrame": 160,

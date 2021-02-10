@@ -8,7 +8,7 @@ export default function Home(props){
     const uploadCard = (stories, nPlayers) => {
         const arryOfStories = [];
         stories.forEach((story) => {
-            arryOfStories.push( e(CardStory, { key: story, url: `./?#/Home/Control/${story}`, title: story, nPlayers: nPlayers[story]}) );
+            arryOfStories.push( e(CardStory, { key: story.id, url: `./?#/Home/Control/${story.id}`, title: story.title, nPlayers: nPlayers[story.id]}) );
         })
         setStories(arryOfStories);
     };
@@ -22,7 +22,7 @@ export default function Home(props){
 
     return e(React.Fragment, {key: "control_home_root"}, [
         e("div", {key: "1"}, [
-            e("h2", {key: "2", style: {marginBottom: "10px"}}, [ "Quale storia vuoi seguire ?"])
+            e("h2", {key: "2", style: {marginBottom: "10px"}}, [ "Quale storia di merda vuoi seguire ?"])
         ]),
         e("div", {key: "3"}, [ stories.length > 0 ? stories : "There are no active stories" ] )   
     ])

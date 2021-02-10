@@ -12,7 +12,26 @@ const createFile = (player, story) => {
         fs.mkdirSync(storyPath);
     fs.writeFileSync(filePath, JSON.stringify(storiesActive[story][player]));
     fs.chmodSync(filePath, 511);
-    //fs.chownSync(filePath, 511);
+}
+
+const setPlayer = () => {
+    let max = 0;
+    for(story in storiesActive) {
+        for(player in storiesActive[story]) {
+            const tmp = player.replace('player', "");
+            max = max > tmp ? max : tmp;  
+        }
+    }
+    const myPath = path.join(__dirname, '../statusFiles');
+    if(fs.existsSync(myPath)) {
+        fs.readdirSync(myPath).forEach((dir) => {
+            fs.readdirSync(`${myPath}/${dir}`).forEach((file) => {  
+                const tmp = file.split('.').slice(0, -1).join('.').replace('player', "");
+                max = max > tmp ? max : tmp;                    
+            });                    
+        });
+    }
+    return parseInt(max);
 }
 
 module.exports = function(io) {
@@ -21,7 +40,7 @@ module.exports = function(io) {
     global.arrayEvaluations = {};
     const socketPlayers = {};
     const socketEvaluator = {};
-    let nPlayer = 0;
+    let nPlayer = setPlayer();
     let nEvaluator = 0;
 
     const deletePlayer = (player, story) => {

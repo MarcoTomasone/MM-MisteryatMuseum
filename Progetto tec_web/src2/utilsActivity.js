@@ -14,7 +14,7 @@ export function correctAnswerAction(playerId,story,socket,dinamicActivities, cou
     if(actual.correctAnswerGo.length === 0){
         const last = activities.length;
         dinamicActivities.push(activities[last - 1]);
-        //socket.emit('finish', {id: playerId, story: story});
+        socket.emit('finish', {id: playerId, story: story});
         
     }else{
         let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
@@ -30,7 +30,7 @@ export function wrongAnswerAction(playerId,story,socket,dinamicActivities, count
     if(actual.wrongAnswerGo.length === 0){
         const last = activities.length;
         dinamicActivities.push(activities[last - 1]);
-        //socket.emit('finish', {id: playerId, story: story});
+        socket.emit('finish', {id: playerId, story: story});
     }else{
         let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
         console.log("Risposta Errata!");
@@ -93,6 +93,5 @@ export function checkButton(answer,dinamicActivities,counter,setLastAnswer,json)
 }
 
 export function hexToRGBA(hex, opacity) {
-    console.log(opacity);
-        return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length/3 + '})', 'g')).map(function(l) { return parseInt(hex.length%2 ? l+l : l, 16) }).concat(isFinite(opacity) ? opacity : 1).join(',') + ')';
+        return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length/3 + '})', 'g')).map(function(l) { return parseInt(hex.length %2 ? l+l : l, 16) }).concat(isFinite(opacity) ? opacity : 1).join(',') + ')';
     }

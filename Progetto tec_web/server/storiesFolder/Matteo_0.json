@@ -29,7 +29,7 @@
     "textColor": "#ffffff",
     "textBackgroundColorActived": true,
     "textBackgroundColor": "#000000",
-    "textBackgroundColorOpacity":30,
+    "textBackgroundColorOpacity":60,
     "fontFamily": "Yanone Kaffeesatz",
     "sizeFont": 18,
     "weightFont": 500,

@@ -167,7 +167,6 @@ export function getTextStyle(data){
     const tmp = {
         fontSize:data.player.sizeFont,
         textAlign:"center",
-        opacity:1,
         fontFamily:data.player.fontFamily
     }
     return tmp;

@@ -7,7 +7,7 @@ const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText,
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/player.html?story=", "");
-const story = "Simone_0";
+const story = "Matteo_0";
 
 const server = "http://localhost:8000"; //http://site181997.tw.cs.unibo.it
 //Chat

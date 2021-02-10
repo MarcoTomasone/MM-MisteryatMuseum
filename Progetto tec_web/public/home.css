@@ -34,7 +34,8 @@ a {
     min-height: 50px;
     width: 100%;
     padding: 10px;
-    font-size: 30px;
+    font-size: 40px;
+    font-weight: 500;;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,12 +68,13 @@ nav {
     border-radius: 20px;
     overflow: scroll;
 }
+
 .homeBlock h1 {
     text-align: center;
 }
 
 .homeBlock:hover{
-    background: cadetblue;
+    background: rgba(154, 163, 163, 0.671);
 }
 
 .homeBlock > *{

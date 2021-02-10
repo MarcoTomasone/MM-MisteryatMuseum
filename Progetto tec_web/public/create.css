@@ -550,7 +550,7 @@
     border: solid 1px rgb(141, 141, 141);
 }
 .card_backrgound{
-    opacity: 0.4;
+    opacity: 0.8;
 }
 .card_backrgound, .card_content{
     height: 100%;
@@ -695,4 +695,8 @@ div[id='Range div']{
     justify-content: center;
     align-items: center;
     overflow: hidden;
+}
+
+#qr-code{
+    cursor: pointer;
 }

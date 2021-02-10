@@ -12,6 +12,7 @@ function Realize_player(props){
         widthImage                 :   props.story.player.image.width,
         textBackgroundColorActived :   props.story.player.textBackgroundColorActived,
         textBackgroundColor        :   props.story.player.textBackgroundColor,
+        textBackgroundColorOpacity :   props.story.player.textBackgroundColorOpacity,
         frameColor                 :   props.story.player.frameColor,
         textColor                  :   props.story.player.textColor,
         topFrame                   :   props.story.player.topFrame,
@@ -151,6 +152,10 @@ function Realize_player(props){
             document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${playerStyle.backgroundImage}`)
         }
     }, [])
+
+    function hexToRGBA(hex, opacity) {
+        return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length/3 + '})', 'g')).map(function(l) { return parseInt(hex.length%2 ? l+l : l, 16) }).concat(isFinite(opacity) ? opacity : 1).join(',') + ')';
+    }
     
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea il layout al player (i valori sono tutti in pixel e la dimensione dello schermo è di 437 x 202, ovvero 6.1\")";
@@ -160,16 +165,15 @@ function Realize_player(props){
         document.getElementById("phoneImage").style.height          =   `${playerStyle.heighImage}px`
         document.getElementById("phoneImage").style.width           =   `${playerStyle.widthImage}px`
         document.getElementById("phoneText").style.borderColor      =      playerStyle.frameColor
-        document.getElementById("phoneText").style.color            =      playerStyle.textColor
         document.getElementById("phoneText").style.top              =   `${playerStyle.topFrame}px`
         document.getElementById("phoneText").style.left             =   `${playerStyle.leftFrame}px`
         document.getElementById("phoneText").style.width            =   `${playerStyle.widthFrame}px`
         document.getElementById("phoneText").style.borderWidth      =   `${playerStyle.weightFrame}px`
         document.getElementById("phoneText").style.borderRadius     =   `${playerStyle.borderRadiusFrame}px`
-        document.getElementById("phoneText").style.fontFamily       =      playerStyle.fontFamily
-        document.getElementById("phoneText").style.fontSize         =   `${playerStyle.sizeFont}px`
-        document.getElementById("phoneText").style.fontWeight       =      playerStyle.weightFont
-
+        document.getElementById("textDiv").style.color              =      playerStyle.textColor
+        document.getElementById("textDiv").style.fontFamily         =      playerStyle.fontFamily
+        document.getElementById("textDiv").style.fontSize           =   `${playerStyle.sizeFont}px`
+        document.getElementById("textDiv").style.fontWeight         =      playerStyle.weightFont
         document.getElementById("scoreDiv").style.backgroundColor   =      playerStyle.backgroundColorScoreDiv
         document.getElementById("scoreDiv").style.borderColor       =      playerStyle.frameColorScoreDiv
         document.getElementById("scoreDiv").style.color             =      playerStyle.textColorScoreDiv
@@ -209,7 +213,7 @@ function Realize_player(props){
         document.getElementById("helpButton").style.width           =   `${playerStyle.widthHelpButton}px`
         document.getElementById("helpButton").style.borderRadius    =   `${playerStyle.borderRadiusHelpButton}px`
         document.getElementById("helpButton").style.fontFamily        =      playerStyle.fontFamily
-        if (playerStyle.textBackgroundColorActived) document.getElementById("phoneText").style.backgroundColor  =      playerStyle.textBackgroundColor
+        if (playerStyle.textBackgroundColorActived) document.getElementById("phoneText").style.backgroundColor  =           hexToRGBA(playerStyle.textBackgroundColor, parseInt(playerStyle.textBackgroundColorOpacity)/100)
         else document.getElementById("phoneText").style.backgroundColor  =      "transparent"
         const array = ["option1", "option2", "option3", "option4", "option5", "option6", "option7", "option8", "option9"]
         array.forEach(element => {
@@ -237,6 +241,7 @@ function Realize_player(props){
         props.story.player.image.width                  =   parseInt(playerStyle.widthImage)
         props.story.player.textBackgroundColorActived   =   playerStyle.textBackgroundColorActived
         props.story.player.textBackgroundColor          =   playerStyle.textBackgroundColor
+        props.story.player.textBackgroundColorOpacity   =   playerStyle.textBackgroundColorOpacity
         props.story.player.frameColor                   =   playerStyle.frameColor
         props.story.player.textColor                    =   playerStyle.textColor
         props.story.player.topFrame                     =   parseInt(playerStyle.topFrame)
@@ -393,6 +398,7 @@ function Realize_player(props){
                     ),
                     " COLORE SFONDO"
                 ]),
+                e(TextField, {inputProps: {min: 0, max:100}, id: "textBackgroundColorOpacity", className: classes.input, disabled: !playerStyle.textBackgroundColorActived, value: playerStyle.textBackgroundColorOpacity, name:"textBackgroundColorOpacity", label: "Opacità", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 e(SwitchButton, {checked: playerStyle.textBackgroundColorActived, onChange: () => setPlayerStyle({...playerStyle, ["textBackgroundColorActived"]: !playerStyle.textBackgroundColorActived})}),
             ]),
             e("div", {className: "sx_realize_option"}, [

@@ -339,7 +339,7 @@ function Realize_activity(props){
             setImageActivity(formData)
             var extension = e.target.files[0].name.split(".").pop()
             var title = activity.title.charAt(0).toUpperCase() + activity.title.slice(1).toLowerCase()
-            setActivity({...activity, ["activityImage"]: `${props.story.id}_${title}_background.${extension}`});
+            setActivity({...activity, ["activityImage"]: `${props.story.id}_${title}_activity.${extension}`});
             var reader = new FileReader();
             reader.onload = function(){
                 document.getElementById("mediaDiv").classList.remove("hiddenClass")
@@ -453,7 +453,7 @@ function Realize_activity(props){
                 })
             }
             if (imageActivity != null){
-                axios.post(`http://localhost:8000/${props.story.id}/${title}_activity`, imageActivity, {
+                axios.post(`http://localhost:8000/addImage/${props.story.id}/${title}_activity`, imageActivity, {
                     headers:{ "Content-Type": "multipart/form-data" }
                 })
                 .catch(error => {

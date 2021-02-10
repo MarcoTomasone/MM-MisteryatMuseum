@@ -196,6 +196,7 @@ function Realize_info(props){
                         textColor: "#ffffff",
                         textBackgroundColorActived: false,
                         textBackgroundColor: "#000000",
+                        textBackgroundColorOpacity: 0,
                         fontFamily: "Arial",
                         sizeFont: 14,
                         weightFont: 500,

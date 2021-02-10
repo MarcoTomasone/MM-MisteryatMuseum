@@ -98,18 +98,24 @@ export const Activity = React.forwardRef((props, ref) => {
                             sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, timeString,  props.story, actualPoints);
                             break;
                         case "Scelta multipla":
-                            if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
+                            let answer;
+                            if(lastAnswer === null){
+                                answer = 0;
+                            }else{
+                                answer = lastAnswer;
+                            }
+                            if(eval(dinamicActivities[counter].multipleAnswers[answer].score)>0){
                                 console.log("risposta giusta");
                                 correctAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
-                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);
+                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[answer].score));
+                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[answer].score);
                             }else{
                                 console.log("risposta errata");
                                 wrongAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
-                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);    
+                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[answer].score));
+                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[answer].score);    
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[lastAnswer].text , counter, timeString, props.story, actualPoints);
+                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[answer].text , counter, timeString, props.story, actualPoints);
                             break;
                         case "Range":
                             let value = eval(document.getElementById("rangenpt").value);  

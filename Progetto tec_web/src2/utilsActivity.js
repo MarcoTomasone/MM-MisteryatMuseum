@@ -46,7 +46,7 @@ export function  mustAnswer(actual){
         case "Vero o falso":
             return false;
         case "Scelta multipla":
-            return false;
+            return true;
         case "Quattro opzioni":
             return false;
         case "Range":

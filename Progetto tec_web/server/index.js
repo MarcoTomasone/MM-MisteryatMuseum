@@ -39,7 +39,7 @@ app.get('/', (_, res) => {
 
 app.get('/downloadImage/:source',(req,res) =>{
     const mypath = path.join(__dirname, `upload/${req.params.source}`);
-    const data = fs.readFileSync(mypath, {encoding:'utf8', flag:'r'});
+    const data = fs.readFileSync(mypath);//, {encoding:'utf8', flag:'r'});
     res.send(data); 
 })
 

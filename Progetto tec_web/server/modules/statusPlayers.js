@@ -30,7 +30,7 @@ module.exports = {
                 fs.readdirSync(storiesPath).forEach((file) => {
                     const json = fs.readFileSync(storiesPath + '/' + file);
                     const info = JSON.parse(json);
-                    stories.push({ id: info.id, title: info.title });
+                    stories.push({ id: info.id, title: info.title, img: info.player.backgroundImage.match(/([^\/]*)\/*$/)[1] });
                     if(!(info.id in storiesActive))
                         storiesActive[info.id] = {};                  
                 });

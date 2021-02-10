@@ -8,7 +8,7 @@ export default function Home(props){
     const uploadCard = (stories, nPlayers) => {
         const arryOfStories = [];
         stories.forEach((story) => {
-            arryOfStories.push( e(CardStory, { key: story.id, url: `./?#/Home/Control/${story.id}`, title: story.title, nPlayers: nPlayers[story.id]}) );
+            arryOfStories.push( e(CardStory, { key: story.id, id: story.id, img: story.img, title: story.title, nPlayers: nPlayers[story.id], url: `./?#/Home/Control/${story.id}` }) );
         })
         setStories(arryOfStories);
     };

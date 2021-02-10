@@ -9,8 +9,10 @@ export default function Help(props) {
     const onValued = () => {
         const points = document.getElementById("valuation" + props.id).value;
         document.getElementById("valuation" + props.id).value = "";
-        if(!points)
+        if(!points || points == 'e') {
+            alert("Insert points correctly"); 
             return;
+        }
         const player = props.player;
         const story = props.story;
         const array = props.arrayEvaluations[player];

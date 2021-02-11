@@ -140,7 +140,7 @@ function App2() {
             e("div", {key:"player",id:"player",style:div_a}, [
                 e("div",{style:navbar,id:"navPlayer"},
                 e("button", {id:"chat-button",variant: 'outlined', 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {setSlideHelp(false) ; setSlideChat(!slideChat)}}, "CHAT" ), 
-                e("div", {id: "points", style: pointStyle}, "Points:" + points),
+                e("button", {id: "divpoints", style: pointStyle}, "Points:" + points),
                 e("button", {id:"help-button", style: btnHelp, onClick: ()=> {setSlideChat(false) ; setSlideHelp(!slideHelp)}}, "AIUTO"),
             )],      
           /*  e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [

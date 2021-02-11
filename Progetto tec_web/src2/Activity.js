@@ -57,7 +57,7 @@ export const Activity = React.forwardRef((props, ref) => {
             clearInterval(timer);
             if(!Object.is(dinamicActivities[counter],props.json.lastActivity)){
             if(counter != 0){
-                    now = new Date();
+                  now = new Date();
                     const date = new Date(0);
                     seconds = Math.trunc ( (now.getTime() - startDate.getTime()) / 1000 );
                     date.setSeconds(seconds);
@@ -223,12 +223,14 @@ export const Activity = React.forwardRef((props, ref) => {
         if(dinamicActivities[counter].streamVideo.indexOf('watch')>-1){
              source = videoSource.replace("https://www.youtube.com/watch?v=","https://www.youtube.com/embed/")
             console.log(source);
-        }else{
+        }else if (dinamicActivities[counter].streamVideo.indexOf('youtu.be')>-1){
             source = videoSource.replace("https://youtu.be","https://www.youtube.com/embed");
             console.log(source);
+        }else{
+            source = videoSource;
         }
 
-        mediaProp.push(e("iframe",{controls: true , id:'ytplayer',autoPlay: true,src:source,key:"video"}));
+        mediaProp.push(e("iframe",{controls: true , id:'ytplayer',autoPlay: true,allowFullScreen:true,src:source,key:"video"}));
     }
 
     /**per inserire immagini dentro o fuori il divActivity é necessario spostare il vettore mediaProp

@@ -228,8 +228,8 @@ export function getInputGroupProperty(dinamicActivities,counter,data){
 
  export function getButtonGroupProperty(dinamicActivities,counter,data){
      const tmp = {
-            border: "solid",
-            borderColor: data.player.inputDiv.frameColor,
+            //border: "solid",
+            //borderColor: data.player.inputDiv.frameColor,
             position:'absolute',
             width:`${dinamicActivities[counter].widthInput  *window.innerWidth /202}px`,
             height:`${dinamicActivities[counter].heightInput  *window.innerHeight /437}px`,

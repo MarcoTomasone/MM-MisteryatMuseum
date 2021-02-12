@@ -23,6 +23,14 @@ const data = init(activityList,story,server);
 
 function App2() {
 
+    const [width,setWidth] = React.useState(window.innerWidth);
+    const [height,setHeight] = React.useState(window.innerHeight);
+
+    $(window).resize(function(){
+        setWidth(window.innerWidth);
+        setHeight(window.innerHeight);
+    })
+
     const [counter,setCounter] = React.useState(0);
     //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);
@@ -74,9 +82,9 @@ function App2() {
             height: "15%"
         };
 
-        const btnChat = getButtonChatProperty(activityList,counter,data);
-        const pointStyle = getScoreProperty(data);
-        const btnHelp = getButtonHelpProperty(activityList,counter,data);
+        const btnChat = getButtonChatProperty(activityList,counter,data,height,width);
+        const pointStyle = getScoreProperty(data,height,width);
+        const btnHelp = getButtonHelpProperty(activityList,counter,data,height,width);
 
     if( ( activityList[counter].backgroundImage!=="" )|| (data.player.backgroundImage !== "")){
         const path = (activityList[counter].backgroundImage!=="" )?activityList[counter].backgroundImage : data.player.backgroundImage;

@@ -81,7 +81,7 @@ export function checkButton(answer,dinamicActivities,counter,setLastAnswer,json)
             document.getElementById("btnTrue").removeAttribute("aria-selected"); 
         }
     }else if(dinamicActivities[counter].widgetType ==="Quattro opzioni"){
-        const nAnswer = dinamicActivities[counter].fourAnswers.lenght;
+        const nAnswer = dinamicActivities[counter].fourAnswers.length;
         for(let i = 0 ; i < nAnswer ;i++){
             document.getElementById("btn"+i).backgroundColor = 'white';
             document.getElementById("btn"+i).removeAttribute("aria-selected");

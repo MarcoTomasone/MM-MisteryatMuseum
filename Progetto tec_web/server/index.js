@@ -39,8 +39,14 @@ app.get('/', (_, res) => {
 
 app.get('/downloadImage/:source',(req,res) =>{
     const mypath = path.join(__dirname, `upload/${req.params.source}`);
-    const data = fs.readFileSync(mypath);//, {encoding:'utf8', flag:'r'});
-    res.send(data); 
+    if(fs.existsSync(mypath)){
+        const data = fs.readFileSync(mypath);
+        res.send(data);
+    }else{
+        console.log("Image not found in downloadImage");
+        res.status(404).send({message:'Image not found'});
+    }
+     
 })
 
 /**downloadBackground allow the player to load the resource to evaluate
@@ -49,8 +55,14 @@ app.get('/downloadImage/:source',(req,res) =>{
       
 app.get('/downloadBackground/:source',(req,res) =>{
         const mypath = path.join(__dirname, `upload/${req.params.source}`);
-        const data = fs.readFileSync(mypath);
-        res.send(data);
+        if(fs.existsSync(mypath)){
+            const data = fs.readFileSync(mypath);
+            res.send(data);
+        }else{
+            console.log("Image not found in downloadBackground");
+            res.status(404).send({message:'Image not found'});
+        }
+        
 })
 
 app.get(`/requestJson/:title`,(req,res)=>{

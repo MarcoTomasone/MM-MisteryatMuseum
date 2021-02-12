@@ -75,8 +75,8 @@ function App2() {
 
         var [backgroundImg,setBackgroundImg] = React.useState(0);
         React.useEffect(() => {
-            document.getElementById("body2").style.height = `${window.innerHeight}px`;
-            document.getElementById("body2").style.width = `${window.innerWidth}px`;
+            document.getElementById("body2").style.outerHeight = `${window.innerHeight}px`;
+            document.getElementById("body2").style.outerWidth = `${window.innerWidth}px`;
                     }, [])
 
    

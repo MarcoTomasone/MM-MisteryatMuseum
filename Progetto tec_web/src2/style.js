@@ -51,7 +51,6 @@ export function getButtonHelpProperty(activityList,counter,data){
         height:`${data.player.helpButton.height* window.innerHeight /437}px`,
         top:`${data.player.helpButton.top * window.innerHeight/437}px`,
         left:`${data.player.helpButton.left * window.innerWidth /202}px`,
-        //borderColor:data.player.chatButton.borderColor,
         position:'absolute'
 };       
     return tmp;
@@ -158,6 +157,7 @@ export function getDivBorder(dinamicActivities,counter,data){
             fontSize:data.player.sizeFont* 2,
             overflowX:'hidden',
             overflowY:'scroll',
+           
     }
     console.log(tmp);
     return tmp;
@@ -228,8 +228,8 @@ export function getInputGroupProperty(dinamicActivities,counter,data){
 
  export function getButtonGroupProperty(dinamicActivities,counter,data){
      const tmp = {
-            border: "solid",
-            borderColor: data.player.inputDiv.frameColor,
+            //border: "solid",
+            //borderColor: data.player.inputDiv.frameColor,
             position:'absolute',
             width:`${dinamicActivities[counter].widthInput  *window.innerWidth /202}px`,
             height:`${dinamicActivities[counter].heightInput  *window.innerHeight /437}px`,

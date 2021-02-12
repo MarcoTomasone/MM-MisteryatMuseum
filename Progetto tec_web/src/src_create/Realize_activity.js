@@ -1,5 +1,5 @@
 const e = React.createElement;
-const {TextField, IconButton, makeStyles, Button, Icon, FormControl, InputLabel, Select, MenuItem, Tooltip, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Switch, FormControlLabel, withStyles } = window['MaterialUI']; //to load the component from the library
+const {TextField, IconButton, makeStyles, Button, Icon, FormControl, InputLabel, Select, MenuItem, Tooltip, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Switch, FormControlLabel, withStyles } = window['MaterialUI'];
 import {DialogComponent, DialogComponent2} from "./Dialog.js"
 
 
@@ -54,10 +54,6 @@ const useStyles = makeStyles((theme) => ({
         color: "white",
         background: "red"
     },
-    activityOkWrongAnswer:{
-        color: "white",
-        background: "grey"
-    }
 }));
 
 const SwitchButton = withStyles({
@@ -78,16 +74,7 @@ const SwitchButton = withStyles({
 })(Switch);
 
 function Realize_activity(props){
-    const classes = useStyles();
-    const [updateTable, setUpdateTable] = React.useState(false)
-    const [tableFourChoices, setTableFourChoices] = React.useState([])
-    const [menuItemFourChoices, setMenuItemFourChoices] = React.useState([])
-    const [tableMultipleAnswers, setTableMultipleAnswers] = React.useState([]);
-    const [menuItemMultipleAnswers, setMenuItemMultipleAnswers] = React.useState([])
-    const [answer, setAnswer] = React.useState("")
-    const [answerSelect, setAnswerSelect] = React.useState("")
-    const [score, setScore] = React.useState(0) 
-    const [activity, setActivity] = React.useState({
+    const activityTemplate = {
         title                   :   "",
         heightFrame             :   160,
         activityText            :   "",
@@ -122,9 +109,18 @@ function Realize_activity(props){
         },
         correctAnswerGo         :   [],
         wrongAnswerGo           :   [],
-        activityIsUsed          :   false,
         firstActivity           :   false
-    })
+    }
+    const classes = useStyles();
+    const [updateTable, setUpdateTable] = React.useState(false)
+    const [tableFourChoices, setTableFourChoices] = React.useState([])
+    const [menuItemFourChoices, setMenuItemFourChoices] = React.useState([])
+    const [tableMultipleAnswers, setTableMultipleAnswers] = React.useState([]);
+    const [menuItemMultipleAnswers, setMenuItemMultipleAnswers] = React.useState([])
+    const [answer, setAnswer] = React.useState("")
+    const [answerSelect, setAnswerSelect] = React.useState("")
+    const [score, setScore] = React.useState(0) 
+    const [activity, setActivity] = React.useState(activityTemplate)
     const [listOfActivity, setListOfActivity] = React.useState([]);
     const [activitySelect, setActivitySelect] = React.useState("");
     const [activityCorrectAnswer, setActivityCorrectAnswer] = React.useState("");
@@ -133,15 +129,16 @@ function Realize_activity(props){
     const [menuItemActivityWrongAnswer, setMenuItemActivityWrongAnswer] = React.useState([])
     const [arrayOfActivity, setArrayOfActivity] = React.useState([]);
     const [openInfoDialog, setOpenInfoDialog] = React.useState(false);
-    const [check, setCheck] = React.useState(true);
-    const [checkSwitch, setCheckSwitch] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [string, setString] = React.useState("");
-    const [arrayOfActivityRemoved, setArrayOfActivityRemoved] = React.useState([]);
+    const [imageBackground, setImageBackground] = React.useState(null)
+    const [imageActivity, setImageActivity] = React.useState(null)
+    const [titleActivity, setTitleActivity] = React.useState("")
+
 
 
     React.useEffect(() => {
-        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea una nuova attività";
+        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea una nuova attivit\xe0";
     }, [])
 
     React.useEffect(() => {
@@ -173,24 +170,10 @@ function Realize_activity(props){
 
     React.useEffect(() => {
         var arrayOfFreeActivity = []
-        if (!(props.story.activities.some(element => element.title == activity.title))){
-            activity.correctAnswerGo = []
-            activity.wrongAnswerGo = []
-            activity.activityIsUsed = false
-            activity.firstActivity = false
-        }
         var tmp = []
         props.story.activities.forEach(element => {
-            if (element.title != activity.title && element.firstActivity == false && element.activityIsUsed == false && !(activity.correctAnswerGo.includes(element.title)) && !(activity.wrongAnswerGo.includes(element.title)) && (!(arrayOfFreeActivity.includes(element.title)))){
-                tmp.push(e(MenuItem, {value : element.title}, element.title))
-                arrayOfFreeActivity.push(element.title)
-            }
-        })
-        arrayOfActivityRemoved.forEach(element => {
-            if ((!(activity.correctAnswerGo.includes(element) || activity.wrongAnswerGo.includes(element))) && (!(arrayOfFreeActivity.includes(element)))){
-                tmp.push(e(MenuItem, {value : element}, element))
-                arrayOfFreeActivity.push(element.title)
-            }
+            tmp.push(e(MenuItem, {value : element.title}, element.title))
+            arrayOfFreeActivity.push(element.title)
         })
         setListOfActivity(tmp)
         tmp = []
@@ -203,6 +186,11 @@ function Realize_activity(props){
             tmp.push(e(MenuItem, {value : element}, element))
         })
         setMenuItemActivityWrongAnswer(tmp)
+        setImageBackground(null)
+        setImageActivity(null)
+    }, [activity.title, updateTable])
+
+    React.useEffect(() => {
         if (activity.backgroundImage != ""){
             document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${activity.backgroundImage}`)
             document.getElementById("phoneImage").classList.remove("hiddenClass")
@@ -222,7 +210,11 @@ function Realize_activity(props){
             document.getElementById("mediaDiv").classList.add("hiddenClass")
             document.getElementById("mediaDiv").setAttribute("src", ``)  
         }
-    }, [activity.title, updateTable])
+        setImageBackground(null)
+        setImageActivity(null)
+    }, [titleActivity])
+
+
 
     
     React.useEffect(() => {
@@ -283,16 +275,9 @@ function Realize_activity(props){
             document.getElementById("inputDiv").classList.remove("hiddenClass")
         }
         setScore(0);
-        setAnswerSelect();
+        setAnswerSelect("");
     }, [activity.widgetType])
 
-    React.useEffect(() => {
-        if (activity.firstActivity == true || activity.activityIsUsed == true) setCheck(false)
-        else setCheck(true)
-        if (activity.activityIsUsed == true) setCheckSwitch(true)
-        else setCheckSwitch(false)
-        if (activity.correctAnswerGo.length == 0 && activity.wrongAnswerGo.length == 0) setCheckSwitch(false)
-    }, [activity.firstActivity, activity.title])
 
     React.useEffect(() => {
         var array = []
@@ -306,10 +291,6 @@ function Realize_activity(props){
         setError(true)
         setString(error)
     }
-
-    const [imageBackground, setImageBackground] = React.useState(null)
-    const [imageActivity, setImageActivity] = React.useState(null)
-
 
     function addBackgroundImage(e){
         e.preventDefault()
@@ -350,15 +331,19 @@ function Realize_activity(props){
         } 
     }
 
-    function deleteBackgroundImage(){
-        console.log(activity.backgroundImage)
+    async function deleteBackgroundImage(){
         if (activity.backgroundImage != ""){
-            axios.delete(`http://localhost:8000/deleteImage/${activity.backgroundImage}`)
+            await axios.delete(`http://localhost:8000/deleteImage/${activity.backgroundImage}`)
             .then(()=>{
+                if (props.story.player.backgroundImage == ""){
+                    document.getElementById("phoneImage").classList.add("hiddenClass")
+                    document.getElementById("phoneImage").setAttribute("src", ``)
+                } else {
+                    document.getElementById("phoneImage").classList.remove("hiddenClass")
+                    document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.story.player.backgroundImage}`)
+                }
                 setImageBackground(null)
                 setActivity({...activity, ["backgroundImage"]: ``});
-                document.getElementById("mediaDiv").classList.add("hiddenClass")
-                document.getElementById("mediaDiv").setAttribute("src", ``)  
             })
             .catch(error => {
                 console.log(error)
@@ -366,11 +351,11 @@ function Realize_activity(props){
         }
     }
 
-    function deleteActivityImage(){
+    async function deleteActivityImage(){
         if (activity.activityImage != ""){
-            axios.delete(`http://localhost:8000/deleteImage/${activity.activityImage}`)
+            await axios.delete(`http://localhost:8000/deleteImage/${activity.activityImage}`)
             .then(()=>{
-                setImageBackground(null)
+                setImageActivity(null)
                 setActivity({...activity, ["activityImage"]: ``});
                 document.getElementById("mediaDiv").classList.add("hiddenClass")
                 document.getElementById("mediaDiv").setAttribute("src", ``)  
@@ -381,101 +366,138 @@ function Realize_activity(props){
         }
     }
 
+    function changeLetter(string){
+        var res = string
+        res = res.replace("à", '\xe0')
+        res = res.replace("è", '\xc8')
+        res = res.replace("é", '\xc9')
+        res = res.replace("ì", '\xcc')
+        res = res.replace("ò", '\xf2')
+        res = res.replace("ù", '\xf9')
+        res = res.replace("À", '\xc0')
+        res = res.replace("È", '\xc8')
+        res = res.replace("É", '\xc9')
+        res = res.replace("Ì", '\xcc')
+        res = res.replace("Ò", '\xd2')
+        res = res.replace("Ù", '\xc9')
+        return res
+    };
 
-    const createActivity = () => {
-        var title = activity.title.charAt(0).toUpperCase() + activity.title.slice(1).toLowerCase()
-        if (activity.widgetType == "Quattro opzioni" && activity.fourAnswers.length < 4) displayDialog("Inserire prima esattamente 4 risposte se si vuole scegliere questo tipo di risposta")
+    const createActivity = async () => {
+        var title = changeLetter(activity.title.charAt(0).toUpperCase() + activity.title.slice(1).toLowerCase())
+        const found = props.story.activities.find(element => element.title == title)
+        if (activity.title == "") displayDialog("Inserire prima un titolo");
+        else if (/\s/g.test(activity.title)) displayDialog("Il titolo dell'attivit\xe0 non puo avere dei blank space");
+        else if (found != undefined && title != titleActivity) displayDialog("Titolo gia presente tra le attivit\xe0 create, se vuoi modificarlo devi selezionarlo attraverso la select (select e titolo devono avere lo stesso valore, attenzione: case sensistive).");
         else {
-            var tmp = {
-                title                   :   title,
-                heightFrame             :   activity.heightFrame,
-                activityText            :   activity.activityText,
-                backgroundImage         :   activity.backgroundImage,
-                activityImage           :   activity.activityImage,
-                altActivityImage        :   activity.altActivityImage,
-                streamVideo             :   activity.streamVideo,
-                widgetType              :   activity.widgetType,
-                topInput                :   activity.topInput,
-                leftInput               :   activity.leftInput,
-                heightInput             :   activity.heightInput,
-                widthInput              :   activity.widthInput,
-                errorMessage            :   activity.errorMessage,
-                fourAnswers             :   activity.fourAnswers,
-                multipleAnswers         :   activity.multipleAnswers,
-                trueFalseAnswer         :   activity.trueFalseAnswer,
-                textAnswer              :   activity.textAnswer,
-                rangeAnswer             :   activity.rangeAnswer,
-                correctAnswerGo         :   activity.correctAnswerGo,
-                wrongAnswerGo           :   activity.wrongAnswerGo,
-                activityIsUsed          :   activity.activityIsUsed,
-                firstActivity           :   activity.firstActivity,
-            };
-            var check = false
-            var indexActivityUpdate = 0
-            props.story.activities.forEach((element, index) => {
-                if (element.title == title) {
-                    check = true
-                    indexActivityUpdate = index
-                }
-            })
-            if (check) { props.story.activities.splice(indexActivityUpdate, 1, tmp)} 
+            var backgroundImageTmp = activity.backgroundImage;
+            var activityImageTmp = activity.activityImage;
+            var backgroundImageTmpExtension = activity.backgroundImage.split(".").pop()
+            var activityImageTmpExtension = activity.activityImage.split(".").pop()
+            if (imageBackground != null && backgroundImageTmpExtension == "") displayDialog("Caricamento dell'immagine del background non avvenuta correttamente. Provare a ricaricare la foto, provando a selezionare un'altra immagine e ritornare quella scelta")
+            else if (imageActivity != null && activityImageTmpExtension == "") displayDialog("Caricamento dell'immagine dell'attivit\xe0 non avvenuta correttamente. Provare a ricaricare la foto, provando a selezionare un'altra immagine e ritornare quella scelta")
             else {
-                props.story.activities.push(tmp)
-            }
-            var array = []
-            props.story.activities.forEach(element => {
-                array.push(e(MenuItem, {value : element.title}, element.title))
-            })
-            setArrayOfActivity(array)
-            var arrayOfActivityUsed = []
-            props.story.activities.forEach(element => {
-                if (element.firstActivity) arrayOfActivityUsed.push(element.title)
-                element.correctAnswerGo.forEach(element => {
-                    arrayOfActivityUsed.push(element)
-                })
-                element.wrongAnswerGo.forEach(element => {
-                    arrayOfActivityUsed.push(element)
-                })
-            })
-            props.story.firstActivity.correctAnswerGo = []
-            props.story.activities.forEach(element => {
-                if (arrayOfActivityUsed.includes(element.title)) element.activityIsUsed = true
-                else element.activityIsUsed = false
-                if (element.firstActivity) props.story.firstActivity.correctAnswerGo.push(element.title)
-            })
-            if (imageBackground != null){
-                axios.post(`http://localhost:8000/addImage/${props.story.id}/${title}_background`, imageBackground, {
-                    headers:{ "Content-Type": "multipart/form-data" }
-                })
-                .catch(error => {
-                    if (error.response.status === 500) console.log("Errore con il server")
-                    else console.log(error)
-                })
-            }
-            if (imageActivity != null){
-                axios.post(`http://localhost:8000/addImage/${props.story.id}/${title}_activity`, imageActivity, {
-                    headers:{ "Content-Type": "multipart/form-data" }
-                })
-                .catch(error => {
-                    if (error.response.status === 500) console.log("Errore con il server")
-                    else console.log(error)
-                })
+                if (imageBackground != null){
+                    await axios.post(`http://localhost:8000/addImage/${props.story.id}/${title}_background`, imageBackground, {
+                        headers:{ "Content-Type": "multipart/form-data" }
+                    })
+                    .then(() => {
+                        backgroundImageTmp = `${props.story.id}_${title}_background.${activity.backgroundImage.split(".").pop()}`
+                        setActivity({...activity, ["backgroundImage"]: backgroundImageTmp});
+                    })
+                    .catch(error => console.log(error))
+                } else {
+                    if (activity.backgroundImage != ""){
+                    await axios.get(`http://loacalhost:8000/duplyImage/${activity.backgroundImage}/${props.story.id}_${title}_background.${activity.backgroundImage.split(".").pop()}`)
+                        .then(() =>{
+                            backgroundImageTmp = `${props.story.id}_${title}_background.${activity.backgroundImage.split(".").pop()}`
+                            setActivity({...activity, ["backgroundImage"]: backgroundImageTmp});
+                        })
+                        .catch(error => console.log(error))
+                    }
+                }
+                if (imageActivity != null){
+                    await axios.post(`http://localhost:8000/addImage/${props.story.id}/${title}_activity`, imageActivity, {
+                        headers:{ "Content-Type": "multipart/form-data" }
+                    })
+                    .then(() => {
+                        activityImageTmp = `${props.story.id}_${title}_activity.${activity.activityImage.split(".").pop()}`
+                        setActivity({...activity, ["activityImage"]: activityImageTmp});
+                    })
+                    .catch(error => console.log(error))
+                } else {
+                    if (activity.activityImage != ""){
+                        await axios.get(`http://localhost:8000/duplyImage/${activity.activityImage}/${props.story.id}_${title}_activity.${activity.activityImage.split(".").pop()}`)
+                        .then(() => {
+                            activityImageTmp = `${props.story.id}_${title}_activity.${activity.activityImage.split(".").pop()}`
+                            setActivity({...activity, ["activityImage"]: activityImageTmp});
+                        })
+                        .catch(error => console.log(error))
+                    }
+                }
+                if (activity.widgetType == "Quattro opzioni" && activity.fourAnswers.length < 4) displayDialog("Inserire prima esattamente 4 risposte se si vuole scegliere questo tipo di risposta")
+                else {
+                    var tmp = {
+                        title                   :   title,
+                        heightFrame             :   activity.heightFrame,
+                        activityText            :   changeLetter(activity.activityText),
+                        backgroundImage         :   backgroundImageTmp,
+                        activityImage           :   activityImageTmp,
+                        altActivityImage        :   changeLetter(activity.altActivityImage),
+                        streamVideo             :   activity.streamVideo,
+                        widgetType              :   activity.widgetType,
+                        topInput                :   activity.topInput,
+                        leftInput               :   activity.leftInput,
+                        heightInput             :   activity.heightInput,
+                        widthInput              :   activity.widthInput,
+                        errorMessage            :   changeLetter(activity.errorMessage),
+                        fourAnswers             :   activity.fourAnswers,
+                        multipleAnswers         :   activity.multipleAnswers,
+                        trueFalseAnswer         :   activity.trueFalseAnswer,
+                        textAnswer              :   activity.textAnswer,
+                        rangeAnswer             :   activity.rangeAnswer,
+                        correctAnswerGo         :   activity.correctAnswerGo,
+                        wrongAnswerGo           :   activity.wrongAnswerGo,
+                        firstActivity           :   activity.firstActivity,
+                    };
+                    var check = false
+                    var indexActivityUpdate = 0
+                    props.story.activities.forEach((element, index) => {
+                        if (element.title == title) {
+                            check = true
+                            indexActivityUpdate = index
+                        }
+                    })
+                    if (check) { props.story.activities.splice(indexActivityUpdate, 1, tmp)} 
+                    else {
+                        props.story.activities.push(tmp)
+                    }
+                    var array = []
+                    props.story.activities.forEach(element => {
+                        array.push(e(MenuItem, {value : element.title}, element.title))
+                    })
+                    props.story.firstActivity.correctAnswerGo = []
+                    setArrayOfActivity(array)
+                    props.story.activities.forEach(element => {
+                        if (element.firstActivity) props.story.firstActivity.correctAnswerGo.push(element.title)
+                    })
+                }
             }
         }
     }
 
     function addFunction(array){
         var check = true
-        activity[array].forEach(element => { if (element.text == answer) check = false});
+        activity[array].forEach(element => { if (element.text == changeLetter(answer)) check = false});
         if (check){
             const newAnswer = {
-                text: answer,
+                text: changeLetter(answer),
                 score: 0,
             }
             setActivity({...activity, [array]: [...activity[array],newAnswer]});
             setUpdateTable((prev) => !prev)
         } else {
-            displayDialog("Risposta già presente")
+            displayDialog("Risposta gi\xe0 presente")
         }
     }
 
@@ -496,11 +518,11 @@ function Realize_activity(props){
 
     function updateField(e){
         e.preventDefault();
-        const [section, key] = e.target.name.split(".");      
+        const [section, key] =  e.target.name.split(".");      
         if (key) {
-            setActivity({...activity, [section]: {...activity[section], [key]: e.target.value}});
+            setActivity({...activity, [section]: {...activity[section], [key]: changeLetter(e.target.value)}});
         } else {
-            setActivity({...activity, [section]: e.target.value});
+            setActivity({...activity, [section]: changeLetter(e.target.value)});
         }
     };
 
@@ -525,7 +547,7 @@ function Realize_activity(props){
             else if (activity.widgetType == "Scelta multipla") updateFunction("multipleAnswers")
         } else if (answerSelect != "") displayDialog("Inserire un valore numerico dove richiesto")
         else displayDialog("Selezionare prima una risposta")
-        setAnswerSelect()
+        setAnswerSelect("")
         setScore(0)
     }
 
@@ -547,18 +569,10 @@ function Realize_activity(props){
         setScore(0)
     }
 
-    function removeFromArrayOfActivityRemoved(element){
-        var index = arrayOfActivityRemoved.indexOf(element);
-        if (index !== -1) {
-            arrayOfActivityRemoved.splice(index, 1);
-        }
-    }
-
     function addActivityOkAnswer(){
         if (activitySelect == "") setError(true)
         else {
             setActivity({...activity, ["correctAnswerGo"]: [...activity["correctAnswerGo"], activitySelect]});
-            removeFromArrayOfActivityRemoved(activitySelect)
             setActivitySelect("")
             setUpdateTable((prev) => !prev)
         }
@@ -568,82 +582,96 @@ function Realize_activity(props){
         if (activitySelect == "") setError(true)
         else {
             setActivity({...activity, ["wrongAnswerGo"]: [...activity["wrongAnswerGo"], activitySelect]});
-            removeFromArrayOfActivityRemoved(activitySelect)
             setActivitySelect("")
             setUpdateTable((prev) => !prev)
         }
     }
 
-    function addActivityOkWrongAnswer(){
-        if (activitySelect == "") setError(true)
-        else {
-            setActivity({...activity, 
-                ["correctAnswerGo"]: [...activity["correctAnswerGo"], activitySelect], 
-                ["wrongAnswerGo"]  : [...activity["wrongAnswerGo"], activitySelect],
-            });
-            removeFromArrayOfActivityRemoved(activitySelect)
-            setActivitySelect("")
-            setUpdateTable((prev) => !prev)
-        }
-    }
 
     function deleteActivitiesCorrectAnswer(){
         const found = props.story.activities.find(element => element.title == activityCorrectAnswer)
-        if (found && found.correctAnswerGo.length == 0 && found.wrongAnswerGo.length == 0){
+        if (found){
             var tmp = []
             activity.correctAnswerGo.forEach(element => {
                 if (element != activityCorrectAnswer) tmp.push(element)
             })
             setActivity({...activity, ["correctAnswerGo"]: tmp});
-            console.log(arrayOfActivityRemoved, activityCorrectAnswer, arrayOfActivityRemoved.includes(activityCorrectAnswer))
-            if (!(arrayOfActivityRemoved.includes(activityCorrectAnswer))) setArrayOfActivityRemoved(arrayOfActivityRemoved => [...arrayOfActivityRemoved, activityCorrectAnswer])
             setActivityCorrectAnswer("")
             setUpdateTable((prev) => !prev)
-        } else if (found) {
-            displayDialog("Questa attività non puo essere rimossa perche in essa a sua volta ci sono delle attività collegate. Per procedere prima rimuovere le attività collegati con essa");
         } else {
-            displayDialog("Selezionare prima un'attività");
+            displayDialog("Selezionare prima un'attivit\xe0");
         }
     }
 
     function deleteActivitiesWrongAnswer(){
         const found = props.story.activities.find(element => element.title == activityWrongAnswer)
-        if (found && found.correctAnswerGo.length == 0 && found.wrongAnswerGo.length == 0){
+        if (found){
             var tmp = []
             activity.correctAnswerGo.forEach(element => {
                 if (element != activityWrongAnswer) tmp.push(element)
             })
             setActivity({...activity, ["wrongAnswerGo"]: tmp});
-            console.log(arrayOfActivityRemoved, activityWrongAnswer, arrayOfActivityRemoved.includes(activityWrongAnswer))
-            if (!(arrayOfActivityRemoved.includes(activityWrongAnswer))) setArrayOfActivityRemoved(arrayOfActivityRemoved => [...arrayOfActivityRemoved, activityWrongAnswer])
             setActivityWrongAnswer("")
             setUpdateTable((prev) => !prev)
-        } else if (found) {
-            displayDialog("Questa attività non puo essere rimossa perche in essa a sua volta ci sono delle attività collegate. Per procedere prima rimuovere le attività collegati con essa");
         } else {
-            displayDialog("Selezionare prima un'attività");
+            displayDialog("Selezionare prima un'attivit\xe0");
         }
     }
 
-    async function selectActivity(e){
+
+    function selectActivity(e){
         var indexActivitySelected = 0
         props.story.activities.forEach((element, index) => {
             if (e.target.value == element.title) indexActivitySelected = index
         })
-        await setActivity(props.story.activities[indexActivitySelected])
+        setTitleActivity(e.target.value)
+        setActivity(props.story.activities[indexActivitySelected])
         setActivitySelect("")
         setUpdateTable((prev) => !prev)
     }
 
+    function deleteActivity(){
+        if (titleActivity == "") displayDialog("Selezionare prima un'attivit\xe0");
+        else {
+            props.story.activities.forEach((element, index) => {
+                if (element.title == titleActivity){
+                    props.story.activities.splice(index, 1)
+                    var array = []
+                    props.story.activities.forEach(element2 => {
+                        array.push(e(MenuItem, {value : element2.title}, element2.title))
+                        if (element2.correctAnswerGo.includes(titleActivity)){
+                            var index = element2.correctAnswerGo.indexOf(titleActivity);
+                            if (index !== -1) {
+                                element2.correctAnswerGo.splice(index, 1);
+                            }
+                        }
+                        if (element2.wrongAnswerGo.includes(titleActivity)){
+                            var index = element2.wrongAnswerGo.indexOf(titleActivity);
+                            if (index !== -1) {
+                                element2.wrongAnswerGo.splice(index, 1);
+                            }
+                        }
+                    })
+                    setArrayOfActivity(array)
+                    setActivity(activityTemplate)
+                    setTitleActivity("")
+                }
+            })
+        }
+    }
+
     return(
         e("form", {id: props.id, className: props.className}, [
-            e("p", null, "TITOLO ATTIVITA'"),
+            e("p", null, "TITOLO ATTIVIT\xc0"),
             e("div", {className: "sx_realize_option"}, [
                 e(TextField, {id: "title", className: classes.input, value: activity.title, name: "title", label: "Titolo", variant:"outlined", onChange:  (e) => updateField(e)}),
                 e(FormControl, {variant: "outlined", className: classes.input}, [
-                    e(InputLabel, {htmlFor: "selectActivity"}, "Seleziona attività"),
-                    e(Select, {id: "selectActivity", label: "Seleziona attività", onChange:  (e) => {selectActivity(e)}}, arrayOfActivity)
+                    e(InputLabel, {htmlFor: "selectActivity"}, "Seleziona attivit\xe0"),
+                    e(Select, {id: "selectActivity", label: "Seleziona attivit\xe0", onChange:  (e) => {selectActivity(e)}}, arrayOfActivity)
                 ]),
+                e(IconButton, {id: "deleteActivity", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivity}, 
+                    e(Icon, {children: "delete"}),  
+                ),
             ]),
             e("hr", null),
 
@@ -667,7 +695,7 @@ function Realize_activity(props){
             ]),
             e("hr", null),
 
-            e("p", null, "IMMAGINE ATTIVITA'"),
+            e("p", null, "IMMAGINE ATTIVIT\xc0"),
             e("div", {className: "sx_realize_option"}, [
                 e("input", {id: "activity_image", className: classes.hide, name: `${activity.title}_activity`, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addActivityImage}),
                 e("label", {htmlFor:"activity_image"}, [
@@ -686,7 +714,7 @@ function Realize_activity(props){
                 ]),
             ]),
             e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilità", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilit\xe0", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
 
@@ -730,7 +758,7 @@ function Realize_activity(props){
             ]),
             e("div", {id: "Quattro opzioni"}, [
                 e("div", {className: "sx_realize_option"}, [
-                    e(TextField, {id: "answer", className: classes.input, value: answer, name: "answer", label: "Inserire risposta", variant:"outlined", onChange:  (e) => setAnswer(e.target.value)}),
+                    e(TextField, {id: "answer", className: classes.input, value: answer, name: "answer", label: "Inserire risposta", variant:"outlined", onChange:  (e) => setAnswer(changeLetter(e.target.value))}),
                     e(IconButton, {id: "addAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: addAnswer}, 
                         e(Icon, {children: "add"}),  
                     ),
@@ -825,9 +853,8 @@ function Realize_activity(props){
             ]),
             e("hr", null),
 
-            
             e("p", null, "DIMENSIONE E POSIZIONE DELLE RISPOSTE"),
-            e("span", {className:"spanExplain"}, "Il bordo rosso è solo di aiuto in questa fase di creazione, non verrà visualizzato nella storia finale"),
+            e("span", {className:"spanExplain"}, "Il bordo rosso \xe8 solo di aiuto in questa fase di creazione, non verr\xe0 visualizzato nella storia finale"),
             e("div", {className: "sx_realize_option"}, [
                 e(TextField, {id: "topInput", className: classes.input, value: activity.topInput, name: "topInput", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
@@ -848,40 +875,37 @@ function Realize_activity(props){
             ]),
             e("hr", null),
 
-            e("p", null, "ATTIVITA' SUCCESSIVA"),
+            e("p", null, "ATTIVIT\xc0 SUCCESSIVA"),
             e("div", {className: "sx_realize_option"}, [
                 e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
                     e(InputLabel, {htmlFor: "listOfActivities"}, "Selezionare risposta"),
-                    e(Select, {id: "listOfActivities", label: "Selezionare attività", disabled: check, value: activitySelect,  onChange: (e) => setActivitySelect(e.target.value)}, listOfActivity)
+                    e(Select, {id: "listOfActivities", label: "Selezionare attivit\xe0", value: activitySelect,  onChange: (e) => setActivitySelect(e.target.value)}, listOfActivity)
                 ]),
-                e(IconButton, {id: "buttonActivityOkAnswer", disabled: check, className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityOkAnswer], component: "span", onClick: addActivityOkAnswer}, 
+                e(IconButton, {id: "buttonActivityOkAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityOkAnswer], component: "span", onClick: addActivityOkAnswer}, 
                     e(Icon, {children: "sentiment_very_satisfied_outlined_icon"}),  
                 ),
-                e(IconButton, {id: "buttonActivityWrongAnswer", disabled: check, className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityWrongAnswer], component: "span", onClick: addActivityWrongAnswer}, 
+                e(IconButton, {id: "buttonActivityWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityWrongAnswer], component: "span", onClick: addActivityWrongAnswer}, 
                     e(Icon, {children: "sentiment_very_dissatisfied_outlined_icon"}),  
                 ),
-                e(IconButton, {id: "buttonActivityOkWrongAnswer", disabled: check, className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityOkWrongAnswer], component: "span", onClick: addActivityOkWrongAnswer}, 
-                    e(Icon, {children: "sentiment_satisfied"}),  
-                ),
                 e(FormControl, {id: "buttonFirstActivity", variant: "outlined", className: classes.leggendButton}, [
-                    e(FormControlLabel, {className: classes.formControl, control: e(SwitchButton, {disabled: checkSwitch, checked: activity.firstActivity, onChange: () => setActivity({...activity, ["firstActivity"]: !(activity.firstActivity)})}),  label: "Attività iniziale"})
+                    e(FormControlLabel, {className: classes.formControl, control: e(SwitchButton, {checked: activity.firstActivity, onChange: () => setActivity({...activity, ["firstActivity"]: !(activity.firstActivity)})}),  label: "Attivit\xe0 iniziale"})
                 ])        
             ]),
             e("div", {className: "sx_realize_option_table"}, [
                 e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
                     e(InputLabel, {htmlFor: "activitiesCorrectAnswer"}, "Selezionare risposta"),
-                    e(Select, {id: "activitiesCorrectAnswer", label: "Selezionare attività", disabled: check, value: activityCorrectAnswer, onChange: (e) => setActivityCorrectAnswer(e.target.value)}, menuItemActivityCorrectAnswer)
+                    e(Select, {id: "activitiesCorrectAnswer", label: "Selezionare attivit\xe0", value: activityCorrectAnswer, onChange: (e) => setActivityCorrectAnswer(e.target.value)}, menuItemActivityCorrectAnswer)
                 ]),
-                e(IconButton, {id: "deleteActivitiesCorrectAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], disabled: check, component: "span", onClick: deleteActivitiesCorrectAnswer}, 
+                e(IconButton, {id: "deleteActivitiesCorrectAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteActivitiesCorrectAnswer}, 
                     e(Icon, {children: "delete"}),  
                 ),  
             ]),
             e("div", {className: "sx_realize_option_table"}, [
                 e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
                     e(InputLabel, {htmlFor: "activitiesWrongAnswer"}, "Selezionare risposta"),
-                    e(Select, {id: "activitiesWrongAnswer", label: "Selezionare attività", disabled: check, value: activityWrongAnswer, onChange: (e) => setActivityWrongAnswer(e.target.value)}, menuItemActivityWrongAnswer)
+                    e(Select, {id: "activitiesWrongAnswer", label: "Selezionare attivit\xe0", value: activityWrongAnswer, onChange: (e) => setActivityWrongAnswer(e.target.value)}, menuItemActivityWrongAnswer)
                 ]),
-                e(IconButton, {id: "deleteActivitiesWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], disabled: check, component: "span", onClick: deleteActivitiesWrongAnswer}, 
+                e(IconButton, {id: "deleteActivitiesWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteActivitiesWrongAnswer}, 
                     e(Icon, {children: "delete"}),  
                 ),  
             ]),

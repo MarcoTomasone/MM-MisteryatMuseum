@@ -153,12 +153,21 @@ function Realize_player(props){
         }
     }, [])
 
+    function hexToRgb(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        } : null;
+    }
+
     function hexToRGBA(hex, opacity) {
         return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length/3 + '})', 'g')).map(function(l) { return parseInt(hex.length%2 ? l+l : l, 16) }).concat(isFinite(opacity) ? opacity : 1).join(',') + ')';
     }
     
     React.useEffect(() => {
-        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea il layout al player (i valori sono tutti in pixel e la dimensione dello schermo è di 437 x 202, ovvero 6.1\")";
+        document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Crea il layout al player (i valori sono tutti in pixel e la dimensione dello schermo \xe8 di 437 x 202, ovvero 6.1\")";
         document.getElementById("phoneInternal").style.background   =      playerStyle.background_color
         document.getElementById("phoneImage").style.top             =   `${playerStyle.topImage}px`
         document.getElementById("phoneImage").style.left            =   `${playerStyle.leftImage}px`
@@ -213,7 +222,7 @@ function Realize_player(props){
         document.getElementById("helpButton").style.width           =   `${playerStyle.widthHelpButton}px`
         document.getElementById("helpButton").style.borderRadius    =   `${playerStyle.borderRadiusHelpButton}px`
         document.getElementById("helpButton").style.fontFamily        =      playerStyle.fontFamily
-        if (playerStyle.textBackgroundColorActived) document.getElementById("phoneText").style.backgroundColor  =           hexToRGBA(playerStyle.textBackgroundColor, parseInt(playerStyle.textBackgroundColorOpacity)/100)
+        if (playerStyle.textBackgroundColorActived) document.getElementById("phoneText").style.backgroundColor  =      hexToRGBA(playerStyle.textBackgroundColor, parseInt(playerStyle.textBackgroundColorOpacity)/100)
         else document.getElementById("phoneText").style.backgroundColor  =      "transparent"
         const array = ["option1", "option2", "option3", "option4", "option5", "option6", "option7", "option8", "option9"]
         array.forEach(element => {
@@ -316,7 +325,7 @@ function Realize_player(props){
 
     function deleteImage(){
         if (playerStyle.backgroundImage != ""){
-            axios.delete(`http://site181997.tw.cs.unibo.it/deleteImage/${playerStyle.backgroundImage}`)
+            axios.delete(`http://localhost:8000/deleteImage/${playerStyle.backgroundImage}`)
             .then(()=>{
                 setImage(null)
                 setPlayerStyle({...playerStyle, ["backgroundImage"]: ``})
@@ -398,7 +407,7 @@ function Realize_player(props){
                     ),
                     " COLORE SFONDO"
                 ]),
-                e(TextField, {inputProps: {min: 0, max:100}, id: "textBackgroundColorOpacity", className: classes.input, disabled: !playerStyle.textBackgroundColorActived, value: playerStyle.textBackgroundColorOpacity, name:"textBackgroundColorOpacity", label: "Opacità", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {inputProps: {min: 0, max:100}, id: "textBackgroundColorOpacity", className: classes.input, disabled: !playerStyle.textBackgroundColorActived, value: playerStyle.textBackgroundColorOpacity, name:"textBackgroundColorOpacity", label: "Opacit\xe0", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 e(SwitchButton, {checked: playerStyle.textBackgroundColorActived, onChange: () => setPlayerStyle({...playerStyle, ["textBackgroundColorActived"]: !playerStyle.textBackgroundColorActived})}),
             ]),
             e("div", {className: "sx_realize_option"}, [
@@ -531,7 +540,7 @@ function Realize_player(props){
             ]),
             e("hr", null),
 
-            e("p", null, "BOTTONE ATTIVITA' SUCCESSIVA"),
+            e("p", null, "BOTTONE ATTIVIT\xc0 SUCCESSIVA"),
             e("div", {className: "sx_realize_option"}, [
                 e("input", {id: "backgroundColorNextButton", className: classes.hide, value: playerStyle.backgroundColorNextButton, name:"backgroundColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
                 e("label", {htmlFor:"backgroundColorNextButton"}, [

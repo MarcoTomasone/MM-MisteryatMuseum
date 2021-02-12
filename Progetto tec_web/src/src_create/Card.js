@@ -8,7 +8,7 @@ function Card(props){
         props.other.forEach((element) => {
             var c = document.getElementById(element.id).children;
             if(props.id == element.id) c[0].style.opacity = 1
-            else c[0].style.opacity = 0.8
+            else c[0].style.opacity = 0.7
         })
     }
 

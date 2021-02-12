@@ -1,0 +1,1883 @@
+{
+    "id": "Marco_0",
+    "user": "Marco",
+    "published": true,
+    "title": "Il Minotauro",
+    "gender": "Storico",
+    "objective": "Conoscere il mito greco del Minotauro",
+    "description": "Il Minotauro Ã¨ un personaggio mitologico greco, facente parte di un mito in cui sono presenti altri personaggi come Dedalo, Minosse, Teseo. ",
+    "accessibility": {
+      "value": false,
+      "url": "../../img/no_accessibility_1.png"
+    },
+    "participantsType": {
+      "value": "singlePlayer",
+      "url": "../../img/single.png"
+    },
+    "ageStart": 13,
+    "ageEnd": 28,
+    "player": {
+      "background": "#c59644",
+      "backgroundImage": "Marco_0_background.jpg",
+      "frameColor": "#ffffff",
+      "topFrame": 97,
+      "leftFrame": 15,
+      "widthFrame": 170,
+      "weightFrame": 2,
+      "borderRadiusFrame": 0,
+      "textColor": "#ffffff",
+      "textBackgroundColorActived": true,
+      "textBackgroundColor": "#c59644",
+      "textBackgroundColorOpacity": 60,
+      "fontFamily": "Georgia",
+      "sizeFont": 15,
+      "weightFont": 549,
+      "image": {
+        "height": 437,
+        "width": 292,
+        "top": 0,
+        "left": -53
+      },
+      "inputDiv": {
+        "backgroundColor": "#c59644",
+        "frameColor": "#ffffff",
+        "textColor": "#ffffff",
+        "borderRadius": 10
+      },
+      "scoreDiv": {
+        "backgroundColor": "#c59644",
+        "frameColor": "#ffffff",
+        "textColor": "#ffffff",
+        "height": 20,
+        "width": 100,
+        "top": 15,
+        "left": 50,
+        "borderRadius": 20
+      },
+      "nextButton": {
+        "backgroundColor": "#c59644",
+        "frameColor": "#ffffff",
+        "textColor": "#ffffff",
+        "height": 30,
+        "width": 170,
+        "top": 390,
+        "left": 15,
+        "borderRadius": 20
+      },
+      "chatButton": {
+        "backgroundColor": "#c59644",
+        "frameColor": "#ffffff",
+        "textColor": "#ffffff",
+        "height": 30,
+        "width": 60,
+        "top": 40,
+        "left": 125,
+        "borderRadius": 20
+      },
+      "helpButton": {
+        "backgroundColor": "#c59644",
+        "frameColor": "#ffffff",
+        "textColor": "#ffffff",
+        "height": 30,
+        "width": 60,
+        "top": 40,
+        "left": 15,
+        "borderRadius": 20
+      }
+    },
+    "firstActivity": {
+      "heightFrame": 160,
+      "activityText": " In una bella e rigogliosa isola della Grecia, Creta, il re attualmente in carica Minosse non Ã¨ molto apprezzato     dalla popolazione cretese. Minosse, infatti, non Ã¨ il figlio del re precedente Asterione, bensÃ¬ egli Ã¨ il figlio di Zeus. Per raccogliere consensi nella popolazione Minosse chiede a Poseidone di inviargli un toro da offrire come sacrificio agli dei. Il toro inviato da Poseidone Ã¨ perÃ² cosÃ¬ bello e sano che Minosse decide di tenerlo e di offrirne uno dei suoi agli dei. Poseidone, venuto a conoscenza dei fatti, decise allora di punire minosse facendo innamorare Pasifae, sua moglie, del toro. Dall'amore dei due nacque il Minotauro, una creatura mezzo uomo mezzo toro. Minosse per placare e nascondere il Minotauro lo mise al centro di un labirinto e per sfamarlo ogni anno mandava sette ragazzi e sette ragazze di Atene nel labirinto come pasto per il minotauro.\n",
+      "backgroundImage": "",
+      "activityImage": "",
+      "altActivityImage": "",
+      "streamVideo": "",
+      "widgetType": "Nessuno",
+      "correctAnswerGo": [
+        "Sveglia"
+      ]
+    },
+    "lastActivity": {
+      "heightFrame": 160,
+      "activityText": "Dopo un lungo viaggio, siete finalmente a casa, bentornati ad Atene!\n",
+      "backgroundImage": "",
+      "activityImage": "",
+      "altActivityImage": "",
+      "streamVideo": "",
+      "widgetType": "Nessuno",
+      "correctAnswerGo": []
+    },
+    "activities": [
+      {
+        "title": "Sveglia",
+        "heightFrame": 160,
+        "activityText": "Sveglia! Oggi ci sono le estrazioni per i 7 ragazzi e le 7 ragazze che partiranno per Creta! E' il tuo momento.",
+        "backgroundImage": "Marco_0_Sveglia_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Estrazione"
+        ],
+        "wrongAnswerGo": [
+          "Estrazione"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": true
+      },
+      {
+        "title": "Estrazione",
+        "heightFrame": 160,
+        "activityText": "Eccoci arrivati, le estrazioni stanno per cominciare.. hai molta paura... ti tremano le gambe... ma Ã¨ la cosa giusta da fare, vuoi porre fine a questa ingiustizia! Teseo Ã¨ qui accanto a te.\n",
+        "backgroundImage": "Marco_0_Estrazione_background.png",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Teseo"
+        ],
+        "wrongAnswerGo": [
+          "Teseo"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Teseo",
+        "heightFrame": 160,
+        "activityText": "Teseo Ã¨  un personaggio della mitologia greca e decimo mitologico re di Atene, figlio di Etra ed Egeo, o di Poseidone con cui Etra una notte aveva giaciuto. Il suo nome ha la stessa radice di thesis e tithenai, come Teti la Dea Creatrice, la quale, racconta Omero, si unÃ¬ con Oceano per generare tutti gli Dei.",
+        "backgroundImage": "Marco_0_Teseo_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Estrazione2"
+        ],
+        "wrongAnswerGo": [
+          "Estrazione2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Estrazione2",
+        "heightFrame": 160,
+        "activityText": "Viene estratto il primo nome, Milos, si alza in piedi timidamente. E' molto spaventato, si legge il terrore nei suoi occhi, cosÃ¬ come quelli del secondo, del terzo, del quarto e del quinto ragazzo. Sta per essere estratto il sesto nome quando d'un tratto...\n",
+        "backgroundImage": "Marco_0_Estrazione2_background.png",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Volontario "
+        ],
+        "wrongAnswerGo": [
+          "Volontario "
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Volontario ",
+        "heightFrame": 160,
+        "activityText": " Teseo si alza in piedi e si offre come volontario. Tutti lo guardano straniti della sua scelta. Tu segui Teseo, ti alzi in piedi e ti offri volontario per questa missione, non puoi lasciare il tuo amico da solo. \n",
+        "backgroundImage": "Marco_0_Estrazione2_background.png",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Partenza"
+        ],
+        "wrongAnswerGo": [
+          "Partenza"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Partenza",
+        "heightFrame": 160,
+        "activityText": "E' arrivato il giorno della partenza. Tu, Teseo e altri 5 ragazzi e 7 ragazze state per partire, direzione Creta. Hai con te uno zaino.\nElenca 3 cose che porteresti con te in questa missione! ",
+        "backgroundImage": "",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Input testuale valutatore",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Alporto"
+        ],
+        "wrongAnswerGo": [
+          "Alporto"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Alporto",
+        "heightFrame": 160,
+        "activityText": "Il capitano della barca che vi porterÃ  a Creta tira fuori la sua bussola e ti chiede per che direzione dovete andare per raggiungere Creta.",
+        "backgroundImage": "Marco_0_Alporto_background.jpg",
+        "activityImage": "Marco_0_Alporto_activity.jpg",
+        "altActivityImage": "Cartina Della Grecia",
+        "streamVideo": "",
+        "widgetType": "Quattro opzioni",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "State vagando ormai da giorni in mezzo al mare, vi siete persi, le scorse di cibo e acqua iniziano a scarseggiare. D'un tratto perÃ² una ragazza trova sulla barca una mappa! Capite dell'errore commesso e aggiustate la rotta. La direzione giusta era Sud-Est!",
+        "fourAnswers": [
+          {
+            "text": "Sud-Est",
+            "score": "100"
+          },
+          {
+            "text": "Nord-Ovest",
+            "score": 0
+          },
+          {
+            "text": "Sud-Ovest",
+            "score": 0
+          },
+          {
+            "text": "Nord-Est",
+            "score": 0
+          }
+        ],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Arrivocreta"
+        ],
+        "wrongAnswerGo": [
+          "Arrivocreta"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Arrivocreta",
+        "heightFrame": 160,
+        "activityText": " Dopo un viaggio lungo ed estenuante vedi finalmente l'isola di Creta. Ti ricordi il nome della cittÃ  piÃ¹ importante di quest'isola?",
+        "backgroundImage": "Marco_0_Arrivocreta_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Input testuale automatico",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "Questa era difficile da ricordare! Il nome della cittÃ  Ã¨ Heraklion.",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "Heraklion",
+          "scoreOk": "400",
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Minosse"
+        ],
+        "wrongAnswerGo": [
+          "Minosse"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Minosse",
+        "heightFrame": 160,
+        "activityText": "Sbarcati a Creta, c'Ã¨ subito Minosse ad accogliervi. Fa un grande discorso parlando di quanto lui ci tenga alla felicitÃ  degli ateniesi e del fatto che voglia vedere chi di voi possegga determinate capacitÃ , mettendovi alla prova in un labirinto. E' vero quello che vi sta dicendo?",
+        "backgroundImage": "Marco_0_Minosse_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Vero o falso",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "Ti lasci abbindolare da ciÃ² che Minosse dice, quasi inizi davvero a credergli finche Teseo non ti ricorda il motivo per cui siete qui. Sconfiggere quello che c'Ã¨ dentro il labirinto, qualasi cosa esso sia e vendicare la vita di tutti i vostri amici e coetanei non tornati piÃ¹ indietro.",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": "46"
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Strategia"
+        ],
+        "wrongAnswerGo": [
+          "Strategia"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Strategia",
+        "heightFrame": "119",
+        "activityText": "Discuti con Teseo su quale sia la strategia migliore da adottare. Una volta dentro al labirinto Ã¨ meglio: ",
+        "backgroundImage": "",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Scelta multipla",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [
+          {
+            "text": "Stare Uniti",
+            "score": "10"
+          },
+          {
+            "text": "Separarvi",
+            "score": 0
+          }
+        ],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Arianna"
+        ],
+        "wrongAnswerGo": [
+          "Arianna2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Arianna",
+        "heightFrame": 160,
+        "activityText": " Minosse finisce il suo discorso. Dietro di lui appare una ragazza. E' molto bella. Noti che guarda verso di voi. Chiedi a Teseo di chi si tratta. Chi puo essere?",
+        "backgroundImage": "Marco_0_Arianna_background.jpg",
+        "activityImage": "",
+        "altActivityImage": " ",
+        "streamVideo": "",
+        "widgetType": "Quattro opzioni",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [
+          {
+            "text": "Arianna",
+            "score": "50"
+          },
+          {
+            "text": "Marianna",
+            "score": 0
+          },
+          {
+            "text": "Rosanna",
+            "score": 0
+          },
+          {
+            "text": "Giovanna",
+            "score": "-10"
+          }
+        ],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Prigione"
+        ],
+        "wrongAnswerGo": [
+          "Prigione"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Arianna2",
+        "heightFrame": 160,
+        "activityText": " Minosse finisce il suo discorso. Dietro di lui appare una ragazza. E' molto bella. Noti che guarda verso di voi. Chiedi a Teseo di chi si tratta. Chi puo essere?",
+        "backgroundImage": "Marco_0_Arianna_background.jpg",
+        "activityImage": "",
+        "altActivityImage": " ",
+        "streamVideo": "",
+        "widgetType": "Quattro opzioni",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [
+          {
+            "text": "Arianna",
+            "score": "50"
+          },
+          {
+            "text": "Marianna",
+            "score": 0
+          },
+          {
+            "text": "Rosanna",
+            "score": 0
+          },
+          {
+            "text": "Giovanna",
+            "score": "-10"
+          }
+        ],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Prigione2"
+        ],
+        "wrongAnswerGo": [
+          "Prigione2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Prigione",
+        "heightFrame": 160,
+        "activityText": "Teseo ti fa notare che si tratta di Arianna la figlia di Minosse. C'Ã¨ qualcosa di strano. Nel frattempo Minosse vi fa entrare in una stanza, una prigione, in attesa dell'entrata nel labirinto di domani. Andate a dormire, domani sarÃ  una lunga e difficile giornata.\n",
+        "backgroundImage": "Marco_0_Prigione_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Visite"
+        ],
+        "wrongAnswerGo": [
+          "Visite"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Prigione2",
+        "heightFrame": 160,
+        "activityText": "Teseo ti fa notare che si tratta di Arianna la figlia di Minosse. C'Ã¨ qualcosa di strano. Nel frattempo Minosse vi fa entrare in una stanza, una prigione, in attesa dell'entrata nel labirinto di domani. Andate a dormire, domani sarÃ  una lunga e difficile giornata.\n",
+        "backgroundImage": "Marco_0_Prigione_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Visite2"
+        ],
+        "wrongAnswerGo": [
+          "Visite2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Visite",
+        "heightFrame": 160,
+        "activityText": "Senti bussare alla porta. Apri gli occhi e vedi Teseo che si alza in piedi e va verso la porta. Lo senti parlare con una ragazza, riconosci che Ã¨ Arianna, la figlia di Minosse. I due parlano a lungo, al termine, Teseo torna con qualcosa in mano. Teseo ti mostra ciÃ² che Arianna gli ha donato. E' un gomitolo, a cosa potrebbe servirvi il giorno dopo?",
+        "backgroundImage": "Marco_0_Visite_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Input testuale valutatore",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Entrata"
+        ],
+        "wrongAnswerGo": [
+          "Entrata"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Visite2",
+        "heightFrame": 160,
+        "activityText": "Senti bussare alla porta. Apri gli occhi e vedi Teseo che si alza in piedi e va verso la porta. Lo senti parlare con una ragazza, riconosci che Ã¨ Arianna, la figlia di Minosse. I due parlano a lungo, al termine, Teseo torna con qualcosa in mano. Teseo ti mostra ciÃ² che Arianna gli ha donato. E' un gomitolo, a cosa potrebbe servirvi il giorno dopo?",
+        "backgroundImage": "Marco_0_Visite_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Input testuale valutatore",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [],
+        "wrongAnswerGo": [],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Entrata",
+        "heightFrame": 160,
+        "activityText": "Oggi Ã¨ il giorno dell'entrata nel labirinto. Hai molta paura. Ma devi aiutare Teseo e la cittÃ  di Atene. Carico di tutta la forza che hai ti alzi assieme a Teseo raggiungete l'entrata del labirinto.\n",
+        "backgroundImage": "Marco_0_Entrata_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Primipassi"
+        ],
+        "wrongAnswerGo": [
+          "Primipassi"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Primipassi",
+        "heightFrame": "286",
+        "activityText": "Entrati Teseo inizia a sciogliere il gomitolo, usandolo come mezzo per ritrovare la via d'uscita. Non sapete quali prove vi si metteranno davanti, ma andate dritti per il vostro scopo.\n",
+        "backgroundImage": "Marco_0_Primipassi_background.jpg",
+        "activityImage": "Marco_0_Primipassi_activity.png",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Poseidone"
+        ],
+        "wrongAnswerGo": [
+          "Poseidone"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Poseidone",
+        "heightFrame": 160,
+        "activityText": "Sono ore che camminate nel labirinto finchÃ¨ al suo interno non vedete una statua. E' la statua di Poseidone. Sotto alla statua c'Ã¨ una didascalia, la leggi \"Rispondi alla domanda e segui il tragitto in base alla risposta\".\nPoseidone Ã¨ il Dio di:",
+        "backgroundImage": "Marco_0_Poseidone_background.jpg",
+        "activityImage": "Marco_0_Poseidone_activity.png",
+        "altActivityImage": "Statua del Dio Poseidone",
+        "streamVideo": "",
+        "widgetType": "Quattro opzioni",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [
+          {
+            "text": "Mare",
+            "score": "150"
+          },
+          {
+            "text": "Fuoco",
+            "score": 0
+          },
+          {
+            "text": "Guerra",
+            "score": "-50"
+          },
+          {
+            "text": "Acqua",
+            "score": "100"
+          }
+        ],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Cammino"
+        ],
+        "wrongAnswerGo": [
+          "Cammino"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Cammino",
+        "heightFrame": 160,
+        "activityText": "Continuate a camminare, a percorrere strada dopo strada.",
+        "backgroundImage": "Marco_0_Cammino_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Dedalo"
+        ],
+        "wrongAnswerGo": [
+          "Dedalo"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Dedalo",
+        "heightFrame": 160,
+        "activityText": "C'Ã¨ una targa su una siepe. La leggi: \"Labirinto creato da Dedalo\". Chi Ã¨ Dedalo?",
+        "backgroundImage": "Marco_0_Dedalo_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Quattro opzioni",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "Dedalo Ã¨ stato un grande architetto, scultore ed inventore, noto soprattutto per essere il costruttore del famoso labirinto del Minotauro a Creta. Proprio per quest'ultimo fatto, il suo nome Ã¨ usato ancor oggi come sinonimo di \"labirinto\". ",
+        "fourAnswers": [
+          {
+            "text": "Inventore",
+            "score": "100"
+          },
+          {
+            "text": "Dottore",
+            "score": 0
+          },
+          {
+            "text": "Servo",
+            "score": 0
+          },
+          {
+            "text": "Re",
+            "score": "-100"
+          }
+        ],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Voci"
+        ],
+        "wrongAnswerGo": [
+          "Voci"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Voci",
+        "heightFrame": 160,
+        "activityText": "Sentite delle voci, potrebbe essere qualcuno dei ragazzi entrati nel labirinto con voi, le seguite fino a raggiungerle.",
+        "backgroundImage": "Marco_0_Voci_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Dedaloeicaro"
+        ],
+        "wrongAnswerGo": [
+          "Dedaloeicaro"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Dedaloeicaro",
+        "heightFrame": "291",
+        "activityText": "Una volta vicinissimi alle voci girate l'angolo e davanti a voi  trovate un uomo e suo figlio. Si tratta proprio di Dedalo e suo figlio Icaro! Chiedete come mai sono anche loro nel labirinto e come uscirne. ",
+        "backgroundImage": "Marco_0_Dedaloeicaro_background.jpg",
+        "activityImage": "Marco_0_Dedaloeicaro_activity.png",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Dedaloeicaro2"
+        ],
+        "wrongAnswerGo": [
+          "Dedaloeicaro2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Dedaloeicaro2",
+        "heightFrame": "291",
+        "activityText": "Dedalo ti spiega che Ã¨ stato rinchiuso nel labirinto da  Minosse, fortemente arrabbiato con lui. Dedalo ti spiega anche  che ha un piano per fuggire dal labirinto. Noti infatti che sta costruendo delle ali assieme a suo figlio per fuggire via dal labirinto. Chiedi qualche consiglio su come trovare il Minotauro e tu e Teseo continuate per la vostra strada.",
+        "backgroundImage": "Marco_0_Dedaloeicaro_background.jpg",
+        "activityImage": "Marco_0_Dedaloeicaro_activity.png",
+        "altActivityImage": "Immagine di Dedalo",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Vagando"
+        ],
+        "wrongAnswerGo": [
+          "Vagando"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Vagando",
+        "heightFrame": 160,
+        "activityText": "L'aria si fa sempre piÃ¹ cupa ed il sole cala sempre di piÃ¹, ancora nessuna traccia del Minotauro.\n",
+        "backgroundImage": "Marco_0_Vagando_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Zeus"
+        ],
+        "wrongAnswerGo": [
+          "Zeus"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Zeus",
+        "heightFrame": 160,
+        "activityText": "Davanti a voi trovate un'altra statua. C'Ã¨ scritto di rispondere ad una domanda e seguire la strada indicata dalla risposta. E' la statua di Zeus. E' vero che Zeus Ã¨ il Dio del fuoco?",
+        "backgroundImage": "Marco_0_Zeus_background.jpg",
+        "activityImage": "Marco_0_Zeus_activity.png",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Vero o falso",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": "100"
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Ombra"
+        ],
+        "wrongAnswerGo": [
+          "Errore"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Ombra",
+        "heightFrame": 160,
+        "activityText": "ontinuate a camminare finchÃ¨ non vedete una strana ombra davanti a voi. E' proprio lui il Minotauro! Il mostro si accorge di voi e vi attacca, con la sua forza sovraumana riesce a scaraventare Teseo lontano. E' tutto nelle tue mani.\n\n",
+        "backgroundImage": "Marco_0_Vagando_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Lotta"
+        ],
+        "wrongAnswerGo": [
+          "Lotta"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Ombra2",
+        "heightFrame": 160,
+        "activityText": "ontinuate a camminare finchÃ¨ non vedete una strana ombra davanti a voi. E' proprio lui il Minotauro! Il mostro si accorge di voi e vi attacca, con la sua forza sovraumana riesce a scaraventare Teseo lontano. E' tutto nelle tue mani.\n\n",
+        "backgroundImage": "Marco_0_Vagando_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Lotta2"
+        ],
+        "wrongAnswerGo": [
+          "Lotta2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Errore",
+        "heightFrame": 160,
+        "activityText": "Avevate preso la strada errata ed eravate tornati indietro. Per fortuna grazie al filo donato da Arianna riuscite a ritrovare la retta via che era stata smarrita. Fin che d'un tratto...",
+        "backgroundImage": "Marco_0_Vagando_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Ombra2"
+        ],
+        "wrongAnswerGo": [
+          "Ombra2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Lotta",
+        "heightFrame": 160,
+        "activityText": "La lotta si fa sempre di piÃ¹ dura, cerchi di resistere e di schivare i colpi del minotauro il piÃ¹ possibile ma la situazione Ã¨ critica. Ti dimeni sempre piÃ¹ finchÃ¨ non vedi Teseo che trova una spada tra le siepi del labirinto. Decidi di immolarti e fare da esca. Il minotauro ti punta e ti attacca. Se fai un passo falso potrebbe essere l'ultimo per te.\n",
+        "backgroundImage": "Marco_0_Lotta_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Lottacontinua"
+        ],
+        "wrongAnswerGo": [
+          "Lottacontinua"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Lotta2",
+        "heightFrame": 160,
+        "activityText": "La lotta si fa sempre di piÃ¹ dura, cerchi di resistere e di schivare i colpi del minotauro il piÃ¹ possibile ma la situazione Ã¨ critica. Ti dimeni sempre piÃ¹ finchÃ¨ non vedi Teseo che trova una spada tra le siepi del labirinto. Decidi di immolarti e fare da esca. Il minotauro ti punta e ti attacca. Se fai un passo falso potrebbe essere l'ultimo per te.\n",
+        "backgroundImage": "Marco_0_Lotta_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Lottacontinua2"
+        ],
+        "wrongAnswerGo": [
+          "Lottacontinua2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Lottacontinua",
+        "heightFrame": 160,
+        "activityText": "Il minotauro si avvicina sempre piÃ¹, corre molto veloce, devi scegliere il momento giusto per schivarlo. 3...2...1...\n",
+        "backgroundImage": "Marco_0_Lottacontinua_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Salto"
+        ],
+        "wrongAnswerGo": [
+          "Salto"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Lottacontinua2",
+        "heightFrame": 160,
+        "activityText": "Il minotauro si avvicina sempre piÃ¹, corre molto veloce, devi scegliere il momento giusto per schivarlo. 3...2...1...\n",
+        "backgroundImage": "Marco_0_Lottacontinua_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Salto2"
+        ],
+        "wrongAnswerGo": [
+          "Salto2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Salto",
+        "heightFrame": 160,
+        "activityText": "SALTI! Il Minotauro non ti colpisce e si blocca in una siepe, Teseo con la sua spada riesce a colpirlo e a porre fine a tutta questa storia. Ce l'avete fatta!\n",
+        "backgroundImage": "Marco_0_Salto_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Uscita"
+        ],
+        "wrongAnswerGo": [
+          "Uscita"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Salto2",
+        "heightFrame": 160,
+        "activityText": "SALTI! Il Minotauro non ti colpisce e si blocca in una siepe, Teseo con la sua spada riesce a colpirlo e a porre fine a tutta questa storia. Ce l'avete fatta!\n",
+        "backgroundImage": "Marco_0_Salto_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Uscita2"
+        ],
+        "wrongAnswerGo": [
+          "Uscita2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Uscita",
+        "heightFrame": 160,
+        "activityText": "Ora non resta che fuggire dal labirinto. Dovete solo seguire il filo al contrario. Correte piu veloci del vento. ",
+        "backgroundImage": "Marco_0_Uscita_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Ritorno"
+        ],
+        "wrongAnswerGo": [
+          "Ritorno"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Uscita2",
+        "heightFrame": 160,
+        "activityText": "Ora non resta che fuggire dal labirinto. Dovete solo seguire il filo al contrario. Correte piu veloci del vento. ",
+        "backgroundImage": "Marco_0_Uscita_background.jpg",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Nessuno",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "",
+        "fourAnswers": [],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [
+          "Ritorno2"
+        ],
+        "wrongAnswerGo": [
+          "Ritorno2"
+        ],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Ritorno",
+        "heightFrame": 160,
+        "activityText": "Usciti dal labirinto, radunate gli altri e correte subito alla barca. Si torna a casa! Adesso per tornare a casa che direzione dovete seguire?",
+        "backgroundImage": "",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Quattro opzioni",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "Teseo ti da una pacca sulla spalla. La direzione giusta Ã¨ nord-ovest!",
+        "fourAnswers": [
+          {
+            "text": "Nord-Ovest",
+            "score": "100"
+          },
+          {
+            "text": "Sud-Est",
+            "score": 0
+          },
+          {
+            "text": "Nord-Est",
+            "score": 0
+          },
+          {
+            "text": "Sud-Ovest",
+            "score": 0
+          }
+        ],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [],
+        "wrongAnswerGo": [],
+        "activityIsUsed": true,
+        "firstActivity": false
+      },
+      {
+        "title": "Ritorno2",
+        "heightFrame": 160,
+        "activityText": "Usciti dal labirinto, radunate gli altri e correte subito alla barca. Si torna a casa! Adesso per tornare a casa che direzione dovete seguire?",
+        "backgroundImage": "",
+        "activityImage": "",
+        "altActivityImage": "",
+        "streamVideo": "",
+        "widgetType": "Quattro opzioni",
+        "topInput": 320,
+        "leftInput": 15,
+        "heightInput": 60,
+        "widthInput": 170,
+        "errorMessage": "Teseo ti da una pacca sulla spalla. La direzione giusta Ã¨ nord-ovest!",
+        "fourAnswers": [
+          {
+            "text": "Nord-Ovest",
+            "score": "100"
+          },
+          {
+            "text": "Sud-Est",
+            "score": 0
+          },
+          {
+            "text": "Nord-Est",
+            "score": 0
+          },
+          {
+            "text": "Sud-Ovest",
+            "score": 0
+          }
+        ],
+        "multipleAnswers": [],
+        "trueFalseAnswer": {
+          "trueScore": 0,
+          "falseScore": 0
+        },
+        "textAnswer": {
+          "value": "",
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "rangeAnswer": {
+          "possibleStart": 0,
+          "possibleEnd": 0,
+          "start": 0,
+          "end": 0,
+          "scoreOk": 0,
+          "scoreWrong": 0
+        },
+        "correctAnswerGo": [],
+        "wrongAnswerGo": [],
+        "activityIsUsed": true,
+        "firstActivity": false
+      }
+    ],
+    "finalMessage": {
+      "message1": "Dovresti rileggere il mito!",
+      "range1": [
+        -10000,
+        0
+      ],
+      "message2": "Bravo! A grandi linee conosci il mito del minotauro!",
+      "range2": [
+        1,
+        100
+      ],
+      "message3": "Perfetto! Sembri un vero greco!",
+      "range3": [
+        101,
+        10000
+      ]
+    }
+  }

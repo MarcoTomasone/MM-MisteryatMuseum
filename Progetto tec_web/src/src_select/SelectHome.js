@@ -20,9 +20,9 @@ function SelectHome(){
             qr = new QRious({
                 element: document.getElementById('qr-code'),
                 size: 200,
-                value: `http://127.0.0.1:5500/src2/player.html?story=${story}`
+                value: `http://127.0.0.1:5500/src2/index2.html?story=${story}`
             });
-            setLink(`http://127.0.0.1:5500/src2/player.html?story=${story}`)
+            setLink(`http://127.0.0.1:5500/src2/index2.html?story=${story}`)
         }
     }
 

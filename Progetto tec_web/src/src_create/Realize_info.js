@@ -1,5 +1,5 @@
 const e = React.createElement;
-const {Button, Icon, Radio, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, FormControlLabel, RadioGroup, withStyles, Slider, Typography} = window['MaterialUI']; //to load the component from the library
+const {Button, Icon, Radio, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, FormControlLabel, RadioGroup, withStyles, Slider, Typography } = window['MaterialUI']; //to load the component from the library
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -30,7 +30,24 @@ const useStyles = makeStyles((theme) => ({
         color: "grey", 
         width: 300,
     },
-
+    inputMessage: {
+        [`& fieldset`]: {
+            borderRadius: 15,
+            width: 300,
+        },
+        width: 300,
+        marginBottom: 5,
+        marginTop: 5
+    },
+    rangeMessage: {
+        [`& fieldset`]: {
+            borderRadius: 15,
+            width:120,
+        },
+        width: 120,
+        marginBottom: 5,
+        marginTop: 5
+    }
 }));
 
 const marks = [
@@ -76,17 +93,19 @@ function Realize_info(props){
     const [accessibility, setaccessibility] = React.useState(false);
     const [participantsType, setParticipantsType] = React.useState('singlePlayer');
     const [age, setAge] = React.useState([0, 100]);
+    const [finalMessage, setFinalMessage] = React.useState({
+        message1: "",
+        range1: [-10000, 0],
+        message2: "",
+        range2: [1, 100],
+        message3: "",
+        range3: [101, 10000]
+    });
+
 
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Inserisci le informazioni generali della tua storia";
         if (props.story) {
-            document.getElementById("title").value               =   props.story.title;
-            document.getElementById("objective").value           =   props.story.objective;
-            document.getElementById("description").value         =   props.story.description;
-            document.getElementById("gender").value              =   props.story.gender;
-            document.getElementById("accessibility").value       =   props.story.accessibility;
-            document.getElementById("participantsType").value    =   props.story.participantsType;
-            document.getElementById("age").value                 =   [props.story.ageStart, props.story.ageEnd]
             setTitle(props.story.title)
             setObjective(props.story.objective)
             setDescription(props.story.description)
@@ -94,9 +113,20 @@ function Realize_info(props){
             setaccessibility(props.story.accessibility.value);
             setParticipantsType(props.story.participantsType.value);
             setAge([props.story.ageStart, props.story.ageEnd]);
+            setFinalMessage(props.story.finalMessage);
             props.setStep([true, false])
         }
     }, [])
+
+    function updateField(e){
+        e.preventDefault();
+        const [section, key] = e.target.name.split(".");      
+        if (key) {
+            setActivity({...activity, [section]: {...activity[section], [key]: e.target.value}});
+        } else {
+            setActivity({...activity, [section]: e.target.value});
+        }
+    };
     
     
     async function createNewJsonFile() {
@@ -106,8 +136,10 @@ function Realize_info(props){
             if (document.getElementById(element).value == "") c = false;
         })
         if (!c) {
-            alert("Compila prima tutti i campi")  
-        } else {
+            alert("Compila prima i primi quattro campi essenziali")  
+        } else if (finalMessage.range2[0] >=  finalMessage.range2[1]){
+            alert("I range scelti per il messaggio finale devono essere coerenti")  
+        }else {
             var file = {}
             var acc = (accessibility) ? "../../img/accessibility_1.png" : "../../img/no_accessibility_1.png"
             var player = (participantsType == "singlePlayer") ? "../../img/single.png" : (participantsType == "group") ? "../../img/one_group.png" : "../../img/more_group.png"
@@ -128,6 +160,7 @@ function Realize_info(props){
                 file.participantsType.value = participantsType
                 file.ageStart = age[0]
                 file.ageEnd = age[1]
+                file.finalMessage = finalMessage
             }
             else {
                 var idNUmber = 0;
@@ -163,6 +196,7 @@ function Realize_info(props){
                         textColor: "#ffffff",
                         textBackgroundColorActived: false,
                         textBackgroundColor: "#000000",
+                        textBackgroundColorOpacity: 0,
                         fontFamily: "Arial",
                         sizeFont: 14,
                         weightFont: 500,
@@ -176,6 +210,7 @@ function Realize_info(props){
                             backgroundColor: "#000000",
                             frameColor: "#ffffff",
                             textColor: "#ffffff",
+                            borderRadius: 0,
                         },
                         scoreDiv: {
                             backgroundColor: "#000000",
@@ -224,7 +259,8 @@ function Realize_info(props){
                         backgroundImage: "",
                         activityImage: "",
                         altActivityImage: "",
-                        correctAnswerGo: []
+                        correctAnswerGo: [],
+                        streamVideo: ""
                     },
                     lastActivity: {
                         heightFrame: 160,
@@ -232,9 +268,11 @@ function Realize_info(props){
                         backgroundImage: "",
                         activityImage: "",
                         altActivityImage: "",
-                        correctAnswerGo: []
+                        correctAnswerGo: [],
+                        streamVideo: ""
                     },
                     activities: [],
+                    finalMessage: finalMessage
                 }
             }
             props.setStory(file)
@@ -247,10 +285,10 @@ function Realize_info(props){
     return(
         e("div", {id: props.id, className: props.className}, [
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "title", className: classes.input, label: "Titolo", type:"search", variant:"outlined", onChange: (e) => setTitle(e.target.value)})
+                e(TextField, {id: "title", className: classes.input, value: title, label: "Titolo", type:"search", variant:"outlined", onChange: (e) => setTitle(e.target.value)})
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(FormControl, {id: "gender", variant: "outlined", className: classes.formControl}, [
+                e(FormControl, {id: "gender", variant: "outlined", className: classes.formControl, value: gender}, [
                     e(InputLabel, {htmlFor: "gender_label"}, "Genere"),
                     e(Select, {inputProps: {name: "Genere", id: "gender_label"}, label: "Genere", value: gender, onChange: (event) => setGender(event.target.value)}, [
                         e(MenuItem, {value: "Avventura"}, "Avventura"),
@@ -267,13 +305,13 @@ function Realize_info(props){
                 ])
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "objective", className: classes.input, label: "Obbiettivo didattico", type:"search", variant:"outlined", onChange: (e) => setObjective(e.target.value)})
+                e(TextField, {id: "objective", className: classes.input, value: objective, label: "Obbiettivo didattico", type:"search", variant:"outlined", onChange: (e) => setObjective(e.target.value)})
             ]),
             e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "description", className: classes.input, multiline: true, rows: 2, inputProps: {maxLength: 140}, helperText: "Massimo 140 caratteri", label: "Breve descrizione", type:"search", variant:"outlined", onChange: (e) => setDescription(e.target.value)})
+                e(TextField, {id: "description", className: classes.input, value: description, multiline: true, rows: 2, inputProps: {maxLength: 140}, helperText: "Massimo 140 caratteri", label: "Breve descrizione", type:"search", variant:"outlined", onChange: (e) => setDescription(e.target.value)})
             ]),
             e("div", {className: "sx_realize_option"}, [
-                e(FormControl, {id: "accessibility", variant: "outlined", className: classes.formControl}, [
+                e(FormControl, {id: "accessibility", variant: "outlined", className: classes.formControl, value: accessibility}, [
                     e(FormControlLabel, {className: classes.formControl, control: e(SwitchButton, {checked: accessibility, onChange: () => setaccessibility((prev) => !prev)}),  label: "Storia accessibile"})
                 ])
             ]),
@@ -287,6 +325,26 @@ function Realize_info(props){
             e("div", {className: "sx_realize_option_age"}, [
                 e(Typography, {htmlFor:"age", gutterBottom: true}, "Range età consigliata (anni)"),
                 e(Slider, {id: "age", className: classes.age, value: age, onChange: (event, newEvent) => setAge(newEvent), valueLabelDisplay: "auto", color: "default", marks: marks})
+            ]),
+            e("div", {className: "sx_realize_option_message"}, [
+                e("div", {className: "sx_realize_option_message_firstColumn"}, [
+                    e(TextField, {id: "messagge1", className: classes.inputMessage, value: finalMessage.message, label: "Messaggio con score non buono", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message1"]: e.target.value})}),
+                    e(TextField, {id: "messagge2", className: classes.inputMessage, value: finalMessage.message, label: "Messaggio con score nella media", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message2"]: e.target.value})}),
+                    e(TextField, {id: "messagge3", className: classes.inputMessage, value: finalMessage.message, label: "Messaggio con score ottimo", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message3"]: e.target.value})}),
+                ]),
+                e("div", {className: "sx_realize_option_message_secondColumn"}, [
+                    e(TextField, {id: "value2", className: classes.rangeMessage, value: finalMessage.range1[1], label: "Valore", type:"number", variant:"outlined", onChange:  (e) => {
+                        setFinalMessage({...finalMessage, ["range1"]: [-10000, parseInt(e.target.value)], ["range2"]: [parseInt(e.target.value) + 1, finalMessage.range2[1]]})
+                    }}),
+                    e(TextField, {id: "value1", className: classes.rangeMessage, value: finalMessage.range2[1], label: "Valore", type:"number", variant:"outlined", onChange:  (e) => {
+                        setFinalMessage({...finalMessage, ["range2"]: [finalMessage.range2[0], parseInt(e.target.value)], ["range3"]: [parseInt(e.target.value) + 1, 10000]})
+                    }}),
+                ]),
+                e("div", {className: "sx_realize_option_message_thirdColumn"}, [
+                    e("div", null, `[-∞, ${finalMessage.range1[1]}]`),
+                    e("div", null, `[${finalMessage.range2[0]}, ${finalMessage.range2[1]}]`),
+                    e("div", null, `[${finalMessage.range3[0]}, ∞]`)
+                ]),
             ]),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createNewJsonFile}, "SALVA"),
         ])

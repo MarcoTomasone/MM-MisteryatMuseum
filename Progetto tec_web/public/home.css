@@ -3,6 +3,7 @@
     margin: 0px;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 html, body {
@@ -11,7 +12,6 @@ html, body {
   min-width: 600px;
   overflow-x: scroll;
   padding: 0px;
-  font-family: "helvetica", "arial", sans-serif;
   font-size: 18px;
   scroll-behavior: smooth;
 }::-webkit-scrollbar {
@@ -30,10 +30,12 @@ a {
 }
 
 .myheader{
-    height: 15%;
+    height: 10%;
     min-height: 50px;
     width: 100%;
     padding: 10px;
+    font-size: 40px;
+    font-weight: 500;;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,7 +43,7 @@ a {
 }
 
 main{
-    height: 85%;
+    height: 90%;
     min-height: 460px;
     width: 100%;
 }
@@ -66,12 +68,13 @@ nav {
     border-radius: 20px;
     overflow: scroll;
 }
+
 .homeBlock h1 {
     text-align: center;
 }
 
 .homeBlock:hover{
-    background: cadetblue;
+    background: rgba(154, 163, 163, 0.671);
 }
 
 .homeBlock > *{

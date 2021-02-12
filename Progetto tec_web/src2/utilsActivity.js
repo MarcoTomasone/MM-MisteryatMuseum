@@ -1,10 +1,20 @@
 import { getRandomInt} from '../utils.js';
 
+export function getFinalMessage(points,getFinalMessage){
+    console.log(getFinalMessage);
+    console.log(points);
+    if(eval(getFinalMessage.range1[0]) <= points && eval(getFinalMessage.range1[1] >= points)){
+        return getFinalMessage.message1;
+    }else if (eval(getFinalMessage.range2[0]) <= points && eval(getFinalMessage.range2[1] >= points)){
+        return getFinalMessage.message2;
+    }else return getFinalMessage.message3;
+    
+}
 export function correctAnswerAction(playerId,story,socket,dinamicActivities, counter , dictionaryActivity ,activities, actual){
     if(actual.correctAnswerGo.length === 0){
         const last = activities.length;
         dinamicActivities.push(activities[last - 1]);
-        //socket.emit('finish', {id: playerId, story: story});
+        socket.emit('finish', {id: playerId, story: story});
         
     }else{
         let index = getRandomInt(0,dinamicActivities[counter].correctAnswerGo.length - 1);
@@ -20,7 +30,7 @@ export function wrongAnswerAction(playerId,story,socket,dinamicActivities, count
     if(actual.wrongAnswerGo.length === 0){
         const last = activities.length;
         dinamicActivities.push(activities[last - 1]);
-        //socket.emit('finish', {id: playerId, story: story});
+        socket.emit('finish', {id: playerId, story: story});
     }else{
         let index = getRandomInt(0,dinamicActivities[counter].wrongAnswerGo.length -1);
         console.log("Risposta Errata!");
@@ -36,7 +46,7 @@ export function  mustAnswer(actual){
         case "Vero o falso":
             return false;
         case "Scelta multipla":
-            return false;
+            return true;
         case "Quattro opzioni":
             return false;
         case "Range":
@@ -81,3 +91,7 @@ export function checkButton(answer,dinamicActivities,counter,setLastAnswer,json)
     }
     setLastAnswer(answer);
 }
+
+export function hexToRGBA(hex, opacity) {
+        return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length/3 + '})', 'g')).map(function(l) { return parseInt(hex.length %2 ? l+l : l, 16) }).concat(isFinite(opacity) ? opacity : 1).join(',') + ')';
+    }

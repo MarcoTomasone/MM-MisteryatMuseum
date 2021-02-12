@@ -8,6 +8,8 @@ function SelectHome(){
     const [arrayPrivateStories, setArrayPrivateStories] =  React.useState([]);
     const [storySelected, setStorySelected] =  React.useState("");
     const [error, setError] = React.useState(false);
+    const [link, setLink] = React.useState("");
+
 
     function generateQRCode() {
         if (storySelected == ""){
@@ -20,6 +22,7 @@ function SelectHome(){
                 size: 200,
                 value: `http://127.0.0.1:5500/src2/player.html?story=${story}`
             });
+            setLink(`http://127.0.0.1:5500/src2/player.html?story=${story}`)
         }
     }
 
@@ -49,6 +52,12 @@ function SelectHome(){
         .catch((error) => console.log(error));
     }, [])
 
+    function goLink(){
+        if (link != ""){
+            var win = window.open(link, '_blank');
+            win.focus();
+        }
+    }
     
     return e("div", {className: "containerHome"}, [
         e("div", {className:"containerHome_userSelected"}, [
@@ -58,7 +67,7 @@ function SelectHome(){
             e("div", {className: "sx_publicSelect"}, arrayPrivateStories),
             e("div", {className: "dx_publicSelect"}, [
                 e(Button, {key: "bb0", id: "qr-btn", variant: "contained", onClick:generateQRCode}, "SCANSIONA"),
-                e("canvas", {key: "bb1", id: "qr-code"})
+                e("canvas", {key: "bb1", id: "qr-code", onClick: goLink})
             ])
         ]),
         e(DialogComponent, {fun: setError, open: error, textError: "Selezionare prima una storia"} ),

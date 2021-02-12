@@ -24,12 +24,22 @@ module.exports = {
 
         //get active stories
         app.get('/stories', (req, res) => {
-            const stories = Object.keys(storiesActive); // array of all active stories
+            const storiesPath = path.join(__dirname, '../storiesFolder');
+            const stories = [];
+            if(fs.existsSync(storiesPath)) {
+                fs.readdirSync(storiesPath).forEach((file) => {
+                    const json = fs.readFileSync(storiesPath + '/' + file);
+                    const info = JSON.parse(json);
+                    stories.push({ id: info.id, title: info.title, img: info.player.backgroundImage.match(/([^\/]*)\/*$/)[1] });
+                    if(!(info.id in storiesActive))
+                        storiesActive[info.id] = {};                  
+                });
+            }
             const nPlayers = {};
             if(stories.length <= 0)
                 return;
             stories.forEach((story) => {
-                nPlayers[story] = Object.keys(storiesActive[story]).length;
+                nPlayers[story.id] = Object.keys(storiesActive[story.id]).length;
             })
             const infoStories = JSON.stringify({stories: stories, nPlayers: nPlayers});
             res.end(infoStories);
@@ -175,20 +185,6 @@ module.exports = {
                 const item = [section.section, section.question, section.answer, section.timer, section.points];
                 rows.push(item);
             });
-
-            /*let ciao;
-            for(i = 0; i < answer.length ; i++) {
-                if(answer[i].startsWith("http")) {
-                    ciao = answer[i];
-                    const bitmap = fs.readFileSync(path.join(__dirname, answer[i].replace('http://localhost/MM-MisteryatMuseum/Progetto%20tec_web/server/', '../')));
-                    const base64str = Buffer.from(bitmap).toString('base64');
-                    answer[i] = base64str;
-    
-                }
-                else
-                    answer[i] = false;
-            };*/
-        
             doc.autoTable(col, rows,  {
                 tableLineColor: [189, 195, 199],
                 tableLineWidth: 0.3,
@@ -196,14 +192,6 @@ module.exports = {
                 columnStyles: {
                     2: {columnWidth: 30},
                 },
-                /*didDrawCell: function(data) {
-                    if(data.cell.section == "body" && data.column.index == 2 && answer[data.raw] != false) {
-                       const img = answer[data.raw];
-                       const dim = data.cell.height - data.cell.padding('vertical');
-                       const textPos = data.cell.textPos;
-                       doc.addImage(img, 0,  0, dim, dim);
-                    }
-                }*/
             });
             const pdf = doc.output();
             res.contentType("application/pdf;charset=utf-8");

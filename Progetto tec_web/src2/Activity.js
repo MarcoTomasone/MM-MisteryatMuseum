@@ -1,7 +1,7 @@
 import ButtonType from './ButtonType.js';
 import inputType from './InputType.js';
 import { sendData, postOnServer} from './dataHandler.js';
-import {correctAnswerAction,wrongAnswerAction,mustAnswer,checkButton} from './utilsActivity.js'
+import {correctAnswerAction,wrongAnswerAction,mustAnswer,checkButton,getFinalMessage} from './utilsActivity.js'
 import { getButtonNextProperty,getDivBorder,getTextStyle } from './style.js';
 const e = React.createElement;
 let timer; 
@@ -34,22 +34,25 @@ export const Activity = React.forwardRef((props, ref) => {
         },
     }));
 
-    
+
     function inc( path ){
         
         if( mustAnswer(actual) || (lastAnswer != null)){
             let actual = dinamicActivities[counter];        
             let questionIndex = activities.indexOf(dinamicActivities[counter]);
             if(dinamicActivities[counter] === props.json.lastActivity){
-                now = new Date();
+                /*now = new Date();
                 const date = new Date(0);
                 seconds = Math.trunc ( (now.getTime() - startDate.getTime()) / 1000 );
                 date.setSeconds(seconds);
                 const timeString = date.toISOString().substr(11, 8);
-                sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, timeString, props.story, 0);
+                *///sendData(props.playerId, activities[questionIndex].activityText, "Non ci sono risposte!", counter, timeString, props.story, 0);
                 let final = props.json.lastActivity;
-                final.activityText= "Grazie per aver giocato :)";
+                
+                final.activityText= getFinalMessage(props.points,props.json.finalMessage);
+
                 dinamicActivities.push(final);
+
             }
             clearInterval(timer);
             if(!Object.is(dinamicActivities[counter],props.json.lastActivity)){
@@ -59,6 +62,7 @@ export const Activity = React.forwardRef((props, ref) => {
                     seconds = Math.trunc ( (now.getTime() - startDate.getTime()) / 1000 );
                     date.setSeconds(seconds);
                     const timeString = date.toISOString().substr(11, 8);
+                   
                     switch(dinamicActivities[counter].widgetType){
                         case "" || "Nessuno":
                             correctAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
@@ -81,7 +85,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         break;
                         case "Vero o falso":
                             let answerL = lastAnswer ? "Vero" : "Falso";
-                            if(((eval(dinamicActivities[counter].trueFalseAnswer.trueScore)) > 0 ) && (answerL === "Vero")){
+                            if((eval(dinamicActivities[counter].trueFalseAnswer.trueScore) > 0 ) && (answerL === "Vero") || ((eval(dinamicActivities[counter].trueFalseAnswer.falseScore)) > 0 ) && (answerL === "Falso")){
                                 correctAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
                                 props.setPoints(props.points + eval(dinamicActivities[counter].trueFalseAnswer.trueScore));
                                 actualPoints = eval(dinamicActivities[counter].trueFalseAnswer.trueScore);
@@ -94,18 +98,24 @@ export const Activity = React.forwardRef((props, ref) => {
                             sendData(props.playerId, activities[questionIndex].activityText, answerL, counter, timeString,  props.story, actualPoints);
                             break;
                         case "Scelta multipla":
-                            if(eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score)>0){
+                            let answer;
+                            if(lastAnswer === null){
+                                answer = 0;
+                            }else{
+                                answer = lastAnswer;
+                            }
+                            if(eval(dinamicActivities[counter].multipleAnswers[answer].score)>0){
                                 console.log("risposta giusta");
                                 correctAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
-                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);
+                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[answer].score));
+                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[answer].score);
                             }else{
                                 console.log("risposta errata");
                                 wrongAnswerAction(props.playerId,props.story,props.socket,dinamicActivities,counter,props.dictionaryActivity,activities,actual);
-                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score));
-                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[lastAnswer].score);    
+                                props.setPoints(props.points + eval(dinamicActivities[counter].multipleAnswers[answer].score));
+                                actualPoints = eval(dinamicActivities[counter].multipleAnswers[answer].score);    
                             }
-                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[lastAnswer].text , counter, timeString, props.story, actualPoints);
+                            sendData(props.playerId, activities[questionIndex].activityText,dinamicActivities[counter].multipleAnswers[answer].text , counter, timeString, props.story, actualPoints);
                             break;
                         case "Range":
                             let value = eval(document.getElementById("rangenpt").value);  
@@ -181,7 +191,7 @@ export const Activity = React.forwardRef((props, ref) => {
     if(dinamicActivities[counter].activityImage !== ""){     
     // -->  richiesta al server per il media 
     var base64data;
-
+    
     axios.get(`${props.server}/downloadImage/${dinamicActivities[counter].activityImage}`, { responseType:"blob" })
             .then(function (response) {
             var blob1 = response.data;
@@ -207,7 +217,7 @@ export const Activity = React.forwardRef((props, ref) => {
                         }));    
     }
 
-/*      if(dinamicActivities[counter].streamVideo !== ""){
+      if(dinamicActivities[counter].streamVideo !== ""){
         const videoSource = dinamicActivities[counter].streamVideo;
         let source;
         if(dinamicActivities[counter].streamVideo.indexOf('watch')>-1){
@@ -220,7 +230,7 @@ export const Activity = React.forwardRef((props, ref) => {
 
         mediaProp.push(e("iframe",{controls: true , id:'ytplayer',autoPlay: true,src:source,key:"video"}));
     }
-*/
+
     /**per inserire immagini dentro o fuori il divActivity é necessario spostare il vettore mediaProp
      * o come figlio di 
      * oppure come figlio di activity e impostare i cambiamenti nel json opportuno

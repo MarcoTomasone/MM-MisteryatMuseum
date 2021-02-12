@@ -27,7 +27,7 @@ function Login(props){
     }
 
     return e("div", {id: "loginDiv", onSubmit: loginFunction}, [
-        e("img", {id: "loginDiv_img", src: "../../Img/avatar.png"}),
+        e("img", {id: "loginDiv_img", src: "../../img/avatar.png"}),
         e("p", {id: "loginDiv_p"}, "INSERIRE USERNAME"),
         e(TextField, {
             id:"loginDiv_TextField",

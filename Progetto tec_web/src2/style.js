@@ -1,3 +1,5 @@
+import {hexToRGBA} from './utilsActivity.js'
+
 /**
  * Function using on App2.js
  * @param getButtonChatProperty     ActivityList counter data
@@ -145,15 +147,19 @@ export function getDivBorder(dinamicActivities,counter,data){
             borderRadius:data.player.borderRadiusFrame+'px',
             fontFamily: data.player.fontFamily,
             borderColor:data.player.frameColor,
-            background:(data.player.textBackgroundColorActived)? data.player.textBackgroundColor : 'repeat', 
+            background:(data.player.textBackgroundColorActived)? 
+                hexToRGBA(data.player.textBackgroundColor,data.player.textBackgroundColorOpacity/100)
+            : 'repeat', 
             height : `${dinamicActivities[counter].heightFrame* window.innerHeight / 437}px`,
             left:`${data.player.leftFrame* window.innerWidth /202}px`,
+            weightFont:data.player.weightFont,
             width:`${data.player.widthFrame* window.innerWidth /202}px`,
             top:`${data.player.topFrame* window.innerHeight /437}px`,
             fontSize:data.player.sizeFont* 2,
             overflowX:'hidden',
             overflowY:'scroll',
     }
+    console.log(tmp);
     return tmp;
 }
 
@@ -194,7 +200,7 @@ export function getInputGroupProperty(dinamicActivities,counter,data){
             width:`${dinamicActivities[counter].widthInput  *window.innerWidth /202}px`,
             height:`${dinamicActivities[counter].heightInput  *window.innerHeight /437}px`,
             left:`${dinamicActivities[counter].leftInput *window.innerWidth /202}px`,
-            right:`${dinamicActivities[counter].rightInput  *window.innerHeight /437}px`,
+            right:`${dinamicActivities[counter].rightInput  *window.innerWidth /437}px`,
             top:`${dinamicActivities[counter].topInput  *window.innerHeight /437}px`,
             bottom:`${dinamicActivities[counter].buttonInput  *window.innerHeight /437}px`
     };
@@ -212,8 +218,9 @@ export function getInputGroupProperty(dinamicActivities,counter,data){
             height:(dinamicActivities[counter].widgetType === "Vero o falso")? '100%':'50%',
             width:'50%',
             border:'solid',
-            //borderRadius:data.player.inputDiv.borderRadius,
-            borderColor:data.player.inputDiv.frameColor
+            borderRadius:data.player.inputDiv.borderRadius,
+            borderColor:data.player.inputDiv.frameColor,
+
      };
 
      return tmp;
@@ -238,7 +245,7 @@ export function getInputGroupProperty(dinamicActivities,counter,data){
      const tmp = {
             height:(dinamicActivities[counter].widgetType === "Vero o falso")? '100%':'50%',
             color:'black',
-            //borderRadius:props.json.player.inputDiv.borderRadius,
+            borderRadius:data.player.inputDiv.borderRadius,
             backgroundColor:'yellow',
             width:'50%',
             border:'solid',

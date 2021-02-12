@@ -68,7 +68,6 @@ export default function Control(props){
     const [value, setValue] = React.useState(0);
     const [ID, setID] = React.useState("");
     const cardsRef = React.useRef({}); //ref of the cards used for call the cards's functions
-    const dialogRef = React.useRef({});
     const classes = useStyles();
     const classes2 = useStyles2();
     const story = window.location.href.match(/([^\/]*)\/*$/)[1]; //this constant is used to know what story the evaluator is in

@@ -3,20 +3,18 @@ import {init, appendMessage, isEnter} from '../utils.js'
 import { getID } from './dataHandler.js';
 import {getButtonChatProperty, getScoreProperty,getButtonHelpProperty,getActivityNoBackground,getActivityIMG} from './style.js'
 const e = React.createElement;
-const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper}  = MaterialUI;
+const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper, Badge}  = MaterialUI;
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/player.html?story=", "");
-const story = "Marco_0";
+const story = "Matteo_0";
 
 const server = "http://localhost:8000"; //http://site181997.tw.cs.unibo.it
 //Chat
 const socket = io(server, {query: 'type=player'})
 socket.emit('new-player');
 //waiting event
-    socket.on('message-from-evaluator', data => {
-        appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
-    })
+    
 
 let activityList = [];
 const data = init(activityList,story,server);
@@ -27,6 +25,8 @@ function App2() {
     //State for holding the Chat and Help button 
     const [slideHelp, setSlideHelp] = React.useState(false);
     const [slideChat, setSlideChat] = React.useState(false);
+    const [badgeChat, setBadgeChat] = React.useState(true);
+    const [badgeHelp, setBadgeHelp] = React.useState(true);
     const [id, setID] = React.useState("");
     const [points, setPoints] = React.useState(0);
     //const [dialog, setDialog] = React.useState(true);
@@ -41,6 +41,8 @@ function App2() {
             });
             
             socket.on('help-from-evaluator' , data => {
+                if(!slideHelp)
+                    setBadgeHelp(false);
                 var section = null;
                 if(sectionRef.current)
                     section = sectionRef.current.getSection();
@@ -49,8 +51,16 @@ function App2() {
                     p.innerHTML += "<br>" + "Risposta:" + data.answer;
                 }
             });
+
+            socket.on('message-from-evaluator', data => {
+                appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
+                if(!slideChat){
+                    console.log(slideChat);
+                   setBadgeChat(false);
+                }
+                })
         }, []);
-        
+       
         React.useEffect(()=> {
             socket.on('add-points', data => {
                 setPoints(points + parseInt(data.points));
@@ -114,7 +124,7 @@ function App2() {
             appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
             socket.emit('send-to-evaluator', {message: message, id})  //server side
         } 
-        messageInput.value = '' //clean the input text
+        messageInput.value = "" //clean the input text
     } 
 
     const sendHelp = function (){
@@ -139,9 +149,9 @@ function App2() {
     return e(React.Fragment, null, [ 
             e("div", {key:"player",id:"player",style:div_a}, [
                 e("div",{style:navbar,id:"navPlayer"},
-                e("button", {id:"chat-button",variant: 'outlined', 'aria-labelledby': "label-chat",style:btnChat, onClick: ()=> {setSlideHelp(false) ; setSlideChat(!slideChat)}}, "CHAT" ), 
+                e("button", {id:"chat-button",style:btnChat, onClick: ()=> {setSlideHelp(false) ; setSlideChat(!slideChat); setBadgeChat(true)}}, [ e(Badge, {id: "badgeChat", color: "secondary", variant: "dot", invisible: badgeChat, children : "CHAT"})]), 
                 e("div", {id: "points", style: pointStyle}, "Points:" + points),
-                e("button", {id:"help-button", style: btnHelp, onClick: ()=> {setSlideChat(false) ; setSlideHelp(!slideHelp)}}, "AIUTO"),
+                e("button", {id:"help-button",style:btnHelp, onClick: ()=> {setSlideChat(false) ; setSlideHelp(!slideChat); setBadgeHelp(true)}}, [ e(Badge, {id: "badgeHelp", color: "secondary", variant: "dot", invisible: badgeHelp, children : "HELP"})]), 
             )],      
           /*  e(Dialog, {open: dialog, keepMounted: true, onClose: handleClose}, [
                 e(DialogTitle, null, "BENVENUTO IN MISTERY AT MUSEUM"),

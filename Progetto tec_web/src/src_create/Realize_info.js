@@ -95,13 +95,12 @@ function Realize_info(props){
     const [age, setAge] = React.useState([0, 100]);
     const [finalMessage, setFinalMessage] = React.useState({
         message1: "",
-        range1: [-10000, 0],
+        range1: [-100000, 0],
         message2: "",
         range2: [1, 100],
         message3: "",
-        range3: [101, 10000]
+        range3: [101, 100000]
     });
-
 
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = "Inserisci le informazioni generali della tua storia";
@@ -118,14 +117,21 @@ function Realize_info(props){
         }
     }, [])
 
-    function updateField(e){
-        e.preventDefault();
-        const [section, key] = e.target.name.split(".");      
-        if (key) {
-            setActivity({...activity, [section]: {...activity[section], [key]: e.target.value}});
-        } else {
-            setActivity({...activity, [section]: e.target.value});
-        }
+    function changeLetter(string){
+        var res = string
+        res = res.replace("à", '\xe0')
+        res = res.replace("è", '\xc8')
+        res = res.replace("é", '\xc9')
+        res = res.replace("ì", '\xcc')
+        res = res.replace("ò", '\xf2')
+        res = res.replace("ù", '\xf9')
+        res = res.replace("À", '\xc0')
+        res = res.replace("È", '\xc8')
+        res = res.replace("É", '\xc9')
+        res = res.replace("Ì", '\xcc')
+        res = res.replace("Ò", '\xd2')
+        res = res.replace("Ù", '\xc9')
+        return res
     };
     
     
@@ -145,10 +151,10 @@ function Realize_info(props){
             var player = (participantsType == "singlePlayer") ? "../../img/single.png" : (participantsType == "group") ? "../../img/one_group.png" : "../../img/more_group.png"
             if (props.story) {
                 file = props.story
-                file.title = title.charAt(0).toUpperCase() + title.substring(1)
+                file.title = changeLetter(title.charAt(0).toUpperCase() + title.substring(1))
                 file.gender = gender
-                file.objective = objective.charAt(0).toUpperCase() + objective.substring(1)
-                file.description = description.charAt(0).toUpperCase() + description.substring(1)
+                file.objective = changeLetter(objective.charAt(0).toUpperCase() + objective.substring(1))
+                file.description = changeLetter(description.charAt(0).toUpperCase() + description.substring(1))
                 file.accessibility = {
                     value: accessibility,
                     url: acc
@@ -170,10 +176,10 @@ function Realize_info(props){
                     id: `${props.user}_${idNUmber}`,
                     user: props.user,
                     published: false, 
-                    title: title.charAt(0).toUpperCase() + title.substring(1),
+                    title: changeLetter(title.charAt(0).toUpperCase() + title.substring(1)),
                     gender: gender,
-                    objective: objective.charAt(0).toUpperCase() + objective.substring(1),
-                    description: description.charAt(0).toUpperCase() + description.substring(1),
+                    objective: changeLetter(objective.charAt(0).toUpperCase() + objective.substring(1)),
+                    description: changeLetter(description.charAt(0).toUpperCase() + description.substring(1)),
                     accessibility: {
                         value: accessibility,
                         url: acc
@@ -323,14 +329,14 @@ function Realize_info(props){
                 ]),
             ]),
             e("div", {className: "sx_realize_option_age"}, [
-                e(Typography, {htmlFor:"age", gutterBottom: true}, "Range età consigliata (anni)"),
+                e(Typography, {htmlFor:"age", gutterBottom: true}, "Range et\xe0 consigliata (anni)"),
                 e(Slider, {id: "age", className: classes.age, value: age, onChange: (event, newEvent) => setAge(newEvent), valueLabelDisplay: "auto", color: "default", marks: marks})
             ]),
             e("div", {className: "sx_realize_option_message"}, [
                 e("div", {className: "sx_realize_option_message_firstColumn"}, [
-                    e(TextField, {id: "messagge1", className: classes.inputMessage, value: finalMessage.message, label: "Messaggio con score non buono", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message1"]: e.target.value})}),
-                    e(TextField, {id: "messagge2", className: classes.inputMessage, value: finalMessage.message, label: "Messaggio con score nella media", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message2"]: e.target.value})}),
-                    e(TextField, {id: "messagge3", className: classes.inputMessage, value: finalMessage.message, label: "Messaggio con score ottimo", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message3"]: e.target.value})}),
+                    e(TextField, {id: "messagge1", className: classes.inputMessage, value: finalMessage.message1, label: "Messaggio con score non buono", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message1"]: e.target.value})}),
+                    e(TextField, {id: "messagge2", className: classes.inputMessage, value: finalMessage.message2, label: "Messaggio con score nella media", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message2"]: e.target.value})}),
+                    e(TextField, {id: "messagge3", className: classes.inputMessage, value: finalMessage.message3, label: "Messaggio con score ottimo", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message3"]: e.target.value})}),
                 ]),
                 e("div", {className: "sx_realize_option_message_secondColumn"}, [
                     e(TextField, {id: "value2", className: classes.rangeMessage, value: finalMessage.range1[1], label: "Valore", type:"number", variant:"outlined", onChange:  (e) => {
@@ -341,9 +347,9 @@ function Realize_info(props){
                     }}),
                 ]),
                 e("div", {className: "sx_realize_option_message_thirdColumn"}, [
-                    e("div", null, `[-∞, ${finalMessage.range1[1]}]`),
+                    e("div", null, `[-\u221E, ${finalMessage.range1[1]}]`),
                     e("div", null, `[${finalMessage.range2[0]}, ${finalMessage.range2[1]}]`),
-                    e("div", null, `[${finalMessage.range3[0]}, ∞]`)
+                    e("div", null, `[${finalMessage.range3[0]}, \u221E]`)
                 ]),
             ]),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createNewJsonFile}, "SALVA"),

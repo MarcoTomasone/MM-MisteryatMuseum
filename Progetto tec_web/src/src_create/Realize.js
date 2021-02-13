@@ -47,10 +47,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Realize(props){
-    /*window.addEventListener('beforeunload', function (e) {
+    window.addEventListener('beforeunload', function (e) {
         e.preventDefault(); 
-        e.returnValue = ''; 
-    });*/
+        location.href = "./?#/Create/login"
+    });
 
     const classes = useStyles();
 
@@ -120,14 +120,14 @@ function Realize(props){
                                 setStory: setStory, 
                                 activity: story.firstActivity,
                                 indexActivity: "firstActivity",
-                                title: "Crea l'attività introduttiva alla tua storia",
+                                title: "Crea l'attivit\xe0 introduttiva alla tua storia",
                                 text: "Inserisci un testo introduttivo alla tua storia, per far immergere al meglio il giocatore"
                             }))
                         } else {
                             props.setTextErrorDialog("Prima controlla lo stile del player")
                             props.setOpenErrorDialog(true)
                         }
-                    }}, "ATTIVITA' INTRODUTTIVA"),
+                    }}, "ATTIVIT\xc0 INTRODUTTIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {
@@ -138,14 +138,14 @@ function Realize(props){
                                 setStory: setStory,
                                 activity: story.lastActivity,
                                 indexActivity: "lastActivity",
-                                title: "Crea l'attività conclusiva alla tua storia",
+                                title: "Crea l'attivit\xe0 conclusiva alla tua storia",
                                 text: "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore"
                             }))
                         } else {
                             props.setTextErrorDialog("Prima controlla lo stile del player")
                             props.setOpenErrorDialog(true)
                         }
-                    }}, "ATTIVITA' CONCLUSIVA"),
+                    }}, "ATTIVIT\xc0 CONCLUSIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_activity, {
@@ -159,7 +159,7 @@ function Realize(props){
                             props.setTextErrorDialog("Prima controlla lo stile del player")
                             props.setOpenErrorDialog(true)
                         }
-                    }}, "CREA/MODIFICA ATTIVITA'"),
+                    }}, "CREA/MODIFICA ATTIVIT\xc0"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if(step[0] == true){
                             setPageLoad(e(CreateHomeRealize_grafo, {
@@ -172,7 +172,7 @@ function Realize(props){
                             props.setTextErrorDialog("Prima compila e salva i campi di info generali")
                             props.setOpenErrorDialog(true)
                         }
-                    }}, "GRAFO ATTIVITA'"),
+                    }}, "GRAFO ATTIVIT\xc0"),
                    e(Button, {variant: "contained", size: "large", className: classes.redButton, onClick: () => {
                     if(step[0] == true){
                         axios.post(`http://localhost:8000/createStory/id`, {user: props.user, story: story})

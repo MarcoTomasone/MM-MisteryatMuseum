@@ -51,11 +51,11 @@ function Select(props){
         else {
             axios.get(`http://localhost:8000/duplyStory/${storySelected}`)
             .then((response) => {
-                props.setTextErrorDialog(`Storia \"${storySelected}\" dupicata correttamente`);
-                props.setOpenErrorDialog(true)
+                alert(`Storia \"${storySelected}\" dupicata correttamente`);
             })
             .catch((error) => console.log(error));  
         }
+        location.reload(); 
     }
     
     const toModify = function(){
@@ -79,12 +79,12 @@ function Select(props){
         else {
             axios.delete(`http://localhost:8000/publishStory/${storySelected}`)
             .then((response) => {
-                props.setTextErrorDialog(`Storia \"${storySelected}\" pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`);
-                props.setOpenErrorDialog(true)
+                alert(`Storia \"${storySelected}\" pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`);
             })
             .then(() => document.getElementById(storySelected).classList.add("story_published"))
             .catch((error) => console.log(error));  
         }
+        location.reload(); 
     }
     
     const toRetire = function(){
@@ -95,12 +95,12 @@ function Select(props){
         else {
             axios.delete(`http://localhost:8000/retireStory/${storySelected}`)
             .then((response) => {
-                props.setTextErrorDialog(`Storia \"${storySelected}\" ritirata correttamente`);
-                props.setOpenErrorDialog(true)
+                alert(`Storia \"${storySelected}\" ritirata correttamente`);
             })
             .then(() => document.getElementById(storySelected).classList.remove("story_published"))
             .catch((error) => console.log(error));  
         }
+        location.reload(); 
     }
     
     const toDelete = function(){
@@ -111,11 +111,11 @@ function Select(props){
         else {
             axios.delete(`http://localhost:8000/deleteStory/${storySelected}`)
             .then((response) => {
-                props.setTextErrorDialog(`Storia \"${storySelected}\" eliminata correttamente`);
-                props.setOpenErrorDialog(true)
+                alert(`Storia \"${storySelected}\" eliminata correttamente`);
             })
             .catch((error) => console.log(error));
         }
+        location.reload();
     }
 
 

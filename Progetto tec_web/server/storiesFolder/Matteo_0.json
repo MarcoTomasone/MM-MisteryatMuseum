@@ -2,14 +2,14 @@
   "id": "Matteo_0",
   "user": "Matteo",
   "toCopy": true,
-  "published": false,
-  "title": "Odissea nello spaziooo",
+  "published": true,
+  "title": "Odissea nello spazio",
   "gender": "Fantascienza",
   "objective": "Studio dei pianeti",
-  "description": "Attraverso questa storia, il ragazzo verrà stimolato nella conoscenza e nello studio di quello che c'è oltre il pianeta Terra",
+  "description": "Attraverso questa storia, il ragazzo verrï¿½ stimolato nella conoscenza e nello studio di quello che c'ï¿½ oltre il pianeta Terra",
   "accessibility": {
-    "value": true,
-    "url": "../../img/accessibility_1.png"
+    "value": false,
+    "url": "../../img/no_accessibility_1.png"
   },
   "participantsType": {
     "value": "group",
@@ -27,9 +27,9 @@
     "weightFrame": 3,
     "borderRadiusFrame": 13,
     "textColor": "#ffffff",
-    "textBackgroundColorActived": true,
+    "textBackgroundColorActived": false,
     "textBackgroundColor": "#000000",
-    "textBackgroundColorOpacity":60,
+    "textBackgroundColorOpacity": 50,
     "sizeFont": 18,
     "weightFont": 500,
     "image": {
@@ -41,17 +41,18 @@
     "inputDiv": {
       "backgroundColor": "#000000",
       "frameColor": "#ffffff",
-      "textColor": "#ffffff"
+      "textColor": "#ffffff",
+      "borderRadius": 10
     },
     "scoreDiv": {
       "backgroundColor": "#000000",
       "frameColor": "#ffffff",
       "textColor": "#ffffff",
       "height": 20,
-      "width": 100,
-      "top": 15,
-      "left": 50,
-      "borderRadius": 20
+      "width": 180,
+      "top": 16,
+      "left": 10,
+      "borderRadius": 7
     },
     "nextButton": {
       "backgroundColor": "#000000",
@@ -87,7 +88,7 @@
   },
   "firstActivity": {
     "heightFrame": 160,
-    "activityText": "ANNO 2820\nSul pianeta Terra il cibo è praticamente finito e ormai anche l'acqua comincia a scarseggiare. Negli ultimi anni si è provato di tutto per salvare la popolazione ma senza buoni risultati.\nCosi si decide di fare un ultimo tentativo disperato: uscire dal pianeta direzione spazio, alla ricerca di un qualcosa che possa salvarci tutti.\nSarà un impresa lunga e molto difficile, infatti per questo motivo tutti si rifiutano di provarci.. tutti tranne te.\nTu sei super coraggioso, non hai paura di niente e decidi di provare a salvare la Terra. Cosi accetti l'incarico e ti preparari per il giorno del lancio programmato tra un mese.",
+    "activityText": "ANNO 2820\nSul pianeta Terra il cibo ï¿½ praticamente finito e ormai anche l'acqua comincia a scarseggiare. Negli ultimi anni si ï¿½ provato di tutto per salvare la popolazione ma senza buoni risultati.\nCosi si decide di fare un ultimo tentativo disperato: uscire dal pianeta direzione spazio, alla ricerca di un qualcosa che possa salvarci tutti.\nSarï¿½ un impresa lunga e molto difficile, infatti per questo motivo tutti si rifiutano di provarci.. tutti tranne te.\nTu sei super coraggioso, non hai paura di niente e decidi di provare a salvare la Terra. Cosi accetti l'incarico e ti preparari per il giorno del lancio programmato tra un mese.",
     "backgroundImage": "",
     "activityImage": "",
     "streamVideo": "",
@@ -111,7 +112,7 @@
     {
       "title": "Partenza",
       "heightFrame": 160,
-      "activityText": "E' passato un mese ed è tempo di raggiungere la base di lancio.\nSei super carico, non hai paura\nCosi saluti genitori e amici, prepari il tuo zaino e in un paio d'ore sei già arrivato alla base.\nSali sul razzo, manca poco...\nEcco ci siamo\n3\n2\n1\n...\nPartito!\nOra il pianeta Terra è nelle tue mani, solo te puoi salvarlo.. Buona fortuna!",
+      "activityText": "E' passato un mese ed ï¿½ tempo di raggiungere la base di lancio.\nSei super carico, non hai paura\nCosi saluti genitori e amici, prepari il tuo zaino e in un paio d'ore sei giï¿½ arrivato alla base.\nSali sul razzo, manca poco...\nEcco ci siamo\n3\n2\n1\n...\nPartito!\nOra il pianeta Terra ï¿½ nelle tue mani, solo te puoi salvarlo.. Buona fortuna!",
       "backgroundImage": "",
       "activityImage": "Matteo_0_Partenza_activity.png",
       "altActivityImage": "Razzo",
@@ -151,7 +152,7 @@
     {
       "title": "Lancio",
       "heightFrame": "160",
-      "activityText": "E' appena finita la fase di lancio, sei uscito dall'atmosfera e ti sei appena stabilizzato con la tua navicella.\nTi accorgi subito di una senzazione strana: ti senti molto leggero, vedi gli oggetti muoversi, anche il player che stai usando è tutto al contrario.. Sei un ragazzo intelligente e in poco tempo capisci che è perchè manca la gravità.\nTi tranquillizzi, ti leghi alla tua sedia e decidi di controllare il tuo zaino per ricontrollare cosa ti sei portato dietro per questo lungo viaggio.\nScatta una foto del contenuto del tuo zaino da mandare alla base spaziale, cosi che anche loro sanno cosa hai con te.",
+      "activityText": "E' appena finita la fase di lancio, sei uscito dall'atmosfera e ti sei appena stabilizzato con la tua navicella.\nTi accorgi subito di una senzazione strana: ti senti molto leggero, vedi gli oggetti muoversi, anche il player che stai usando ï¿½ tutto al contrario.. Sei un ragazzo intelligente e in poco tempo capisci che ï¿½ perchï¿½ manca la gravitï¿½.\nTi tranquillizzi, ti leghi alla tua sedia e decidi di controllare il tuo zaino per ricontrollare cosa ti sei portato dietro per questo lungo viaggio.\nScatta una foto del contenuto del tuo zaino da mandare alla base spaziale, cosi che anche loro sanno cosa hai con te.",
       "backgroundImage": "",
       "activityImage": "",
       "streamVideo": "",
@@ -191,16 +192,17 @@
     {
       "title": "Esistenzapianeti",
       "heightFrame": "160",
-      "activityText": "Stai navigando da un po ma non vedi ancora nulla. Rimani però tranquillo perchè oltre alla Terra ci sono sicuramente altri pianeti da esplrare (e in quel caso prima o poi ne incontrerai qualcuno).",
+      "activityText": "Stai navigando da un po ma non vedi ancora nulla. Rimani perï¿½ tranquillo perchï¿½ oltre alla Terra ci sono sicuramente altri pianeti da esplrare (e in quel caso prima o poi ne incontrerai qualcuno).",
       "backgroundImage": "",
       "activityImage": "",
+      "streamVideo": "",
       "altActivityImage": "",
       "widgetType": "Vero o falso",
       "topInput": "160",
       "leftInput": 15,
       "heightInput": 60,
       "widthInput": 170,
-      "errorMessage": "Invece la Terra non è sola, esitono tantissimi altri pianeti. Tienei pronto che tro poco ne scoprirai alcuni!",
+      "errorMessage": "Invece la Terra non ï¿½ sola, esitono tantissimi altri pianeti. Tienei pronto che tro poco ne scoprirai alcuni!",
       "fourAnswers": [],
       "multipleAnswers": [],
       "trueFalseAnswer": {
@@ -230,10 +232,11 @@
     {
       "title": "Tuttipianeti",
       "heightFrame": 160,
-      "activityText": "Attenzione: ti arriva un messaggio dalla base spaziale.\nTi mandano una foto ottenuta da ricerche completate in passato. In questa foto trovi tutti i pianti che in teoria dovrai incontrare nel tuo viaggio nello spazio.\nNoti che sono 8, uno sai gia che è la Terra.. gli altri pianeti come si chiamano?",
+      "activityText": "Attenzione: ti arriva un messaggio dalla base spaziale.\nTi mandano una foto ottenuta da ricerche completate in passato. In questa foto trovi tutti i pianti che in teoria dovrai incontrare nel tuo viaggio nello spazio.\nNoti che sono 8, uno sai gia che ï¿½ la Terra.. gli altri pianeti come si chiamano?",
       "backgroundImage": "",
-      "activityImage": "Matteo_6_Tuttipianeti_activity.png",
+      "activityImage": "Matteo_0_Tuttipianeti_activity.png",
       "altActivityImage": "Foto con tutti i pianeti del sistema solare",
+      "streamVideo": "",
       "widgetType": "Input testuale valutatore",
       "topInput": "140",
       "leftInput": 15,
@@ -257,59 +260,27 @@
         "scoreOk": 0,
         "scoreWrong": 0
       },
-      "correctAnswerGo": [
-        "A"
-      ],
-      "wrongAnswerGo": [
-        "A"
-      ],
-      "activityIsUsed": true,
-      "firstActivity": false
-    },
-    {
-      "title": "A",
-      "heightFrame": 160,
-      "activityText": "Ciao",
-      "backgroundImage": "",
-      "activityImage": "",
-      "altActivityImage": "",
-      "widgetType": "Range",
-      "topInput": "200",
-      "leftInput": 15,
-      "heightInput": 60,
-      "widthInput": 170,
-      "errorMessage": "",
-      "fourAnswers": [],
-      "multipleAnswers": [],
-      "trueFalseAnswer": {
-        "trueScore": 0,
-        "falseScore": 0
-      },
-      "textAnswer": {
-        "value": "",
-        "scoreOk": 0,
-        "scoreWrong": 0
-      },
-      "rangeAnswer": {
-        "start": "28",
-        "end": "30",
-        "scoreOk": "100",
-        "scoreWrong": 0,
-        "possibleStart": "-23",
-        "possibleEnd": "100"
-      },
       "correctAnswerGo": [],
       "wrongAnswerGo": [],
       "activityIsUsed": true,
       "firstActivity": false
     }
   ],
-  "finalMessage":{
-    "message1":"",
-    "range1":[-100000,0],
-    "message2":"",
-    "range2":[0,100],
-    "message3":"",
-    "range3":[101,11110]    
+  "finalMessage": {
+    "message1": "Prova1",
+    "range1": [
+      -10000,
+      5
+    ],
+    "message2": "Prova2",
+    "range2": [
+      6,
+      200
+    ],
+    "message3": "Prova3",
+    "range3": [
+      201,
+      10000
+    ]
   }
 }

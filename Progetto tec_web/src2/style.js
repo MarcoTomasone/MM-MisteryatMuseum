@@ -9,7 +9,7 @@ import {hexToRGBA} from './utilsActivity.js'
  * @param getActivityNoBackground   data
  */
 
-export function getButtonChatProperty(activityList,counter,data){
+export function getButtonChatProperty(activityList,counter,data,height,width){
 
  const tmp = { 
     display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
@@ -22,10 +22,10 @@ export function getButtonChatProperty(activityList,counter,data){
     fontSize:`1.2em`,
     fontFamily:data.player.fontFamily,
     textAlign:'center',
-    width:`${data.player.chatButton.width *window.innerWidth /202}px`,
-    height:`${data.player.chatButton.height* window.innerHeight /437}px`,
-    top:`${data.player.chatButton.top * window.innerHeight/437}px`,
-    left:`${data.player.chatButton.left * window.innerWidth /202}px`,
+    width:`${data.player.chatButton.width *width /202}px`,
+    height:`${data.player.chatButton.height* height /437}px`,
+    top:`${data.player.chatButton.top * height/437}px`,
+    left:`${data.player.chatButton.left * width /202}px`,
     position:'absolute',
 };
 
@@ -33,7 +33,7 @@ export function getButtonChatProperty(activityList,counter,data){
 }
 
 
-export function getButtonHelpProperty(activityList,counter,data){
+export function getButtonHelpProperty(activityList,counter,data,height,width){
 
     const tmp = {
         display:(activityList[counter - 1] === data.lastActivity)? 'None' : 'block',   
@@ -47,17 +47,17 @@ export function getButtonHelpProperty(activityList,counter,data){
         color:data.player.helpButton.textColor,
         backgroundColor:data.player.helpButton.backgroundColor,
         textAlign:'center',
-        width:`${data.player.helpButton.width *window.innerWidth /202}px`,
-        height:`${data.player.helpButton.height* window.innerHeight /437}px`,
-        top:`${data.player.helpButton.top * window.innerHeight/437}px`,
-        left:`${data.player.helpButton.left * window.innerWidth /202}px`,
+        width:`${data.player.helpButton.width *width /202}px`,
+        height:`${data.player.helpButton.height* height /437}px`,
+        top:`${data.player.helpButton.top * height/437}px`,
+        left:`${data.player.helpButton.left * width /202}px`,
         position:'absolute'
 };       
     return tmp;
 
 }
 
-export function getScoreProperty(data){
+export function getScoreProperty(data,height,width){
 
 const tmp = {
         fontSize:`1.2em`,
@@ -69,10 +69,10 @@ const tmp = {
         border:'solid',
         borderColor:data.player.scoreDiv.frameColor,
         borderRadius:data.player.scoreDiv.borderRadius+'px',
-        height:`${data.player.scoreDiv.height * window.innerHeight/437}px`,
-        width:`${data.player.scoreDiv.width * window.innerWidth/202}px`,
-        top:`${data.player.scoreDiv.top * window.innerHeight/437}px`,
-        left:`${data.player.scoreDiv.left * window.innerWidth/202}px`
+        height:`${data.player.scoreDiv.height * height/437}px`,
+        width:`${data.player.scoreDiv.width * width/202}px`,
+        top:`${data.player.scoreDiv.top * height/437}px`,
+        left:`${data.player.scoreDiv.left * width/202}px`
     };
 
     return tmp;

@@ -21,32 +21,20 @@ app.get('/', (_, res) => {
     res.sendFile(path.join(__dirname, '../', 'index.html'));
 });
 
-/*app.post("/check", (req, res) => {
-    var pathName = "Empty.png"
-    var files = fs.readdirSync("./upload")
-    files.forEach((element) =>{
-        var tmp = element.split('.')[0]
-        if (req.body.id == tmp) {
-            pathName = element
-        }
-    })
-    res.status(200).end(pathName)
-})*/
-
 /**uploadPlayer use by player to load resource to evaluate
  *or download file to append to DOM
  */
 
 app.get('/downloadImage/:source',(req,res) =>{
-    const mypath = path.join(__dirname, `upload/${req.params.source}`);
-    if(fs.existsSync(mypath)){
-        const data = fs.readFileSync(mypath);
-        res.send(data);
-    }else{
-        console.log("Image not found in downloadImage");
-        res.status(404).send({message:'Image not found'});
+    const myPath = path.join(__dirname, `upload/${req.params.source}`);
+    if (fs.existsSync(myPath)) {
+    	const data = fs.readFileSync(myPath);
+    	res.send(data);
     }
-     
+    else {
+	console.log('Image not found in downloadImage');
+	res.status(404).send({ message: 'Image not found' });
+    }
 })
 
 /**downloadBackground allow the player to load the resource to evaluate
@@ -54,15 +42,15 @@ app.get('/downloadImage/:source',(req,res) =>{
 */
       
 app.get('/downloadBackground/:source',(req,res) =>{
-        const mypath = path.join(__dirname, `upload/${req.params.source}`);
-        if(fs.existsSync(mypath)){
-            const data = fs.readFileSync(mypath);
-            res.send(data);
-        }else{
-            console.log("Image not found in downloadBackground");
-            res.status(404).send({message:'Image not found'});
-        }
-        
+        const myPath = path.join(__dirname, `upload/${req.params.source}`);
+	if (fs.existsSync(myPath)) {
+    	const data = fs.readFileSync(myPath);
+    	res.send(data);
+    }
+    else {
+	console.log('Image not found in downloadBackground');
+	res.status(404).send({ message: 'Image not found' });
+    }
 })
 
 app.get(`/requestJson/:title`,(req,res)=>{
@@ -97,7 +85,7 @@ app.post('/uploadImg', (req, res) => {
     });
 })
 
-app.get(`/idNumber/:username`, async (req,res)=>{
+app.get(`/idNumber/:username`, (req,res)=>{
     var i = 0;
     var arrayIndex = []
     const mypathDir = path.join(__dirname, `storiesFolder`);
@@ -115,7 +103,7 @@ app.get(`/idNumber/:username`, async (req,res)=>{
 })
 
 
-app.post("/addImage/:id/:type", (req, res) => {
+app.post("/addImage/:id/:type", async (req, res) => {
     if (req.files === null){
         return res.status(400).json({msg: "No file uploaded"})
     }
@@ -133,7 +121,7 @@ app.post("/addImage/:id/:type", (req, res) => {
             fs.unlinkSync(mypathOldFile);
         }
     })
-    file.mv(`${__dirname}/upload/${newImage}`, (err) => {if (err) throw err})
+    await file.mv(`${__dirname}/upload/${newImage}`, (err) => {if (err) throw err})
     console.log(`Add image \"${newImage}\"`)
     res.status(200).end(newImage)
 })
@@ -155,9 +143,9 @@ app.delete("/deleteImage/:img", (req, res) => {
 app.get("/storiesFolder/:username", (req, res) => {
     var arrayOfStories = []
     const mypath = path.join(__dirname, `storiesFolder`);
-    var files = fs.readdirSync(mypath) 
+    var files = fs.readdirSync(mypath)
     files.forEach((element) =>{
-        if (element.startsWith(req.params.username)) {
+        if (element.split("_")[0] == req.params.username) {
             const mypath = path.join(__dirname, `storiesFolder/${element}`);
             const file = fs.readFileSync(mypath, {encoding:'utf8', flag:'r'});
             const tmp = JSON.parse(file);
@@ -219,7 +207,7 @@ app.get("/duplyStory/:username", (req, res) => {
     var tmp = req.params.username.split("_")[0]
     var i = 0;
     var arrayIndex = []
-    const mypathDir = path.join(__dirname, `storiesFolder`);
+    var mypathDir = path.join(__dirname, `storiesFolder`);
     var files = fs.readdirSync(mypathDir) 
     files.forEach((element, index) => {
         var index = element.split("_")[1].split(".")[0]
@@ -232,11 +220,23 @@ app.get("/duplyStory/:username", (req, res) => {
     if (i == 0 && arrayIndex.includes(0)) i = arrayIndex.length
     const mypathOld = path.join(__dirname, `storiesFolder/${req.params.username}.json`);
     const data = JSON.parse(fs.readFileSync(mypathOld, {encoding:'utf8', flag:'r'}));
+    var oldId = data.id;
     data.id = `${tmp}_${i}`
     data.published = false;
     const mypathNew = path.join(__dirname, `storiesFolder/${tmp}_${i}.json`);
-    fs.writeFileSync(mypathNew, JSON.stringify(data, null, 2));
-    console.log(`L'utente ${req.params.username.split("_")[0]} ha appena pubblicato la storia ${req.params.username}`)
+    var newStory = JSON.stringify(data, null, 2)
+    var re = new RegExp(oldId, "g");
+    newStory = newStory.replace(re, data.id)
+    fs.writeFileSync(mypathNew, newStory);
+    mypathDir = path.join(__dirname, `upload`);
+    files = fs.readdirSync(mypathDir) 
+    files.forEach((element, index) => {
+        if (element.startsWith(oldId)){
+            var nameActivity = element.split(oldId)[1]
+            fs.copyFileSync(`${__dirname}/upload/${element}`, `${__dirname}/upload/${data.id}${nameActivity}`)
+        }
+    })
+    console.log(`L'utente ${req.params.username.split("_")[0]} ha appena duplicato la storia ${req.params.username}`)
     res.status(200).end();
 })
 
@@ -273,14 +273,31 @@ app.delete("/retireStory/:story", (req, res) => {
 //eliminare una storia
 app.delete("/deleteStory/:story", (req, res) => {
     const mypath = path.join(__dirname, `storiesFolder/${req.params.story}.json`);
-    fs.unlink(mypath, (err) => {
-        if (err) throw err;
-        const tmp = req.params.story.split("_")[0];
-        console.log(`L'utente ${tmp} ha appena eliminato la storia ${req.params.story}`);
-    });
+    fs.unlinkSync(mypath);
+    const mypathDir = path.join(__dirname, `upload`);
+    var files = fs.readdirSync(mypathDir) 
+    files.forEach((element, index) => {
+        if (element.startsWith(req.params.story)){
+            fs.unlinkSync(`${__dirname}/upload/${element}`)
+        }
+    })
+    const tmp = req.params.story.split("_")[0];
+    console.log(`L'utente ${tmp} ha appena eliminato la storia ${req.params.story}`);
     res.status(200).end();
 })
 
+
+//duplicare un immagine quando un'attività viene copiata da una gia esistente con un immagine
+app.get("/duplyImage/:oldImage/:newImage", (req, res) => {
+    const mypathDir = path.join(__dirname, `upload`);
+    var files = fs.readdirSync(mypathDir)
+    files.forEach((element, index) => {
+        if (element == req.params.oldImage){
+            fs.copyFileSync(`${__dirname}/upload/${element}`, `${__dirname}/upload/${req.params.newImage}`)
+        }
+    })
+    res.status(200).end();
+})
 
 //----------------------------------------------------------------GET STATUS PLAYER-------------------------------------------------------------------------------------------------------
 

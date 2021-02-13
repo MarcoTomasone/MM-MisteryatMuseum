@@ -50,6 +50,33 @@ function Realize_FL_Activity(props){
     const [imageBackground, setImageBackground] = React.useState(null)
     const [imageActivity, setImageActivity] = React.useState(null)
 
+    function changeLetter(string){
+        var res = string
+        res = res.replace("à", '\xe0')
+        res = res.replace("è", '\xc8')
+        res = res.replace("é", '\xc9')
+        res = res.replace("ì", '\xcc')
+        res = res.replace("ò", '\xf2')
+        res = res.replace("ù", '\xf9')
+        res = res.replace("À", '\xc0')
+        res = res.replace("È", '\xc8')
+        res = res.replace("É", '\xc9')
+        res = res.replace("Ì", '\xcc')
+        res = res.replace("Ò", '\xd2')
+        res = res.replace("Ù", '\xc9')
+        return res
+    };
+
+    function updateBackgorundImage(){
+        if (props.story.player.backgroundImage == ""){
+            document.getElementById("phoneImage").classList.add("hiddenClass")
+            document.getElementById("phoneImage").setAttribute("src", ``)        }
+        else {
+            document.getElementById("phoneImage").classList.remove("hiddenClass")
+            document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.story.player.backgroundImage}`)
+        }
+    }
+
 
     function addBackgroundImage(e){
         e.preventDefault()
@@ -89,13 +116,7 @@ function Realize_FL_Activity(props){
             .then(()=>{
                 setImageBackground(null)
                 setActivity({...activity, ["backgroundImage"]: ``});
-                if (props.story.player.backgroundImage == ""){
-                    document.getElementById("phoneImage").classList.add("hiddenClass")
-                    document.getElementById("phoneImage").setAttribute("src", ``)        }
-                else {
-                    document.getElementById("phoneImage").classList.remove("hiddenClass")
-                    document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.story.player.backgroundImage}`)
-                }    
+                updateBackgorundImage()
             })
             .catch(error => {
                 console.log(error)
@@ -119,7 +140,7 @@ function Realize_FL_Activity(props){
     }
 
     function updateField(e){
-        setActivity({...activity, [e.target.name]: e.target.value});
+        setActivity({...activity, [e.target.name]: changeLetter(e.target.value)});
     };
 
 
@@ -139,13 +160,7 @@ function Realize_FL_Activity(props){
             document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.activity.backgroundImage}`)
             document.getElementById("phoneImage").classList.remove("hiddenClass")
         } else {
-            if (props.story.player.backgroundImage == ""){
-                document.getElementById("phoneImage").classList.add("hiddenClass")
-                document.getElementById("phoneImage").setAttribute("src", ``)        }
-            else {
-                document.getElementById("phoneImage").classList.remove("hiddenClass")
-                document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.story.player.backgroundImage}`)
-            }
+            updateBackgorundImage()
         }
         if (props.activity.activityImage != ""){
             document.getElementById("mediaDiv").setAttribute("src", `../../server/upload/${props.activity.activityImage}`)
@@ -156,13 +171,14 @@ function Realize_FL_Activity(props){
         }
     }, [props.indexActivity])
 
+
     function createActivity(){
         var tmp = {
             heightFrame     : parseInt(activity.heightFrame),
-            activityText    : activity.activityText,
+            activityText    : changeLetter(activity.activityText),
             backgroundImage : activity.backgroundImage,
             activityImage   : activity.activityImage,
-            altActivityImage: activity.altActivityImage,
+            altActivityImage: changeLetter(activity.altActivityImage),
             streamVideo     : activity.streamVideo,
             widgetType      : "Nessuno",
             correctAnswerGo : activity.correctAnswerGo,
@@ -217,7 +233,7 @@ function Realize_FL_Activity(props){
             ]),
             e("hr", null),
 
-            e("p", null, "IMMAGINE ATTIVITA'"),
+            e("p", null, "IMMAGINE ATTIVIT\xc0"),
             e("div", {className: "sx_realize_option"}, [
                 e("input", {id: "activity_image", className: classes.hide, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addActivityImage}),
                 e("label", {htmlFor:"activity_image"}, [
@@ -236,7 +252,7 @@ function Realize_FL_Activity(props){
                 ]),
             ]),
             e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilità", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilit\xe0", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e("hr", null),
             

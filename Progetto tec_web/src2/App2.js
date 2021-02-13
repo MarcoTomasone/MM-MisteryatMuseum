@@ -14,9 +14,11 @@ const server = "http://localhost:8000"; //http://site181997.tw.cs.unibo.it
 const socket = io(server, {query: 'type=player'})
 socket.emit('new-player');
 //waiting event
-    
+
+
 
 let activityList = [];
+const helpArray = [];
 const data = init(activityList,story,server);
 
 function App2() {
@@ -41,8 +43,6 @@ function App2() {
     const [points, setPoints] = React.useState(0);
     //const [dialog, setDialog] = React.useState(true);
 
-    const sectionRef = React.useRef();
-    const helpArray = [];
 
         function handleBadgeChat(){
             if(!slideChat)
@@ -62,17 +62,6 @@ function App2() {
                 getID(data.id, story, activityList[0].activityText);
             });
             
-            socket.on('help-from-evaluator' , data => {
-                setHelp(true);
-                var section = null;
-                if(sectionRef.current)
-                    section = sectionRef.current.getSection();
-                if(data.section == section){
-                    const p = document.getElementById("p" + data.nElem);
-                    p.innerHTML += "<br>" + "Risposta:" + data.answer;
-                }
-            });
-
             socket.on('message-from-evaluator', data => {
                 appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
                 setMessage(true);
@@ -91,10 +80,24 @@ function App2() {
             socket.on('add-points', data => {
                 setPoints(points + parseInt(data.points));
             });
+
+           
         });
 
+        React.useEffect(()=>{
+            socket.on('help-from-evaluator' , data => {
+                setHelp(true);
+                console.log(data);
+                console.log(counter);
+                if(data.section == counter){
+                    const p = document.getElementById("p" + data.nElem);
+                    p.innerHTML += "<br>" + "Risposta:" + data.answer;
+                }
+            });
+        },[counter]);
+
         //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
-        var dictionaryActivity =new Map;
+        var dictionaryActivity = new Map;
         for(let i = 0;i<data.activities.length;i++){
             dictionaryActivity.set( data.activities[i].title , i);
         }
@@ -162,13 +165,13 @@ function App2() {
             const length = helpArray.length;
             const helpP = document.createElement("p");
             helpP.setAttribute("id", "p" + length);
-            helpP.innerHTML = "Domanda:" + message;
+            helpP.innerHTML = "<b>Domanda:</b>" + message;
             container.append(helpP);
-            if(sectionRef.current) {
-                const section = sectionRef.current.getSection();
-                socket.emit('send-help-text', {question: message, id, nElem : length, section : section})  //server side
-                helpInput.value = ''} //clean the input text
-            }
+            socket.emit('send-help-text', {question: message, id, nElem: length, section: counter})  //server side
+            helpInput.value = ''; //clean the input text
+        }
+        console.log(helpArray);
+        console.log(counter);
     } 
 
  
@@ -190,7 +193,7 @@ function App2() {
                     ])
                 ]),
             ]),*/
-            e(Activity, {counter:counter,server: server,setCounter:setCounter, ref: sectionRef, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints, story : story}),
+            e(Activity, {counter:counter,server: server,setCounter:setCounter, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints, story : story}),
             e(Slide, {in: slideChat, direction: "left", id: "slide-chat", children: e(Paper, null, [
                 e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
                     e("div",{id: "message-container"}), //div di arrivo delle risposte da valutare

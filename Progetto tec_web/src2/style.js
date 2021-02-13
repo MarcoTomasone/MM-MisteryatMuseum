@@ -159,7 +159,6 @@ export function getDivBorder(dinamicActivities,counter,data){
             overflowY:'scroll',
            
     }
-    console.log(tmp);
     return tmp;
 }
 

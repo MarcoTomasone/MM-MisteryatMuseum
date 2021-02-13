@@ -159,6 +159,8 @@ module.exports = function(io) {
                 arrayMessages[player].arrived = false;
             });
             socket.on('help-to-player', data => {
+                console.log(data);
+                console.log(arrayHelps)
                 const answer = data.answer;
                 const id = data.id;
                 const player = data.player;

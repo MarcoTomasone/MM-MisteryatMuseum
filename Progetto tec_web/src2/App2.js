@@ -27,12 +27,26 @@ function App2() {
     const [slideChat, setSlideChat] = React.useState(false);
     const [badgeChat, setBadgeChat] = React.useState(true);
     const [badgeHelp, setBadgeHelp] = React.useState(true);
+    const [message, setMessage] = React.useState(false);
+    const [help, setHelp] = React.useState(false);
     const [id, setID] = React.useState("");
     const [points, setPoints] = React.useState(0);
     //const [dialog, setDialog] = React.useState(true);
 
     const sectionRef = React.useRef();
     const helpArray = [];
+
+        function handleBadgeChat(){
+            if(!slideChat)
+               setBadgeChat(false);
+            setMessage(false);
+        }
+
+        function handleBadgeHelp(){
+            if(!slideHelp)
+               setBadgeHelp(false);
+            setHelp(false);
+        }
 
         React.useEffect(() => {
             socket.on('set-id', data => {
@@ -41,8 +55,7 @@ function App2() {
             });
             
             socket.on('help-from-evaluator' , data => {
-                if(!slideHelp)
-                    setBadgeHelp(false);
+                setHelp(true);
                 var section = null;
                 if(sectionRef.current)
                     section = sectionRef.current.getSection();
@@ -54,13 +67,18 @@ function App2() {
 
             socket.on('message-from-evaluator', data => {
                 appendMessage(`<b>${data.name}</b>: ${data.message}`, "message-container")
-                if(!slideChat){
-                    console.log(slideChat);
-                   setBadgeChat(false);
-                }
-                })
+                setMessage(true);
+            });
+
         }, []);
-       
+
+        React.useEffect(()=>{
+            if(message == true)
+                handleBadgeChat();
+            if (help == true)
+                handleBadgeHelp();
+        },[message, help]);
+
         React.useEffect(()=> {
             socket.on('add-points', data => {
                 setPoints(points + parseInt(data.points));

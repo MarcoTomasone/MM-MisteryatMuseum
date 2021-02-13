@@ -239,11 +239,7 @@ export const Activity = React.forwardRef((props, ref) => {
      */
     if (dinamicActivities[counter].widgetType === "Nessuno" || !dinamicActivities[counter].hasOwnProperty('widgetType')){   
         return e("div",null,
-<<<<<<< HEAD
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder, role: "presentation"}, dinamicActivities[counter].activityText , mediaProp),
-=======
-                    e("div", {key: `activitIntro${counter}`, id:"activitIntro", style: divBorder},dinamicActivities[counter].activityText , mediaProp),
->>>>>>> 20d87dad323e9ef0afd75f446949deebec8b5c05
+                    e("div", {key: `activitIntro${counter}`, id:"activitIntro", style: divBorder, role: "presentation"}, dinamicActivities[counter].activityText , mediaProp),
                     e("button", {role: "button", key:"buttonNext", id: "nextButton", style:btnNext, onClick:inc}, "SUCCESSIVO")
                 );
 
@@ -255,22 +251,14 @@ export const Activity = React.forwardRef((props, ref) => {
         if(dinamicActivities[counter].widgetType === "Quattro opzioni" || dinamicActivities[counter].widgetType === "Vero o falso"  || dinamicActivities[counter].widgetType === "Scelta multipla" ) {
                 // fuorAnswers || True False || multipleAnswer
             return e("div",null,     
-<<<<<<< HEAD
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder,  role: "presentation"}, domanda,   mediaProp),
-=======
                     e("div", {key: `activitIntro${counter}`, id:"activitIntro", style: divBorder}, domanda,   mediaProp),
->>>>>>> 20d87dad323e9ef0afd75f446949deebec8b5c05
                     e(ButtonType, {answer:answer, textStyle:textStyle, domanda:domanda,lastAnswer:lastAnswer, json:props.json, counter:counter, v : dinamicActivities, checkButton : checkButton.bind(this) ,setLastAnswer:setLastAnswer, btnNext:btnNext, MediaProp : mediaProp, inc:inc}
             ));
 
         }else { 
                 //avaible Input type == 'range' || type=='text' a/v || type=="file"
             return e("div",null ,             
-<<<<<<< HEAD
-                    e("div", {key: "activitIntro", id:"activitIntro", style: divBorder,  role: "presentation"}, domanda,mediaProp),
-=======
                     e("div", {key: `activitIntro${counter}`, id:"activitIntro", style: divBorder}, domanda,mediaProp),
->>>>>>> 20d87dad323e9ef0afd75f446949deebec8b5c05
                     e(inputType, { domanda: domanda,server: props.server, json:props.json, counter:counter, v : dinamicActivities , btnNext:btnNext, MediaProp : mediaProp, inc:inc, socket : props.socket, playerId : props.playerId, disabled: disabled, setDisabled: setDisabled}
                 ));
     }

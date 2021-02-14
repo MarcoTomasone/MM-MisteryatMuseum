@@ -1,6 +1,8 @@
 const e = React.createElement;
 const {Button, makeStyles, Icon, Tooltip} = MaterialUI;
 import Card from "./Card.js"
+import {DialogComponent} from "./Dialog.js"
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -8,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "grey",
         color: "white",
         borderRadius: 10,
-        height: ("80%"),
-        width: ("100%"),
+        height: "80%",
+        width: "100%",
         fontSize: 16,
         lineHeight: 1,
         boxShadow: '0 3px 5px 2px rgba(0, 0, 0, .3)',
@@ -19,13 +21,14 @@ const useStyles = makeStyles((theme) => ({
             height: 60,
             width: 60,
             borderRadius: ("50%"),
-            paddingRight: 28,
         }
     },
     icon:{
         ['@media (max-width:931px)']: { 
-            height: 20,
-            width: 50,
+            height: "100%",
+            width: "100%",
+            marginLeft: -6,
+            marginRight: 6
         }
     }
 }));
@@ -36,7 +39,9 @@ function Select(props){
     const classes = useStyles();
     const [arrayPrivateStories, setArrayPrivateStories] =  React.useState([]);
     const [storySelected, setStorySelected] =  React.useState("");
+    const [updateCard, setUpdateCard] =  React.useState(true);
 
+    
 
     const toCreate = function(){
         props.setStoryToModify()
@@ -52,10 +57,10 @@ function Select(props){
             axios.get(`http://localhost:8000/duplyStory/${storySelected}`)
             .then((response) => {
                 alert(`Storia \"${storySelected}\" dupicata correttamente`);
+                setUpdateCard(prev => !prev)
             })
             .catch((error) => console.log(error));  
         }
-        location.reload(); 
     }
     
     const toModify = function(){
@@ -80,11 +85,11 @@ function Select(props){
             axios.delete(`http://localhost:8000/publishStory/${storySelected}`)
             .then((response) => {
                 alert(`Storia \"${storySelected}\" pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`);
+                setUpdateCard(prev => !prev)
             })
             .then(() => document.getElementById(storySelected).classList.add("story_published"))
             .catch((error) => console.log(error));  
         }
-        location.reload(); 
     }
     
     const toRetire = function(){
@@ -96,11 +101,11 @@ function Select(props){
             axios.delete(`http://localhost:8000/retireStory/${storySelected}`)
             .then((response) => {
                 alert(`Storia \"${storySelected}\" ritirata correttamente`);
+                setUpdateCard(prev => !prev)
             })
             .then(() => document.getElementById(storySelected).classList.remove("story_published"))
             .catch((error) => console.log(error));  
         }
-        location.reload(); 
     }
     
     const toDelete = function(){
@@ -112,10 +117,10 @@ function Select(props){
             axios.delete(`http://localhost:8000/deleteStory/${storySelected}`)
             .then((response) => {
                 alert(`Storia \"${storySelected}\" eliminata correttamente`);
+                setUpdateCard(prev => !prev)
             })
             .catch((error) => console.log(error));
         }
-        location.reload();
     }
 
 
@@ -126,8 +131,8 @@ function Select(props){
     }
 
 
-    React.useEffect(() => {
-        axios.get(`http://localhost:8000/storiesFolder/${props.user}`)
+    React.useEffect(async () => {
+        await axios.get(`http://localhost:8000/storiesFolder/${props.user}`)
         .then((response) => {
             response.data.forEach((element) => {
                 setArrayPrivateStories(arrayPrivateStories => [...arrayPrivateStories,
@@ -143,6 +148,7 @@ function Select(props){
                         description: element.description,
                         published: element.published,
                         age: element.age,
+                        fontFamily: element.fontFamily,
                         other: response.data
                     })
                 ])
@@ -153,7 +159,7 @@ function Select(props){
                 if (document.getElementById(element.id) && element.published == true) document.getElementById(element.id).classList.add("story_published");
             })
         })
-    }, [])
+    }, [updateCard])
 
     return e("div", {className: "containerHome"}, [
         e("div", {className:"containerHome_userSelected"}, [
@@ -168,7 +174,8 @@ function Select(props){
                 e(Tooltip, {title: "MODIFICA STORIA"}, e(Button, {key: "bb2", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "create", className: classes.icon}), onClick: toModify},"MODIFICA STORIA")),
                 e(Tooltip, {title: "PUBBLICA STORIA"}, e(Button, {key: "bb3", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "cloud_upload", className: classes.icon}), onClick: toPublish},"PUBBLICA STORIA")),
                 e(Tooltip, {title: "RITIRA STORIA"}, e(Button, {key: "bb4", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "cloud_download", className: classes.icon}), onClick: toRetire},"RITIRA STORIA")),
-                e(Tooltip, {title: "ELIMINA STORIA"}, e(Button, {key: "bb5", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "delete", className: classes.icon}), onClick: toDelete},"ELIMINA STORIA"))
+                e(Tooltip, {title: "ELIMINA STORIA"}, e(Button, {key: "bb5", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "delete", className: classes.icon}), onClick: toDelete},"ELIMINA STORIA")),
+                e(DialogComponent, {fun: props.setOpenErrorDialog, open: props.openErrorDialog, textError: props.textErrorDialog} )
             ])   
         ]) 
     ])

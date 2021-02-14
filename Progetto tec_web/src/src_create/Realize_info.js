@@ -290,66 +290,77 @@ function Realize_info(props){
 
     return(
         e("div", {id: props.id, className: props.className}, [
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "title", className: classes.input, value: title, label: "Titolo", type:"search", variant:"outlined", onChange: (e) => setTitle(e.target.value)})
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(FormControl, {id: "gender", variant: "outlined", className: classes.formControl, value: gender}, [
-                    e(InputLabel, {htmlFor: "gender_label"}, "Genere"),
-                    e(Select, {inputProps: {name: "Genere", id: "gender_label"}, label: "Genere", value: gender, onChange: (event) => setGender(event.target.value)}, [
-                        e(MenuItem, {value: "Avventura"}, "Avventura"),
-                        e(MenuItem, {value: "Thriller"}, "Thriller"),
-                        e(MenuItem, {value: "Azione"}, "Azione"),
-                        e(MenuItem, {value: "Storico"}, "Storico"),
-                        e(MenuItem, {value: "Horror"}, "Horror"),
-                        e(MenuItem, {value: "Fantasy"}, "Fantasy"),
-                        e(MenuItem, {value: "Fantascienza"}, "Fantascienza"),
-                        e(MenuItem, {value: "Spionaggio"}, "Spionaggio"),
-                        e(MenuItem, {value: "Spaziale"}, "Spaziale"),
-                        e(MenuItem, {value: "Western"}, "Western"),
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "INFORMAZIONI GENERALI"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "title", className: classes.input, value: title, label: "Titolo", type:"search", variant:"outlined", onChange: (e) => setTitle(e.target.value)})
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(FormControl, {id: "gender", variant: "outlined", className: classes.formControl, value: gender}, [
+                        e(InputLabel, {htmlFor: "gender_label"}, "Genere"),
+                        e(Select, {inputProps: {name: "Genere", id: "gender_label"}, label: "Genere", value: gender, onChange: (event) => setGender(event.target.value)}, [
+                            e(MenuItem, {value: "Avventura"}, "Avventura"),
+                            e(MenuItem, {value: "Thriller"}, "Thriller"),
+                            e(MenuItem, {value: "Azione"}, "Azione"),
+                            e(MenuItem, {value: "Storico"}, "Storico"),
+                            e(MenuItem, {value: "Horror"}, "Horror"),
+                            e(MenuItem, {value: "Fantasy"}, "Fantasy"),
+                            e(MenuItem, {value: "Fantascienza"}, "Fantascienza"),
+                            e(MenuItem, {value: "Spionaggio"}, "Spionaggio"),
+                            e(MenuItem, {value: "Spaziale"}, "Spaziale"),
+                            e(MenuItem, {value: "Western"}, "Western"),
+                        ])
                     ])
-                ])
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "objective", className: classes.input, value: objective, label: "Obbiettivo didattico", type:"search", variant:"outlined", onChange: (e) => setObjective(e.target.value)})
-            ]),
-            e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "description", className: classes.input, value: description, multiline: true, rows: 2, inputProps: {maxLength: 140}, helperText: "Massimo 140 caratteri", label: "Breve descrizione", type:"search", variant:"outlined", onChange: (e) => setDescription(e.target.value)})
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(FormControl, {id: "accessibility", variant: "outlined", className: classes.formControl, value: accessibility}, [
-                    e(FormControlLabel, {className: classes.formControl, control: e(SwitchButton, {checked: accessibility, onChange: () => setaccessibility((prev) => !prev)}),  label: "Storia accessibile"})
-                ])
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(RadioGroup, {id: "participantsType", row: true, value: participantsType, onChange: (event) => setParticipantsType(event.target.value)}, [
-                    e(FormControlLabel, {value: "singlePlayer", control: e(Radio, {color: "default"}), label: "Giocatore single"}),
-                    e(FormControlLabel, {id: "participantsType_group", value: "group", control: e(Radio, {color: "default"}), label: "Gruppo singolo"}),
-                    e(FormControlLabel, {id: "participantsType_differentGroup", value: "differentGroup", control: e(Radio, {color: "default"}), label: "Gruppi diversi"})
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "objective", className: classes.input, value: objective, label: "Obbiettivo didattico", type:"search", variant:"outlined", onChange: (e) => setObjective(e.target.value)})
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "description", className: classes.input, value: description, multiline: true, rows: 2, inputProps: {maxLength: 140}, helperText: "Massimo 140 caratteri", label: "Breve descrizione", type:"search", variant:"outlined", onChange: (e) => setDescription(e.target.value)})
                 ]),
             ]),
-            e("div", {className: "sx_realize_option_age"}, [
-                e(Typography, {htmlFor:"age", gutterBottom: true}, "Range et\xe0 consigliata (anni)"),
-                e(Slider, {id: "age", className: classes.age, value: age, onChange: (event, newEvent) => setAge(newEvent), valueLabelDisplay: "auto", color: "default", marks: marks})
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "INFORMAZIONI GENERALI"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(FormControl, {id: "accessibility", variant: "outlined", className: classes.formControl, value: accessibility}, [
+                        e(FormControlLabel, {className: classes.formControl, control: e(SwitchButton, {checked: accessibility, onChange: () => setaccessibility((prev) => !prev)}),  label: "Storia accessibile"})
+                    ])
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(RadioGroup, {id: "participantsType", row: true, value: participantsType, onChange: (event) => setParticipantsType(event.target.value)}, [
+                        e(FormControlLabel, {value: "singlePlayer", control: e(Radio, {color: "default"}), label: "Giocatore single"}),
+                        e(FormControlLabel, {id: "participantsType_group", value: "group", control: e(Radio, {color: "default"}), label: "Gruppo singolo"}),
+                        e(FormControlLabel, {id: "participantsType_differentGroup", value: "differentGroup", control: e(Radio, {color: "default"}), label: "Gruppi diversi"})
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(Typography, {htmlFor:"age", gutterBottom: true}, "Range et\xe0 consigliata (anni)"),
+                    e(Slider, {id: "age", className: classes.age, value: age, onChange: (event, newEvent) => setAge(newEvent), valueLabelDisplay: "auto", color: "default", marks: marks})
+                ]),
             ]),
-            e("div", {className: "sx_realize_option_message"}, [
-                e("div", {className: "sx_realize_option_message_firstColumn"}, [
-                    e(TextField, {id: "messagge1", className: classes.inputMessage, value: finalMessage.message1, label: "Messaggio con score non buono", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message1"]: e.target.value})}),
-                    e(TextField, {id: "messagge2", className: classes.inputMessage, value: finalMessage.message2, label: "Messaggio con score nella media", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message2"]: e.target.value})}),
-                    e(TextField, {id: "messagge3", className: classes.inputMessage, value: finalMessage.message3, label: "Messaggio con score ottimo", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message3"]: e.target.value})}),
-                ]),
-                e("div", {className: "sx_realize_option_message_secondColumn"}, [
-                    e(TextField, {id: "value2", className: classes.rangeMessage, value: finalMessage.range1[1], label: "Valore", type:"number", variant:"outlined", onChange:  (e) => {
-                        setFinalMessage({...finalMessage, ["range1"]: [-10000, parseInt(e.target.value)], ["range2"]: [parseInt(e.target.value) + 1, finalMessage.range2[1]]})
-                    }}),
-                    e(TextField, {id: "value1", className: classes.rangeMessage, value: finalMessage.range2[1], label: "Valore", type:"number", variant:"outlined", onChange:  (e) => {
-                        setFinalMessage({...finalMessage, ["range2"]: [finalMessage.range2[0], parseInt(e.target.value)], ["range3"]: [parseInt(e.target.value) + 1, 10000]})
-                    }}),
-                ]),
-                e("div", {className: "sx_realize_option_message_thirdColumn"}, [
-                    e("div", null, `[-\u221E, ${finalMessage.range1[1]}]`),
-                    e("div", null, `[${finalMessage.range2[0]}, ${finalMessage.range2[1]}]`),
-                    e("div", null, `[${finalMessage.range3[0]}, \u221E]`)
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "MESSAGIO FINALE IN BASE AL PUNTEGGIO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("div", {className: "sx_realize_option_message"}, [
+                        e("div", {className: "sx_realize_option_message_firstColumn"}, [
+                            e(TextField, {id: "messagge1", className: classes.inputMessage, value: finalMessage.message1, label: "Messaggio con score non buono", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message1"]: e.target.value})}),
+                            e(TextField, {id: "messagge2", className: classes.inputMessage, value: finalMessage.message2, label: "Messaggio con score nella media", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message2"]: e.target.value})}),
+                            e(TextField, {id: "messagge3", className: classes.inputMessage, value: finalMessage.message3, label: "Messaggio con score ottimo", type:"search", variant:"outlined", onChange: (e) => setFinalMessage({...finalMessage, ["message3"]: e.target.value})}),
+                        ]),
+                        e("div", {className: "sx_realize_option_message_secondColumn"}, [
+                            e(TextField, {id: "value2", className: classes.rangeMessage, value: finalMessage.range1[1], label: "Valore", type:"number", variant:"outlined", onChange:  (e) => {
+                                setFinalMessage({...finalMessage, ["range1"]: [-10000, parseInt(e.target.value)], ["range2"]: [parseInt(e.target.value) + 1, finalMessage.range2[1]]})
+                            }}),
+                            e(TextField, {id: "value1", className: classes.rangeMessage, value: finalMessage.range2[1], label: "Valore", type:"number", variant:"outlined", onChange:  (e) => {
+                                setFinalMessage({...finalMessage, ["range2"]: [finalMessage.range2[0], parseInt(e.target.value)], ["range3"]: [parseInt(e.target.value) + 1, 10000]})
+                            }}),
+                        ]),
+                        e("div", {className: "sx_realize_option_message_thirdColumn"}, [
+                            e("div", null, `[-\u221E, ${finalMessage.range1[1]}]`),
+                            e("div", null, `[${finalMessage.range2[0]}, ${finalMessage.range2[1]}]`),
+                            e("div", null, `[${finalMessage.range3[0]}, \u221E]`)
+                        ]),
+                    ]),
                 ]),
             ]),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createNewJsonFile}, "SALVA"),

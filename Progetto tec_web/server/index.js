@@ -85,6 +85,8 @@ app.post('/uploadImg', (req, res) => {
     });
 })
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 app.get(`/idNumber/:username`, (req,res)=>{
     var i = 0;
     var arrayIndex = []
@@ -159,7 +161,8 @@ app.get("/storiesFolder/:username", (req, res) => {
                 accessibility: tmp.accessibility,
                 description: tmp.description,
                 published: tmp.published,
-                age: [tmp.ageStart, tmp.ageEnd]
+                age: [tmp.ageStart, tmp.ageEnd],
+                fontFamily: tmp.player.fontFamily
             };
             arrayOfStories.push(story);
         }
@@ -187,7 +190,8 @@ app.get("/storiesFolder", (req, res) => {
                 accessibility: tmp.accessibility,
                 description: tmp.description,
                 published: tmp.published,
-                age: [tmp.ageStart, tmp.ageEnd]
+                age: [tmp.ageStart, tmp.ageEnd],
+                fontFamily: tmp.player.fontFamily
             };
             arrayOfStories.push(story);
         }
@@ -293,10 +297,11 @@ app.get("/duplyImage/:oldImage/:newImage", (req, res) => {
     var files = fs.readdirSync(mypathDir)
     files.forEach((element, index) => {
         if (element == req.params.oldImage){
-            fs.copyFileSync(`${__dirname}/upload/${element}`, `${__dirname}/upload/${req.params.newImage}`)
+            fs.copyFileSync(`${__dirname}/upload/${element}`, `${__dirname}/upload/${req.params.newImage}.${req.params.oldImage.split('.').pop()}`)
         }
     })
-    res.status(200).end();
+    console.log(`Add image \"${req.params.newImage}.${req.params.oldImage.split('.').pop()}\"`);
+    res.status(200).end(`${req.params.newImage}.${req.params.oldImage.split('.').pop()}`);
 })
 
 //----------------------------------------------------------------GET STATUS PLAYER-------------------------------------------------------------------------------------------------------

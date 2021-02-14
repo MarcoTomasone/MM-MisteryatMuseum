@@ -44,6 +44,7 @@ function SelectHome(){
                         description: element.description,
                         published: element.published,
                         age: element.age,
+                        fontFamily: element.fontFamily,
                         other: response.data
                     })
                 ])

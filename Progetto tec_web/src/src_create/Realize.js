@@ -47,10 +47,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Realize(props){
-    window.addEventListener('beforeunload', function (e) {
+    /*window.addEventListener('beforeunload', function (e) {
         e.preventDefault(); 
         location.href = "./?#/Create/login"
-    });
+    });*/
 
     const classes = useStyles();
 
@@ -81,7 +81,7 @@ function Realize(props){
             e("div", {id: "sx_realize", className: "sx_realize"}, [
                 e("div", {id: "sx_realize_top", className: "sx_realize_top"}, pageLoad),
                 e("div", {className: "sx_realize_bottom"}, [
-                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => console.log(story)}, "JSON"),
+                    //e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => console.log(story)}, "JSON"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
                         setPageLoad(e(CreateHomeRealize_info, {
                             id: "CreateHomeRealize_info", 
@@ -106,8 +106,7 @@ function Realize(props){
                                 setStep: setStep
                             }))
                         } else {
-                            props.setTextErrorDialog("Prima compila e salva i campi di info generali")
-                            props.setOpenErrorDialog(true)
+                            alert("Prima compila e salva i campi di info generali")
                         }
                     }},"PLAYER"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
@@ -124,8 +123,7 @@ function Realize(props){
                                 text: "Inserisci un testo introduttivo alla tua storia, per far immergere al meglio il giocatore"
                             }))
                         } else {
-                            props.setTextErrorDialog("Prima controlla lo stile del player")
-                            props.setOpenErrorDialog(true)
+                            alert("Prima controlla lo stile del player")
                         }
                     }}, "ATTIVIT\xc0 INTRODUTTIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
@@ -142,8 +140,7 @@ function Realize(props){
                                 text: "Inserisci un testo finale alla tua storia, per far conludere al meglio il giocatore"
                             }))
                         } else {
-                            props.setTextErrorDialog("Prima controlla lo stile del player")
-                            props.setOpenErrorDialog(true)
+                            alert("Prima controlla lo stile del player")
                         }
                     }}, "ATTIVIT\xc0 CONCLUSIVA"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
@@ -156,8 +153,7 @@ function Realize(props){
                                 setStory: setStory,
                             }))
                         } else {
-                            props.setTextErrorDialog("Prima controlla lo stile del player")
-                            props.setOpenErrorDialog(true)
+                            alert("Prima controlla lo stile del player")
                         }
                     }}, "CREA/MODIFICA ATTIVIT\xc0"),
                     e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
@@ -169,8 +165,7 @@ function Realize(props){
                                 story: story, 
                             }))
                         } else {
-                            props.setTextErrorDialog("Prima compila e salva i campi di info generali")
-                            props.setOpenErrorDialog(true)
+                            alert("Prima compila e salva i campi di info generali")
                         }
                     }}, "GRAFO ATTIVIT\xc0"),
                    e(Button, {variant: "contained", size: "large", className: classes.redButton, onClick: () => {
@@ -179,8 +174,7 @@ function Realize(props){
                         .then((response) => alert(`Storia pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`))
                         .catch((error) => console.log(error)); 
                     } else {
-                        props.setTextErrorDialog("Prima compila e salva i campi di info generali")
-                        props.setOpenErrorDialog(true)
+                        alert("Prima compila e salva i campi di info generali")
                     }
                     }}, "INVIA")
                 ])

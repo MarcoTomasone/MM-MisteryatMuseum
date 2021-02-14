@@ -19,7 +19,7 @@
   "ageEnd": 16,
   "player": {
     "background": "#000000",
-    "backgroundImage": "Matteo_0_background.jpg",
+    "backgroundImage": "Matteo_0_background.png",
     "frameColor": "#ffffff",
     "topFrame": 265,
     "leftFrame": 10,
@@ -89,22 +89,25 @@
   "firstActivity": {
     "heightFrame": 160,
     "activityText": "ANNO 2820\nSul pianeta Terra il cibo ï¿½ praticamente finito e ormai anche l'acqua comincia a scarseggiare. Negli ultimi anni si ï¿½ provato di tutto per salvare la popolazione ma senza buoni risultati.\nCosi si decide di fare un ultimo tentativo disperato: uscire dal pianeta direzione spazio, alla ricerca di un qualcosa che possa salvarci tutti.\nSarï¿½ un impresa lunga e molto difficile, infatti per questo motivo tutti si rifiutano di provarci.. tutti tranne te.\nTu sei super coraggioso, non hai paura di niente e decidi di provare a salvare la Terra. Cosi accetti l'incarico e ti preparari per il giorno del lancio programmato tra un mese.",
-    "backgroundImage": "",
+    "backgroundImage": "Matteo_0_firstActivity_background.png",
     "activityImage": "",
-    "streamVideo": "",
     "altActivityImage": "",
+    "streamVideo": "",
     "widgetType": "Nessuno",
     "correctAnswerGo": [
-      "Partenza"
+      "Partenza",
+      "Partenzaa",
+      "Posto",
+      "Poltrona"
     ]
   },
   "lastActivity": {
     "heightFrame": 160,
-    "activityText": "",
+    "activityText": "shfsrg",
     "backgroundImage": "",
     "activityImage": "",
-    "streamVideo": "",
     "altActivityImage": "",
+    "streamVideo": "",
     "widgetType": "Nessuno",
     "correctAnswerGo": []
   },
@@ -116,11 +119,11 @@
       "backgroundImage": "",
       "activityImage": "Matteo_0_Partenza_activity.png",
       "altActivityImage": "Razzo",
+      "streamVideo": "https://player.cnbc.com/p/gZWlPC/cnbc_global?playertype=synd&byGuid=7000132527",
       "widgetType": "Nessuno",
       "topInput": 320,
       "leftInput": 15,
       "heightInput": 60,
-      "streamVideo": "https://player.cnbc.com/p/gZWlPC/cnbc_global?playertype=synd&byGuid=7000132527",
       "widthInput": 170,
       "errorMessage": "",
       "fourAnswers": [],
@@ -146,7 +149,6 @@
       "wrongAnswerGo": [
         "Lancio"
       ],
-      "activityIsUsed": true,
       "firstActivity": true
     },
     {
@@ -264,6 +266,123 @@
       "wrongAnswerGo": [],
       "activityIsUsed": true,
       "firstActivity": false
+    },
+    {
+      "title": "Partenzaa",
+      "heightFrame": 160,
+      "activityText": "E' passato un mese ed ï¿½ tempo di raggiungere la base di lancio.\nSei super carico, non hai paura\nCosi saluti genitori e amici, prepari il tuo zaino e in un paio d'ore sei giï¿½ arrivato alla base.\nSali sul razzo, manca poco...\nEcco ci siamo\n3\n2\n1\n...\nPartito!\nOra il pianeta Terra ï¿½ nelle tue mani, solo te puoi salvarlo.. Buona fortuna!",
+      "backgroundImage": "Matteo_0_Partenzaa_background.jpg",
+      "activityImage": "Matteo_0_Partenzaa_activity.jpeg",
+      "altActivityImage": "Razzo",
+      "streamVideo": "https://player.cnbc.com/p/gZWlPC/cnbc_global?playertype=synd&byGuid=7000132527",
+      "widgetType": "Nessuno",
+      "topInput": 320,
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [
+        "Lancio"
+      ],
+      "wrongAnswerGo": [
+        "Lancio"
+      ],
+      "firstActivity": true
+    },
+    {
+      "title": "Posto",
+      "heightFrame": 160,
+      "activityText": "E' passato un mese ed ï¿½ tempo di raggiungere la base di lancio.\nSei super carico, non hai paura\nCosi saluti genitori e amici, prepari il tuo zaino e in un paio d'ore sei giï¿½ arrivato alla base.\nSali sul razzo, manca poco...\nEcco ci siamo\n3\n2\n1\n...\nPartito!\nOra il pianeta Terra ï¿½ nelle tue mani, solo te puoi salvarlo.. Buona fortuna!",
+      "backgroundImage": "Matteo_0_Posto_background.jpg",
+      "activityImage": "Matteo_0_Posto_activity.jpeg",
+      "altActivityImage": "Razzo",
+      "streamVideo": "https://player.cnbc.com/p/gZWlPC/cnbc_global?playertype=synd&byGuid=7000132527",
+      "widgetType": "Nessuno",
+      "topInput": 320,
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [
+        "Lancio"
+      ],
+      "wrongAnswerGo": [
+        "Lancio"
+      ],
+      "firstActivity": true
+    },
+    {
+      "title": "Poltrona",
+      "heightFrame": 160,
+      "activityText": "E' passato un mese ed ï¿½ tempo di raggiungere la base di lancio.\nSei super carico, non hai paura\nCosi saluti genitori e amici, prepari il tuo zaino e in un paio d'ore sei giï¿½ arrivato alla base.\nSali sul razzo, manca poco...\nEcco ci siamo\n3\n2\n1\n...\nPartito!\nOra il pianeta Terra ï¿½ nelle tue mani, solo te puoi salvarlo.. Buona fortuna!",
+      "backgroundImage": "",
+      "activityImage": "",
+      "altActivityImage": "Razzo",
+      "streamVideo": "https://player.cnbc.com/p/gZWlPC/cnbc_global?playertype=synd&byGuid=7000132527",
+      "widgetType": "Nessuno",
+      "topInput": 320,
+      "leftInput": 15,
+      "heightInput": 60,
+      "widthInput": 170,
+      "errorMessage": "",
+      "fourAnswers": [],
+      "multipleAnswers": [],
+      "trueFalseAnswer": {
+        "trueScore": 0,
+        "falseScore": 0
+      },
+      "textAnswer": {
+        "value": "",
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "rangeAnswer": {
+        "start": 0,
+        "end": 0,
+        "scoreOk": 0,
+        "scoreWrong": 0
+      },
+      "correctAnswerGo": [
+        "Lancio"
+      ],
+      "wrongAnswerGo": [
+        "Lancio"
+      ],
+      "firstActivity": true
     }
   ],
   "finalMessage": {

@@ -3,6 +3,7 @@ const {Button, Icon, IconButton, Select, MenuItem, Switch, TextField, InputLabel
 
 function Realize_player(props){
     const [image, setImage] = React.useState(null)
+    const [isDeleteImage, setIsDeleteImage] = React.useState(false)
     const [playerStyle, setPlayerStyle] = React.useState({
         background_color           :   props.story.player.background,
         backgroundImage            :   props.story.player.backgroundImage,
@@ -27,7 +28,6 @@ function Realize_player(props){
         frameColorInputDiv         :   props.story.player.inputDiv.frameColor,
         textColorInputDiv          :   props.story.player.inputDiv.textColor,
         borderRadiusInputDiv       :   props.story.player.inputDiv.borderRadius,
-
         backgroundColorScoreDiv    :   props.story.player.scoreDiv.backgroundColor,
         frameColorScoreDiv         :   props.story.player.scoreDiv.frameColor,
         textColorScoreDiv          :   props.story.player.scoreDiv.textColor,
@@ -151,16 +151,8 @@ function Realize_player(props){
             document.getElementById("phoneImage").classList.remove("hiddenClass")
             document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${playerStyle.backgroundImage}`)
         }
+        setIsDeleteImage(false)
     }, [])
-
-    function hexToRgb(hex) {
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
-        } : null;
-    }
 
     function hexToRGBA(hex, opacity) {
         return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length/3 + '})', 'g')).map(function(l) { return parseInt(hex.length%2 ? l+l : l, 16) }).concat(isFinite(opacity) ? opacity : 1).join(',') + ')';
@@ -241,9 +233,32 @@ function Realize_player(props){
 
 
 
-    function createNewJsonFile() {
+    async function createNewJsonFile() {
+        var backgroundImageTmp = playerStyle.backgroundImage
+        if (image != null){
+            await axios.post(`http://localhost:8000/addImage/${props.story.id}/bckgrnd`, image, {
+                headers:{ "Content-Type": "multipart/form-data" }
+            })
+            .then(response => {
+                backgroundImageTmp = response.data
+                setPlayerStyle({...playerStyle, ["backgroundImage"]: response.data})
+            })
+            .catch(error => {
+                if (error.response.status === 500) console.log("Errore con il server")
+                else console.log(error)
+            })
+        }
+        if (isDeleteImage){
+            await axios.delete(`http://localhost:8000/deleteImage/${playerStyle.backgroundImage}`)
+            .then(() => {
+                setIsDeleteImage(false)
+                backgroundImageTmp = ""
+                setPlayerStyle({...playerStyle, ["backgroundImage"]: ``})
+            })
+            .catch(error => console.log(error))
+        }
         props.story.player.background                   =   playerStyle.background_color
-        props.story.player.backgroundImage              =   playerStyle.backgroundImage,
+        props.story.player.backgroundImage              =   backgroundImageTmp,
         props.story.player.image.top                    =   parseInt(playerStyle.topImage)
         props.story.player.image.left                   =   parseInt(playerStyle.leftImage)
         props.story.player.image.height                 =   parseInt(playerStyle.heighImage)
@@ -297,15 +312,6 @@ function Realize_player(props){
         props.story.player.helpButton.height            =   parseInt(playerStyle.heightHelpButton)
         props.story.player.helpButton.width             =   parseInt(playerStyle.widthHelpButton)
         props.story.player.helpButton.borderRadius      =   parseInt(playerStyle.borderRadiusHelpButton)
-        if (image != null){
-            axios.post(`http://localhost:8000/addImage/${props.story.id}/bckgrnd`, image, {
-                headers:{ "Content-Type": "multipart/form-data" }
-            })
-            .catch(error => {
-                if (error.response.status === 500) console.log("Errore con il server")
-                else console.log(error)
-            })
-        }
     }
 
     function addImage(e){
@@ -313,8 +319,7 @@ function Realize_player(props){
         const formData = new FormData();
         formData.append("file", e.target.files[0])
         setImage(formData)
-        var extension = e.target.files[0].name.split('.').pop();
-        setPlayerStyle({...playerStyle, ["backgroundImage"]: `${props.story.id}_background.${extension}`})
+        setIsDeleteImage(false)
         var reader = new FileReader();
         reader.onload = function(){
             document.getElementById("phoneImage").setAttribute("src", reader.result)
@@ -324,18 +329,10 @@ function Realize_player(props){
     }
 
     function deleteImage(){
-        if (playerStyle.backgroundImage != ""){
-            axios.delete(`http://localhost:8000/deleteImage/${playerStyle.backgroundImage}`)
-            .then(()=>{
-                setImage(null)
-                setPlayerStyle({...playerStyle, ["backgroundImage"]: ``})
-                document.getElementById("phoneImage").classList.add("hiddenClass")
-                document.getElementById("phoneImage").setAttribute("src", ``) 
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
+        setIsDeleteImage(true)
+        setImage(null)
+        document.getElementById("phoneImage").classList.add("hiddenClass")
+        document.getElementById("phoneImage").setAttribute("src", ``) 
     }
 
 
@@ -346,332 +343,341 @@ function Realize_player(props){
 
     return(
         e("div", {id: props.id, className: props.className}, [
-            e("p", null, "SFONDO"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "background_color", className: classes.hide, value: playerStyle.background_color, name:"background_color", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"background_color"}, [
-                    e(IconButton, {className: [classes.buttonBackground, classes.buttonStandard], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "SFONDO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "background_color", className: classes.hide, value: playerStyle.background_color, name:"background_color", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"background_color"}, [
+                        e(IconButton, {className: [classes.buttonBackground, classes.buttonStandard], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE"
+                    ]),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "background_image", name: "upload", className: classes.hide, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addImage}),
-                e("label", {htmlFor:"background_image"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
-                        e(Icon, {children: "image"}),  
-                    ),
-                    " AGGIUNGI IMMAGINE DELLO SFONDO"
-                ])
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor:"delete_background_image"}, [
-                    e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteImage}, 
-                        e(Icon, {children: "cancel"}),  
-                    ),
-                    " ELIMINA IMMAGINE DELLO SFONDO"
-                ]),
-            ]),
-            e("hr", null),
-            e("p", null, "IMMAGINE COME SFONDO"),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "topImage", disabled: playerStyle.backgroundImage == "", className: classes.input, value: playerStyle.topImage, name:"topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "leftImage", disabled: playerStyle.backgroundImage == "", className: classes.input, value: playerStyle.leftImage, name:"leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heighImage", disabled: playerStyle.backgroundImage == "", className: classes.input, value: playerStyle.heighImage, name:"heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthImage", disabled: playerStyle.backgroundImage == "", className: classes.input, value: playerStyle.widthImage, name:"widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-
-            e("hr", null),
-            e("p", null, "CORNICE TESTO"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "frameColor", className: classes.hide, value: playerStyle.frameColor, name:"frameColor", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"frameColor"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColor], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE"
-                ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "textBackgroundColor", className: classes.hide, value: playerStyle.textBackgroundColor, name:"textBackgroundColor", type: "color", disabled: !playerStyle.textBackgroundColorActived, onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"textBackgroundColor"}, [
-                    e(IconButton, {disabled: !playerStyle.textBackgroundColorActived, className: [classes.buttonStandard, classes.buttonTextBackgroundColor], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE SFONDO"
-                ]),
-                e(TextField, {inputProps: {min: 0, max:100}, id: "textBackgroundColorOpacity", className: classes.input, disabled: !playerStyle.textBackgroundColorActived, value: playerStyle.textBackgroundColorOpacity, name:"textBackgroundColorOpacity", label: "Opacit\xe0", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                e(SwitchButton, {checked: playerStyle.textBackgroundColorActived, onChange: () => setPlayerStyle({...playerStyle, ["textBackgroundColorActived"]: !playerStyle.textBackgroundColorActived})}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, value: 2, id: "topFrame", className: classes.input, value: playerStyle.topFrame, name:"topFrame", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "leftFrame", className: classes.input, value: playerStyle.leftFrame, name:"leftFrame", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 0, max: 197}, id: "widthFrame", className: classes.input, value: playerStyle.widthFrame, name:"widthFrame", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 0, max: 8}, id: "weightFrame", className: classes.input, value: playerStyle.weightFrame, name:"weightFrame", label: "Spessore", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 0, max: 25}, id: "borderRadiusFrame", className: classes.input, value: playerStyle.borderRadiusFrame, name:"borderRadiusFrame", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-
-            e("hr", null),
-            e("p", null, "TESTO"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "textColor", className: classes.hide, value: playerStyle.textColor, name:"textColor", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"textColor"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColor], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE"
-                ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(FormControl, {variant: "outlined", className: classes.formControl}, [
-                    e(InputLabel, {htmlFor: "fontFamily"}, "Font"),
-                    e(Select, {label: "Font", value: playerStyle.fontFamily, name:"fontFamily", onChange: (e) => updateField(e)}, [
-                        e(MenuItem, {value: "Arial", selected: true}, "Arial"),
-                        e(MenuItem, {value: "Arial Black"}, "Arial Black"),
-                        e(MenuItem, {value: "Verdana"}, "Verdana"),
-                        e(MenuItem, {value: "Georgia"}, "Georgia"),
-                        e(MenuItem, {value: "Comic Sans MS"}, "Comic Sans MS"),
-                        e(MenuItem, {value: "Impact"}, "Impact"),
-                        e(MenuItem, {value: "Times New Roman"}, "Times New Roman"),
-                        e(MenuItem, {value: "Courier"}, "Courier"),
-                        e(MenuItem, {value: "Tahoma"}, "Tahoma"),
-                        e(MenuItem, {value: "Yanone Kaffeesatz"}, "Yanone Kaffeesatz"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "background_image", name: "upload", className: classes.hide, type: "file", accept:".png,.jpeg,.jpg", onChange: addImage}),
+                    e("label", {htmlFor:"background_image"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
+                            e(Icon, {children: "image"}),  
+                        ),
+                        " AGGIUNGI IMMAGINE DELLO SFONDO"
                     ])
-                ])
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 0, max: 20}, id: "sizeFont", className: classes.input, value: playerStyle.sizeFont, name:"sizeFont", label: "Dimensione", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 0, max: 800}, id: "weightFont", className: classes.input, value: playerStyle.weightFont, name:"weightFont", label: "Pesantezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("hr", null),
-
-            e("p", null, "STILE RISPOSTE"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "backgroundColorInputDiv", className: classes.hide, value: playerStyle.backgroundColorInputDiv, name:"backgroundColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"backgroundColorInputDiv"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorInputDiv], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DELLO SFONDO"
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("label", {htmlFor:"delete_background_image"}, [
+                        e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteImage}, 
+                            e(Icon, {children: "cancel"}),  
+                        ),
+                        " ELIMINA IMMAGINE DELLO SFONDO"
+                    ]),
                 ]),
             ]),
-                        e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "frameColorInputDiv", className: classes.hide, value: playerStyle.frameColorInputDiv, name:"frameColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"frameColorInputDiv"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorInputDiv], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL BORDO"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "IMMAGINE COME SFONDO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "topImage", disabled: image == null, className: classes.input, value: playerStyle.topImage, name:"topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "leftImage", disabled: image == null, className: classes.input, value: playerStyle.leftImage, name:"leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "heighImage", disabled: image == null, className: classes.input, value: playerStyle.heighImage, name:"heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "widthImage", disabled: image == null, className: classes.input, value: playerStyle.widthImage, name:"widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "textColorInputDiv", className: classes.hide, value: playerStyle.textColorInputDiv, name:"textColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"textColorInputDiv"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorInputDiv], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL TESTO"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "CORNICE TESTO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "frameColor", className: classes.hide, value: playerStyle.frameColor, name:"frameColor", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"frameColor"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColor], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement2"}, [
+                    e("div", {className: "opacityDiv "}, [
+                        e("input", {id: "textBackgroundColor", className: classes.hide, value: playerStyle.textBackgroundColor, name:"textBackgroundColor", type: "color", disabled: !playerStyle.textBackgroundColorActived, onChange:  (e) => updateField(e)}),
+                        e("label", {htmlFor:"textBackgroundColor"}, [
+                            e(IconButton, {disabled: !playerStyle.textBackgroundColorActived, className: [classes.buttonStandard, classes.buttonTextBackgroundColor], component: "span"}, 
+                                e(Icon, {children: "color_lens"}),  
+                            ),
+                            " COLORE SFONDO"
+                        ]),
+                    ]),
+                    e("div", {className: "opacityDiv "}, [
+                        e(TextField, {inputProps: {min: 0, max:100}, id: "textBackgroundColorOpacity", className: classes.input, disabled: !playerStyle.textBackgroundColorActived, value: playerStyle.textBackgroundColorOpacity, name:"textBackgroundColorOpacity", label: "Opacit\xe0", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    ]),
+                    e("div", {className: "opacityDiv "}, [
+                        e(SwitchButton, {checked: playerStyle.textBackgroundColorActived, onChange: () => setPlayerStyle({...playerStyle, ["textBackgroundColorActived"]: !playerStyle.textBackgroundColorActived})}),
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, value: 2, id: "topFrame", className: classes.input, value: playerStyle.topFrame, name:"topFrame", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "leftFrame", className: classes.input, value: playerStyle.leftFrame, name:"leftFrame", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 0, max: 197}, id: "widthFrame", className: classes.input, value: playerStyle.widthFrame, name:"widthFrame", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 0, max: 8}, id: "weightFrame", className: classes.input, value: playerStyle.weightFrame, name:"weightFrame", label: "Spessore", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 0, max: 25}, id: "borderRadiusFrame", className: classes.input, value: playerStyle.borderRadiusFrame, name:"borderRadiusFrame", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "borderRadiusInputDiv", className: classes.input, value: playerStyle.borderRadiusInputDiv, name:"borderRadiusInputDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),    
-            e("hr", null),
-
-            e("p", null, "SEZIONE PUNTEGGIO"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "backgroundColorScoreDiv", className: classes.hide, value: playerStyle.backgroundColorScoreDiv, name:"backgroundColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"backgroundColorScoreDiv"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorScoreDiv], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DELLO SFONDO"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "TESTO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "textColor", className: classes.hide, value: playerStyle.textColor, name:"textColor", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"textColor"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColor], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(FormControl, {variant: "outlined", className: classes.formControl}, [
+                        e(InputLabel, {htmlFor: "fontFamily"}, "Font"),
+                        e(Select, {label: "Font", value: playerStyle.fontFamily, name:"fontFamily", onChange: (e) => updateField(e)}, [
+                            e(MenuItem, {value: "Arial", selected: true}, "Arial"),
+                            e(MenuItem, {value: "Arial Black"}, "Arial Black"),
+                            e(MenuItem, {value: "Verdana"}, "Verdana"),
+                            e(MenuItem, {value: "Georgia"}, "Georgia"),
+                            e(MenuItem, {value: "Comic Sans MS"}, "Comic Sans MS"),
+                            e(MenuItem, {value: "Impact"}, "Impact"),
+                            e(MenuItem, {value: "Times New Roman"}, "Times New Roman"),
+                            e(MenuItem, {value: "Courier"}, "Courier"),
+                            e(MenuItem, {value: "Tahoma"}, "Tahoma"),
+                            e(MenuItem, {value: "Yanone Kaffeesatz"}, "Yanone Kaffeesatz"),
+                        ])
+                    ])
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 0, max: 20}, id: "sizeFont", className: classes.input, value: playerStyle.sizeFont, name:"sizeFont", label: "Dimensione", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 0, max: 800}, id: "weightFont", className: classes.input, value: playerStyle.weightFont, name:"weightFont", label: "Pesantezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "frameColorScoreDiv", className: classes.hide, value: playerStyle.frameColorScoreDiv, name:"frameColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"frameColorScoreDiv"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorScoreDiv], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL BORDO"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "STILE RISPOSTE"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "backgroundColorInputDiv", className: classes.hide, value: playerStyle.backgroundColorInputDiv, name:"backgroundColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"backgroundColorInputDiv"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorInputDiv], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DELLO SFONDO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "frameColorInputDiv", className: classes.hide, value: playerStyle.frameColorInputDiv, name:"frameColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"frameColorInputDiv"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorInputDiv], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL BORDO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "textColorInputDiv", className: classes.hide, value: playerStyle.textColorInputDiv, name:"textColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"textColorInputDiv"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorInputDiv], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL TESTO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "borderRadiusInputDiv", className: classes.input, value: playerStyle.borderRadiusInputDiv, name:"borderRadiusInputDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]), 
+            ]),
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "SEZIONE PUNTEGGIO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "backgroundColorScoreDiv", className: classes.hide, value: playerStyle.backgroundColorScoreDiv, name:"backgroundColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"backgroundColorScoreDiv"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorScoreDiv], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DELLO SFONDO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "frameColorScoreDiv", className: classes.hide, value: playerStyle.frameColorScoreDiv, name:"frameColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"frameColorScoreDiv"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorScoreDiv], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL BORDO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "textColorScoreDiv", className: classes.hide, value: playerStyle.textColorScoreDiv, name:"textColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"textColorScoreDiv"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorScoreDiv], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL TESTO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "topScoreDiv", className: classes.input, value: playerStyle.topScoreDiv, name:"topScoreDiv", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "leftScoreDiv", className: classes.input, value: playerStyle.leftScoreDiv, name:"leftScoreDiv", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "heightScoreDiv", className: classes.input, value: playerStyle.heightScoreDiv, name:"heightScoreDiv", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "widthScoreDiv", className: classes.input, value: playerStyle.widthScoreDiv, name:"widthScoreDiv", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "borderRadiusScoreDiv", className: classes.input, value: playerStyle.borderRadiusScoreDiv, name:"borderRadiusScoreDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "textColorScoreDiv", className: classes.hide, value: playerStyle.textColorScoreDiv, name:"textColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"textColorScoreDiv"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorScoreDiv], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL TESTO"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "BOTTONE ATTIVIT\xc0 SUCCESSIVA"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "backgroundColorNextButton", className: classes.hide, value: playerStyle.backgroundColorNextButton, name:"backgroundColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"backgroundColorNextButton"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorNextButton], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DELLO SFONDO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "frameColorNextButton", className: classes.hide, value: playerStyle.frameColorNextButton, name:"frameColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"frameColorNextButton"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorNextButton], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL BORDO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "textColorNextButton", className: classes.hide, value: playerStyle.textColorNextButton, name:"textColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"textColorNextButton"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorNextButton], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL TESTO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "topNextButton", className: classes.input, value: playerStyle.topNextButton, name:"topNextButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "leftNextButton", className: classes.input, value: playerStyle.leftNextButton, name:"leftNextButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "heightNextButton", className: classes.input, value: playerStyle.heightNextButton, name:"heightNextButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "widthNextButton", className: classes.input, value: playerStyle.widthNextButton, name:"widthNextButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusNextButton", className: classes.input, value: playerStyle.borderRadiusNextButton, name:"borderRadiusNextButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "topScoreDiv", className: classes.input, value: playerStyle.topScoreDiv, name:"topScoreDiv", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "leftScoreDiv", className: classes.input, value: playerStyle.leftScoreDiv, name:"leftScoreDiv", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heightScoreDiv", className: classes.input, value: playerStyle.heightScoreDiv, name:"heightScoreDiv", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthScoreDiv", className: classes.input, value: playerStyle.widthScoreDiv, name:"widthScoreDiv", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "borderRadiusScoreDiv", className: classes.input, value: playerStyle.borderRadiusScoreDiv, name:"borderRadiusScoreDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("hr", null),
-
-            e("p", null, "BOTTONE ATTIVIT\xc0 SUCCESSIVA"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "backgroundColorNextButton", className: classes.hide, value: playerStyle.backgroundColorNextButton, name:"backgroundColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"backgroundColorNextButton"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorNextButton], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DELLO SFONDO"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "BOTTONE PER APRIRE LA CHAT"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "backgroundColorChatButton", className: classes.hide, value: playerStyle.backgroundColorChatButton, name:"backgroundColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"backgroundColorChatButton"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorChatButton], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DELLO SFONDO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "frameColorChatButton", className: classes.hide, value: playerStyle.frameColorChatButton, name:"frameColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"frameColorChatButton"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorChatButton], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL BORDO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "textColorChatButton", className: classes.hide, value: playerStyle.textColorChatButton, name:"textColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"textColorChatButton"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorChatButton], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL TESTO"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "topChatButton", className: classes.input, value: playerStyle.topChatButton, name:"topChatButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "leftChatButton", className: classes.input, value: playerStyle.leftChatButton, name:"leftChatButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "heightChatButton", className: classes.input, value: playerStyle.heightChatButton, name:"heightChatButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "widthChatButton", className: classes.input, value: playerStyle.widthChatButton, name:"widthChatButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusChatButton", className: classes.input, value: playerStyle.borderRadiusChatButton, name:"borderRadiusChatButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "frameColorNextButton", className: classes.hide, value: playerStyle.frameColorNextButton, name:"frameColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"frameColorNextButton"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorNextButton], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL BORDO"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "BOTTONE PER CHIEDERE AIUTO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "backgroundColorHelpButton", className: classes.hide, value: playerStyle.backgroundColorHelpButton, name:"backgroundColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"backgroundColorHelpButton"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorHelpButton], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DELLO SFONDO"
+                    ]),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "textColorNextButton", className: classes.hide, value: playerStyle.textColorNextButton, name:"textColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"textColorNextButton"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorNextButton], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL TESTO"
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "frameColorHelpButton", className: classes.hide, value: playerStyle.frameColorHelpButton, name:"frameColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"frameColorHelpButton"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorHelpButton], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL BORDO"
+                    ]),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "topNextButton", className: classes.input, value: playerStyle.topNextButton, name:"topNextButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "leftNextButton", className: classes.input, value: playerStyle.leftNextButton, name:"leftNextButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heightNextButton", className: classes.input, value: playerStyle.heightNextButton, name:"heightNextButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthNextButton", className: classes.input, value: playerStyle.widthNextButton, name:"widthNextButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusNextButton", className: classes.input, value: playerStyle.borderRadiusNextButton, name:"borderRadiusNextButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("hr", null),
-            
-            e("p", null, "BOTTONE PER APRIRE LA CHAT"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "backgroundColorChatButton", className: classes.hide, value: playerStyle.backgroundColorChatButton, name:"backgroundColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"backgroundColorChatButton"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorChatButton], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DELLO SFONDO"
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "textColorHelpButton", className: classes.hide, value: playerStyle.textColorHelpButton, name:"textColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {htmlFor:"textColorHelpButton"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorHelpButton], component: "span"}, 
+                            e(Icon, {children: "color_lens"}),  
+                        ),
+                        " COLORE DEL TESTO"
+                    ]),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "frameColorChatButton", className: classes.hide, value: playerStyle.frameColorChatButton, name:"frameColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"frameColorChatButton"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorChatButton], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL BORDO"
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "topHelpButton", className: classes.input, value: playerStyle.topHelpButton, name:"topHelpButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "textColorChatButton", className: classes.hide, value: playerStyle.textColorChatButton, name:"textColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"textColorChatButton"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorChatButton], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL TESTO"
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "leftHelpButton", className: classes.input, value: playerStyle.leftHelpButton, name:"leftHelpButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "topChatButton", className: classes.input, value: playerStyle.topChatButton, name:"topChatButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "leftChatButton", className: classes.input, value: playerStyle.leftChatButton, name:"leftChatButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heightChatButton", className: classes.input, value: playerStyle.heightChatButton, name:"heightChatButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthChatButton", className: classes.input, value: playerStyle.widthChatButton, name:"widthChatButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusChatButton", className: classes.input, value: playerStyle.borderRadiusChatButton, name:"borderRadiusChatButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-
-            e("hr", null),
-            e("p", null, "BOTTONE PER CHIEDERE AIUTO"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "backgroundColorHelpButton", className: classes.hide, value: playerStyle.backgroundColorHelpButton, name:"backgroundColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"backgroundColorHelpButton"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorHelpButton], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DELLO SFONDO"
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "heightHelpButton", className: classes.input, value: playerStyle.heightHelpButton, name:"heightHelpButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "frameColorHelpButton", className: classes.hide, value: playerStyle.frameColorHelpButton, name:"frameColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"frameColorHelpButton"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorHelpButton], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL BORDO"
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "widthHelpButton", className: classes.input, value: playerStyle.widthHelpButton, name:"widthHelpButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "textColorHelpButton", className: classes.hide, value: playerStyle.textColorHelpButton, name:"textColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
-                e("label", {htmlFor:"textColorHelpButton"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorHelpButton], component: "span"}, 
-                        e(Icon, {children: "color_lens"}),  
-                    ),
-                    " COLORE DEL TESTO"
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusHelpButton", className: classes.input, value: playerStyle.borderRadiusHelpButton, name:"borderRadiusHelpButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "topHelpButton", className: classes.input, value: playerStyle.topHelpButton, name:"topHelpButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "leftHelpButton", className: classes.input, value: playerStyle.leftHelpButton, name:"leftHelpButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "heightHelpButton", className: classes.input, value: playerStyle.heightHelpButton, name:"heightHelpButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {id: "widthHelpButton", className: classes.input, value: playerStyle.widthHelpButton, name:"widthHelpButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusHelpButton", className: classes.input, value: playerStyle.borderRadiusHelpButton, name:"borderRadiusHelpButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: (e) => createNewJsonFile(e)}, "SALVA"),
         ])

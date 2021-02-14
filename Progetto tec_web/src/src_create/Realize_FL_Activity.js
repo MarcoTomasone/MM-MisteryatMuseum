@@ -49,6 +49,8 @@ function Realize_FL_Activity(props){
     })
     const [imageBackground, setImageBackground] = React.useState(null)
     const [imageActivity, setImageActivity] = React.useState(null)
+    const [isDeleteBackgroundImage, setIsDeleteBackgroundImage] = React.useState(false)
+    const [isDeleteActivityImage, setIsDeleteActivityImage] = React.useState(false)
 
     function changeLetter(string){
         var res = string
@@ -67,7 +69,7 @@ function Realize_FL_Activity(props){
         return res
     };
 
-    function updateBackgorundImage(){
+    function updateBackgroundImage(){
         if (props.story.player.backgroundImage == ""){
             document.getElementById("phoneImage").classList.add("hiddenClass")
             document.getElementById("phoneImage").setAttribute("src", ``)        }
@@ -77,14 +79,12 @@ function Realize_FL_Activity(props){
         }
     }
 
-
     function addBackgroundImage(e){
         e.preventDefault()
         const formData = new FormData();
         formData.append("file", e.target.files[0])
         setImageBackground(formData)
-        var extension = e.target.files[0].name.split('.').pop();
-        setActivity({...activity, ["backgroundImage"]: `${props.story.id}_${props.indexActivity}_background.${extension}`});
+        setIsDeleteBackgroundImage(false)
         var reader = new FileReader();
         reader.onload = function(){
             document.getElementById("phoneImage").setAttribute("src", reader.result)
@@ -98,8 +98,7 @@ function Realize_FL_Activity(props){
         const formData = new FormData();
         formData.append("file", e.target.files[0])
         setImageActivity(formData)
-        var extension = e.target.files[0].name.split('.').pop();
-        setActivity({...activity, ["activityImage"]: `${props.story.id}_${props.indexActivity}_activity.${extension}`});
+        setIsDeleteActivityImage(false)
         var reader = new FileReader();
         reader.onload = function(){
             document.getElementById("mediaDiv").classList.remove("hiddenClass")
@@ -109,34 +108,17 @@ function Realize_FL_Activity(props){
         reader.readAsDataURL(e.target.files[0]);
     }
 
-
     function deleteBackgroundImage(){
-        if (activity.backgroundImage != ""){
-            axios.delete(`http://localhost:8000/deleteImage/${activity.backgroundImage}`)
-            .then(()=>{
-                setImageBackground(null)
-                setActivity({...activity, ["backgroundImage"]: ``});
-                updateBackgorundImage()
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
+        setIsDeleteBackgroundImage(true)
+        setImageBackground(null)
+        updateBackgroundImage()
     }
 
     function deleteActivityImage(){
-        if (activity.activityImage != ""){
-            axios.delete(`http://localhost:8000/deleteImage/${activity.activityImage}`)
-            .then(()=>{
-                setImageBackground(null)
-                setActivity({...activity, ["activityImage"]: ``});
-                document.getElementById("mediaDiv").classList.add("hiddenClass")
-                document.getElementById("mediaDiv").setAttribute("src", ``)  
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        }
+        setIsDeleteActivityImage(true)
+        setImageActivity(null)
+        document.getElementById("mediaDiv").classList.add("hiddenClass")
+        document.getElementById("mediaDiv").setAttribute("src", ``)  
     }
 
     function updateField(e){
@@ -156,11 +138,15 @@ function Realize_FL_Activity(props){
     React.useEffect(() => {
         document.getElementById("containerHome_userSelected_realize_info").innerHTML = props.title
         setActivity(props.activity)
+        setImageBackground(null)
+        setImageActivity(null)
+        setIsDeleteBackgroundImage(false)
+        setIsDeleteActivityImage(false)
         if (props.activity.backgroundImage != ""){
             document.getElementById("phoneImage").setAttribute("src", `../../server/upload/${props.activity.backgroundImage}`)
             document.getElementById("phoneImage").classList.remove("hiddenClass")
         } else {
-            updateBackgorundImage()
+            updateBackgroundImage()
         }
         if (props.activity.activityImage != ""){
             document.getElementById("mediaDiv").setAttribute("src", `../../server/upload/${props.activity.activityImage}`)
@@ -172,21 +158,16 @@ function Realize_FL_Activity(props){
     }, [props.indexActivity])
 
 
-    function createActivity(){
-        var tmp = {
-            heightFrame     : parseInt(activity.heightFrame),
-            activityText    : changeLetter(activity.activityText),
-            backgroundImage : activity.backgroundImage,
-            activityImage   : activity.activityImage,
-            altActivityImage: changeLetter(activity.altActivityImage),
-            streamVideo     : activity.streamVideo,
-            widgetType      : "Nessuno",
-            correctAnswerGo : activity.correctAnswerGo,
-        };
-        props.setStory({...props.story, [props.indexActivity]: tmp} )
+    async function createActivity(){
+        var backgroundImageTmp = activity.backgroundImage
+        var activityImageTmp = activity.activityImage
         if (imageBackground != null){
-            axios.post(`http://localhost:8000/addImage/${props.story.id}/${props.indexActivity}_background`, imageBackground, {
+            await axios.post(`http://localhost:8000/addImage/${props.story.id}/${props.indexActivity}_background`, imageBackground, {
                 headers:{ "Content-Type": "multipart/form-data" }
+            })
+            .then((response) => {
+                backgroundImageTmp = response.data
+                setActivity({...activity, ["backgroundImage"]: response.data});
             })
             .catch(error => {
                 if (error.response.status === 500) console.log("Errore con il server")
@@ -194,77 +175,112 @@ function Realize_FL_Activity(props){
             })
         }
         if (imageActivity != null){
-            axios.post(`http://localhost:8000/addImage/${props.story.id}/${props.indexActivity}_activity`, imageActivity, {
+            await axios.post(`http://localhost:8000/addImage/${props.story.id}/${props.indexActivity}_activity`, imageActivity, {
                 headers:{ "Content-Type": "multipart/form-data" }
+            })
+            .then((response) => {
+                activityImageTmp = response.data
+                setActivity({...activity, ["activityImage"]: response.data});
             })
             .catch(error => {
                 if (error.response.status === 500) console.log("Errore con il server")
                 else console.log(error)
             })
         }
+        if (isDeleteBackgroundImage){
+            await axios.delete(`http://localhost:8000/deleteImage/${activity.backgroundImage}`)
+            .then(() => {
+                setIsDeleteBackgroundImage(false)
+                backgroundImageTmp = ""
+                setActivity({...activity, ["backgroundImage"]: ``});
+            })
+            .catch(error => console.log(error))
+        }
+        if (isDeleteActivityImage){
+            await axios.delete(`http://localhost:8000/deleteImage/${activity.activityImage}`)
+            .then(() => {
+                setIsDeleteActivityImage(false)
+                activityImageTmp = ""
+                setActivity({...activity, ["activityImage"]: ``});
+            })
+            .catch(error => console.log(error))
+        }
+        var tmp = {
+            heightFrame     : parseInt(activity.heightFrame),
+            activityText    : changeLetter(activity.activityText),
+            backgroundImage : backgroundImageTmp,
+            activityImage   : activityImageTmp,
+            altActivityImage: changeLetter(activity.altActivityImage),
+            streamVideo     : activity.streamVideo,
+            widgetType      : "Nessuno",
+            correctAnswerGo : activity.correctAnswerGo,
+        };
+        props.setStory({...props.story, [props.indexActivity]: tmp} )
     }
         
 
     return(
         e("form", {id: props.id, className: props.className}, [
-            e("p", null, "CORNICE TESTO"),
-            e("div", {className: "sx_realize_option"}, [
-                e(TextField, {inputProps: {min: 5}, id: "heightFrame", className: classes.input, value: activity.heightFrame, name: "heightFrame", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "CORNICE TESTO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {inputProps: {min: 5}, id: "heightFrame", className: classes.input, value: activity.heightFrame, name: "heightFrame", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                ])
             ]),
-            e("hr", null),
-
-            e("p", null, "IMMAGINE SFONDO"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "background_image", className: classes.hide, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addBackgroundImage}),
-                e("label", {htmlFor:"background_image"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
-                        e(Icon, {children: "image"}),  
-                    ),
-                    " AGGIUNGI IMMAGINE"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "IMMAGINE SFONDO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "background_image", className: classes.hide, type: "file", accept:".png,.jpeg,.jpg", onChange: addBackgroundImage}),
+                    e("label", {htmlFor:"background_image"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
+                            e(Icon, {children: "image"}),  
+                        ),
+                        " AGGIUNGI IMMAGINE"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("label", {htmlFor:"delete_background_image"}, [
+                        e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteBackgroundImage}, 
+                            e(Icon, {children: "cancel"}),  
+                        ),
+                        " ELIMINA IMMAGINE"
+                    ]),
                 ]),
             ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor:"delete_background_image"}, [
-                    e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteBackgroundImage}, 
-                        e(Icon, {children: "cancel"}),  
-                    ),
-                    " ELIMINA IMMAGINE"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "IMMAGINE ATTIVIT\xc0"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("input", {id: "activity_image", className: classes.hide, type: "file", accept:".png,.jpeg,.jpg", onChange: addActivityImage}),
+                    e("label", {htmlFor:"activity_image"}, [
+                        e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
+                            e(Icon, {children: "image"}),  
+                        ),
+                        " AGGIUNGI IMMAGINE"
+                    ]), 
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e("label", {htmlFor:"delete_activity_image"}, [
+                        e(IconButton, {id: "delete_activity_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivityImage}, 
+                            e(Icon, {children: "cancel"}),  
+                        ),
+                        " ELIMINA IMMAGINE"
+                    ]),
+                ]),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilit\xe0", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("hr", null),
-
-            e("p", null, "IMMAGINE ATTIVIT\xc0"),
-            e("div", {className: "sx_realize_option"}, [
-                e("input", {id: "activity_image", className: classes.hide, type: "file", accept:"image/x-png,image/gif,image/jpeg", onChange: addActivityImage}),
-                e("label", {htmlFor:"activity_image"}, [
-                    e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
-                        e(Icon, {children: "image"}),  
-                    ),
-                    " AGGIUNGI IMMAGINE"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "VIDEO YOUTUBE"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "sx_realize_option"}, [
-                e("label", {htmlFor:"delete_activity_image"}, [
-                    e(IconButton, {id: "delete_activity_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivityImage}, 
-                        e(Icon, {children: "cancel"}),  
-                    ),
-                    " ELIMINA IMMAGINE"
+            e("div", {className: "playerDivStyle"}, [
+                e("p", null, "TESTO"),
+                e("div", {className: "playerDivStyleElement"}, [
+                    e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.activityText, name: "activityText", label: "Testo", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-            ]),
-            e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilit\xe0", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("hr", null),
-            
-            e("p", null, "VIDEO YOUTUBE"),
-            e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
-            ]),
-            e("hr", null),
-
-            e("p", null, "TESTO"),
-            e("div", {className: "sx_realize_option_description"}, [
-                e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.activityText, name: "activityText", label: "Testo", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
             ]),
             e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    

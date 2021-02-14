@@ -8,7 +8,7 @@ function Card(props){
         props.other.forEach((element) => {
             var c = document.getElementById(element.id).children;
             if(props.id == element.id) c[0].style.opacity = 1
-            else c[0].style.opacity = 0.7
+            else c[0].style.opacity = 0.65
         })
     }
 
@@ -71,11 +71,13 @@ function Card(props){
             if (lightOrDark(rgbToHex(R, G, B)) == 'dark') document.getElementById(props.id).style.color = "white"
             else document.getElementById(props.id).style.color = "black"
         }
+        var child = document.getElementById(`${props.id}_content`).childNodes
+        child.forEach(element => element.style.fontFamily = props.fontFamily)
     }, [])
     
     return e("div", {id: props.id, className: "card", onClick: press}, [
         e("img", {id: `${props.id}_card`, className: "card_backrgound", src: background}),
-        e("div", {className: "card_content"}, [
+        e("div", {id: `${props.id}_content`, className: `card_content`}, [
             e("div", {className: "card_title"}, props.title),
             e("div", {className: "card_gender"}, props.gender),
             e("div", {className: "card_objective"}, props.objective),

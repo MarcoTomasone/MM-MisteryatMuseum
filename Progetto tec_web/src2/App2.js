@@ -3,7 +3,7 @@ import {init, appendMessage, isEnter} from '../utils.js'
 import { getID } from './dataHandler.js';
 import {getButtonChatProperty, getScoreProperty,getButtonHelpProperty,getActivityNoBackground,getActivityIMG} from './style.js'
 const e = React.createElement;
-const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper, Badge}  = MaterialUI;
+const { Icon, IconButton, Dialog, DialogContent, DialogTitle, DialogContentText, TextField, Slide, Paper, Badge, Typography}  = MaterialUI;
 
 //const url = window.location.href;
 //const story = url.replace("http://127.0.0.1`/src2/player.html?story=", "");
@@ -194,20 +194,20 @@ function App2() {
             ]),*/
             e(Activity, {counter:counter,server: server,setCounter:setCounter, json:data,  v : activityList, playerId : id, dictionaryActivity : dictionaryActivity, socket: socket, points: points, setPoints: setPoints, story : story}),
             e(Slide, {in: slideChat, direction: "left", id: "slide-chat", children: e(Paper, null, [
-                e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideChat(false)}}),
+                e(IconButton, {children: e(Icon, {children: "close"}), "aria-label":"Chiudi Chat", onClick: () => {setSlideChat(false)}}),   
                     e("div",{id: "message-container"}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
                         e(TextField, {id: "message-input", onKeyDown: () => {isEnter(event)? sendMessage() : null},variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft : "10%"}, InputProps: {endAdornment:
-                            e(IconButton, {id:"send-button", onClick: sendMessage,  children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
+                            e(IconButton, {id:"send-button", onClick: sendMessage, "aria-label":"Invia messaggio Chat", children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])
             ])}),
             e(Slide, {in: slideHelp, direction:"down", id: "slide-help", style : {height : "70%"} , unmountOnExit: false, children: e(Paper, null, [  
-                e(IconButton, {children: e(Icon, {children: "close"}), onClick: () => {setSlideHelp(false)}}),
+                e(IconButton, {children: e(Icon, {children: "close"}),"aria-label":"Chiudi Help", onClick: () => {setSlideHelp(false)}}),
                     e("div",{id: "help-message-container"}), //div di arrivo delle risposte da valutare
                     e("form", {id: "send-container"}, [
                         e(TextField, {id: "help-message-input",onKeyDown: () => {isEnter(event)? sendHelp() : null}, variant: "outlined", margin: "dense", multiline: true, rows: "1", style: {width: "80%", marginLeft : "10%"}, InputProps: {endAdornment:
-                            e(IconButton, {id:"send-button", onClick: sendHelp, children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
+                            e(IconButton, {id:"send-button", onClick: sendHelp,"aria-label":"Invia Help", children: e(Icon, {children: "send"})}), style: {fontSize: "14pt"}}}
                             )
                         ])
             ])})

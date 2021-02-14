@@ -86,15 +86,13 @@ function App2() {
 
         React.useEffect(()=>{
             socket.on('help-from-evaluator' , data => {
-                setHelp(true);
-                console.log(data);
-                console.log(counter);
-                if(data.section == counter){
-                    const p = document.getElementById("p" + data.nElem);
-                    p.innerHTML += "<br>" + "Risposta:" + data.answer;
+                const p = document.getElementById("p" + data.nElem);
+                if(data.section == counter && p!= null){
+                    setHelp(true);
+                    p.innerHTML += "<br>" + "<b>Risposta:</b>" + data.answer;
                 }
             });
-        },[counter]);
+        }, [counter]);
 
         //Dizionario con key:"title" (of Activity ) value:"number"(of index Activities)       
         var dictionaryActivity = new Map;
@@ -149,7 +147,8 @@ function App2() {
     const sendMessage = function (){
         const messageInput = document.getElementById("message-input")
         const message = messageInput.value
-        if(message != ""){
+       
+        if(message != "" && message != "\n"){
             appendMessage(`<b>You</b>: ${message}`, "message-container") //print client side 
             socket.emit('send-to-evaluator', {message: message, id})  //server side
         } 
@@ -160,7 +159,7 @@ function App2() {
         const container = document.getElementById("help-message-container");
         const helpInput = document.getElementById("help-message-input");
         const message = helpInput.value;
-        if(message != ""){
+        if(message != "" && message != "\n"){
             helpArray.push(message);
             const length = helpArray.length;
             const helpP = document.createElement("p");

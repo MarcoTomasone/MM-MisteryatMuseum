@@ -64,12 +64,15 @@ export const CardPlayer = React.forwardRef((props, ref) => {
     //Function to send messages to the evaluator
     const sendMessage = (id) => {
         const messageInput = document.getElementById(id + '_message-input');
+	    if(messageInput.value == "" || messageInput.value == "\n")
+	        return;
         const message = `<b>You</b>: ${messageInput.value}`;
         const container = id + "_message-container";
         appendMessage(message, container); //lato client
         props.send(messageInput.value, id)
         messageInput.value = ''
     }
+
 
 
     React.useImperativeHandle(ref, (value) => ({

@@ -132,6 +132,7 @@ function Select(props){
 
 
     React.useEffect(async () => {
+        setArrayPrivateStories([])
         await axios.get(`http://localhost:8000/storiesFolder/${props.user}`)
         .then((response) => {
             response.data.forEach((element) => {

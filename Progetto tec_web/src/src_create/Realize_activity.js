@@ -1,6 +1,6 @@
 const e = React.createElement;
 const {TextField, IconButton, makeStyles, Button, Icon, FormControl, InputLabel, Select, MenuItem, Tooltip, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Switch, FormControlLabel, withStyles } = window['MaterialUI'];
-import {DialogComponent, DialogComponent2} from "./Dialog.js"
+import {DialogComponent, DialogComponent2, DialogComponent3} from "./Dialog.js"
 
 
 
@@ -129,6 +129,7 @@ function Realize_activity(props){
     const [menuItemActivityWrongAnswer, setMenuItemActivityWrongAnswer] = React.useState([])
     const [arrayOfActivity, setArrayOfActivity] = React.useState([]);
     const [openInfoDialog, setOpenInfoDialog] = React.useState(false);
+    const [openInfoDialog2, setOpenInfoDialog2] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [string, setString] = React.useState("");
     const [imageBackground, setImageBackground] = React.useState(null)
@@ -664,15 +665,19 @@ function Realize_activity(props){
         e("form", {id: props.id, className: props.className}, [
             e("div", {className: "playerDivStyle"}, [
                 e("p", null, "TITOLO ATTIVIT\xc0"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "title", className: classes.input, value: activity.title, name: "title", label: "Titolo", variant:"outlined", onChange:  (e) => updateField(e)}),
-                    e(FormControl, {variant: "outlined", className: classes.input}, [
+                e("div", {className: "playerDivStyleElement2"}, [
+                    e(TextField, {id: "title", className: [classes.input, classes.score], value: activity.title, name: "title", label: "Titolo", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
                         e(InputLabel, {htmlFor: "selectActivity"}, "Seleziona attivit\xe0"),
                         e(Select, {id: "selectActivity", label: "Seleziona attivit\xe0", onChange:  (e) => {selectActivity(e)}}, arrayOfActivity)
                     ]),
                     e(IconButton, {id: "deleteActivity", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivity}, 
                         e(Icon, {children: "delete"}),  
                     ),
+                    e(Tooltip, {title: "SPIEGAZIONE GESTIONE ATTIVIT\xc0"}, e(IconButton, {id: "leggend2", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: (e) => {e.preventDefault(); setOpenInfoDialog2(true)}}, 
+                        e(Icon, {children: "not_listed_location"}),  
+                    )),
+                e(DialogComponent3, {fun: setOpenInfoDialog2, open: openInfoDialog2} )
                 ])
             ]),
             e("div", {className: "playerDivStyle"}, [
@@ -721,7 +726,7 @@ function Realize_activity(props){
             e("div", {className: "playerDivStyle"}, [
                 e("p", null, "VIDEO YOUTUBE"),
                 e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube. Verr\xe0 visualizzato sotto il testo o, se presente, sotto l'immagine di attivit\xe0", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ])
             ]),
             e("div", {className: "playerDivStyle"}, [
@@ -755,7 +760,7 @@ function Realize_activity(props){
                     e(Tooltip, {title: "SPIEGAZIONE TIPO DI WIDGET"}, e(IconButton, {id: "leggend", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: (e) => {e.preventDefault(); setOpenInfoDialog(true)}}, 
                         e(Icon, {children: "not_listed_location"}),  
                     )),
-                    e(DialogComponent2, {fun: setOpenInfoDialog, open: openInfoDialog, textError: "prova"} )
+                    e(DialogComponent2, {fun: setOpenInfoDialog, open: openInfoDialog} )
                 ]),
                 e("div", {id: "Quattro opzioni"}, [
                     e("div", {className: "playerDivStyleElement2"}, [

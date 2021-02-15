@@ -47,10 +47,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 function Realize(props){
-    /*window.addEventListener('beforeunload', function (e) {
-        e.preventDefault(); 
-        location.href = "./?#/Create/login"
-    });*/
+    window.addEventListener('beforeunload', function (e) {
+        //e.preventDefault(); 
+        location.href = "./?#/"
+    });
 
     const classes = useStyles();
 

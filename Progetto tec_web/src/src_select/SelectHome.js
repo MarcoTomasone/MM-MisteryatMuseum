@@ -26,6 +26,17 @@ function SelectHome(){
         }
     }
 
+    function downloadQRCode(){
+        const canvas = document.getElementById("qr-code");
+        var image = canvas.toDataURL();  
+        var tmpLink = document.createElement( 'a' );  
+        tmpLink.download = storySelected 
+        tmpLink.href = image;  
+        document.body.appendChild( tmpLink );  
+        tmpLink.click();  
+        document.body.removeChild( tmpLink );
+    }
+
     
     React.useEffect(() => {
         axios.get(`http://localhost:8000/storiesFolder`)
@@ -67,8 +78,11 @@ function SelectHome(){
         e("div", {className: "containerHome_publicSelect"}, [
             e("div", {className: "sx_publicSelect"}, arrayPrivateStories),
             e("div", {className: "dx_publicSelect"}, [
-                e(Button, {key: "bb0", id: "qr-btn", variant: "contained", onClick:generateQRCode}, "SCANSIONA"),
-                e("canvas", {key: "bb1", id: "qr-code", onClick: goLink})
+                e("div", {className: "dx_publicSelectButton"}, [
+                    e(Button, {key: "bb0", id: "qr-btn", variant: "contained", onClick: generateQRCode}, "SCANSIONA"),
+                    e(Button, {key: "bb1", variant: "contained", onClick:downloadQRCode}, "SCARICA"),
+                ]),
+                e("canvas", {key: "bb2", id: "qr-code", onClick: goLink})
             ])
         ]),
         e(DialogComponent, {fun: setError, open: error, textError: "Selezionare prima una storia"} ),

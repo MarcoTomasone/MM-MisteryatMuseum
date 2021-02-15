@@ -273,7 +273,7 @@ function Realize_FL_Activity(props){
             e("div", {className: "playerDivStyle"}, [
                 e("p", null, "VIDEO YOUTUBE"),
                 e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube. Verr\xe0 visualizzato sotto il testo o, se presente, sotto l'immagine di attivit\xe0", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
             e("div", {className: "playerDivStyle"}, [

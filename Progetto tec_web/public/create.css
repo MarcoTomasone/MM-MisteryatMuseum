@@ -2,13 +2,20 @@
 /*LOGIN*/
 /*------------------------------------------------------------------------------------------------------*/
 #loginDiv{
-    height: 100%;
-    width: 100%;
+    height: 90%;
+    width: 60%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-radius: 30px;
+    border: solid 1px rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.03);
+    box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308);
+    margin-top: 3%;
+    margin-left: 20%;
 }
+
 
 #loginDiv_img{
     width: 200px;
@@ -38,6 +45,7 @@
     height: 100%;
     width: 100%;
     min-height: 460px;
+    padding: 10px;
 }
 .containerHome_userSelected{
     height: 10%;
@@ -47,6 +55,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    border: solid 1px rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.03);
+    box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308);
 }
 #containerHome_userSelected_explanation{
     font-size: 0.8em;
@@ -62,7 +75,6 @@
 .containerHome_privateSelect{
     height: 90%;
     width: 100%;
-    border: solid 2px yellow;
     display: flex;
 }
 
@@ -72,28 +84,39 @@
     justify-content: space-around;
     align-items: center;
     overflow: scroll;
+    border-radius: 30px;
+    border: solid 1px rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.03);
+    box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308); 
 }
+
+
 
 /*SCHERMO GRANDE SELECTION SECTION*/
 @media only screen and (min-width: 931px) {
     .sx_privateSelect{
-        height: 100%;
+        height: 98%;
         width: 75%;
-        padding: 20px;
-        border: solid 2px blue
+        padding: 10px;
+        margin-right: 15px;
     }
     .dx_privateSelect{
-        height: 100%;
+        height: 98%;
         width: 25%;
         min-height: 300px;
         padding: 20px;
+        margin-right: 5px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
-        border: solid 2px blue
+        border-radius: 30px;
+        border: solid 1px rgba(0, 0, 0, .2);
+        background: rgba(0, 0, 0, 0.03);
+        box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308);   
     }
 }
+
 
 /*SCHERMO PICCOLO SELECTION SECTION*/
 @media only screen and (max-width: 930px) {
@@ -104,8 +127,9 @@
         order: 1;
         height: 85%;
         width: 100%;
-        padding: 20px;
-        border: solid 2px blue
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }  
     .dx_privateSelect{
         order: 0;
@@ -116,9 +140,12 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        border: solid 2px blue
+        border-radius: 30px;
+        border: solid 1px rgba(0, 0, 0, .2);
+        background: rgba(0, 0, 0, 0.03);
+        box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308);  
     }
-    #containerHome_userSelected_explanation{
+    #containerHome_userSelected_explanation, #containerHome_userSelected_realize_info{
         display: none;
     }
 }
@@ -146,12 +173,11 @@
 }
 .sx_realize_bottom{
     height: 10%;
-    width: 96.5%;
+    width: 99%;
     display: flex;
     justify-content: space-around;
     overflow: scroll;
     padding-left: 5px;
-    margin-left: 20px;
     border: solid 2px rgba(0, 0, 0, .2);
     border-radius: 15px;
 }
@@ -289,6 +315,7 @@
     }
     #dx_realize{
         width: 0%;
+        margin: 0px;
         border: solid 1px rgba(0, 0, 0, 0);
         background: rgba(0, 0, 0, 0);
         box-shadow: 5px 5px 2px rgba(87, 87, 87, 0); 
@@ -441,7 +468,6 @@
 .containerHome_publicSelect{
     height: 90%;
     width: 100%;
-    border: solid 2px yellow;
     display: flex;
 }
 .sx_publicSelect{
@@ -450,26 +476,33 @@
     justify-content: center;
     align-items: center;
     overflow: scroll;
-    border: solid 2px lightseagreen
+    border-radius: 30px;
+    border: solid 1px rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.03);
+    box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308);
 }
 .dx_publicSelect{
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid 2px lightseagreen
+    border-radius: 30px;
+    border: solid 1px rgba(0, 0, 0, .2);
+    background: rgba(0, 0, 0, 0.03);
+    box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308);
 }
 
 /*SCHERMO GRANDE SELECT PARTE PUBBLICA*/
 @media only screen and (min-width: 931px) {
     .sx_publicSelect{
-        height: 100%;
+        height: 98%;
         width: 75%;
         padding: 20px;
     }
     .dx_publicSelect{
-        height: 100%;
+        height: 98%;
         width: 25%;
         flex-direction: column;
+        margin-left: 10px;
     }
     #dx_publicSelect_button{
         margin: 20px;
@@ -484,15 +517,15 @@
     }
     .sx_publicSelect{
         order: 1;
-        height: 75%;
+        height: 45%;
         width: 100%;
-        padding: 20px;
     }
     .dx_publicSelect{
         order: 0;
         width: 100%;
         height: 250px;
         flex-direction: row;
+        margin-bottom: 10px;
     }
     #dx_publicSelect_button{
         margin: 20px;
@@ -521,18 +554,17 @@
 .card{
     height: 320px;
     width: 200px;
-    margin: 20px;
-    font-size: 18px;
+    margin: 10px 20px 10px 20px;
     border: solid 6px black;
     border-radius: 10px;
     position: relative;
     overflow: hidden;
     box-shadow: 10px 10px 5px rgba(87, 87, 87, 0.6);
-    transition: transform .2s;
+    transition: .2s;
 }
 .card:hover {
     cursor: pointer;
-    transform: scale(1.3); 
+    scale: 1.2; 
 }
 .card_content *{
     display: flex;
@@ -712,41 +744,41 @@ div[id='Range div']{
     text-align: center;
 }
 #mynetwork{
-    width: 96%;
-    height: 92%;
-    margin: 20px 20px 20px 20px;
+    width: 98%;
+    height: 98%;
     border-radius: 30px;
     border: solid 1px rgba(0, 0, 0, .2);
-    background: rgba(0, 0, 0, 0.025);
+    background: rgba(0, 0, 0, 0.03);
     box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308); 
 }
 
 .dx_realize{
     width: 25%;
-    height: 95%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 30px;
-    margin-top: 20px;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
     border: solid 1px rgba(0, 0, 0, .2);
-    background: rgba(0, 0, 0, 0.025);
+    background: rgba(0, 0, 0, 0.03);
     box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308); 
 }
 
 .playerDivStyle{
+    width: 99%;
     min-width: 700px;
     display: flex;
     flex-direction: column;
     padding: 10px;
     padding-left: 40px;
-    margin: 20px 20px 20px 20px;
     border-radius: 30px;
+    margin-bottom: 10px;
     border: solid 1px rgba(0, 0, 0, .2);
-    background: rgba(0, 0, 0, 0.025);
-    box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308);   
+    background: rgba(0, 0, 0, 0.03);
+    box-shadow: 5px 5px 2px rgba(87, 87, 87, 0.308);
 }
 
 .playerDivStyleElement2{
@@ -765,4 +797,11 @@ div[id='Range div']{
 
 .opacityDiv{
     margin-right: 60px;
+}
+
+.dx_publicSelectButton{
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

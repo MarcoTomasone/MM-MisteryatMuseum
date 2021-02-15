@@ -320,7 +320,7 @@ function Realize_info(props){
                 ]),
             ]),
             e("div", {className: "playerDivStyle"}, [
-                e("p", null, "INFORMAZIONI GENERALI"),
+                e("p", null, "INDICAZIONI PER L'USO DELLA STORIA"),
                 e("div", {className: "playerDivStyleElement"}, [
                     e(FormControl, {id: "accessibility", variant: "outlined", className: classes.formControl, value: accessibility}, [
                         e(FormControlLabel, {className: classes.formControl, control: e(SwitchButton, {checked: accessibility, onChange: () => setaccessibility((prev) => !prev)}),  label: "Storia accessibile"})
@@ -328,7 +328,7 @@ function Realize_info(props){
                 ]),
                 e("div", {className: "playerDivStyleElement"}, [
                     e(RadioGroup, {id: "participantsType", row: true, value: participantsType, onChange: (event) => setParticipantsType(event.target.value)}, [
-                        e(FormControlLabel, {value: "singlePlayer", control: e(Radio, {color: "default"}), label: "Giocatore single"}),
+                        e(FormControlLabel, {value: "singlePlayer", control: e(Radio, {color: "default"}), label: "Giocatore singolo"}),
                         e(FormControlLabel, {id: "participantsType_group", value: "group", control: e(Radio, {color: "default"}), label: "Gruppo singolo"}),
                         e(FormControlLabel, {id: "participantsType_differentGroup", value: "differentGroup", control: e(Radio, {color: "default"}), label: "Gruppi diversi"})
                     ]),

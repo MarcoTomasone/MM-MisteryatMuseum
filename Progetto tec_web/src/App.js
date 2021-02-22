@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
         height: 45,
         width: 45,
         border: "solid 2px black",
-        transition: "0.2",
+        transition: "0.2s",
         background: "#cc0000",
         ['&:hover']: {
             scale: 1.1
@@ -34,24 +34,28 @@ const useStyles = makeStyles((theme) => ({
 function App(){
     const classes = useStyles();
 
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+      }
+
 
     function backToHome(){
         location.href = "./?#/"
     }
 
-    return e(React.Fragment, null, [
-        e("header", {className: "myheader", key: "headerHome", id: "headerHome"},[
-            e("div", {className: "myheaderFirst"}, [
-                e("img", {src: "../img/P2.png"})
+    return e(React.Fragment, {key: getRandomInt(999999)}, [
+        e("header", {key: getRandomInt(999999), className: "myheader", key: "headerHome", id: "headerHome"},[
+            e("div", {key: getRandomInt(999999), className: "myheaderFirst"}, [
+                e("img", {key: getRandomInt(999999), src: "../img/P2.png"})
             ]),
-            e("div", {className: "myheaderSecond"},[
-                e("span", {style: {color: "#cc0000", marginRight: "10px"}}, "MISTERY "),
-                e("span", {style: {marginRight: "10px", fontSize: "30px", marginTop: "10px"}}, "AT"),  
-                e("span", {style: {color: "#ffcc00"}}, "MUSEUM"),  
+            e("div", {key: getRandomInt(999999), className: "myheaderSecond"},[
+                e("span", {key: getRandomInt(999999), style: {color: "#cc0000", marginRight: "10px"}}, "MISTERY "),
+                e("span", {key: getRandomInt(999999), style: {marginRight: "10px", fontSize: "30px", marginTop: "10px"}}, "AT"),  
+                e("span", {key: getRandomInt(999999), style: {color: "#ffcc00"}}, "MUSEUM"),  
             ]),
-            e("div", {className: "myheaderThird"}, [
-                e(IconButton, {id: "backHome", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: backToHome}, 
-                    e(Icon, {children: "home", className: classes.icon}),  
+            e("div", {key: getRandomInt(999999), className: "myheaderThird"}, [
+                e(IconButton, {key: getRandomInt(999999), id: "backHome", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: backToHome}, 
+                    e(Icon, {key: getRandomInt(999999), children: "home", className: classes.icon}),  
                 ),
             ]),
         ]),

@@ -3,7 +3,9 @@ const {Button, makeStyles, Icon, Tooltip} = MaterialUI;
 import Card from "./Card.js"
 import {DialogComponent} from "./Dialog.js"
 
-
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -138,6 +140,7 @@ function Select(props){
             response.data.forEach((element) => {
                 setArrayPrivateStories(arrayPrivateStories => [...arrayPrivateStories,
                     e(Card, {
+                        key: getRandomInt(999999),
                         setStorySelected: setStorySelected,
                         background: element.background,
                         id: element.id,
@@ -162,21 +165,21 @@ function Select(props){
         })
     }, [updateCard])
 
-    return e("div", {className: "containerHome"}, [
-        e("div", {className:"containerHome_userSelected"}, [
-            e("p", null, `UTENTE SELEZIONATO: ${props.user}`),
-            e("p", {id: "containerHome_userSelected_explanation"}, `(Qui puoi creare una nuova storia o selezionarne una gia esistente per modificarla / eliminarla / pubblicarla / ritirare)`),
+    return e("div", {key: getRandomInt(999999), className: "containerHome"}, [
+        e("div", {key: getRandomInt(999999), className:"containerHome_userSelected"}, [
+            e("p", {key: getRandomInt(999999)}, `UTENTE SELEZIONATO: ${props.user}`),
+            e("p", {key: getRandomInt(999999), id: "containerHome_userSelected_explanation"}, `(Qui puoi creare una nuova storia o selezionarne una gia esistente per modificarla / eliminarla / pubblicarla / ritirare)`),
         ]),
-        e("div", {className: "containerHome_privateSelect"}, [
-            e("div", {id: "cardContainer", className: "sx_privateSelect"}, arrayPrivateStories),
-            e("div", {className: "dx_privateSelect"}, [
-                e(Tooltip, {title: "CREA STORIA"}, e(Button, {key: "bb0", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "fiber_new", className: classes.icon}), onClick: toCreate},"CREA STORIA")),
-                e(Tooltip, {title: "DUPLICA STORIA"}, e(Button, {key: "bb1", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "file_copy", className: classes.icon}), onClick: toDuply},"DUPLICA STORIA")),
-                e(Tooltip, {title: "MODIFICA STORIA"}, e(Button, {key: "bb2", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "create", className: classes.icon}), onClick: toModify},"MODIFICA STORIA")),
-                e(Tooltip, {title: "PUBBLICA STORIA"}, e(Button, {key: "bb3", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "cloud_upload", className: classes.icon}), onClick: toPublish},"PUBBLICA STORIA")),
-                e(Tooltip, {title: "RITIRA STORIA"}, e(Button, {key: "bb4", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "cloud_download", className: classes.icon}), onClick: toRetire},"RITIRA STORIA")),
-                e(Tooltip, {title: "ELIMINA STORIA"}, e(Button, {key: "bb5", variant: "contained", className: classes.button, endIcon: e(Icon, {children: "delete", className: classes.icon}), onClick: toDelete},"ELIMINA STORIA")),
-                e(DialogComponent, {fun: props.setOpenErrorDialog, open: props.openErrorDialog, textError: props.textErrorDialog} )
+        e("div", {key: getRandomInt(999999), className: "containerHome_privateSelect"}, [
+            e("div", {key: getRandomInt(999999), id: "cardContainer", className: "sx_privateSelect"}, arrayPrivateStories),
+            e("div", {key: getRandomInt(999999), className: "dx_privateSelect"}, [
+                e(Tooltip, {key: getRandomInt(999999), title: "CREA STORIA"}, e(Button, {key: "bb0", variant: "contained", className: classes.button, endIcon: e(Icon, {key: getRandomInt(999999), children: "fiber_new", className: classes.icon}), onClick: toCreate},"CREA STORIA")),
+                e(Tooltip, {key: getRandomInt(999999), title: "DUPLICA STORIA"}, e(Button, {key: "bb1", variant: "contained", className: classes.button, endIcon: e(Icon, {key: getRandomInt(999999), children: "file_copy", className: classes.icon}), onClick: toDuply},"DUPLICA STORIA")),
+                e(Tooltip, {key: getRandomInt(999999), title: "MODIFICA STORIA"}, e(Button, {key: "bb2", variant: "contained", className: classes.button, endIcon: e(Icon, {key: getRandomInt(999999), children: "create", className: classes.icon}), onClick: toModify},"MODIFICA STORIA")),
+                e(Tooltip, {key: getRandomInt(999999), title: "PUBBLICA STORIA"}, e(Button, {key: "bb3", variant: "contained", className: classes.button, endIcon: e(Icon, {key: getRandomInt(999999), children: "cloud_upload", className: classes.icon}), onClick: toPublish},"PUBBLICA STORIA")),
+                e(Tooltip, {key: getRandomInt(999999), title: "RITIRA STORIA"}, e(Button, {key: "bb4", variant: "contained", className: classes.button, endIcon: e(Icon, {key: getRandomInt(999999), children: "cloud_download", className: classes.icon}), onClick: toRetire},"RITIRA STORIA")),
+                e(Tooltip, {key: getRandomInt(999999), title: "ELIMINA STORIA"}, e(Button, {key: "bb5", variant: "contained", className: classes.button, endIcon: e(Icon, {key: getRandomInt(999999), children: "delete", className: classes.icon}), onClick: toDelete},"ELIMINA STORIA")),
+                e(DialogComponent, {key: getRandomInt(999999), fun: props.setOpenErrorDialog, open: props.openErrorDialog, textError: props.textErrorDialog} )
             ])   
         ]) 
     ])

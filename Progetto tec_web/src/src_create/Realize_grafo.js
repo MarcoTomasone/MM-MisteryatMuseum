@@ -65,7 +65,7 @@ function Realize_grafo(props){
     network.setOptions(options);
   })
 
-  return(e("div", {id:"mynetwork"}))
+  return(e("div", {key: "grafoStyle", id:"mynetwork"}))
 }
 
 export default Realize_grafo;

@@ -4,18 +4,22 @@ const description1 = "In questa sezione potrai accedere alle tue storie: potrai 
 const description2 = "In questa sezione potrai trovare tutte le storie pubblicate e potrai sceglierne una per poterci giocare";
 const description3 = "In questa sezione potrai controllare l'andamento di una storia";
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 function HomeSelect(props){
     return e("a", {key: props.title, className: "homeBlock", href: props.url}, [
-        e("h1", null, props.title),
-        e("p", null, props.description),
-        e("img", {className: props.imgClass, src: props.imgUrl})
+        e("h1", {key: getRandomInt(999999)}, props.title),
+        e("p", {key: getRandomInt(999999)}, props.description),
+        e("img", {key: getRandomInt(999999), className: props.imgClass, src: props.imgUrl})
     ])
 }
 
 function Home(){
     return e("nav", {key: "nav"}, [
-        e("div", {className:"containerHome_userSelected"}, [
-            e("p", {style: {fontSize: "20px"}}, `SCEGLI UNA SEZIONE`),
+        e("div", {key: getRandomInt(999999), className:"containerHome_userSelected"}, [
+            e("p", {key: getRandomInt(999999), style: {fontSize: "20px"}}, `SCEGLI UNA SEZIONE`),
         ]),
         e("div", {key: "mainHome", id: "mainHome"},[
             e(HomeSelect, {key: "op1Main", id: "op1Main", url: "./?#/Create/login", title: "SEZIONE PRIVATA", description: description1, imgClass: "home_img", imgUrl: "../img/pen.png"}),

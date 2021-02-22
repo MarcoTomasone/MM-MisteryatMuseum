@@ -1,5 +1,9 @@
 const e = React.createElement;
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 function Login(props){
     const {TextField, Button } = window['MaterialUI']; //to load the component from the library
     var username = ""
@@ -26,10 +30,11 @@ function Login(props){
         }
     }
 
-    return e("div", {id: "loginDiv", onSubmit: loginFunction}, [
-        e("img", {id: "loginDiv_img", src: "../../img/avatar.png"}),
-        e("p", {id: "loginDiv_p"}, "INSERIRE USERNAME"),
+    return e("div", {key: getRandomInt(999999), id: "loginDiv", onSubmit: loginFunction}, [
+        e("img", {key: getRandomInt(999999), id: "loginDiv_img", src: "../../img/avatar.png"}),
+        e("p", {key: getRandomInt(999999), id: "loginDiv_p"}, "INSERIRE USERNAME"),
         e(TextField, {
+            key: getRandomInt(999999),
             id:"loginDiv_TextField",
             className: "login",
             label:"Username",
@@ -39,7 +44,7 @@ function Login(props){
             onChange: (e) => username = (e.target.value),
             onKeyDown: handleKeyDown
         }),
-        e(Button, {id: "loginDiv_button", variant: "outlined", onClick: loginFunction},"ENTRA" ),
+        e(Button, {key: getRandomInt(999999), id: "loginDiv_button", variant: "outlined", onClick: loginFunction},"ENTRA" ),
     ])
 }
 

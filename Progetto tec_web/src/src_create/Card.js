@@ -3,6 +3,10 @@ const e = React.createElement;
 function Card(props){
     const [background, setBackground] = React.useState(`../../server/upload/${props.background}`)
 
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
     const press = () =>{
         props.setStorySelected(props.id)
         props.other.forEach((element) => {
@@ -75,22 +79,22 @@ function Card(props){
         child.forEach(element => element.style.fontFamily = props.fontFamily)
     }, [])
     
-    return e("div", {id: props.id, className: "card", onClick: press}, [
-        e("img", {id: `${props.id}_card`, className: "card_backrgound", src: background}),
-        e("div", {id: `${props.id}_content`, className: `card_content`}, [
-            e("div", {className: "card_title"}, props.title),
-            e("div", {className: "card_gender"}, props.gender),
-            e("div", {className: "card_objective"}, props.objective),
-            e("div", {className: "card_info"}, [
-                e("div", {className: "card_participant"}, [
-                    e("img", {src: props.participantsType})
+    return e("div", {key: getRandomInt(999999), id: props.id, className: "card", onClick: press}, [
+        e("img", {key: getRandomInt(999999), id: `${props.id}_card`, className: "card_backrgound", src: background}),
+        e("div", {key: getRandomInt(999999), id: `${props.id}_content`, className: `card_content`}, [
+            e("div", {key: getRandomInt(999999), className: "card_title"}, props.title),
+            e("div", {key: getRandomInt(999999), className: "card_gender"}, props.gender),
+            e("div", {key: getRandomInt(999999), className: "card_objective"}, props.objective),
+            e("div", {key: getRandomInt(999999), className: "card_info"}, [
+                e("div", {key: getRandomInt(999999), className: "card_participant"}, [
+                    e("img", {key: getRandomInt(999999), src: props.participantsType})
                 ]),
-                e("div", {className: "card_accessibility"}, [
-                    e("img", {src: props.accessibility})
+                e("div", {key: getRandomInt(999999), className: "card_accessibility"}, [
+                    e("img", {key: getRandomInt(999999), src: props.accessibility})
                 ]),
             ]),
-            e("div", {className: "card_age"}, `${props.age[0]} - ${props.age[1]}`),
-            e("div", {className: "card_description"}, props.description)
+            e("div", {key: getRandomInt(999999), className: "card_age"}, `${props.age[0]} - ${props.age[1]}`),
+            e("div", {key: getRandomInt(999999), className: "card_description"}, props.description)
         ])
     ])
 }

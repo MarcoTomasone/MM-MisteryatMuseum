@@ -13,11 +13,16 @@ function CreatHome(){
     const [openErrorDialog, setOpenErrorDialog] = React.useState(false);
     const [textErrorDialog, setTextErrorDialog] = React.useState("");
 
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
 
-    return e(React.Fragment, null, [
-        e(HashRouter, null, [
-            e(Route, {path: "/Create/login", component: () => e(CreateHomeLogin, {setUser: setUser})}),
-            e(Route, {path: "/Create/select", component: () => e(CreateHomeSelect, {
+
+    return e(React.Fragment, {key: getRandomInt(999999)}, [
+        e(HashRouter, {key: getRandomInt(999999)}, [
+            e(Route, {key: getRandomInt(999999), path: "/Create/login", component: () => e(CreateHomeLogin, {key: getRandomInt(999999), setUser: setUser})}),
+            e(Route, {key: getRandomInt(999999), path: "/Create/select", component: () => e(CreateHomeSelect, {
+                key: getRandomInt(999999),
                 user: user,
                 setUser: setUser,
                 setStoryToModify: setStoryToModify,
@@ -26,7 +31,8 @@ function CreatHome(){
                 textErrorDialog: textErrorDialog,
                 setTextErrorDialog: setTextErrorDialog 
             })}),
-            e(Route, {path: "/Create/realize", component: () => e(CreateHomeRealize, {
+            e(Route, {key: getRandomInt(999999), path: "/Create/realize", component: () => e(CreateHomeRealize, {
+                key: getRandomInt(999999),
                 user: user,
                 setUser: setUser,
                 storyToModify: storyToModify,

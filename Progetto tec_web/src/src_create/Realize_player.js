@@ -1,6 +1,10 @@
 const e = React.createElement;
 const {Button, Icon, IconButton, Select, MenuItem, Switch, TextField, InputLabel, makeStyles, FormControl, withStyles} = window['MaterialUI']; //to load the component from the library
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
 function Realize_player(props){
     const [image, setImage] = React.useState(null)
     const [isDeleteImage, setIsDeleteImage] = React.useState(false)
@@ -342,344 +346,344 @@ function Realize_player(props){
 
 
     return(
-        e("div", {id: props.id, className: props.className}, [
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "SFONDO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "background_color", className: classes.hide, value: playerStyle.background_color, name:"background_color", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"background_color"}, [
-                        e(IconButton, {className: [classes.buttonBackground, classes.buttonStandard], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+        e("div", {key: getRandomInt(999999), id: props.id, className: props.className}, [
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "SFONDO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "background_color", className: classes.hide, value: playerStyle.background_color, name:"background_color", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"background_color"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonBackground, classes.buttonStandard], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "background_image", name: "upload", className: classes.hide, type: "file", accept:".png,.jpeg,.jpg", onChange: addImage}),
-                    e("label", {htmlFor:"background_image"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
-                            e(Icon, {children: "image"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "background_image", name: "upload", className: classes.hide, type: "file", accept:".png,.jpeg,.jpg", onChange: addImage}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"background_image"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "image"}),  
                         ),
                         " AGGIUNGI IMMAGINE DELLO SFONDO"
                     ])
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("label", {htmlFor:"delete_background_image"}, [
-                        e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteImage}, 
-                            e(Icon, {children: "cancel"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("label", {key: getRandomInt(999999), htmlFor:"delete_background_image"}, [
+                        e(IconButton, {key: getRandomInt(999999), id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteImage}, 
+                            e(Icon, {key: getRandomInt(999999), children: "cancel"}),  
                         ),
                         " ELIMINA IMMAGINE DELLO SFONDO"
                     ]),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "IMMAGINE COME SFONDO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "topImage", disabled: image == null, className: classes.input, value: playerStyle.topImage, name:"topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "IMMAGINE COME SFONDO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "topImage", disabled: image == null, className: classes.input, value: playerStyle.topImage, name:"topImage", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "leftImage", disabled: image == null, className: classes.input, value: playerStyle.leftImage, name:"leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "leftImage", disabled: image == null, className: classes.input, value: playerStyle.leftImage, name:"leftImage", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "heighImage", disabled: image == null, className: classes.input, value: playerStyle.heighImage, name:"heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "heighImage", disabled: image == null, className: classes.input, value: playerStyle.heighImage, name:"heighImage", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "widthImage", disabled: image == null, className: classes.input, value: playerStyle.widthImage, name:"widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "widthImage", disabled: image == null, className: classes.input, value: playerStyle.widthImage, name:"widthImage", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "CORNICE TESTO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "frameColor", className: classes.hide, value: playerStyle.frameColor, name:"frameColor", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"frameColor"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColor], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "CORNICE TESTO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "frameColor", className: classes.hide, value: playerStyle.frameColor, name:"frameColor", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"frameColor"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonFrameColor], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement2"}, [
-                    e("div", {className: "opacityDiv "}, [
-                        e("input", {id: "textBackgroundColor", className: classes.hide, value: playerStyle.textBackgroundColor, name:"textBackgroundColor", type: "color", disabled: !playerStyle.textBackgroundColorActived, onChange:  (e) => updateField(e)}),
-                        e("label", {htmlFor:"textBackgroundColor"}, [
-                            e(IconButton, {disabled: !playerStyle.textBackgroundColorActived, className: [classes.buttonStandard, classes.buttonTextBackgroundColor], component: "span"}, 
-                                e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                    e("div", {key: getRandomInt(999999), className: "opacityDiv "}, [
+                        e("input", {key: getRandomInt(999999), id: "textBackgroundColor", className: classes.hide, value: playerStyle.textBackgroundColor, name:"textBackgroundColor", type: "color", disabled: !playerStyle.textBackgroundColorActived, onChange:  (e) => updateField(e)}),
+                        e("label", {key: getRandomInt(999999), htmlFor:"textBackgroundColor"}, [
+                            e(IconButton, {key: getRandomInt(999999), disabled: !playerStyle.textBackgroundColorActived, className: [classes.buttonStandard, classes.buttonTextBackgroundColor], component: "span"}, 
+                                e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                             ),
                             " COLORE SFONDO"
                         ]),
                     ]),
-                    e("div", {className: "opacityDiv "}, [
-                        e(TextField, {inputProps: {min: 0, max:100}, id: "textBackgroundColorOpacity", className: classes.input, disabled: !playerStyle.textBackgroundColorActived, value: playerStyle.textBackgroundColorOpacity, name:"textBackgroundColorOpacity", label: "Opacit\xe0", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e("div", {key: getRandomInt(999999), className: "opacityDiv "}, [
+                        e(TextField, {key: getRandomInt(999999), inputProps: {min: 0, max:100}, id: "textBackgroundColorOpacity", className: classes.input, disabled: !playerStyle.textBackgroundColorActived, value: playerStyle.textBackgroundColorOpacity, name:"textBackgroundColorOpacity", label: "Opacit\xe0", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                     ]),
-                    e("div", {className: "opacityDiv "}, [
-                        e(SwitchButton, {checked: playerStyle.textBackgroundColorActived, onChange: () => setPlayerStyle({...playerStyle, ["textBackgroundColorActived"]: !playerStyle.textBackgroundColorActived})}),
+                    e("div", {key: getRandomInt(999999), className: "opacityDiv "}, [
+                        e(SwitchButton, {key: getRandomInt(999999), checked: playerStyle.textBackgroundColorActived, onChange: () => setPlayerStyle({...playerStyle, ["textBackgroundColorActived"]: !playerStyle.textBackgroundColorActived})}),
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, value: 2, id: "topFrame", className: classes.input, value: playerStyle.topFrame, name:"topFrame", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, value: 2, id: "topFrame", className: classes.input, value: playerStyle.topFrame, name:"topFrame", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "leftFrame", className: classes.input, value: playerStyle.leftFrame, name:"leftFrame", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "leftFrame", className: classes.input, value: playerStyle.leftFrame, name:"leftFrame", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 0, max: 197}, id: "widthFrame", className: classes.input, value: playerStyle.widthFrame, name:"widthFrame", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 0, max: 197}, id: "widthFrame", className: classes.input, value: playerStyle.widthFrame, name:"widthFrame", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 0, max: 8}, id: "weightFrame", className: classes.input, value: playerStyle.weightFrame, name:"weightFrame", label: "Spessore", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 0, max: 8}, id: "weightFrame", className: classes.input, value: playerStyle.weightFrame, name:"weightFrame", label: "Spessore", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 0, max: 25}, id: "borderRadiusFrame", className: classes.input, value: playerStyle.borderRadiusFrame, name:"borderRadiusFrame", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 0, max: 25}, id: "borderRadiusFrame", className: classes.input, value: playerStyle.borderRadiusFrame, name:"borderRadiusFrame", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "TESTO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "textColor", className: classes.hide, value: playerStyle.textColor, name:"textColor", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"textColor"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColor], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999),}, "TESTO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "textColor", className: classes.hide, value: playerStyle.textColor, name:"textColor", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"textColor"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonTextColor], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(FormControl, {variant: "outlined", className: classes.formControl}, [
-                        e(InputLabel, {htmlFor: "fontFamily"}, "Font"),
-                        e(Select, {label: "Font", value: playerStyle.fontFamily, name:"fontFamily", onChange: (e) => updateField(e)}, [
-                            e(MenuItem, {value: "Arial", selected: true}, "Arial"),
-                            e(MenuItem, {value: "Arial Black"}, "Arial Black"),
-                            e(MenuItem, {value: "Verdana"}, "Verdana"),
-                            e(MenuItem, {value: "Georgia"}, "Georgia"),
-                            e(MenuItem, {value: "Comic Sans MS"}, "Comic Sans MS"),
-                            e(MenuItem, {value: "Impact"}, "Impact"),
-                            e(MenuItem, {value: "Times New Roman"}, "Times New Roman"),
-                            e(MenuItem, {value: "Courier"}, "Courier"),
-                            e(MenuItem, {value: "Tahoma"}, "Tahoma"),
-                            e(MenuItem, {value: "Yanone Kaffeesatz"}, "Yanone Kaffeesatz"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(FormControl, {key: getRandomInt(999999), variant: "outlined", className: classes.formControl}, [
+                        e(InputLabel, {key: getRandomInt(999999), htmlFor: "fontFamily"}, "Font"),
+                        e(Select, {key: getRandomInt(999999), label: "Font", value: playerStyle.fontFamily, name:"fontFamily", onChange: (e) => updateField(e)}, [
+                            e(MenuItem, {key: getRandomInt(999999), value: "Arial", selected: true}, "Arial"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Arial Black"}, "Arial Black"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Verdana"}, "Verdana"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Georgia"}, "Georgia"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Comic Sans MS"}, "Comic Sans MS"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Impact"}, "Impact"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Times New Roman"}, "Times New Roman"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Courier"}, "Courier"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Tahoma"}, "Tahoma"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Yanone Kaffeesatz"}, "Yanone Kaffeesatz"),
                         ])
                     ])
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 0, max: 20}, id: "sizeFont", className: classes.input, value: playerStyle.sizeFont, name:"sizeFont", label: "Dimensione", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 0, max: 20}, id: "sizeFont", className: classes.input, value: playerStyle.sizeFont, name:"sizeFont", label: "Dimensione", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 0, max: 800}, id: "weightFont", className: classes.input, value: playerStyle.weightFont, name:"weightFont", label: "Pesantezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 0, max: 800}, id: "weightFont", className: classes.input, value: playerStyle.weightFont, name:"weightFont", label: "Pesantezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "STILE RISPOSTE"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "backgroundColorInputDiv", className: classes.hide, value: playerStyle.backgroundColorInputDiv, name:"backgroundColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"backgroundColorInputDiv"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorInputDiv], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "STILE RISPOSTE"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "backgroundColorInputDiv", className: classes.hide, value: playerStyle.backgroundColorInputDiv, name:"backgroundColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"backgroundColorInputDiv"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonBackgroundColorInputDiv], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DELLO SFONDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "frameColorInputDiv", className: classes.hide, value: playerStyle.frameColorInputDiv, name:"frameColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"frameColorInputDiv"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorInputDiv], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "frameColorInputDiv", className: classes.hide, value: playerStyle.frameColorInputDiv, name:"frameColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"frameColorInputDiv"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonFrameColorInputDiv], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL BORDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "textColorInputDiv", className: classes.hide, value: playerStyle.textColorInputDiv, name:"textColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"textColorInputDiv"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorInputDiv], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "textColorInputDiv", className: classes.hide, value: playerStyle.textColorInputDiv, name:"textColorInputDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"textColorInputDiv"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonTextColorInputDiv], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL TESTO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "borderRadiusInputDiv", className: classes.input, value: playerStyle.borderRadiusInputDiv, name:"borderRadiusInputDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "borderRadiusInputDiv", className: classes.input, value: playerStyle.borderRadiusInputDiv, name:"borderRadiusInputDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]), 
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "SEZIONE PUNTEGGIO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "backgroundColorScoreDiv", className: classes.hide, value: playerStyle.backgroundColorScoreDiv, name:"backgroundColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"backgroundColorScoreDiv"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorScoreDiv], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "SEZIONE PUNTEGGIO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "backgroundColorScoreDiv", className: classes.hide, value: playerStyle.backgroundColorScoreDiv, name:"backgroundColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"backgroundColorScoreDiv"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonBackgroundColorScoreDiv], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DELLO SFONDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "frameColorScoreDiv", className: classes.hide, value: playerStyle.frameColorScoreDiv, name:"frameColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"frameColorScoreDiv"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorScoreDiv], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "frameColorScoreDiv", className: classes.hide, value: playerStyle.frameColorScoreDiv, name:"frameColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"frameColorScoreDiv"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonFrameColorScoreDiv], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL BORDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "textColorScoreDiv", className: classes.hide, value: playerStyle.textColorScoreDiv, name:"textColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"textColorScoreDiv"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorScoreDiv], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "textColorScoreDiv", className: classes.hide, value: playerStyle.textColorScoreDiv, name:"textColorScoreDiv", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"textColorScoreDiv"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonTextColorScoreDiv], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL TESTO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "topScoreDiv", className: classes.input, value: playerStyle.topScoreDiv, name:"topScoreDiv", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "topScoreDiv", className: classes.input, value: playerStyle.topScoreDiv, name:"topScoreDiv", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "leftScoreDiv", className: classes.input, value: playerStyle.leftScoreDiv, name:"leftScoreDiv", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "leftScoreDiv", className: classes.input, value: playerStyle.leftScoreDiv, name:"leftScoreDiv", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "heightScoreDiv", className: classes.input, value: playerStyle.heightScoreDiv, name:"heightScoreDiv", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "heightScoreDiv", className: classes.input, value: playerStyle.heightScoreDiv, name:"heightScoreDiv", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "widthScoreDiv", className: classes.input, value: playerStyle.widthScoreDiv, name:"widthScoreDiv", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "widthScoreDiv", className: classes.input, value: playerStyle.widthScoreDiv, name:"widthScoreDiv", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "borderRadiusScoreDiv", className: classes.input, value: playerStyle.borderRadiusScoreDiv, name:"borderRadiusScoreDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "borderRadiusScoreDiv", className: classes.input, value: playerStyle.borderRadiusScoreDiv, name:"borderRadiusScoreDiv", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "BOTTONE ATTIVIT\xc0 SUCCESSIVA"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "backgroundColorNextButton", className: classes.hide, value: playerStyle.backgroundColorNextButton, name:"backgroundColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"backgroundColorNextButton"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorNextButton], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999),}, "BOTTONE ATTIVIT\xc0 SUCCESSIVA"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "backgroundColorNextButton", className: classes.hide, value: playerStyle.backgroundColorNextButton, name:"backgroundColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"backgroundColorNextButton"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonBackgroundColorNextButton], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DELLO SFONDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "frameColorNextButton", className: classes.hide, value: playerStyle.frameColorNextButton, name:"frameColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"frameColorNextButton"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorNextButton], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "frameColorNextButton", className: classes.hide, value: playerStyle.frameColorNextButton, name:"frameColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"frameColorNextButton"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonFrameColorNextButton], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL BORDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "textColorNextButton", className: classes.hide, value: playerStyle.textColorNextButton, name:"textColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"textColorNextButton"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorNextButton], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "textColorNextButton", className: classes.hide, value: playerStyle.textColorNextButton, name:"textColorNextButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"textColorNextButton"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonTextColorNextButton], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL TESTO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "topNextButton", className: classes.input, value: playerStyle.topNextButton, name:"topNextButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "topNextButton", className: classes.input, value: playerStyle.topNextButton, name:"topNextButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "leftNextButton", className: classes.input, value: playerStyle.leftNextButton, name:"leftNextButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "leftNextButton", className: classes.input, value: playerStyle.leftNextButton, name:"leftNextButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "heightNextButton", className: classes.input, value: playerStyle.heightNextButton, name:"heightNextButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "heightNextButton", className: classes.input, value: playerStyle.heightNextButton, name:"heightNextButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "widthNextButton", className: classes.input, value: playerStyle.widthNextButton, name:"widthNextButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "widthNextButton", className: classes.input, value: playerStyle.widthNextButton, name:"widthNextButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusNextButton", className: classes.input, value: playerStyle.borderRadiusNextButton, name:"borderRadiusNextButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 0, max: 30}, id: "borderRadiusNextButton", className: classes.input, value: playerStyle.borderRadiusNextButton, name:"borderRadiusNextButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "BOTTONE PER APRIRE LA CHAT"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "backgroundColorChatButton", className: classes.hide, value: playerStyle.backgroundColorChatButton, name:"backgroundColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"backgroundColorChatButton"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorChatButton], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "BOTTONE PER APRIRE LA CHAT"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "backgroundColorChatButton", className: classes.hide, value: playerStyle.backgroundColorChatButton, name:"backgroundColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"backgroundColorChatButton"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonBackgroundColorChatButton], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DELLO SFONDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "frameColorChatButton", className: classes.hide, value: playerStyle.frameColorChatButton, name:"frameColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"frameColorChatButton"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorChatButton], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "frameColorChatButton", className: classes.hide, value: playerStyle.frameColorChatButton, name:"frameColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"frameColorChatButton"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonFrameColorChatButton], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL BORDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "textColorChatButton", className: classes.hide, value: playerStyle.textColorChatButton, name:"textColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"textColorChatButton"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorChatButton], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "textColorChatButton", className: classes.hide, value: playerStyle.textColorChatButton, name:"textColorChatButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"textColorChatButton"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonTextColorChatButton], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL TESTO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "topChatButton", className: classes.input, value: playerStyle.topChatButton, name:"topChatButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "topChatButton", className: classes.input, value: playerStyle.topChatButton, name:"topChatButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "leftChatButton", className: classes.input, value: playerStyle.leftChatButton, name:"leftChatButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "leftChatButton", className: classes.input, value: playerStyle.leftChatButton, name:"leftChatButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "heightChatButton", className: classes.input, value: playerStyle.heightChatButton, name:"heightChatButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "heightChatButton", className: classes.input, value: playerStyle.heightChatButton, name:"heightChatButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "widthChatButton", className: classes.input, value: playerStyle.widthChatButton, name:"widthChatButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "widthChatButton", className: classes.input, value: playerStyle.widthChatButton, name:"widthChatButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusChatButton", className: classes.input, value: playerStyle.borderRadiusChatButton, name:"borderRadiusChatButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 0, max: 30}, id: "borderRadiusChatButton", className: classes.input, value: playerStyle.borderRadiusChatButton, name:"borderRadiusChatButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "BOTTONE PER CHIEDERE AIUTO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "backgroundColorHelpButton", className: classes.hide, value: playerStyle.backgroundColorHelpButton, name:"backgroundColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"backgroundColorHelpButton"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonBackgroundColorHelpButton], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "BOTTONE PER CHIEDERE AIUTO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "backgroundColorHelpButton", className: classes.hide, value: playerStyle.backgroundColorHelpButton, name:"backgroundColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"backgroundColorHelpButton"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonBackgroundColorHelpButton], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DELLO SFONDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "frameColorHelpButton", className: classes.hide, value: playerStyle.frameColorHelpButton, name:"frameColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"frameColorHelpButton"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonFrameColorHelpButton], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "frameColorHelpButton", className: classes.hide, value: playerStyle.frameColorHelpButton, name:"frameColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"frameColorHelpButton"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonFrameColorHelpButton], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL BORDO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "textColorHelpButton", className: classes.hide, value: playerStyle.textColorHelpButton, name:"textColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
-                    e("label", {htmlFor:"textColorHelpButton"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonTextColorHelpButton], component: "span"}, 
-                            e(Icon, {children: "color_lens"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "textColorHelpButton", className: classes.hide, value: playerStyle.textColorHelpButton, name:"textColorHelpButton", type: "color", onChange:  (e) => updateField(e)}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"textColorHelpButton"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonTextColorHelpButton], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "color_lens"}),  
                         ),
                         " COLORE DEL TESTO"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "topHelpButton", className: classes.input, value: playerStyle.topHelpButton, name:"topHelpButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "topHelpButton", className: classes.input, value: playerStyle.topHelpButton, name:"topHelpButton", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "leftHelpButton", className: classes.input, value: playerStyle.leftHelpButton, name:"leftHelpButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "leftHelpButton", className: classes.input, value: playerStyle.leftHelpButton, name:"leftHelpButton", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "heightHelpButton", className: classes.input, value: playerStyle.heightHelpButton, name:"heightHelpButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "heightHelpButton", className: classes.input, value: playerStyle.heightHelpButton, name:"heightHelpButton", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "widthHelpButton", className: classes.input, value: playerStyle.widthHelpButton, name:"widthHelpButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "widthHelpButton", className: classes.input, value: playerStyle.widthHelpButton, name:"widthHelpButton", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 0, max: 30}, id: "borderRadiusHelpButton", className: classes.input, value: playerStyle.borderRadiusHelpButton, name:"borderRadiusHelpButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 0, max: 30}, id: "borderRadiusHelpButton", className: classes.input, value: playerStyle.borderRadiusHelpButton, name:"borderRadiusHelpButton", label: "Arrotondamento angoli", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: (e) => createNewJsonFile(e)}, "SALVA"),
+            e(Button, {key: getRandomInt(999999), id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: (e) => createNewJsonFile(e)}, "SALVA"),
         ])
     )
 }

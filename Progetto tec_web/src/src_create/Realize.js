@@ -9,6 +9,10 @@ import {DialogComponent} from "./Dialog.js"
 
 const {Button, makeStyles, IconButton, Icon, Slider} = window['MaterialUI']; //to load the component from the library
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -48,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Realize(props){
     window.addEventListener('beforeunload', function (e) {
-        //e.preventDefault(); 
+        e.preventDefault(); 
         location.href = "./?#/"
     });
 
@@ -62,6 +66,7 @@ function Realize(props){
     const [step, setStep] =  React.useState([false, false]);
     const [story, setStory] =  React.useState(props.storyToModify);
     const [pageLoad, setPageLoad] =  React.useState(e(CreateHomeRealize_info, {
+        key: getRandomInt(999999),
         id: "CreateHomeRealize_info",
         className: "CreateHomeRealize_info",
         user: props.user,
@@ -72,18 +77,19 @@ function Realize(props){
     }));
 
 
-    return e("div", {className: "containerHome"}, [
-        e("div", {className:"containerHome_userSelected"}, [
-            e("p", null, `UTENTE SELEZIONATO: ${props.user}`),
-            e("p", {id: "containerHome_userSelected_realize_info"})
+    return e("div", {key: getRandomInt(999999), className: "containerHome"}, [
+        e("div", {key: getRandomInt(999999), className:"containerHome_userSelected"}, [
+            e("p", {key: getRandomInt(999999),}, `UTENTE SELEZIONATO: ${props.user}`),
+            e("p", {key: getRandomInt(999999), id: "containerHome_userSelected_realize_info"})
         ]),
-        e("div", {className: "containerHome_realize"}, [
-            e("div", {id: "sx_realize", className: "sx_realize"}, [
-                e("div", {id: "sx_realize_top", className: "sx_realize_top"}, pageLoad),
-                e("div", {className: "sx_realize_bottom"}, [
+        e("div", {key: getRandomInt(999999), className: "containerHome_realize"}, [
+            e("div", {key: getRandomInt(999999), id: "sx_realize", className: "sx_realize"}, [
+                e("div", {key: getRandomInt(999999), id: "sx_realize_top", className: "sx_realize_top"}, pageLoad),
+                e("div", {key: getRandomInt(999999), className: "sx_realize_bottom"}, [
                     //e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => console.log(story)}, "JSON"),
-                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
+                    e(Button, {key: getRandomInt(999999), variant: "contained", size: "large", className: classes.button, onClick: () => {
                         setPageLoad(e(CreateHomeRealize_info, {
+                            key: getRandomInt(999999),
                             id: "CreateHomeRealize_info", 
                             className: "CreateHomeRealize_info", 
                             user: props.user, 
@@ -93,12 +99,13 @@ function Realize(props){
                             setStep: setStep
                         }))
                     }}, "INFO"),
-                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
+                    e(Button, {key: getRandomInt(999999), variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if(step[0] == true){
                             var newStep = step
                             newStep[1] = true
                             setStep(newStep)
                             setPageLoad(e(CreateHomeRealize_player, {
+                                key: getRandomInt(999999),
                                 id: "CreateHomeRealize_player", 
                                 className: "CreateHomeRealize_player", 
                                 user: props.user, 
@@ -109,9 +116,10 @@ function Realize(props){
                             alert("Prima compila e salva i campi di info generali")
                         }
                     }},"PLAYER"),
-                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
+                    e(Button, {key: getRandomInt(999999), variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {
+                                key: getRandomInt(999999),
                                 id: "CreateHomeRealize_firstActivity", 
                                 className: "CreateHomeRealize_firstLastActivity", 
                                 user: props.user, 
@@ -126,9 +134,10 @@ function Realize(props){
                             alert("Prima controlla lo stile del player")
                         }
                     }}, "ATTIVIT\xc0 INTRODUTTIVA"),
-                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
+                    e(Button, {key: getRandomInt(999999), variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_firstLastActivity, {
+                                key: getRandomInt(999999),
                                 id: "CreateHomeRealize_firstActivity", 
                                 className: "CreateHomeRealize_firstLastActivity", 
                                 user: props.user, 
@@ -143,9 +152,10 @@ function Realize(props){
                             alert("Prima controlla lo stile del player")
                         }
                     }}, "ATTIVIT\xc0 CONCLUSIVA"),
-                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
+                    e(Button, {key: getRandomInt(999999), variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if (step[1] == true){
                             setPageLoad(e(CreateHomeRealize_activity, {
+                                key: getRandomInt(999999),
                                 id: "CreateHomeRealize_activity", 
                                 className: "CreateHomeRealize_activity", 
                                 user: props.user, 
@@ -156,9 +166,10 @@ function Realize(props){
                             alert("Prima controlla lo stile del player")
                         }
                     }}, "CREA/MODIFICA ATTIVIT\xc0"),
-                    e(Button, {variant: "contained", size: "large", className: classes.button, onClick: () => {
+                    e(Button, {key: getRandomInt(999999), variant: "contained", size: "large", className: classes.button, onClick: () => {
                         if(step[0] == true){
                             setPageLoad(e(CreateHomeRealize_grafo, {
+                                key: getRandomInt(999999),
                                 id: "CreateHomeRealize_lastActivity", 
                                 className: "CreateHomeRealize_firstLastActivity CreateHomeRealize_graph", 
                                 user: props.user, 
@@ -168,10 +179,10 @@ function Realize(props){
                             alert("Prima compila e salva i campi di info generali")
                         }
                     }}, "GRAFO ATTIVIT\xc0"),
-                   e(Button, {variant: "contained", size: "large", className: classes.redButton, onClick: () => {
+                   e(Button, {key: getRandomInt(999999), variant: "contained", size: "large", className: classes.redButton, onClick: () => {
                     if(step[0] == true){
                         axios.post(`http://localhost:8000/createStory/id`, {user: props.user, story: story})
-                        .then((response) => alert(`Storia pubblicata correttamente. Vai nella sezione "SELZIONA" dove troverai il suo qr code`))
+                        .then((response) => alert(`Storia pubblicata correttamente. Vai nella sezione "SELEZIONA" dove troverai il suo qr code`))
                         .catch((error) => console.log(error)); 
                     } else {
                         alert("Prima compila e salva i campi di info generali")
@@ -180,57 +191,57 @@ function Realize(props){
                 ])
             ]),
             
-            e("div", {id: "dx_realize", className: "dx_realize"}, [
-                e("div", {id: "phone"}, [
-                    e("div", {id: "phoneInternal"}, [
-                        e("img", {id: "phoneImage", src: "", className: "hiddenClass"}),
-                        e("div", {id: "scoreDiv"}, "Points: 520"),
-                        e("div", {id: "chatButton"}, "CHAT"),
-                        e("div", {id: "helpButton"}, "HELP"),
-                        e("div", {id: "phoneText"}, [
-                            e("div", {id: "textDiv"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.. It has survived not only five centuries... It has survived not only five centuries... It has survived not only five centuries...."),
-                            e("img", {id: "mediaDiv", src: "", className: "hiddenClass"}),
+            e("div", {key: getRandomInt(999999), id: "dx_realize", className: "dx_realize"}, [
+                e("div", {key: getRandomInt(999999), id: "phone"}, [
+                    e("div", {key: getRandomInt(999999), id: "phoneInternal"}, [
+                        e("img", {key: getRandomInt(999999), id: "phoneImage", src: "", className: "hiddenClass"}),
+                        e("div", {key: getRandomInt(999999), id: "scoreDiv"}, "Points: 520"),
+                        e("div", {key: getRandomInt(999999), id: "chatButton"}, "CHAT"),
+                        e("div", {key: getRandomInt(999999), id: "helpButton"}, "HELP"),
+                        e("div", {key: getRandomInt(999999), id: "phoneText"}, [
+                            e("div", {key: getRandomInt(999999), id: "textDiv"}, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.. It has survived not only five centuries... It has survived not only five centuries... It has survived not only five centuries...."),
+                            e("img", {key: getRandomInt(999999), id: "mediaDiv", src: "", className: "hiddenClass"}),
                         ]),
-                        e("div", {id: "inputDiv"}, [                  
-                            e("div", {id: "Quattro opzioni div"}, [
-                                e("div", {id: "option1", className: "optionFourChoices style"}, "Risposta 1"),
-                                e("div", {id: "option2", className: "optionFourChoices style"}, "Risposta 2"),
-                                e("div", {id: "option3", className: "optionFourChoices style"}, "Risposta 3"),
-                                e("div", {id: "option4", className: "optionFourChoices style"}, "Risposta 4"),
+                        e("div", {key: getRandomInt(999999), id: "inputDiv"}, [                  
+                            e("div", {key: getRandomInt(999999), id: "Quattro opzioni div"}, [
+                                e("div", {key: getRandomInt(999999), id: "option1", className: "optionFourChoices style"}, "Risposta 1"),
+                                e("div", {key: getRandomInt(999999), id: "option2", className: "optionFourChoices style"}, "Risposta 2"),
+                                e("div", {key: getRandomInt(999999), id: "option3", className: "optionFourChoices style"}, "Risposta 3"),
+                                e("div", {key: getRandomInt(999999), id: "option4", className: "optionFourChoices style"}, "Risposta 4"),
                             ]),
-                            e("div", {id: "Scelta multipla div", className: "hiddenClass"}, [
-                                e("select", {id: "option5", className: "multOptions style"}, [
-                                    e("option", null, "Risposta 1"),
-                                    e("option", null, "Risposta 2"),
-                                    e("option", null, "Risposta 3"),
-                                    e("option", null, "Risposta 4"),
-                                    e("option", null, "Risposta 5"),
-                                    e("option", null, "Risposta 6"),
-                                    e("option", null, "Risposta 7"),
+                            e("div", {key: getRandomInt(999999), id: "Scelta multipla div", className: "hiddenClass"}, [
+                                e("select", {key: getRandomInt(999999), id: "option5", className: "multOptions style"}, [
+                                    e("option", {key: getRandomInt(999999)}, "Risposta 1"),
+                                    e("option", {key: getRandomInt(999999)}, "Risposta 2"),
+                                    e("option", {key: getRandomInt(999999)}, "Risposta 3"),
+                                    e("option", {key: getRandomInt(999999)}, "Risposta 4"),
+                                    e("option", {key: getRandomInt(999999)}, "Risposta 5"),
+                                    e("option", {key: getRandomInt(999999)}, "Risposta 6"),
+                                    e("option", {key: getRandomInt(999999)}, "Risposta 7"),
                                 ])
                             ]),
-                            e("div", {id: "Vero o falso div", className: "hiddenClass"}, [
-                                e("div", {id: "option6", className: "optionTrueFalse style"}, "Vero"),
-                                e("div", {id: "option7", className: "optionTrueFalse style"}, "Falso"),
+                            e("div", {key: getRandomInt(999999), id: "Vero o falso div", className: "hiddenClass"}, [
+                                e("div", {key: getRandomInt(999999), id: "option6", className: "optionTrueFalse style"}, "Vero"),
+                                e("div", {key: getRandomInt(999999), id: "option7", className: "optionTrueFalse style"}, "Falso"),
                             ]),
-                            e("div", {id: "Input testuale automatico div", className: "hiddenClass"}, [
-                                e("textarea", { id:"option8", className: "style"})
+                            e("div", {key: getRandomInt(999999), id: "Input testuale automatico div", className: "hiddenClass"}, [
+                                e("textarea", {key: getRandomInt(999999), id:"option8", className: "style"})
                             ]),
-                            e("div", {id: "Input testuale valutatore div", className: "hiddenClass"}, [
-                                e("textarea", { id:"option9", className: "style"})
+                            e("div", {key: getRandomInt(999999), id: "Input testuale valutatore div", className: "hiddenClass"}, [
+                                e("textarea", {key: getRandomInt(999999), id:"option9", className: "style"})
                             ]),
-                            e("div", {id: "Range div", className: "hiddenClass"}, [
-                                e(Slider, { id:"option10"}),
+                            e("div", {key: getRandomInt(999999), id: "Range div", className: "hiddenClass"}, [
+                                e(Slider, {key: getRandomInt(999999), id:"option10"}),
                             ]),
-                            e("div", {id: "Foto div", className: "hiddenClass"}, [
-                                e("div", {id: "circleDiv"}, [
-                                    e(IconButton, {id:"option11", className: [classes.buttonStandard], component: "span"}, 
-                                        e(Icon, {children: "photo_camera", fontSize:"large"}),  
+                            e("div", {key: getRandomInt(999999), id: "Foto div", className: "hiddenClass"}, [
+                                e("div", {key: getRandomInt(999999), id: "circleDiv"}, [
+                                    e(IconButton, {key: getRandomInt(999999), id:"option11", className: [classes.buttonStandard], component: "span"}, 
+                                        e(Icon, {key: getRandomInt(999999), children: "photo_camera", fontSize:"large"}),  
                                     ),   
                                 ]), 
                             ]),
                         ]),
-                        e("div", {id: "nextButton"}, "SUCCESSIVO")
+                        e("div", {key: getRandomInt(999999), id: "nextButton"}, "SUCCESSIVO")
                     ])
                 ])
             ])

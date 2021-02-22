@@ -2,7 +2,9 @@ const e = React.createElement;
 const {TextField, IconButton, makeStyles, Button, Icon, FormControl, InputLabel, Select, MenuItem, Tooltip, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Switch, FormControlLabel, withStyles } = window['MaterialUI'];
 import {DialogComponent, DialogComponent2, DialogComponent3} from "./Dialog.js"
 
-
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
 
 const useStyles = makeStyles((theme) => ({
     input: {
@@ -226,14 +228,14 @@ function Realize_activity(props){
         var tmp = []
         var tmp2 = []
         for (var i = 0; i < activity.fourAnswers.length; i++){
-            tmp.push(e(MenuItem, {value: activity.fourAnswers[i].text}, activity.fourAnswers[i].text))
+            tmp.push(e(MenuItem, {key: getRandomInt(999999), value: activity.fourAnswers[i].text}, activity.fourAnswers[i].text))
         }
         setMenuItemFourChoices(tmp)
         activity.fourAnswers.forEach(element => {
             tmp2.push(
                 e(TableRow, {key: element.text}, [
-                    e(TableCell, {component:"th", scope:"row"}, element.text),
-                    e(TableCell, null, element.score),
+                    e(TableCell, {key: getRandomInt(999999), component:"th", scope:"row"}, element.text),
+                    e(TableCell, {key: getRandomInt(999999)}, element.score),
                 ])
             )
         })
@@ -245,14 +247,14 @@ function Realize_activity(props){
         var tmp = []
         var tmp2 = []
         for (var i = 0; i < activity.multipleAnswers.length; i++){
-            tmp.push(e(MenuItem, {value: activity.multipleAnswers[i].text}, activity.multipleAnswers[i].text))
+            tmp.push(e(MenuItem, {key: getRandomInt(999999), value: activity.multipleAnswers[i].text}, activity.multipleAnswers[i].text))
         }
         setMenuItemMultipleAnswers(tmp)
         activity.multipleAnswers.forEach(element => {
             tmp2.push(
                 e(TableRow, {key: element.text}, [
-                    e(TableCell, {component:"th", scope:"row"}, element.text),
-                    e(TableCell, null, element.score),
+                    e(TableCell, {key: getRandomInt(999999), component:"th", scope:"row"}, element.text),
+                    e(TableCell, {key: getRandomInt(999999)}, element.score),
                 ])
             )
         })
@@ -287,7 +289,7 @@ function Realize_activity(props){
     React.useEffect(() => {
         var array = []
         props.story.activities.forEach(element => {
-            array.push(e(MenuItem, {value : element.title}, element.title))
+            array.push(e(MenuItem, {key: getRandomInt(999999), value : element.title}, element.title))
         })
         setArrayOfActivity(array)
     }, [])
@@ -658,268 +660,262 @@ function Realize_activity(props){
     }
 
     return(
-        e("div", {className: "playerDivStyle"}, [
-            e("div", {className: "playerDivStyleElement"}, [
-            ])
-        ]),
-        e("form", {id: props.id, className: props.className}, [
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "TITOLO ATTIVIT\xc0"),
-                e("div", {className: "playerDivStyleElement2"}, [
-                    e(TextField, {id: "title", className: [classes.input, classes.score], value: activity.title, name: "title", label: "Titolo", variant:"outlined", onChange:  (e) => updateField(e)}),
-                    e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
-                        e(InputLabel, {htmlFor: "selectActivity"}, "Seleziona attivit\xe0"),
-                        e(Select, {id: "selectActivity", label: "Seleziona attivit\xe0", onChange:  (e) => {selectActivity(e)}}, arrayOfActivity)
+        e("form", {key: getRandomInt(999999), id: props.id, className: props.className}, [
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "TITOLO ATTIVIT\xc0"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "title", className: [classes.input, classes.score], value: activity.title, name: "title", label: "Titolo", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e(FormControl, {key: getRandomInt(999999), variant: "outlined", className: [classes.input, classes.score]}, [
+                        e(InputLabel, {key: getRandomInt(999999), htmlFor: "selectActivity"}, "Seleziona attivit\xe0"),
+                        e(Select, {key: getRandomInt(999999), id: "selectActivity", label: "Seleziona attivit\xe0", onChange:  (e) => {selectActivity(e)}}, arrayOfActivity)
                     ]),
-                    e(IconButton, {id: "deleteActivity", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivity}, 
-                        e(Icon, {children: "delete"}),  
+                    e(IconButton, {key: getRandomInt(999999), id: "deleteActivity", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivity}, 
+                        e(Icon, {key: getRandomInt(999999), children: "delete"}),  
                     ),
-                    e(Tooltip, {title: "SPIEGAZIONE GESTIONE ATTIVIT\xc0"}, e(IconButton, {id: "leggend2", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: (e) => {e.preventDefault(); setOpenInfoDialog2(true)}}, 
-                        e(Icon, {children: "not_listed_location"}),  
+                    e(Tooltip, {key: getRandomInt(999999), title: "SPIEGAZIONE GESTIONE ATTIVIT\xc0"}, e(IconButton, {id: "leggend2", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: (e) => {e.preventDefault(); setOpenInfoDialog2(true)}}, 
+                        e(Icon, {key: getRandomInt(999999), children: "not_listed_location"}),  
                     )),
-                e(DialogComponent3, {fun: setOpenInfoDialog2, open: openInfoDialog2} )
+                e(DialogComponent3, {key: getRandomInt(999999), fun: setOpenInfoDialog2, open: openInfoDialog2} )
                 ])
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "IMMAGINE SFONDO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "background_image", className: classes.hide, name: `${activity.title}_background`, type: "file", accept:".png,.jpeg,.jpg", onChange: addBackgroundImage}),
-                    e("label", {htmlFor:"background_image"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
-                            e(Icon, {children: "image"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "IMMAGINE SFONDO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "background_image", className: classes.hide, name: `${activity.title}_background`, type: "file", accept:".png,.jpeg,.jpg", onChange: addBackgroundImage}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"background_image"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "image"}),  
                         ),
                         " AGGIUNGI IMMAGINE"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("label", {htmlFor:"backgroundImage"}, [
-                        e(IconButton, {id: "backgroundImage", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteBackgroundImage}, 
-                            e(Icon, {children: "cancel"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("label", {key: getRandomInt(999999), htmlFor:"backgroundImage"}, [
+                        e(IconButton, {key: getRandomInt(999999), id: "backgroundImage", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteBackgroundImage}, 
+                            e(Icon, {key: getRandomInt(999999), children: "cancel"}),  
                         ),
                         " ELIMINA IMMAGINE"
                     ]),
                 ])
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "IMMAGINE ATTIVIT\xc0"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "activity_image", className: classes.hide, name: `${activity.title}_activity`, type: "file", accept:".png,.jpeg,.jpg", onChange: addActivityImage}),
-                    e("label", {htmlFor:"activity_image"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
-                            e(Icon, {children: "image"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "IMMAGINE ATTIVIT\xc0"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "activity_image", className: classes.hide, name: `${activity.title}_activity`, type: "file", accept:".png,.jpeg,.jpg", onChange: addActivityImage}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"activity_image"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "image"}),  
                         ),
                         " AGGIUNGI IMMAGINE"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("label", {htmlFor:"activityImage"}, [
-                        e(IconButton, {id: "activityImage", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivityImage},    
-                            e(Icon, {children: "cancel"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("label", {key: getRandomInt(999999), htmlFor:"activityImage"}, [
+                        e(IconButton, {key: getRandomInt(999999), id: "activityImage", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivityImage},    
+                            e(Icon, {key: getRandomInt(999999), children: "cancel"}),  
                         ),
                         " ELIMINA IMMAGINE"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilit\xe0", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilit\xe0", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ])
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "VIDEO YOUTUBE"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube. Verr\xe0 visualizzato sotto il testo o, se presente, sotto l'immagine di attivit\xe0", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "VIDEO YOUTUBE"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube. Verr\xe0 visualizzato sotto il testo o, se presente, sotto l'immagine di attivit\xe0", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ])
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "TESTO DOMANDA"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, value: activity.activityText, name: "activityText", label: "Testo storia", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "TESTO DOMANDA"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "activityText", className: classes.input2, multiline: true, rows: 2, value: activity.activityText, name: "activityText", label: "Testo storia", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "CORNICE TESTO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "heightFrame", className: classes.input, value: activity.heightFrame, name: "heightFrame", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "CORNICE TESTO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "heightFrame", className: classes.input, value: activity.heightFrame, name: "heightFrame", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "RISPOSTA"),
-                e("div", {className: "playerDivStyleElement2"}, [
-                    e(FormControl, {variant: "outlined", className: classes.input}, [
-                        e(InputLabel, {htmlFor: "widgetType"}, "Tipo di widget"),
-                        e(Select, {id: "widgetType", label: "Tipo di widget", value: activity.widgetType, name:"widgetType", onChange:  (e) => updateField(e)}, [
-                            e(MenuItem, {value: "Nessuno", selected: true}, "Nessuno"),
-                            e(MenuItem, {value: "Quattro opzioni"}, "Quattro opzioni"),
-                            e(MenuItem, {value: "Scelta multipla"}, "Scelta multipla"),
-                            e(MenuItem, {value: "Vero o falso"}, "Vero o falso"),
-                            e(MenuItem, {value: "Input testuale automatico"}, "Input testuale automatico"),
-                            e(MenuItem, {value: "Input testuale valutatore"}, "Input testuale valutatore"),
-                            e(MenuItem, {value: "Range"}, "Range"),
-                            e(MenuItem, {value: "Foto"}, "Foto"),
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "RISPOSTA"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                    e(FormControl, {key: getRandomInt(999999), variant: "outlined", className: classes.input}, [
+                        e(InputLabel, {key: getRandomInt(999999), htmlFor: "widgetType"}, "Tipo di widget"),
+                        e(Select, {key: getRandomInt(999999), id: "widgetType", label: "Tipo di widget", value: activity.widgetType, name:"widgetType", onChange:  (e) => updateField(e)}, [
+                            e(MenuItem, {key: getRandomInt(999999), value: "Nessuno", selected: true}, "Nessuno"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Quattro opzioni"}, "Quattro opzioni"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Scelta multipla"}, "Scelta multipla"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Vero o falso"}, "Vero o falso"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Input testuale automatico"}, "Input testuale automatico"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Input testuale valutatore"}, "Input testuale valutatore"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Range"}, "Range"),
+                            e(MenuItem, {key: getRandomInt(999999), value: "Foto"}, "Foto"),
                         ])
                     ]),
-                    e(Tooltip, {title: "SPIEGAZIONE TIPO DI WIDGET"}, e(IconButton, {id: "leggend", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: (e) => {e.preventDefault(); setOpenInfoDialog(true)}}, 
-                        e(Icon, {children: "not_listed_location"}),  
+                    e(Tooltip, {key: getRandomInt(999999), title: "SPIEGAZIONE TIPO DI WIDGET"}, e(IconButton, {id: "leggend", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: (e) => {e.preventDefault(); setOpenInfoDialog(true)}}, 
+                        e(Icon, {key: getRandomInt(999999), children: "not_listed_location"}),  
                     )),
-                    e(DialogComponent2, {fun: setOpenInfoDialog, open: openInfoDialog} )
+                    e(DialogComponent2, {key: getRandomInt(999999), fun: setOpenInfoDialog, open: openInfoDialog} )
                 ]),
-                e("div", {id: "Quattro opzioni"}, [
-                    e("div", {className: "playerDivStyleElement2"}, [
-                        e(TextField, {id: "answer", className: classes.input, value: answer, name: "answer", label: "Inserire risposta", variant:"outlined", onChange:  (e) => setAnswer(changeLetter(e.target.value))}),
-                        e(IconButton, {id: "addAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: addAnswer}, 
-                            e(Icon, {children: "add"}),  
+                e("div", {key: getRandomInt(999999), id: "Quattro opzioni"}, [
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                        e(TextField, {key: getRandomInt(999999), id: "answer", className: classes.input, value: answer, name: "answer", label: "Inserire risposta", variant:"outlined", onChange:  (e) => setAnswer(changeLetter(e.target.value))}),
+                        e(IconButton, {key: getRandomInt(999999), id: "addAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: addAnswer}, 
+                            e(Icon, {key: getRandomInt(999999), children: "add"}),  
                         ),
                     ]),
-                    e("div", {className: "playerDivStyleElement2"}, [
-                        e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
-                            e(InputLabel, {htmlFor: "correctAnswer"}, "Selezionare risposta"),
-                            e(Select, {id: "correctAnswer", label: "Selezionare risposta", name:"correctAnswer", value: answerSelect, onChange: (e) => setAnswerSelect(e.target.value)}, menuItemFourChoices)
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                        e(FormControl, {key: getRandomInt(999999), variant: "outlined", className: [classes.input, classes.score]}, [
+                            e(InputLabel, {key: getRandomInt(999999), htmlFor: "correctAnswer"}, "Selezionare risposta"),
+                            e(Select, {key: getRandomInt(999999), id: "correctAnswer", label: "Selezionare risposta", name:"correctAnswer", value: answerSelect, onChange: (e) => setAnswerSelect(e.target.value)}, menuItemFourChoices)
                         ]),
-                        e(TextField, {id: "score", className: [classes.input, classes.score], value: score, name: "score", label: "Score", type:"number", variant:"outlined", onChange:  (e) => setScore(e.target.value)}),
-                        e(IconButton, {id: "changeScore", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: updateScore}, 
-                            e(Icon, {children: "update"}),  
+                        e(TextField, {key: getRandomInt(999999), id: "score", className: [classes.input, classes.score], value: score, name: "score", label: "Score", type:"number", variant:"outlined", onChange:  (e) => setScore(e.target.value)}),
+                        e(IconButton, {key: getRandomInt(999999), id: "changeScore", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: updateScore}, 
+                            e(Icon, {key: getRandomInt(999999), children: "update"}),  
                         ),
-                        e(IconButton, {id: "deleteAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteAnswer}, 
-                            e(Icon, {children: "delete"}),  
+                        e(IconButton, {key: getRandomInt(999999), id: "deleteAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteAnswer}, 
+                            e(Icon, {key: getRandomInt(999999), children: "delete"}),  
                         ),
                     ]),
-                    e("div", {className: "playerDivStyleElement"}, [
-                        e(TableContainer, {component:Paper, style:{ width: 400 }}, [
-                            e(Table, {className: classes.table}, [
-                                e(TableHead, null, [
-                                    e(TableRow, null, [
-                                        e(TableCell, null, "Risposta"),
-                                        e(TableCell, {align: "right"}, "Score")
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                        e(TableContainer, {key: getRandomInt(999999), component:Paper, style:{ width: 400 }}, [
+                            e(Table, {key: getRandomInt(999999), className: classes.table}, [
+                                e(TableHead, {key: getRandomInt(999999)}, [
+                                    e(TableRow, {key: getRandomInt(999999)}, [
+                                        e(TableCell, {key: getRandomInt(999999)}, "Risposta"),
+                                        e(TableCell, {key: getRandomInt(999999), align: "right"}, "Score")
                                     ])
                                 ]),
-                                e(TableBody, null, tableFourChoices)
+                                e(TableBody,{key: getRandomInt(999999)}, tableFourChoices)
                             ])
                         ])    
                     ]),
                 ]),
-                e("div", {id: "Scelta multipla", className: classes.hide}, [
-                    e("div", {className: "playerDivStyleElement2"}, [
-                        e(TextField, {id: "answer", className: classes.input, value: answer, name: "answer", label: "Inserire risposta", variant:"outlined", onChange:  (e) => setAnswer(e.target.value)}),
-                        e(IconButton, {id: "addAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: addAnswer}, 
-                            e(Icon, {children: "add"}),  
+                e("div", {key: getRandomInt(999999), id: "Scelta multipla", className: classes.hide}, [
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                        e(TextField, {key: getRandomInt(999999), id: "answer", className: classes.input, value: answer, name: "answer", label: "Inserire risposta", variant:"outlined", onChange:  (e) => setAnswer(e.target.value)}),
+                        e(IconButton, {key: getRandomInt(999999), id: "addAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: addAnswer}, 
+                            e(Icon, {key: getRandomInt(999999), children: "add"}),  
                         ),
                     ]),
-                    e("div", {className: "playerDivStyleElement2"}, [
-                        e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
-                            e(InputLabel, {htmlFor: "correctAnswer"}, "Selezionare risposta"),
-                            e(Select, {id: "correctAnswer", label: "Selezionare risposta", name:"correctAnswer", value: answerSelect, onChange: (e) => setAnswerSelect(e.target.value)}, menuItemMultipleAnswers)
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                        e(FormControl, {key: getRandomInt(999999), variant: "outlined", className: [classes.input, classes.score]}, [
+                            e(InputLabel, {key: getRandomInt(999999), htmlFor: "correctAnswer"}, "Selezionare risposta"),
+                            e(Select, {key: getRandomInt(999999), id: "correctAnswer", label: "Selezionare risposta", name:"correctAnswer", value: answerSelect, onChange: (e) => setAnswerSelect(e.target.value)}, menuItemMultipleAnswers)
                         ]),
-                        e(TextField, {id: "score", className: [classes.input, classes.score], value: score, name: "score", label: "Score", type:"number", variant:"outlined", onChange:  (e) => setScore(e.target.value)}),
-                        e(IconButton, {id: "changeScore", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: updateScore}, 
-                            e(Icon, {children: "update"}),  
+                        e(TextField, {key: getRandomInt(999999), id: "score", className: [classes.input, classes.score], value: score, name: "score", label: "Score", type:"number", variant:"outlined", onChange:  (e) => setScore(e.target.value)}),
+                        e(IconButton, {key: getRandomInt(999999), id: "changeScore", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: updateScore}, 
+                            e(Icon, {key: getRandomInt(999999), children: "update"}),  
                         ),
-                        e(IconButton, {id: "deleteAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteAnswer}, 
-                            e(Icon, {children: "delete"}),  
+                        e(IconButton, {key: getRandomInt(999999), id: "deleteAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteAnswer}, 
+                            e(Icon, {key: getRandomInt(999999), children: "delete"}),  
                         ),
                     ]),
-                    e("div", {className: "playerDivStyleElement2"}, [
-                        e(TableContainer, {component:Paper, style:{ width: 400 }}, [
-                            e(Table, {className: classes.table}, [
-                                e(TableHead, null, [
-                                    e(TableRow, null, [
-                                        e(TableCell, null, "Risposta"),
-                                        e(TableCell, {align: "right"}, "Score")
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                        e(TableContainer, {key: getRandomInt(999999), component:Paper, style:{ width: 400 }}, [
+                            e(Table, {key: getRandomInt(999999), className: classes.table}, [
+                                e(TableHead, {key: getRandomInt(999999)}, [
+                                    e(TableRow, {key: getRandomInt(999999)}, [
+                                        e(TableCell, {key: getRandomInt(999999)}, "Risposta"),
+                                        e(TableCell, {key: getRandomInt(999999), align: "right"}, "Score")
                                     ])
                                 ]),
-                                e(TableBody, null, tableMultipleAnswers)
+                                e(TableBody, {key: getRandomInt(999999)}, tableMultipleAnswers)
                             ])
                         ])    
                     ]),
                 ]),
-                e("div", {id: "Vero o falso", className: classes.hide}, [
-                    e("div", {className: "playerDivStyleElement2"}, [
-                        e(TextField, {id: "scoreTrue", className: [classes.input, classes.score], value: activity.trueFalseAnswer.trueScore, name: "trueFalseAnswer.trueScore", label: "Vero", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                        e(TextField, {id: "scorefalse", className: [classes.input, classes.score], value: activity.trueFalseAnswer.falseScore, name: "trueFalseAnswer.falseScore", label: "Falso", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), id: "Vero o falso", className: classes.hide}, [
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                        e(TextField, {key: getRandomInt(999999), id: "scoreTrue", className: [classes.input, classes.score], value: activity.trueFalseAnswer.trueScore, name: "trueFalseAnswer.trueScore", label: "Vero", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                        e(TextField, {key: getRandomInt(999999), id: "scorefalse", className: [classes.input, classes.score], value: activity.trueFalseAnswer.falseScore, name: "trueFalseAnswer.falseScore", label: "Falso", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                     ]), 
                 ]),
-                e("div", {id: "Input testuale automatico", className: classes.hide}, [
-                    e("div", {className: "playerDivStyleElement2"}, [
-                        e(TextField, {id: "inputText", className: [classes.input, classes.score], value: activity.textAnswer.value, name: "textAnswer.value", label: "Risposta", variant:"outlined", onChange:  (e) => updateField(e)}),
-                        e(TextField, {id: "inputTextScoreOk", className: [classes.input, classes.score], value: activity.textAnswer.scoreOk, name: "textAnswer.scoreOk", label: "Score risposta esatta", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                        e(TextField, {id: "inputTextScoreWrong", className: [classes.input, classes.score], value: activity.textAnswer.scoreWrong, name: "textAnswer.scoreWrong", label: "Score risposta sbagliata", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), id: "Input testuale automatico", className: classes.hide}, [
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                        e(TextField, {key: getRandomInt(999999), id: "inputText", className: [classes.input, classes.score], value: activity.textAnswer.value, name: "textAnswer.value", label: "Risposta", variant:"outlined", onChange:  (e) => updateField(e)}),
+                        e(TextField, {key: getRandomInt(999999), id: "inputTextScoreOk", className: [classes.input, classes.score], value: activity.textAnswer.scoreOk, name: "textAnswer.scoreOk", label: "Score risposta esatta", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                        e(TextField, {key: getRandomInt(999999), id: "inputTextScoreWrong", className: [classes.input, classes.score], value: activity.textAnswer.scoreWrong, name: "textAnswer.scoreWrong", label: "Score risposta sbagliata", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                     ]),
                 ]),
-                e("div", {id: "Range", className: classes.hide}, [
-                    e("div", {className: "playerDivStyleElement2"}, [
-                        e(TextField, {id: "possibleScoreStart", className: [classes.input, classes.score], value: activity.rangeAnswer.possibleStart, name: "rangeAnswer.possibleStart", label: "Minimo possibile", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                        e(TextField, {id: "possibleScoreEnd", className: [classes.input, classes.score], value: activity.rangeAnswer.possibleEnd, name: "rangeAnswer.possibleEnd", label: "Massimo possibile", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                        e(TextField, {id: "scoreStart", className: [classes.input, classes.score], value: activity.rangeAnswer.start, name: "rangeAnswer.start", label: "Minimo accettato", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                        e(TextField, {id: "scoreEnd", className: [classes.input, classes.score], value: activity.rangeAnswer.end, name: "rangeAnswer.end", label: "Massimo accettato", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                        e(TextField, {id: "scoreTrue", className: [classes.input, classes.score], value: activity.rangeAnswer.scoreOk, name: "rangeAnswer.scoreOk", label: "Score rix esatta", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
-                        e(TextField, {id: "scorefalse", className: [classes.input, classes.score], value: activity.rangeAnswer.scoreWrong, name: "rangeAnswer.scoreWrong", label: "Score rix sbagliata", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), id: "Range", className: classes.hide}, [
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                        e(TextField, {key: getRandomInt(999999), id: "possibleScoreStart", className: [classes.input, classes.score], value: activity.rangeAnswer.possibleStart, name: "rangeAnswer.possibleStart", label: "Minimo possibile", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                        e(TextField, {key: getRandomInt(999999), id: "possibleScoreEnd", className: [classes.input, classes.score], value: activity.rangeAnswer.possibleEnd, name: "rangeAnswer.possibleEnd", label: "Massimo possibile", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                        e(TextField, {key: getRandomInt(999999), id: "scoreStart", className: [classes.input, classes.score], value: activity.rangeAnswer.start, name: "rangeAnswer.start", label: "Minimo accettato", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                        e(TextField, {key: getRandomInt(999999), id: "scoreEnd", className: [classes.input, classes.score], value: activity.rangeAnswer.end, name: "rangeAnswer.end", label: "Massimo accettato", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                        e(TextField, {key: getRandomInt(999999), id: "scoreTrue", className: [classes.input, classes.score], value: activity.rangeAnswer.scoreOk, name: "rangeAnswer.scoreOk", label: "Score rix esatta", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                        e(TextField, {key: getRandomInt(999999), id: "scorefalse", className: [classes.input, classes.score], value: activity.rangeAnswer.scoreWrong, name: "rangeAnswer.scoreWrong", label: "Score rix sbagliata", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                     ]),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "DIMENSIONE E POSIZIONE DELLE RISPOSTE"),
-                e("span", {className:"spanExplain"}, "Il bordo rosso \xe8 solo di aiuto in questa fase di creazione, non verr\xe0 visualizzato nella storia finale"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("div", {className: "playerDivStyleElement"}, [
-                        e(TextField, {id: "topInput", className: classes.input, value: activity.topInput, name: "topInput", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "DIMENSIONE E POSIZIONE DELLE RISPOSTE"),
+                e("span", {key: getRandomInt(999999), className:"spanExplain"}, "Il bordo rosso \xe8 solo di aiuto in questa fase di creazione, non verr\xe0 visualizzato nella storia finale"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                        e(TextField, {key: getRandomInt(999999), id: "topInput", className: classes.input, value: activity.topInput, name: "topInput", label: "Distanza dal lato in alto", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                     ]),
-                    e("div", {className: "playerDivStyleElement"}, [
-                        e(TextField, {id: "leftInput", className: classes.input, value: activity.leftInput, name: "leftInput", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                        e(TextField, {key: getRandomInt(999999), id: "leftInput", className: classes.input, value: activity.leftInput, name: "leftInput", label: "Distanza dal lato sinistro", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                     ]),
-                    e("div", {className: "playerDivStyleElement"}, [
-                        e(TextField, {id: "heightInput", className: classes.input, value: activity.heightInput, name: "heightInput", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                        e(TextField, {key: getRandomInt(999999), id: "heightInput", className: classes.input, value: activity.heightInput, name: "heightInput", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                     ]),
-                    e("div", {className: "playerDivStyleElement"}, [
-                        e(TextField, {id: "widthInput", className: classes.input, value: activity.widthInput, name: "widthInput", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+                    e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                        e(TextField, {key: getRandomInt(999999), id: "widthInput", className: classes.input, value: activity.widthInput, name: "widthInput", label: "Larghezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                     ])
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "MESSAGGIO IN CASO DI RISPOSTA SBAGLIATA"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "errorMessage", className: classes.input2, value: activity.errorMessage, name: "errorMessage", label: "Messaggio", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "MESSAGGIO IN CASO DI RISPOSTA SBAGLIATA"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "errorMessage", className: classes.input2, value: activity.errorMessage, name: "errorMessage", label: "Messaggio", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ])
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "ATTIVIT\xc0 SUCCESSIVA"),
-                e("div", {className: "playerDivStyleElement2"}, [
-                    e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
-                        e(InputLabel, {htmlFor: "listOfActivities"}, "Selezionare risposta"),
-                        e(Select, {id: "listOfActivities", label: "Selezionare attivit\xe0", value: activitySelect,  onChange: (e) => setActivitySelect(e.target.value)}, listOfActivity)
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "ATTIVIT\xc0 SUCCESSIVA"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                    e(FormControl, {key: getRandomInt(999999), variant: "outlined", className: [classes.input, classes.score]}, [
+                        e(InputLabel, {key: getRandomInt(999999), htmlFor: "listOfActivities"}, "Selezionare risposta"),
+                        e(Select, {key: getRandomInt(999999), id: "listOfActivities", label: "Selezionare attivit\xe0", value: activitySelect,  onChange: (e) => setActivitySelect(e.target.value)}, listOfActivity)
                     ]),
-                    e(IconButton, {id: "buttonActivityOkAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityOkAnswer], component: "span", onClick: addActivityOkAnswer}, 
-                        e(Icon, {children: "sentiment_very_satisfied_outlined_icon"}),  
+                    e(IconButton, {key: getRandomInt(999999), id: "buttonActivityOkAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityOkAnswer], component: "span", onClick: addActivityOkAnswer}, 
+                        e(Icon, {key: getRandomInt(999999), children: "sentiment_very_satisfied_outlined_icon"}),  
                     ),
-                    e(IconButton, {id: "buttonActivityWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityWrongAnswer], component: "span", onClick: addActivityWrongAnswer}, 
-                        e(Icon, {children: "sentiment_very_dissatisfied_outlined_icon"}),  
+                    e(IconButton, {key: getRandomInt(999999), id: "buttonActivityWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton, classes.activityWrongAnswer], component: "span", onClick: addActivityWrongAnswer}, 
+                        e(Icon, {key: getRandomInt(999999), children: "sentiment_very_dissatisfied_outlined_icon"}),  
                     ),
-                    e(FormControl, {id: "buttonFirstActivity", variant: "outlined", className: classes.leggendButton}, [
-                        e(FormControlLabel, {className: classes.formControl, control: e(SwitchButton, {checked: activity.firstActivity, onChange: () => setActivity({...activity, ["firstActivity"]: !(activity.firstActivity)})}),  label: "Attivit\xe0 iniziale"})
+                    e(FormControl, {key: getRandomInt(999999), id: "buttonFirstActivity", variant: "outlined", className: classes.leggendButton}, [
+                        e(FormControlLabel, {key: getRandomInt(999999), className: classes.formControl, control: e(SwitchButton, {checked: activity.firstActivity, onChange: () => setActivity({...activity, ["firstActivity"]: !(activity.firstActivity)})}),  label: "Attivit\xe0 iniziale"})
                     ])      
                 ]),
-                e("div", {className: "playerDivStyleElement2"}, [
-                    e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
-                        e(InputLabel, {htmlFor: "activitiesCorrectAnswer"}, "Selezionare risposta"),
-                        e(Select, {id: "activitiesCorrectAnswer", label: "Selezionare attivit\xe0", value: activityCorrectAnswer, onChange: (e) => setActivityCorrectAnswer(e.target.value)}, menuItemActivityCorrectAnswer)
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                    e(FormControl, {key: getRandomInt(999999), variant: "outlined", className: [classes.input, classes.score]}, [
+                        e(InputLabel, {key: getRandomInt(999999), htmlFor: "activitiesCorrectAnswer"}, "Selezionare risposta"),
+                        e(Select, {key: getRandomInt(999999), id: "activitiesCorrectAnswer", label: "Selezionare attivit\xe0", value: activityCorrectAnswer, onChange: (e) => setActivityCorrectAnswer(e.target.value)}, menuItemActivityCorrectAnswer)
                     ]),
-                    e(IconButton, {id: "deleteActivitiesCorrectAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteActivitiesCorrectAnswer}, 
-                        e(Icon, {children: "delete"}),  
+                    e(IconButton, {key: getRandomInt(999999), id: "deleteActivitiesCorrectAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteActivitiesCorrectAnswer}, 
+                        e(Icon, {key: getRandomInt(999999), children: "delete"}),  
                     ),
                 ]),
-                e("div", {className: "playerDivStyleElement2"}, [
-                    e(FormControl, {variant: "outlined", className: [classes.input, classes.score]}, [
-                        e(InputLabel, {htmlFor: "activitiesWrongAnswer"}, "Selezionare risposta"),
-                        e(Select, {id: "activitiesWrongAnswer", label: "Selezionare attivit\xe0", value: activityWrongAnswer, onChange: (e) => setActivityWrongAnswer(e.target.value)}, menuItemActivityWrongAnswer)
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement2"}, [
+                    e(FormControl, {key: getRandomInt(999999), variant: "outlined", className: [classes.input, classes.score]}, [
+                        e(InputLabel, {key: getRandomInt(999999), htmlFor: "activitiesWrongAnswer"}, "Selezionare risposta"),
+                        e(Select, {key: getRandomInt(999999), id: "activitiesWrongAnswer", label: "Selezionare attivit\xe0", value: activityWrongAnswer, onChange: (e) => setActivityWrongAnswer(e.target.value)}, menuItemActivityWrongAnswer)
                     ]),
-                    e(IconButton, {id: "deleteActivitiesWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteActivitiesWrongAnswer}, 
-                        e(Icon, {children: "delete"}),  
+                    e(IconButton, {key: getRandomInt(999999), id: "deleteActivitiesWrongAnswer", className: [classes.buttonStandard, classes.buttonImage, classes.leggendButton], component: "span", onClick: deleteActivitiesWrongAnswer}, 
+                        e(Icon, {key: getRandomInt(999999), children: "delete"}),  
                     ),  
                 ])
             ]),
-            e(DialogComponent, {fun: setError, open: error, textError: string} ),
-            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
+            e(DialogComponent, {key: getRandomInt(999999), fun: setError, open: error, textError: string} ),
+            e(Button, {key: getRandomInt(999999), id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    
     )
-
-
 }
 
 export default Realize_activity;

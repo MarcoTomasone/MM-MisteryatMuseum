@@ -2,6 +2,10 @@ const e = React.createElement;
 const {TextField, IconButton, makeStyles, Button, Icon} = window['MaterialUI']; //to load the component from the library
 
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 const useStyles = makeStyles((theme) => ({
     input: {
         width: 233,
@@ -220,69 +224,69 @@ function Realize_FL_Activity(props){
         
 
     return(
-        e("form", {id: props.id, className: props.className}, [
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "CORNICE TESTO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {inputProps: {min: 5}, id: "heightFrame", className: classes.input, value: activity.heightFrame, name: "heightFrame", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
+        e("form", {key: getRandomInt(999999), id: props.id, className: props.className}, [
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "CORNICE TESTO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), inputProps: {min: 5}, id: "heightFrame", className: classes.input, value: activity.heightFrame, name: "heightFrame", label: "Altezza", type:"number", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ])
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "IMMAGINE SFONDO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "background_image", className: classes.hide, type: "file", accept:".png,.jpeg,.jpg", onChange: addBackgroundImage}),
-                    e("label", {htmlFor:"background_image"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
-                            e(Icon, {children: "image"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "IMMAGINE SFONDO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "background_image", className: classes.hide, type: "file", accept:".png,.jpeg,.jpg", onChange: addBackgroundImage}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"background_image"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "image"}),  
                         ),
                         " AGGIUNGI IMMAGINE"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("label", {htmlFor:"delete_background_image"}, [
-                        e(IconButton, {id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteBackgroundImage}, 
-                            e(Icon, {children: "cancel"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("label", {key: getRandomInt(999999), htmlFor:"delete_background_image"}, [
+                        e(IconButton, {key: getRandomInt(999999), id: "delete_background_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteBackgroundImage}, 
+                            e(Icon, {key: getRandomInt(999999), children: "cancel"}),  
                         ),
                         " ELIMINA IMMAGINE"
                     ]),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "IMMAGINE ATTIVIT\xc0"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("input", {id: "activity_image", className: classes.hide, type: "file", accept:".png,.jpeg,.jpg", onChange: addActivityImage}),
-                    e("label", {htmlFor:"activity_image"}, [
-                        e(IconButton, {className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
-                            e(Icon, {children: "image"}),  
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "IMMAGINE ATTIVIT\xc0"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("input", {key: getRandomInt(999999), id: "activity_image", className: classes.hide, type: "file", accept:".png,.jpeg,.jpg", onChange: addActivityImage}),
+                    e("label", {key: getRandomInt(999999), htmlFor:"activity_image"}, [
+                        e(IconButton, {key: getRandomInt(999999), className: [classes.buttonStandard, classes.buttonImage], component: "span"}, 
+                            e(Icon, {key: getRandomInt(999999), children: "image"}),  
                         ),
                         " AGGIUNGI IMMAGINE"
                     ]), 
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e("label", {htmlFor:"delete_activity_image"}, [
-                        e(IconButton, {id: "delete_activity_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivityImage}, 
-                            e(Icon, {children: "cancel"}),  
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e("label", {key: getRandomInt(999999), htmlFor:"delete_activity_image"}, [
+                        e(IconButton, {key: getRandomInt(999999), id: "delete_activity_image", className: [classes.buttonStandard, classes.buttonImage], component: "span", onClick: deleteActivityImage}, 
+                            e(Icon, {key: getRandomInt(999999), children: "cancel"}),  
                         ),
                         " ELIMINA IMMAGINE"
                     ]),
                 ]),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilit\xe0", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "altActivityImage", className: classes.input2, helperText: "Inserisci una descrizione in per una migliore accessibilit\xe0", value: activity.altActivityImage, name: "altActivityImage", label: "Descrizione immagine", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "VIDEO YOUTUBE"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube. Verr\xe0 visualizzato sotto il testo o, se presente, sotto l'immagine di attivit\xe0", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "VIDEO YOUTUBE"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "streamVideo", className: classes.input2, helperText: "Inserisci il link di un video preso da Youtube. Verr\xe0 visualizzato sotto il testo o, se presente, sotto l'immagine di attivit\xe0", value: activity.streamVideo, name: "streamVideo", label: "Link YouTube", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e("div", {className: "playerDivStyle"}, [
-                e("p", null, "TESTO"),
-                e("div", {className: "playerDivStyleElement"}, [
-                    e(TextField, {id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.activityText, name: "activityText", label: "Testo", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
+            e("div", {key: getRandomInt(999999), className: "playerDivStyle"}, [
+                e("p", {key: getRandomInt(999999)}, "TESTO"),
+                e("div", {key: getRandomInt(999999), className: "playerDivStyleElement"}, [
+                    e(TextField, {key: getRandomInt(999999), id: "activityText", className: classes.input2, multiline: true, rows: 2, helperText: props.text, value: activity.activityText, name: "activityText", label: "Testo", type:"search", variant:"outlined", onChange:  (e) => updateField(e)}),
                 ]),
             ]),
-            e(Button, {id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
+            e(Button, {key: getRandomInt(999999), id: "sumbit_formInfo", variant: "contained", size: "large", endIcon: e(Icon, {children: "save"}), className: classes.saveButton, onClick: createActivity}, "SALVA"),
         ])    
     )
 
